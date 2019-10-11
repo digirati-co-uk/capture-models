@@ -1,0 +1,36 @@
+{
+  "name": "capture-model-prototype",
+  "version": "1.0.0",
+  "license": "MIT",
+  "files": [
+    "dist",
+    "lib"
+  ],
+  "main": "dist/umd/capture-model-prototype.js",
+  "module": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "author": "Stephen Fraser <stephen.fraser@digirati.com>",
+  "scripts": {
+    "build": "fesk-build --cjs --umd && tsc -p ./ --emitDeclarationOnly",
+    "start": "fesk-start --cjs",
+    "build-types": "tsc -p ./ --emitDeclarationOnly",
+    "prepublish": "NODE_ENV=production fesk-build --cjs --umd && tsc -p ./ --emitDeclarationOnly"
+  },
+  "devDependencies": {
+    "@fesk/babel-config": "^1.3.0-next.2945936d",
+    "@fesk/scripts": "^1.2.1",
+    "@types/react": "^16.9.5",
+    "@types/react-dom": "^16.9.1",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "typescript": "^3.6.3"
+  },
+  "fesk": {
+    "typescript": true
+  },
+  "dependencies": {
+    "@types/jest": "^24.0.9",
+    "jest": "^24.9.0",
+    "ts-jest": "^24.1.0"
+  }
+}
