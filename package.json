@@ -29,6 +29,7 @@
     "typescript": true
   },
   "dependencies": {
+    "@blueprintjs/core": "^3.19.1",
     "@types/jest": "^24.0.9",
     "jest": "^24.9.0",
     "ts-jest": "^24.1.0"

@@ -85,7 +85,7 @@ export type StructureLevel = {
 	conformsTo?: string;
 };
 
-export type StructureModel<T, K extends keyof T = keyof T> = StructureLevel & {
+export type StructureModel<T = any, K extends keyof T = keyof T> = StructureLevel & {
 	type: 'model';
 	items: K[];
 };

@@ -1,16 +1,36 @@
-*, *:before, *:after { box-sizing: border-box; }
-body, html {
-  font-family: sans-serif;
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
 }
-.container { 
-  max-width: 500px; 
+
+body,
+html {
+  font-family: sans-serif;
+  height: 100%;
+}
+
+#root {
+  height: 100%;
+  position: relative;
+}
+
+.container {
+  max-width: 500px;
   margin: 100px auto;
+
   h1 {
     color: #005cc5;
   }
+
   code {
     border: 1px solid #ddd;
     background: #eee;
   }
 }
-      
+
+.panel-stack {
+  height: 500px;
+  width: 100%;
+
+}

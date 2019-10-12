@@ -22,6 +22,7 @@
         "module": "es2015", // "es2015" for tree-shaking
         "moduleResolution": "node",
         "noEmitOnError": true,
+        "jsx": "react",
         "noFallthroughCasesInSwitch": true,
         "noImplicitAny": true,
         "noImplicitReturns": true,
