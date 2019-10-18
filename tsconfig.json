@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "baseUrl": "./", // enables project relative paths config
+        "baseUrl": "./src", // enables project relative paths config
         //"outDir": "dist/", // target for compiled files
         "allowSyntheticDefaultImports": true, // no errors with commonjs modules interop
         "esModuleInterop": true,
@@ -36,13 +36,15 @@
         "sourceMap": true,
         "resolveJsonModule": true,
         "composite": true,
-        "declarationMap": true,
-        "rootDir": "./"
+        "skipLibCheck": true,
+        "declarationMap": true
+//        "rootDir": "./"
     },
     "exclude": [
         "node_modules",
         "dist",
-        "lib"
+        "lib",
+        "__mocks__"
         // "**/__tests__/*.test.ts",
         // "__tests__"
     ]

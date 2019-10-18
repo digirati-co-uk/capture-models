@@ -10,4 +10,9 @@ module.exports = {
     'jest.transform.js',
     '.json',
   ],
+  modulePathIgnorePatterns: ['dist/', 'lib/'],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
+  moduleNameMapper: {
+    '\\.(css|scss)$': '<rootDir>/__mocks__/styleMock.ts',
+  },
 };
