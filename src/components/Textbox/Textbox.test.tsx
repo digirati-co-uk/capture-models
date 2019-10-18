@@ -1,11 +1,15 @@
 import * as React from 'react';
 import { Textbox } from './Textbox';
-import { shallow } from 'enzyme';
+import { createRenderer } from 'react-test-renderer/shallow';
 
 describe('Textbox', () => {
   test('simple test', () => {
-    const wrapper = shallow(<Textbox>Some sample text</Textbox>);
+    const renderer = createRenderer();
+    renderer.render(<Textbox>Some sample text</Textbox>);
 
-    expect(wrapper.text()).toEqual('Some sample text');
+    expect(renderer.getRenderOutput().props).toEqual({
+      children: 'Some sample text',
+      className: 'textbox',
+    });
   });
 });
