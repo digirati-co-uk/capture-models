@@ -22,7 +22,7 @@ export type CaptureModel = {
     type: 'entity';
     selector?: SelectorTypes;
     properties: {
-      [term: string]: Array<FieldTypes | CaptureModel['document']>;
+      [term: string]: Array<FieldTypes> | Array<CaptureModel['document']>;
     };
   };
   target?: string[];

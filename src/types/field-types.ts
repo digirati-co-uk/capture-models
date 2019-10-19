@@ -32,6 +32,7 @@ export type ViafLookup = {
 };
 
 export type FieldTypes = {
+  term: string;
   label?: string;
   description?: string;
   selector?: SelectorTypes;
