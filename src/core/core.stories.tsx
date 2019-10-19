@@ -262,7 +262,7 @@ const SimpleForm: React.FC = () => {
   const { replacePath } = useNavigation();
 
   useEffect(() => {
-    replacePath([0, 1]);
+    replacePath([0, 0]);
     // @todo fix this bug with the memo behaviour of deps.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -283,7 +283,8 @@ const SimpleForm: React.FC = () => {
                 <strong>Type: </strong> {field.type}
               </li>
               <li>
-                <strong>Value: </strong> {field.value}{' '}
+                <strong>Value: </strong>{' '}
+                {typeof field.value === 'string' ? field.value : 'n/a'}{' '}
                 <button
                   onClick={() =>
                     updateFieldValue(
