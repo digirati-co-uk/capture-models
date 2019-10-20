@@ -1,5 +1,4 @@
-import { CaptureModel } from './capture-model';
-import { CaptureModelContext } from '../core/captureModelContext';
+import { CaptureModel, CaptureModelContext } from './capture-model';
 import { NestedField } from './field-types';
 
 export type UseCurrentForm<Model extends CaptureModel = CaptureModel> = {
@@ -10,4 +9,3 @@ export type UseCurrentForm<Model extends CaptureModel = CaptureModel> = {
     partialPath: Array<[string, number]>
   ) => CaptureModelContext['updateFieldValue'];
 };
-

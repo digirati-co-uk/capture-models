@@ -11,7 +11,7 @@
   "typings": "lib/index.d.ts",
   "author": "Stephen Fraser <stephen.fraser@digirati.com>",
   "scripts": {
-    "build": "fesk-build --cjs --umd && tsc -p ./ --emitDeclarationOnly",
+    "build": "fesk-build --cjs --umd",
     "start": "fesk-start --cjs --noServer",
     "build-types": "tsc -p ./ --emitDeclarationOnly",
     "build:prod": "NODE_ENV=production fesk-build --cjs --umd && tsc -p ./ --emitDeclarationOnly",
