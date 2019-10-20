@@ -1,5 +1,8 @@
 import { FieldTypes } from './field-types';
 import { SelectorTypes } from './selector-types';
+import { NavigationContext } from './navigation';
+import { UseCurrentForm } from './current-form';
+import { CurrentSelectorState } from './current-selector';
 
 export type CaptureModel = {
   structure: {
@@ -49,3 +52,15 @@ export type CaptureModel = {
         };
   };
 };
+
+export type UseCaptureModel<Model extends CaptureModel = CaptureModel> = {
+  captureModel: Model;
+};
+
+export type CaptureModelContext<
+  Selector extends SelectorTypes = SelectorTypes,
+  Model extends CaptureModel = CaptureModel
+> = UseCaptureModel<Model> &
+  NavigationContext<Model> &
+  UseCurrentForm<Model> &
+  CurrentSelectorState<Selector>;

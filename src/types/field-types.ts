@@ -1,4 +1,5 @@
 import { SelectorTypes } from './selector-types';
+import { CaptureModel } from './capture-model';
 
 export type TextBoxField = {
   type: 'text-box';
@@ -43,3 +44,12 @@ export type FieldTypes = {
   | StarRatingField
   | CurrentDateField
   | ViafLookup);
+
+export type NestedField<Doc extends CaptureModel['document']> = Array<
+  | Array<FieldTypes>
+  | Array<
+      CaptureModel['document'] & {
+        fields: NestedField<CaptureModel['document']>;
+      }
+    >
+>;
