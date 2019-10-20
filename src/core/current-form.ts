@@ -18,25 +18,47 @@ export function useCurrentForm(): UseCurrentForm {
   );
 }
 
-const createFormFieldReducer = <Doc extends CaptureModel['document']>(
+export const createFormFieldReducer = <Doc extends CaptureModel['document']>(
   document: Doc
-) => (acc: NestedField<Doc>, next: string | [string, string[]]) => {
+) => (acc: NestedField<Doc>, next: string | Array<string | string[]>) => {
   if (typeof next === 'string') {
-    acc.push(document.properties[next] as FieldTypes[]);
+    const nextItem = document.properties[next];
+    if (nextItem.length > 0) {
+      if (nextItem[0].type === 'entity') {
+        acc.push({
+          type: 'documents',
+          list: document.properties[next] as Array<
+            CaptureModel['document'] & any
+          >,
+        });
+      } else {
+        acc.push({
+          type: 'fields',
+          list: document.properties[next] as FieldTypes[],
+        });
+      }
+    }
     return acc;
   }
   const [key, fields] = next;
 
+  if (typeof key !== 'string' || !Array.isArray(fields)) {
+    throw new Error(
+      'Invalid capture model. Expected: [string, [string, string]]'
+    );
+  }
+
   // @todo verify this is an array of documents, otherwise invalid capture model.
-  const nestedDocs = document.properties[key] as Array<
-    CaptureModel['document']
-  >;
+  const nestedDocs = document.properties[key] as any;
 
   acc.push(
-    nestedDocs.map(singleDoc => ({
-      ...singleDoc,
-      fields: fields.reduce(createFormFieldReducer(singleDoc), []),
-    }))
+    nestedDocs.map((singleDoc: CaptureModel['document']) => {
+      const { properties: _, ...doc } = singleDoc;
+      return {
+        ...doc,
+        fields: fields.reduce(createFormFieldReducer(singleDoc), []),
+      };
+    })
   );
 
   return acc;

@@ -46,10 +46,13 @@ export type FieldTypes = {
   | ViafLookup);
 
 export type NestedField<Doc extends CaptureModel['document']> = Array<
-  | Array<FieldTypes>
-  | Array<
-      CaptureModel['document'] & {
-        fields: NestedField<CaptureModel['document']>;
-      }
-    >
+  | { type: 'fields'; list: Array<FieldTypes> }
+  | {
+      type: 'documents';
+      list: Array<
+        CaptureModel['document'] & {
+          fields: NestedField<CaptureModel['document']>;
+        }
+      >;
+    }
 >;
