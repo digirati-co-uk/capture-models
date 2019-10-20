@@ -14,5 +14,5 @@ jobs:
         with:
           script: build
       - uses: sergioramos/yarn-actions/run@master
-          with:
-            script: test
+        with:
+          script: test
