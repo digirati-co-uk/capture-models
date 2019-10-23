@@ -9,13 +9,30 @@ export class WYSIWYG extends React.Component<WYSIWYGprops, any> {
     super(props);
     this.state = { editorState: EditorState.createEmpty() };
   }
-  handleChange(e: EditorState) {
-    this.setState({ editorState: e }, console.log(e));
+  onChange = (editorState: EditorState) => this.setState({ editorState });
+
+  _onButtonClick(type: string) {
+    this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, type));
   }
+
   render() {
     return (
       <div className="wysiwyg">
-        <Editor editorState={this.state.editorState} onChange={e => this.handleChange(e)}/>
+        <div className="wysiwyg__control-buttons">
+          <button
+            className="control-button"
+            onClick={() => this._onButtonClick('BOLD')}
+          >
+            Bold
+          </button>
+          <button
+            className="control-button"
+            onClick={() => this._onButtonClick('ITALIC')}
+          >
+            Italics
+          </button>
+        </div>
+        <Editor editorState={this.state.editorState} onChange={this.onChange}/>
       </div>
     );
   }

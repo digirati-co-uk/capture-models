@@ -44,15 +44,15 @@
   }
 
   &--background-base {
-    background-color: theme-color('foreground', 'light')
+    background-color: theme-color('background', 'base')
   }
 
   &--background-dark {
-    background-color: theme-color('foreground', 'light')
+    background-color: theme-color('background', 'dark')
   }
 
   &--background-light {
-    background-color: theme-color('foreground', 'light')
+    background-color: theme-color('background', 'light')
   }
 }
 

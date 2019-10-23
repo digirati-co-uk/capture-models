@@ -1,3 +1,7 @@
+@import './style-guide/theme-colors.scss';
+@import './style-guide/typography.scss';
+@import './style-guide/spacing.scss';
+
 *,
 *:before,
 *:after {
@@ -6,7 +10,7 @@
 
 body,
 html {
-  font-family: sans-serif;
+  @include text-setting('base');
   height: 100%;
 }
 
