@@ -7,6 +7,7 @@ const stories = storiesOf('Textbox', module);
 
 stories.addDecorator(withKnobs);
 
-stories.add('Simple textbox', () => (
-  <Textbox>{text('value', 'Some sample value')}</Textbox>
-));
+stories.add(
+  'Simple textbox',
+  () => ( <Textbox> {text('value', 'Some sample value')} </Textbox> )
+);
