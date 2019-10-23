@@ -36,4 +36,4 @@ export class WYSIWYG extends React.Component<WYSIWYGprops, any> {
       </div>
     );
   }
-};
+}

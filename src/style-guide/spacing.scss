@@ -38,3 +38,11 @@ $spacing-settings: (
   padding: padding-scale($level);
   margin: margin-scale($level);
 }
+
+@mixin spacing-setting-padding($level) {
+  padding: padding-scale($level);
+}
+
+@mixin spacing-setting-margin($level) {
+  margin: margin-scale($level);
+}
