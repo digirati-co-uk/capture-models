@@ -1,0 +1,40 @@
+$spacing-settings: (
+  'xs': (
+    padding: .75rem, // 12px
+    margin: .75
+  ),
+  'sm': (
+    padding: .875rem, // 14px
+    margin: .875rem
+  ),
+  'base': (
+    padding: 1rem, // 16px
+    margin: .875rem
+  ),
+  'md': (
+    padding: 1.125rem, // 18px
+    margin: .875rem,
+  ),
+  'lg': (
+    padding: 1.25rem, // 20px
+    margin: .875rem,
+  ),
+  'xl': (
+    padding: 1.5rem, // 24px
+    margin: .875rem,
+  )
+);
+
+
+@function padding-scale($level) {
+  @return map-get(map-get($spacing-settings, $level), 'padding');
+}
+
+@function margin-scale($level) {
+  @return map-get(map-get($spacing-settings, $level), 'margin');
+}
+
+@mixin spacing-setting($level) {
+  padding: padding-scale($level);
+  margin: margin-scale($level);
+}

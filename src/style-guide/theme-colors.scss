@@ -1,0 +1,46 @@
+$theme-colors: (
+  'primary': (
+    'base': #428bca,
+    'light': #a4abbf,
+    'dark': #5f6273
+  ),
+  'accent': (
+    'base': #3f6634,
+    'light': #4fb477,
+    'dark': #345511
+  ),
+  'foreground': (
+    'base': #80807d,
+    'light': #cccccc,
+    'dark': #1e1e20
+  ),
+  'background': (
+    'base': #f8f5f5,
+    'light': #fff,
+    'dark': #ddd
+  )
+);
+
+@function theme-color($key: 'primary', $variant: 'base') {
+  $map: map-get($theme-colors, $key);
+  @return map-get($map, $variant);
+}
+
+$contrast-colors: (
+  'dark': (
+    'primary': rgb(255, 255, 255),
+    'secondary': rgba(255, 255, 255, .70),
+    'disabled': rgba(255, 255, 255, .5),
+    'hint': rgba(255, 255, 255, .12)
+  ),
+  'light': (
+    'primary': rgba(0, 0, 0, .87),
+    'secondary': rgba(0, 0, 0, .54),
+    'disabled': rgba(0, 0, 0, .38),
+    'hint': rgba(0, 0, 0, .12)
+  ),
+);
+
+@mixin contrast($background: 'light', $type: 'primary') {
+  color: contrast($background, $type)
+}

@@ -1,0 +1,79 @@
+@import './theme-colors.scss';
+@import './spacing.scss';
+@import './typography.scss';
+
+.color-sample {
+  border-radius: 100%;
+  width: 75px;
+  height: 75px;
+  @include spacing-setting('base');
+
+  &--primary-base {
+    background-color: theme-color()
+  }
+  &--primary-dark {
+    background-color: theme-color('primary', 'dark')
+  }
+
+  &--primary-light {
+    background-color: theme-color('primary', 'light')
+  }
+
+  &--accent-base {
+    background-color: theme-color('accent', 'base')
+  }
+
+  &--accent-dark {
+    background-color: theme-color('accent', 'dark')
+  }
+
+  &--accent-light {
+    background-color: theme-color('accent', 'light')
+  }
+
+  &--foreground-base {
+    background-color: theme-color('foreground', 'base')
+  }
+
+  &--foreground-dark {
+    background-color: theme-color('foreground', 'dark')
+  }
+
+  &--foreground-light {
+    background-color: theme-color('foreground', 'light')
+  }
+
+  &--background-base {
+    background-color: theme-color('foreground', 'light')
+  }
+
+  &--background-dark {
+    background-color: theme-color('foreground', 'light')
+  }
+
+  &--background-light {
+    background-color: theme-color('foreground', 'light')
+  }
+}
+
+.typography-sample {
+  &--xs {
+    @include text-setting('xs')
+  }
+  &--sm {
+    @include text-setting('sm')
+  }
+  &--base {
+    @include text-setting('base')
+  }
+  &--md {
+    @include text-setting('md')
+  }
+  &--lg {
+    @include text-setting('lg')
+  }
+  &--xl {
+    @include text-setting('xl')
+  }
+
+}
