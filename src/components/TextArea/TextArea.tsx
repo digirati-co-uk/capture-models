@@ -6,5 +6,5 @@ interface TextAreaProps {
 }
 
 export const TextArea: React.FC<TextAreaProps> = ({ Text = '' }) => (
-  <div className="TextArea">{Text}</div>
+  <textarea className="text-area">{Text}</textarea>
 );

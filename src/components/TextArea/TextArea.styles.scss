@@ -1,2 +1,6 @@
 @import "../../main.scss";
 
+.text-area {
+  color: theme-color('primary', 'dark');
+  @include spacing-setting('base');
+}
