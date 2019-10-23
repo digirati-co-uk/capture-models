@@ -1,14 +1,20 @@
 import * as React from 'react';
-import { Editor, EditorState } from 'draft-js';
+import { Editor, EditorState, RichUtils } from 'draft-js';
+import './wysiwyg.styles';
 
-export const WYSIWYG: React.FC = () => {
-  const [editorState, setEditorState] = React.useState(
-    EditorState.createEmpty()
-  );
-  return (
-    <Editor
-      editorState={editorState}
-      onChange={setEditorState}
-    />
-  )
+interface WYSIWYGprops {}
+
+export class WYSIWYG extends React.Component<WYSIWYGprops, any> {
+  constructor(props: WYSIWYGprops) {
+    super(props);
+    this.state = { editorState: EditorState.createEmpty() };
+  }
+  handleChange(e: EditorState) {
+    this.setState({ editorState: e }, console.log(e));
+  }
+  render() {
+    return (
+      <Editor editorState={this.state.editorState} onChange={e => this.handleChange(e)}/>
+    );
+  }
 };
