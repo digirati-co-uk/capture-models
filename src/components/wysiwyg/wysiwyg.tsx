@@ -14,7 +14,9 @@ export class WYSIWYG extends React.Component<WYSIWYGprops, any> {
   }
   render() {
     return (
-      <Editor editorState={this.state.editorState} onChange={e => this.handleChange(e)}/>
+      <div className="wysiwyg">
+        <Editor editorState={this.state.editorState} onChange={e => this.handleChange(e)}/>
+      </div>
     );
   }
 };
