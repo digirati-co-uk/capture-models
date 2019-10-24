@@ -4,7 +4,4 @@ import { WYSIWYG } from './wysiwyg';
 
 const stories = storiesOf('WYSIWYG', module);
 
-stories.add(
-  'Simple WYSIWYG',
-  () => (<WYSIWYG ChangeHandler={(e) => console.log(e)}/>)
-);
+stories.add('Simple WYSIWYG', () => <WYSIWYG />);
