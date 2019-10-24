@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { Autocomplete } from './Autocomplete';
+import markdownNotes from './README.md';
 
 const stories = storiesOf('Autocomplete', module);
 
@@ -37,4 +38,4 @@ class Wrapper extends React.Component<{}, WrapperState> {
   }
 }
 
-stories.add('Simple Autocomplete', () => <Wrapper />);
+stories.add('Simple Autocomplete', () => <Wrapper />, { notes: { markdown: markdownNotes } });
