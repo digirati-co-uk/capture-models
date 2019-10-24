@@ -34,14 +34,13 @@ export class Autocomplete extends React.Component<AutocompleteProps, any> {
     this.props.OnChange(userInput);
   };
 
-  onClick = (e: MouseEvent) => {
-    const newValue = e.currentTarget ? e.currentTarget.innerText : '';
+  onClick = (value: string) => {
     this.setState({
       activeSuggestion: 0,
       filteredSuggestions: [],
       showSuggestions: false,
     });
-    this.props.OnChange(newValue);
+    if (value) this.props.OnChange(value);
   };
 
   onKeyDown = (e: React.KeyboardEvent) => {
@@ -87,7 +86,11 @@ export class Autocomplete extends React.Component<AutocompleteProps, any> {
               }
 
               return (
-                <li className={className} key={suggestion} onClick={onClick}>
+                <li
+                  className={className}
+                  key={suggestion}
+                  onClick={e => onClick(e.currentTarget.innerText)}
+                >
                   {suggestion}
                 </li>
               );

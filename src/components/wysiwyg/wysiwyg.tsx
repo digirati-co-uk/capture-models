@@ -32,7 +32,7 @@ export class WYSIWYG extends React.Component<WYSIWYGprops, any> {
             Italics
           </button>
         </div>
-        <Editor editorState={this.state.editorState} onChange={this.onChange}/>
+        <Editor editorState={this.state.editorState} onChange={this.onChange} />
       </div>
     );
   }

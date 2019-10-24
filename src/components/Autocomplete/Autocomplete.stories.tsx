@@ -38,4 +38,6 @@ class Wrapper extends React.Component<{}, WrapperState> {
   }
 }
 
-stories.add('Simple Autocomplete', () => <Wrapper />, { notes: { markdown: markdownNotes } });
+stories.add('Simple Autocomplete', () => <Wrapper />, {
+  notes: { markdown: markdownNotes },
+});
