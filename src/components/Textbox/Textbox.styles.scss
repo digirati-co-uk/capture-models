@@ -1,2 +1,7 @@
 @import "../../main.scss";
 
+.textbox {
+  @include spacing-setting-padding('base');
+  color: theme-color('primary', 'dark');
+  border: 1px solid theme-color('primary', 'dark');
+}

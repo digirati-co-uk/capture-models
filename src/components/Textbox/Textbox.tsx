@@ -1,6 +1,10 @@
 import * as React from 'react';
 import './Textbox.styles.scss';
 
-export const Textbox: React.FC = ({ children }) => (
-  <div className="textbox">{children}</div>
+interface TextboxProps {
+  Text: string;
+}
+
+export const Textbox: React.FC<TextboxProps> = ({ Text }) => (
+  <div className="textbox">{Text}</div>
 );

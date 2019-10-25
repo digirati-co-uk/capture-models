@@ -1,6 +1,8 @@
 @import "../../main.scss";
 
 .text-area {
+  @include spacing-setting-padding('base');
+  @include text-setting('base');
   color: theme-color('primary', 'dark');
-  @include spacing-setting('base');
+  width: 100%;
 }

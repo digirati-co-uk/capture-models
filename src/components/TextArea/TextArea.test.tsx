@@ -1,14 +1,14 @@
 import * as React from 'react';
-import { Textbox } from './Textbox';
+import { TextArea } from './TextArea';
 import { createRenderer } from 'react-test-renderer/shallow';
-describe('Textbox', () => {
+
+describe('TextArea', () => {
   test('simple test', () => {
     const renderer = createRenderer();
-    renderer.render(<Textbox Text={'Some sample text'} />);
-
+    renderer.render(<TextArea Text={'Some sample text'} OnChange={() => {}} />);
     expect(renderer.getRenderOutput().props).toEqual({
       children: 'Some sample text',
-      className: 'textbox',
+      className: 'text-area',
     });
   });
 });
