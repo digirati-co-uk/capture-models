@@ -5,38 +5,39 @@ import markdownNotes from './README.md';
 
 const stories = storiesOf('Autocomplete', module);
 
-interface WrapperState {
-  value: string;
-  suggestions: Array<string>;
-}
+const Wrapper: React.FC = () => {
+  const [value, setValue] = React.useState('');
+  const [suggestions] = React.useState([
+    'Apples',
+    'Bananas',
+    'Carrots',
+    'Digestives',
+    'Eggs',
+    'Jaffa Cakes',
+  ]);
+  const [filteredSuggestions, setFilteredSuggestions] = React.useState([
+    ...suggestions,
+  ]);
 
-class Wrapper extends React.Component<{}, WrapperState> {
-  state: Readonly<WrapperState> = {
-    value: 'Something',
-    suggestions: [
-      'Apples',
-      'Bananas',
-      'Carrots',
-      'Digestives',
-      'Eggs',
-      'Jaffa Cakes',
-    ],
+  const handleSuggestions = (searchTerm: string) => {
+    setValue(searchTerm);
+    if (searchTerm !== '') {
+      let filtered = suggestions.filter(
+        suggestion =>
+          suggestion.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1
+      );
+      setFilteredSuggestions(filtered);
+    } else setFilteredSuggestions(suggestions);
   };
 
-  changeValue = (newValue: string) => {
-    this.setState({ value: newValue }, () => console.log(this.state.value));
-  };
-
-  render() {
-    return (
-      <Autocomplete
-        Suggestions={this.state.suggestions}
-        OnChange={this.changeValue}
-        Value={this.state.value}
-      />
-    );
-  }
-}
+  return (
+    <Autocomplete
+      Suggestions={filteredSuggestions}
+      Value={value}
+      OnChange={handleSuggestions}
+    />
+  );
+};
 
 stories.add('Simple Autocomplete', () => <Wrapper />, {
   notes: { markdown: markdownNotes },

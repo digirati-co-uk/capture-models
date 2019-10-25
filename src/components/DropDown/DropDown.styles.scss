@@ -1,0 +1,13 @@
+@import '../../main.scss';
+
+.drop-down {
+  @include spacing-setting-padding('xs');
+  border: 1px solid theme-color('primary', 'dark');
+  width: 100%;
+  &__option {
+    @include spacing-setting-padding('xs');
+    &:hover {
+      background-color: theme-color();
+    }
+  }
+}

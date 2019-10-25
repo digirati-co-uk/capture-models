@@ -12,26 +12,17 @@ export class Autocomplete extends React.Component<AutocompleteProps, any> {
     super(props);
     this.state = {
       activeSuggestion: 0,
-      filteredSuggestions: [],
-      showSuggestions: false,
+      showSuggestion: false,
     };
   }
 
   onChange = (e: React.FormEvent<HTMLInputElement>) => {
-    const { Suggestions } = this.props;
-    const userInput = e.currentTarget.value;
-    const filteredSuggestions = Suggestions.filter(
-      suggestion =>
-        suggestion.toLowerCase().indexOf(userInput.toLowerCase()) > -1
-    );
-
     this.setState({
       activeSuggestion: 0,
-      filteredSuggestions,
       showSuggestions: true,
     });
 
-    this.props.OnChange(userInput);
+    this.props.OnChange(e.currentTarget.value);
   };
 
   onClick = (value: string) => {
@@ -44,20 +35,20 @@ export class Autocomplete extends React.Component<AutocompleteProps, any> {
   };
 
   onKeyDown = (e: React.KeyboardEvent) => {
-    const { activeSuggestion, filteredSuggestions } = this.state;
+    const { activeSuggestion } = this.state;
     if (e.keyCode === 13) {
       this.setState({
         activeSuggestion: 0,
         showSuggestions: false,
       });
-      this.props.OnChange(filteredSuggestions[activeSuggestion]);
+      this.props.OnChange(this.props.Suggestions[activeSuggestion]);
     } else if (e.keyCode === 38) {
       if (activeSuggestion === 0) {
         return;
       }
       this.setState({ activeSuggestion: activeSuggestion - 1 });
     } else if (e.keyCode === 40) {
-      if (activeSuggestion - 1 === filteredSuggestions.length) {
+      if (activeSuggestion - 1 === this.props.Suggestions.length) {
         return;
       }
       this.setState({ activeSuggestion: activeSuggestion + 1 });
@@ -69,16 +60,16 @@ export class Autocomplete extends React.Component<AutocompleteProps, any> {
       onChange,
       onClick,
       onKeyDown,
-      state: { activeSuggestion, filteredSuggestions, showSuggestions },
+      state: { activeSuggestion, showSuggestions },
     } = this;
 
     let suggestionsListComponent;
 
     if (showSuggestions && this.props.Value) {
-      if (filteredSuggestions.length) {
+      if (this.props.Suggestions.length) {
         suggestionsListComponent = (
           <ul className="suggestions">
-            {filteredSuggestions.map((suggestion: string, index: number) => {
+            {this.props.Suggestions.map((suggestion: string, index: number) => {
               let className = 'suggestions__suggestion';
 
               if (index === activeSuggestion) {
@@ -114,7 +105,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, any> {
           onKeyDown={onKeyDown}
           value={this.props.Value}
         />
-        {suggestionsListComponent}
+        {this.props.Suggestions.length > 0 ? suggestionsListComponent : <div />}
       </div>
     );
   }
