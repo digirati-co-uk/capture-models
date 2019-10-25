@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Request } from '../../utils/Request';
 import { Autocomplete } from '../Autocomplete/Autocomplete';
 
 interface OpenStreetMapSearchProps {
