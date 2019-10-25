@@ -10,11 +10,7 @@ stories.addDecorator(withKnobs);
 const Wrapper: React.FC = () => {
   const [value, setValue] = React.useState('Some text');
 
-  const handleValue = (newValue: string) => {
-    console.log(newValue);
-    setValue(newValue);
-  };
-  return <TextArea Text={value} OnChange={handleValue} />;
+  return <TextArea Text={value} OnChange={setValue} />;
 };
 
 stories.add('Simple TextArea', () => <Wrapper />);

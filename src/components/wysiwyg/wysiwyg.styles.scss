@@ -3,7 +3,7 @@
 .wysiwyg {
   border: 1px solid theme-color('primary', 'dark');
   @include spacing-setting('base');
-  background-color: theme-color('background', 'base');
+  background-color: theme-color('background', 'light');
 
   &__control-buttons {
     @include spacing-setting('xs');
@@ -11,7 +11,7 @@
     .control-button {
       @include spacing-setting('xs');
       border: 1px solid theme-color('primary', 'dark');
-      background-color: theme-color('background', 'base');
+      background-color: theme-color('background', 'light');
       color: theme-color('primary', 'dark');
       cursor: pointer;
       &:hover {
