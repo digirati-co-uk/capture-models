@@ -27,14 +27,44 @@ export const Small: React.FC = () => (
 export const Document: React.FC = () => (
   <div>
     <Heading size="large">Main heading</Heading>
-    <p style={{ fontFamily: 'sans-serif', maxWidth: 600 }}>With the paragraph text under the heading. With the paragraph text under the heading. With the paragraph text under the heading. With the paragraph text under the heading. With the paragraph text under the heading. With the paragraph text under the heading. With the paragraph text under the heading</p>
+    <p style={{ fontFamily: 'sans-serif', maxWidth: 600 }}>
+      With the paragraph text under the heading. With the paragraph text under
+      the heading. With the paragraph text under the heading. With the paragraph
+      text under the heading. With the paragraph text under the heading. With
+      the paragraph text under the heading. With the paragraph text under the
+      heading
+    </p>
     <Heading size="medium">First medium heading</Heading>
-    <p style={{ fontFamily: 'sans-serif', maxWidth: 600 }}>With the paragraph text under the heading. With the paragraph text under the heading. With the paragraph text under the heading. With the paragraph text under the heading. With the paragraph text under the heading. With the paragraph text under the heading. With the paragraph text under the heading</p>
+    <p style={{ fontFamily: 'sans-serif', maxWidth: 600 }}>
+      With the paragraph text under the heading. With the paragraph text under
+      the heading. With the paragraph text under the heading. With the paragraph
+      text under the heading. With the paragraph text under the heading. With
+      the paragraph text under the heading. With the paragraph text under the
+      heading
+    </p>
     <Heading size="medium">Second heading</Heading>
-    <p style={{ fontFamily: 'sans-serif', maxWidth: 600 }}>With the paragraph text under the heading. With the paragraph text under the heading. With the paragraph text under the heading. With the paragraph text under the heading. With the paragraph text under the heading. With the paragraph text under the heading. With the paragraph text under the heading</p>
+    <p style={{ fontFamily: 'sans-serif', maxWidth: 600 }}>
+      With the paragraph text under the heading. With the paragraph text under
+      the heading. With the paragraph text under the heading. With the paragraph
+      text under the heading. With the paragraph text under the heading. With
+      the paragraph text under the heading. With the paragraph text under the
+      heading
+    </p>
     <Heading size="small">First small heading</Heading>
-    <p style={{ fontFamily: 'sans-serif', maxWidth: 600 }}>With the paragraph text under the heading. With the paragraph text under the heading. With the paragraph text under the heading. With the paragraph text under the heading. With the paragraph text under the heading. With the paragraph text under the heading. With the paragraph text under the heading</p>
+    <p style={{ fontFamily: 'sans-serif', maxWidth: 600 }}>
+      With the paragraph text under the heading. With the paragraph text under
+      the heading. With the paragraph text under the heading. With the paragraph
+      text under the heading. With the paragraph text under the heading. With
+      the paragraph text under the heading. With the paragraph text under the
+      heading
+    </p>
     <Heading size="medium">Last medium heading</Heading>
-    <p style={{ fontFamily: 'sans-serif', maxWidth: 600 }}>With the paragraph text under the heading. With the paragraph text under the heading. With the paragraph text under the heading. With the paragraph text under the heading. With the paragraph text under the heading. With the paragraph text under the heading. With paragraph text under the heading</p>
+    <p style={{ fontFamily: 'sans-serif', maxWidth: 600 }}>
+      With the paragraph text under the heading. With the paragraph text under
+      the heading. With the paragraph text under the heading. With the paragraph
+      text under the heading. With the paragraph text under the heading. With
+      the paragraph text under the heading. With paragraph text under the
+      heading
+    </p>
   </div>
 );

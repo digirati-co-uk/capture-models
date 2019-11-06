@@ -18,7 +18,8 @@ type PluginStore = {
 };
 
 const bootstrapGlobalStore: () => PluginStore = () => {
-  const globalVar = globalThis || global || window;
+  // @ts-ignore
+  const globalVar = global || window;
 
   if (!globalVar.hasOwnProperty('$$captureModelGlobalStore')) {
     // @ts-ignore
