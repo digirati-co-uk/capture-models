@@ -12,6 +12,10 @@ const PROPERTY_TYPES = [
   'owl:InverseFunctionalProperty',
 ];
 
+// @todo handle case where default namespace is set to one of these prefixes.
+//    Will need to change these to be full URIs instead of the common prefix.
+//    these will then need to be parsed out using the context provided in the
+//    XML parsing and a list like this created from those prefixes.
 const LABEL_PROPERTY = [
   'skos:prefLabel',
   'rdfs:label',
