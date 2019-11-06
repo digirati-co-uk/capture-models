@@ -179,8 +179,8 @@ export const parseRdfVocab = (xml: string): RdfVocab => {
     ]),
   };
 
-  for (const type of ['classes', 'properties']) {
-    for (const rdfTermDescription of found[type as 'classes' | 'properties']) {
+  for (const type of ['classes', 'properties'] as const) {
+    for (const rdfTermDescription of found[type]) {
       const uri = getProperty(rdfTermDescription, LOCAL_NAME_PROPERTY);
       const term = getLocalName(uri, ns);
       const label = getProperty(rdfTermDescription, LABEL_PROPERTY);
@@ -190,7 +190,7 @@ export const parseRdfVocab = (xml: string): RdfVocab => {
         continue;
       }
 
-      vocab[type as 'classes' | 'properties'].push({
+      vocab[type].push({
         uri,
         term,
         label,
