@@ -1,5 +1,5 @@
 import { CaptureModel } from '../types/capture-model';
-import { Draft, original } from 'immer';
+import { Draft } from 'immer';
 import { FieldTypes } from '../types/field-types';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { SelectorTypes } from '../types/selector-types';
@@ -84,6 +84,12 @@ export function useInternalCurrentSelectorState(
 
   const [currentSelector, setCurrentSelectorObj] = useState();
 
+  // @todo there is a gap for fields that want to provide selectors. We need the
+  //   "currentSelector" to be the source of truth for if there is currently a
+  //   selector, and then a wrapper to set the selector object to whatever a field
+  //   may want. The API will provide a callback for when a selector is saved,
+  //   or could be updated through props. Either a push or pull interaction.
+
   const fieldSelector = useMemo(() => {
     if (!currentSelectorPath) {
       return null;
@@ -117,12 +123,12 @@ export function useInternalCurrentSelectorState(
       path: Array<[string, number]>,
       value: Selector['state']
     ) => {
+      // Updates the capture model.
       updateField(path, field => {
         if (field.selector) {
           field.selector.state = value;
         }
       });
-      // Updates the capture model.
     },
     [updateField]
   );

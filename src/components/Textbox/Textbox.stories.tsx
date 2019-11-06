@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react';
 import { withKnobs, text } from '@storybook/addon-knobs';
 import { Textbox } from './Textbox';
 
-const stories = storiesOf('Textbox', module);
+const stories = storiesOf('Components|Textbox', module);
 
 stories.addDecorator(withKnobs);
 

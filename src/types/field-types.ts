@@ -1,29 +1,38 @@
+import React from 'react';
 import { SelectorTypes } from './selector-types';
 import { CaptureModel } from './capture-model';
 
-export type TextBoxField = {
+export type BaseField = {
+  term: string;
+  label?: string;
+  description?: string;
+  selector?: SelectorTypes;
+  creator?: string[];
+};
+
+export type TextBoxField = BaseField & {
   type: 'text-box';
   value: string;
 };
 
-export type TextAreaField = {
+export type TextAreaField = BaseField & {
   type: 'text-area';
   value: string;
 };
 
-export type StarRatingField = {
+export type StarRatingField = BaseField & {
   type: 'star-rating';
   max: number;
   value: number | null;
 };
 
-export type CurrentDateField = {
+export type CurrentDateField = BaseField & {
   type: 'current-date';
   format: string;
   value: string | null;
 };
 
-export type ViafLookup = {
+export type ViafLookup = BaseField & {
   type: 'viaf-lookup';
   'viaf-nametype': string;
   value: {
@@ -32,18 +41,18 @@ export type ViafLookup = {
   } | null;
 };
 
-export type FieldTypes = {
-  term: string;
-  label?: string;
-  description?: string;
-  selector?: SelectorTypes;
-  creator?: string[];
-} & (
+export type FieldTypes =
   | TextBoxField
   | TextAreaField
   | StarRatingField
   | CurrentDateField
-  | ViafLookup);
+  | ViafLookup;
+
+export type FieldTypeProps<T extends FieldTypes> = T & {
+  updateValue: (value: T['value']) => void;
+};
+
+export type FieldComponent<T extends FieldTypes> = React.FC<FieldTypeProps<T>>;
 
 export type NestedField<Doc extends CaptureModel['document']> = Array<
   | { type: 'fields'; list: Array<FieldTypes> }

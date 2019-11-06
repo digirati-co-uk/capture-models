@@ -13,7 +13,10 @@ export type CurrentSelectorState<
   setCurrentSelector: (selectorPath: Array<[string, number]> | null) => void;
   // @todo possibly reintroduce availableSelectors. Will contain available selectors for the
   //   content to display without being instantiated by the form to support UX cases. The information
-  //   is still technically available, so not a huge issue.
+  //   is still technically available, so not a huge issue. This will possibly used to show regions
+  //   on an image or document that have existing selectors, supporting the UX experience where
+  //   you can click on a selector and be taken to a field. This should really work in hand with
+  //   the current form shown. Will get more complex with nested models.
   // availableSelectors: Array<{
   //   path: Array<[string, number]>;
   //   selector: SelectorTypes;

@@ -20,16 +20,35 @@ export function useCurrentForm(): UseCurrentForm {
 
 export const createFormFieldReducer = <Doc extends CaptureModel['document']>(
   document: Doc
-) => (acc: NestedField<Doc>, next: string | Array<string | string[]>) => {
+) => (
+  acc: NestedField<Doc>,
+  next: string | Array<string | string[]>
+): NestedField<Doc> => {
   if (typeof next === 'string') {
     const nextItem = document.properties[next];
+
+    if (!nextItem) {
+      console.log(next, document);
+      throw new Error(`Invalid structure, ${next} does not exist in document`);
+    }
+
     if (nextItem.length > 0) {
       if (nextItem[0].type === 'entity') {
         acc.push({
           type: 'documents',
-          list: document.properties[next] as Array<
-            CaptureModel['document'] & any
-          >,
+          // @ts-ignore
+          list: (nextItem as Doc[]).map(
+            (singleDoc: CaptureModel['document']) => {
+              const { properties: _, ...doc } = singleDoc;
+              return {
+                ...doc,
+                fields: Object.keys(singleDoc.properties).reduce(
+                  createFormFieldReducer(singleDoc),
+                  []
+                ),
+              };
+            }
+          ),
         });
       } else {
         acc.push({
@@ -51,15 +70,16 @@ export const createFormFieldReducer = <Doc extends CaptureModel['document']>(
   // @todo verify this is an array of documents, otherwise invalid capture model.
   const nestedDocs = document.properties[key] as any;
 
-  acc.push(
-    nestedDocs.map((singleDoc: CaptureModel['document']) => {
+  acc.push({
+    type: 'documents',
+    list: nestedDocs.map((singleDoc: CaptureModel['document']) => {
       const { properties: _, ...doc } = singleDoc;
       return {
         ...doc,
         fields: fields.reduce(createFormFieldReducer(singleDoc), []),
       };
-    })
-  );
+    }),
+  });
 
   return acc;
 };

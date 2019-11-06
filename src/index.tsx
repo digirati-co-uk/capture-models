@@ -1,3 +1,6 @@
+// Register the fields and selectors.
+import './register';
+
 // Types
 export * from './types/capture-model';
 export * from './types/field-types';

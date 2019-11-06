@@ -97,6 +97,7 @@
       "review": [
         {
           "type": "entity",
+          "label": "Review",
           "conformsTo": "Review",
           "properties": {
             "author": [
@@ -143,6 +144,7 @@
         },
         {
           "type": "entity",
+          "label": "Review",
           "conformsTo": "Review",
           "properties": {
             "author": [
@@ -189,6 +191,7 @@
         },
         {
           "type": "entity",
+          "label": "Review",
           "conformsTo": "Review",
           "properties": {
             "author": [

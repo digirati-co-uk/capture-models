@@ -19,7 +19,7 @@ export type CaptureModel = {
       });
   document: {
     '@context'?: string | { [key: string]: string };
-    conformsTo?: string;
+    term: string;
     label?: string;
     description?: string;
     type: 'entity';
