@@ -4,9 +4,13 @@ import { NavigationContext } from './navigation';
 import { UseCurrentForm } from './current-form';
 import { CurrentSelectorState } from './current-selector';
 
+type NestedModelFields = [string, ModelFields];
+export interface ModelFields extends Array<string | NestedModelFields> {}
+
 export type CaptureModel = {
   structure: {
     label: string;
+    profile?: string[];
     description?: string;
   } & (
     | {
@@ -15,10 +19,20 @@ export type CaptureModel = {
       }
     | {
         type: 'model';
-        fields: Array<string | [string, Array<string>]>;
+        fields: ModelFields;
+      }
+    | {
+        type: 'review';
+        fields: ModelFields;
+      }
+    | {
+        type: 'workflow';
+        steps: Array<
+          Exclude<CaptureModel['structure'], StructureType<'workflow'>>
+        >;
       });
   document: {
-    '@context'?: string | { [key: string]: string };
+    '@context'?: string | ({ [key: string]: string } & { '@vocab'?: string });
     term: string;
     label?: string;
     description?: string;
@@ -52,6 +66,15 @@ export type CaptureModel = {
         };
   };
 };
+
+export type StructureType<
+  ChoiceType extends string,
+  T = CaptureModel['structure']
+> = T extends infer R & {
+  type: ChoiceType;
+}
+  ? T
+  : never;
 
 export type UseCaptureModel<Model extends CaptureModel = CaptureModel> = {
   captureModel: Model;

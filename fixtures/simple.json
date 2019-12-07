@@ -6,7 +6,7 @@
     "items": [
       {
         "type": "choice",
-        "label": "Desribe this book",
+        "label": "Describe this book",
         "items": [
           {
             "type": "model",

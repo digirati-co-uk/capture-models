@@ -45,8 +45,9 @@
     "typescript": true
   },
   "dependencies": {
-    "@blueprintjs/core": "^3.19.1",
+    "@blueprintjs/core": "^3.22.1",
     "@storybook/react": "^5.2.4",
+    "formik": "^2.0.6",
     "immer": "^4.0.1",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",

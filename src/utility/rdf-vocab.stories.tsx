@@ -5,11 +5,16 @@ export default { title: 'Utility|RDF Importer' };
 
 export const SimpleFetch: React.FC = () => {
   const [xml, setXml] = useState<RdfVocab>();
+  const [isLoading, setIsLoading] = useState(false);
 
   const onClick = async (url: string) => {
+    setIsLoading(true);
     fetch(url)
       .then(r => r.text())
-      .then(respXml => setXml(parseRdfVocab(respXml)));
+      .then(respXml => {
+        setIsLoading(false);
+        setXml(parseRdfVocab(respXml));
+      });
   };
 
   if (xml) {
@@ -54,6 +59,7 @@ export const SimpleFetch: React.FC = () => {
       <ul>
         <li>
           <button
+            disabled={isLoading}
             onClick={() =>
               onClick(
                 'https://raw.githubusercontent.com/omeka/omeka-s/36e9bc2382440ec0abb6b9b8c59abf6beba89c6d/application/data/vocabularies/dcterms.rdf'
@@ -65,6 +71,7 @@ export const SimpleFetch: React.FC = () => {
         </li>
         <li>
           <button
+            disabled={isLoading}
             onClick={() =>
               onClick(
                 'https://raw.githubusercontent.com/omeka/omeka-s/36e9bc2382440ec0abb6b9b8c59abf6beba89c6d/application/data/vocabularies/foaf.rdf'
@@ -76,6 +83,7 @@ export const SimpleFetch: React.FC = () => {
         </li>
         <li>
           <button
+            disabled={isLoading}
             onClick={() =>
               onClick(
                 'https://raw.githubusercontent.com/omeka/omeka-s/36e9bc2382440ec0abb6b9b8c59abf6beba89c6d/application/data/vocabularies/dctype.rdf'
@@ -87,6 +95,7 @@ export const SimpleFetch: React.FC = () => {
         </li>
         <li>
           <button
+            disabled={isLoading}
             onClick={() =>
               onClick(
                 'https://raw.githubusercontent.com/omeka/omeka-s/36e9bc2382440ec0abb6b9b8c59abf6beba89c6d/application/data/vocabularies/bibo.owl'
