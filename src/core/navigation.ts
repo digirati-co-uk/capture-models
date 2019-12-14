@@ -36,9 +36,7 @@ export function useNavigation(): UseNavigation {
 
 export function useInternalNavigationState(captureModel: CaptureModel) {
   // Navigation actions.
-  const [currentView, setCurrentView] = useState<CaptureModel['structure']>(
-    () => captureModel.structure
-  );
+  const [currentView, setCurrentView] = useState<CaptureModel['structure']>(() => captureModel.structure);
   const [currentPath, replacePathRaw] = useState<number[]>([]);
 
   const replacePath = useCallback(

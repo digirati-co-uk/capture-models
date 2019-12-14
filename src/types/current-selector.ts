@@ -1,8 +1,6 @@
 import { SelectorTypes } from './selector-types';
 
-export type CurrentSelectorState<
-  Selector extends SelectorTypes = SelectorTypes
-> = {
+export type CurrentSelectorState<Selector extends SelectorTypes = SelectorTypes> = {
   // @todo at the moment, the selectors are global to the capture model context.
   //   This could be changed however, with a new context specifically for selectors.
   //   This would require the context around the form too, which could complicate things.
@@ -21,15 +19,10 @@ export type CurrentSelectorState<
   //   path: Array<[string, number]>;
   //   selector: SelectorTypes;
   // }>;
-  updateCustomSelector: (
-    path: Array<[string, number]>,
-    state: SelectorTypes['state']
-  ) => void;
+  updateCustomSelector: (path: Array<[string, number]>, state: SelectorTypes['state']) => void;
 };
 
-export type UseCurrentSelector<
-  Selector extends SelectorTypes = SelectorTypes
-> = CurrentSelectorState & {
+export type UseCurrentSelector<Selector extends SelectorTypes = SelectorTypes> = CurrentSelectorState & {
   updateSelector: (state: Selector['state'], confirm?: boolean) => void;
   confirmSelector: () => void;
   resetSelector: () => void;

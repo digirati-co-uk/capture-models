@@ -108,11 +108,7 @@ describe('structure editor', () => {
 
   describe('mergeFlatKeys', () => {
     test('simple fields', () => {
-      expect(mergeFlatKeys([['field1'], ['field2'], ['field3']])).toEqual([
-        'field1',
-        'field2',
-        'field3',
-      ]);
+      expect(mergeFlatKeys([['field1'], ['field2'], ['field3']])).toEqual(['field1', 'field2', 'field3']);
     });
 
     test('simple fields nested', () => {
@@ -124,11 +120,7 @@ describe('structure editor', () => {
           ['field2', 'field2.1'],
           ['field3'],
         ])
-      ).toEqual([
-        ['field1', ['field1.1', 'field1.2', 'field1.3']],
-        ['field2', ['field2.1']],
-        'field3',
-      ]);
+      ).toEqual([['field1', ['field1.1', 'field1.2', 'field1.3']], ['field2', ['field2.1']], 'field3']);
     });
 
     test('complex fields nested', () => {
@@ -143,10 +135,34 @@ describe('structure editor', () => {
           ['field3'],
         ])
       ).toEqual([
-        ['field1', ['field1.1', 'field1.2']],
-        ['field2', ['field2.1']],
-        ['field1', ['field1.3']],
-        ['field2', ['field2.2', 'field2.3']],
+        ['field1', ['field1.1', 'field1.2', 'field1.3']],
+        ['field2', ['field2.1', 'field2.2', 'field2.3']],
+        'field3',
+      ]);
+    });
+
+    test('duplicate fields nested', () => {
+      expect(
+        mergeFlatKeys([
+          ['field1', 'field1.1'],
+          ['field1', 'field1.2'],
+          ['field3'],
+          ['field1', 'field1.1'],
+          ['field1', 'field1.2'],
+          ['field1', 'entity2', 'entity2.2', 'entity.2'],
+          ['field3'],
+          ['field1', 'field1.1'],
+          ['field1', 'entity2', 'entity2.3', 'entity.2'],
+          ['field1', 'field1.2'],
+          ['field3'],
+          ['field1', 'entity2', 'entity2.2', 'entity.3'],
+          ['field1', 'entity2', 'entity2.2', 'entity.3'],
+        ])
+      ).toEqual([
+        [
+          'field1',
+          ['field1.1', 'field1.2', ['entity2', [['entity2.2', ['entity.2', 'entity.3']], ['entity2.3', ['entity.2']]]]],
+        ],
         'field3',
       ]);
     });
@@ -211,27 +227,16 @@ describe('structure editor', () => {
         term: '@none',
         type: 'entity',
         properties: {
-          field1: [
-            { type: 'text-box', label: 'field 1', term: 'field1', value: '' },
-          ],
-          field2: [
-            { type: 'text-box', label: 'field 2', term: 'field2', value: '' },
-          ],
-          field3: [
-            { type: 'text-box', label: 'field 3', term: 'field3', value: '' },
-          ],
+          field1: [{ type: 'text-box', label: 'field 1', term: 'field1', value: '' }],
+          field2: [{ type: 'text-box', label: 'field 2', term: 'field2', value: '' }],
+          field3: [{ type: 'text-box', label: 'field 3', term: 'field3', value: '' }],
         },
       };
 
       const def = structureToFlatStructureDefinition(model, ['field1']);
-      expect(def).toEqual([
-        { key: ['field1'], label: 'field 1', type: 'text-box' },
-      ]);
+      expect(def).toEqual([{ key: ['field1'], label: 'field 1', type: 'text-box' }]);
 
-      const def2 = structureToFlatStructureDefinition(model, [
-        'field2',
-        'field3',
-      ]);
+      const def2 = structureToFlatStructureDefinition(model, ['field2', 'field3']);
       expect(def2).toEqual([
         { key: ['field2'], label: 'field 2', type: 'text-box' },
         { key: ['field3'], label: 'field 3', type: 'text-box' },
@@ -243,9 +248,7 @@ describe('structure editor', () => {
         term: '@none',
         type: 'entity',
         properties: {
-          field1: [
-            { type: 'text-box', label: 'field 1', term: 'field1', value: '' },
-          ],
+          field1: [{ type: 'text-box', label: 'field 1', term: 'field1', value: '' }],
           entity1: [
             {
               type: 'entity',
@@ -282,9 +285,7 @@ describe('structure editor', () => {
         },
       };
 
-      const def = structureToFlatStructureDefinition(model, [
-        ['entity1', ['field2', 'field4']],
-      ]);
+      const def = structureToFlatStructureDefinition(model, [['entity1', ['field2', 'field4']]]);
 
       expect(def).toEqual([
         {
@@ -299,9 +300,7 @@ describe('structure editor', () => {
         },
       ]);
 
-      expect(documentFieldOptionsToStructure(def)).toEqual([
-        ['entity1', ['field2', 'field4']],
-      ]);
+      expect(documentFieldOptionsToStructure(def)).toEqual([['entity1', ['field2', 'field4']]]);
     });
   });
 });

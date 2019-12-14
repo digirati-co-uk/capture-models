@@ -29,6 +29,4 @@ export type SelectorTypeProps<T extends SelectorTypes> = T & {
   updateSelector(state: T['state']): void;
 };
 
-export type SelectorComponent<T extends SelectorTypes> = React.FC<
-  SelectorTypeProps<T>
->;
+export type SelectorComponent<T extends SelectorTypes> = React.FC<SelectorTypeProps<T>>;

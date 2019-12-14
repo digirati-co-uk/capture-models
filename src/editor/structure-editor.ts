@@ -1,8 +1,5 @@
-import {
-  CaptureModel,
-  ModelFields,
-  StructureType,
-} from '../types/capture-model';
+import { ITreeNode } from '@blueprintjs/core';
+import { CaptureModel, ModelFields, StructureType } from '../types/capture-model';
 import { FieldTypes } from '../types/field-types';
 
 // For each of these we should have:
@@ -85,9 +82,7 @@ export function getDocumentFields(
   return structure;
 }
 
-export function documentFieldOptionsToStructure(
-  definitions: FlatStructureDefinition[]
-): ModelFields {
+export function documentFieldOptionsToStructure(definitions: FlatStructureDefinition[]): ModelFields {
   const flatKeys = [];
   for (const def of definitions) {
     flatKeys.push(def.key);
@@ -124,28 +119,37 @@ export function structureToFlatStructureDefinition(
 
     // for  [a, [b, c]]
     // We want to get [a, b] and [a, c] extracted
-    return structureToFlatStructureDefinition(nestedModel, fields, structures, [
-      ...keyScope,
-      modelKey,
-    ]);
+    return structureToFlatStructureDefinition(nestedModel, fields, structures, [...keyScope, modelKey]);
   }, structures);
 
   return structures;
 }
 
-export function mergeFlatKeys(keys: string[][]): ModelFields {
+export function mergeFlatKeys(inputKeys: string[][]): ModelFields {
+  const keyHash = inputKeys.map(k => k.join('--HASH--'));
+  const keys = inputKeys.filter((k, i) => keyHash.indexOf(k.join('--HASH--')) === i);
   const array: ModelFields = [];
-
+  const uniqueKeys = [];
   const entityBuffer: { key: string; values: string[][] } = {
     key: '',
     values: [],
   };
+  const entityMap: { [key: string]: number } = {};
   const flushBuffer = () => {
     // Flush last.
     if (entityBuffer.key) {
+      const existing = entityMap[entityBuffer.key];
       // flush the buffer.
-      array.push([entityBuffer.key, mergeFlatKeys(entityBuffer.values)]);
-      // flush the buffer.
+      if (typeof existing !== 'undefined') {
+        // Existing entity
+        const item = array[existing] as [string, ModelFields];
+        item[1].push(...mergeFlatKeys(entityBuffer.values));
+      } else {
+        // new entity.
+        array.push([entityBuffer.key, mergeFlatKeys(entityBuffer.values)]);
+        entityMap[entityBuffer.key] = array.length - 1;
+      }
+      // reset the buffer.
       entityBuffer.key = '';
       entityBuffer.values = [];
     }
@@ -159,6 +163,8 @@ export function mergeFlatKeys(keys: string[][]): ModelFields {
     }
     // For top level fields.
     if (key.length === 1) {
+      if (uniqueKeys.indexOf(key[0]) !== -1) continue;
+      uniqueKeys.push(key[0]);
       array.push(key[0]);
       continue;
     }
@@ -172,9 +178,7 @@ export function mergeFlatKeys(keys: string[][]): ModelFields {
   return array;
 }
 
-export function createChoice(
-  choice: Partial<StructureType<'choice'>>
-): StructureType<'choice'> {
+export function createChoice(choice: Partial<StructureType<'choice'>> = {}): StructureType<'choice'> {
   return {
     label: choice.label || 'Untitled choice',
     type: 'choice',
@@ -183,9 +187,7 @@ export function createChoice(
   };
 }
 
-export function createWorkflow(
-  workflow: Partial<StructureType<'workflow'>>
-): StructureType<'workflow'> {
+export function createWorkflow(workflow: Partial<StructureType<'workflow'>>): StructureType<'workflow'> {
   return {
     label: workflow.label || 'Untitled workflow',
     type: 'workflow',
@@ -194,9 +196,7 @@ export function createWorkflow(
   };
 }
 
-export function createModel(
-  model: Partial<StructureType<'model'>>
-): StructureType<'model'> {
+export function createModel(model: Partial<StructureType<'model'>>): StructureType<'model'> {
   return {
     label: model.label || 'Untitled model',
     type: 'model',
@@ -205,9 +205,7 @@ export function createModel(
   };
 }
 
-export function createReview(
-  review: Partial<StructureType<'review'>>
-): StructureType<'review'> {
+export function createReview(review: Partial<StructureType<'review'>>): StructureType<'review'> {
   return {
     label: review.label || 'Untitled review',
     type: 'review',
@@ -216,21 +214,14 @@ export function createReview(
   };
 }
 
-export function setTopLevelStructure(
-  model: CaptureModel,
-  structure: CaptureModel['structure']
-): CaptureModel {
+export function setTopLevelStructure(model: CaptureModel, structure: CaptureModel['structure']): CaptureModel {
   return {
     ...model,
     structure,
   };
 }
 
-export function addStructure(
-  model: CaptureModel,
-  path: number[],
-  structure: CaptureModel['structure']
-): CaptureModel {
+export function addStructure(model: CaptureModel, path: number[], structure: CaptureModel['structure']): CaptureModel {
   const { structure: rootStructure, ...doc } = model;
 
   // @todo use immer in this case.
@@ -252,17 +243,11 @@ export function addStructure(
   };
 }
 
-export function removeStructure(
-  model: CaptureModel,
-  path: number[]
-): CaptureModel {
+export function removeStructure(model: CaptureModel, path: number[]): CaptureModel {
   return model;
 }
 
-export function getStructureAtPath(
-  model: CaptureModel,
-  path: number[]
-): CaptureModel['structure'] | null {
+export function getStructureAtPath(model: CaptureModel, path: number[]): CaptureModel['structure'] | null {
   return null;
 }
 
@@ -280,4 +265,31 @@ export function setFieldsOnModel(
   fields: Array<string | [string, Array<string>]>
 ): CaptureModel {
   return model;
+}
+
+export function structureToTree(level: CaptureModel['structure'], keyAcc: number[] = []): ITreeNode | null {
+  switch (level.type) {
+    case 'choice':
+      return {
+        id: keyAcc.length ? keyAcc.join('--') : 'root',
+        icon: 'folder-close',
+        label: level.label,
+        nodeData: { ...level, key: keyAcc },
+        isExpanded: true,
+        childNodes: level.items
+          .map((choiceItem, choiceKey) => structureToTree(choiceItem, [...keyAcc, choiceKey]))
+          .filter(e => e) as ITreeNode[],
+      };
+
+    case 'model':
+      return {
+        id: keyAcc.length ? keyAcc.join('--') : 'root',
+        icon: 'form',
+        label: level.label,
+        nodeData: { ...level, key: keyAcc },
+      };
+
+    default:
+      return null;
+  }
 }

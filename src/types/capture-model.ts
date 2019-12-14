@@ -4,7 +4,7 @@ import { NavigationContext } from './navigation';
 import { UseCurrentForm } from './current-form';
 import { CurrentSelectorState } from './current-selector';
 
-type NestedModelFields = [string, ModelFields];
+export type NestedModelFields = [string, ModelFields];
 export interface ModelFields extends Array<string | NestedModelFields> {}
 
 export type CaptureModel = {
@@ -26,10 +26,9 @@ export type CaptureModel = {
         fields: ModelFields;
       }
     | {
+        //id: string;
         type: 'workflow';
-        steps: Array<
-          Exclude<CaptureModel['structure'], StructureType<'workflow'>>
-        >;
+        steps: Array<Exclude<CaptureModel['structure'], StructureType<'workflow'>>>;
       });
   document: {
     '@context'?: string | ({ [key: string]: string } & { '@vocab'?: string });
@@ -42,6 +41,11 @@ export type CaptureModel = {
       [term: string]: Array<FieldTypes> | Array<CaptureModel['document']>;
     };
   };
+  revisions?: Array<{
+    id: string;
+    workflowId?: string;
+    fields: ModelFields;
+  }>;
   target?: string[];
   contributors?: {
     [id: string]: {
@@ -67,10 +71,7 @@ export type CaptureModel = {
   };
 };
 
-export type StructureType<
-  ChoiceType extends string,
-  T = CaptureModel['structure']
-> = T extends infer R & {
+export type StructureType<ChoiceType extends string, T = CaptureModel['structure']> = T extends infer R & {
   type: ChoiceType;
 }
   ? T
@@ -83,7 +84,4 @@ export type UseCaptureModel<Model extends CaptureModel = CaptureModel> = {
 export type CaptureModelContext<
   Selector extends SelectorTypes = SelectorTypes,
   Model extends CaptureModel = CaptureModel
-> = UseCaptureModel<Model> &
-  NavigationContext<Model> &
-  UseCurrentForm<Model> &
-  CurrentSelectorState<Selector>;
+> = UseCaptureModel<Model> & NavigationContext<Model> & UseCurrentForm<Model> & CurrentSelectorState<Selector>;

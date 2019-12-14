@@ -3,13 +3,9 @@
 
 import { CaptureModel } from '../types/capture-model';
 
-export function addDefaultContext(
-  model: CaptureModel,
-  context: string
-): CaptureModel {
+export function addDefaultContext(model: CaptureModel, context: string): CaptureModel {
   if (
-    (typeof model.document['@context'] === 'string' &&
-      context !== model.document['@context']) ||
+    (typeof model.document['@context'] === 'string' && context !== model.document['@context']) ||
     (typeof model.document['@context'] !== 'string' &&
       model.document['@context'] &&
       model.document['@context']['@vocab'] !== context)
@@ -33,19 +29,13 @@ export function addDefaultContext(
   };
 }
 
-export function addContext(
-  model: CaptureModel,
-  context: string,
-  alias: string
-): CaptureModel {
+export function addContext(model: CaptureModel, context: string, alias: string): CaptureModel {
   const { ['@context']: _context, ...document } = model.document;
   const fullContext: { [vocab: string]: string } =
     typeof _context === 'string' ? { '@vocab': _context } : _context || {};
 
   if (fullContext[alias] && fullContext[alias] !== context) {
-    throw new Error(
-      `Cannot add context ${alias}, context already exists (${fullContext[alias]})`
-    );
+    throw new Error(`Cannot add context ${alias}, context already exists (${fullContext[alias]})`);
   }
 
   return {
@@ -63,8 +53,7 @@ export function addContext(
 export function removeDefaultContext(model: CaptureModel): CaptureModel {
   if (
     !model.document['@context'] ||
-    (typeof model.document['@context'] !== 'string' &&
-      !model.document['@context']['@vocab'])
+    (typeof model.document['@context'] !== 'string' && !model.document['@context']['@vocab'])
   ) {
     return model;
   }
@@ -82,10 +71,7 @@ export function removeDefaultContext(model: CaptureModel): CaptureModel {
   return removeContext(model, '@vocab');
 }
 
-export function removeContext(
-  model: CaptureModel,
-  alias: string
-): CaptureModel {
+export function removeContext(model: CaptureModel, alias: string): CaptureModel {
   if (
     !model.document['@context'] ||
     typeof model.document['@context'] === 'string' ||

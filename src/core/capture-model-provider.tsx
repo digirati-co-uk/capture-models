@@ -8,13 +8,9 @@ import { InternalProvider } from './context';
 export const CaptureModelProvider: React.FC<{
   captureModel: CaptureModel;
 }> = ({ captureModel: originalCaptureModel, children }) => {
-  const [captureModel, setCaptureModel] = useState<CaptureModel>(
-    () => originalCaptureModel
-  );
+  const [captureModel, setCaptureModel] = useState<CaptureModel>(() => originalCaptureModel);
 
-  const { currentView, currentPath, replacePath } = useInternalNavigationState(
-    captureModel
-  );
+  const { currentView, currentPath, replacePath } = useInternalNavigationState(captureModel);
 
   const {
     currentFields,

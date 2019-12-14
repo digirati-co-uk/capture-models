@@ -34,25 +34,20 @@ export const SimpleSelector: React.FC = withSimpleCaptureModel(() => {
   if (!currentSelectorPath) {
     return (
       <div>
-        <button onClick={() => setCurrentSelector([['name', 0]])}>
-          Choose selector
-        </button>
+        <button onClick={() => setCurrentSelector([['name', 0]])}>Choose selector</button>
       </div>
     );
   }
 
   // @todo this is a general problem with the types.
-  const selectorState = currentSelector
-    ? (currentSelector as BoxSelector['state'])
-    : null;
+  const selectorState = currentSelector ? (currentSelector as BoxSelector['state']) : null;
 
   return (
     <div>
       <ul>
         <li>
           <strong>Current path: </strong>
-          {currentSelectorPath &&
-            currentSelectorPath.map(r => `${r[0]}[${r[1]}]`)}
+          {currentSelectorPath && currentSelectorPath.map(r => `${r[0]}[${r[1]}]`)}
         </li>
         <li>
           <strong>Current selector: </strong>

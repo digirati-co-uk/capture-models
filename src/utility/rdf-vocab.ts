@@ -16,14 +16,7 @@ const PROPERTY_TYPES = [
 //    Will need to change these to be full URIs instead of the common prefix.
 //    these will then need to be parsed out using the context provided in the
 //    XML parsing and a list like this created from those prefixes.
-const LABEL_PROPERTY = [
-  'skos:prefLabel',
-  'rdfs:label',
-  'foaf:name',
-  'rss:title',
-  'dc:title',
-  'dc11:title',
-];
+const LABEL_PROPERTY = ['skos:prefLabel', 'rdfs:label', 'foaf:name', 'rss:title', 'dc:title', 'dc11:title'];
 
 const COMMENT_PROPERTY = ['rdfs:comment'];
 
@@ -134,10 +127,7 @@ export const getProperty = (el: Element, names: string[]): string | null => {
   return null;
 };
 
-export const getLocalName = (
-  value: string | null,
-  ns: RdfNSList
-): string | null => {
+export const getLocalName = (value: string | null, ns: RdfNSList): string | null => {
   if (!value) return value;
 
   for (const singleNs of Object.keys(ns)) {
@@ -157,12 +147,8 @@ export const parseRdfVocab = (xml: string): RdfVocab => {
   const rootElement = doc.documentElement;
 
   const ns = getNamespaces(rootElement);
-  const resolvedPropertyTypes = PROPERTY_TYPES.map(prop =>
-    resolveTypeFromNs(prop, ns)
-  );
-  const resolvedClassTypes = CLASS_TYPES.map(prop =>
-    resolveTypeFromNs(prop, ns)
-  );
+  const resolvedPropertyTypes = PROPERTY_TYPES.map(prop => resolveTypeFromNs(prop, ns));
+  const resolvedClassTypes = CLASS_TYPES.map(prop => resolveTypeFromNs(prop, ns));
 
   const vocab: RdfVocab = {
     ns,
@@ -173,14 +159,8 @@ export const parseRdfVocab = (xml: string): RdfVocab => {
   // We need a getElementByType that will check the `rdf:type` and also one that just checks for tags.
 
   const found = {
-    properties: getAllElementByTypes(rootElement, [
-      ...PROPERTY_TYPES,
-      ...resolvedPropertyTypes,
-    ]),
-    classes: getAllElementByTypes(rootElement, [
-      ...CLASS_TYPES,
-      ...resolvedClassTypes,
-    ]),
+    properties: getAllElementByTypes(rootElement, [...PROPERTY_TYPES, ...resolvedPropertyTypes]),
+    classes: getAllElementByTypes(rootElement, [...CLASS_TYPES, ...resolvedClassTypes]),
   };
 
   for (const type of ['classes', 'properties'] as const) {

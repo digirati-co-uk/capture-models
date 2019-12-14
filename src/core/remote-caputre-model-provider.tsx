@@ -24,7 +24,5 @@ export const RemoteCaptureModelProvider: React.FC<{
     return loadingState ? loadingState() : null;
   }
 
-  return (
-    <CaptureModelProvider captureModel={captureModel} children={children} />
-  );
+  return <CaptureModelProvider captureModel={captureModel} children={children} />;
 };

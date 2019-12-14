@@ -1,28 +1,23 @@
 import { UseCurrentForm } from '../types/current-form';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { CaptureModel } from '../types/capture-model';
+import { CaptureModel, ModelFields, NestedModelFields } from '../types/capture-model';
 import produce, { Draft, original } from 'immer';
 import { FieldTypes, NestedField } from '../types/field-types';
 import { useContext } from './context';
 
 export function useCurrentForm(): UseCurrentForm {
-  const {
+  const { currentFields, updateFieldValue, createUpdateFieldValue } = useContext();
+
+  return useMemo(() => ({ currentFields, updateFieldValue, createUpdateFieldValue }), [
     currentFields,
     updateFieldValue,
     createUpdateFieldValue,
-  } = useContext();
-
-  return useMemo(
-    () => ({ currentFields, updateFieldValue, createUpdateFieldValue }),
-    [currentFields, updateFieldValue, createUpdateFieldValue]
-  );
+  ]);
 }
 
-export const createFormFieldReducer = <Doc extends CaptureModel['document']>(
-  document: Doc
-) => (
+export const createFormFieldReducer = <Doc extends CaptureModel['document']>(document: Doc) => (
   acc: NestedField<Doc>,
-  next: string | Array<string | string[]>
+  next: string | NestedModelFields
 ): NestedField<Doc> => {
   if (typeof next === 'string') {
     const nextItem = document.properties[next];
@@ -37,18 +32,13 @@ export const createFormFieldReducer = <Doc extends CaptureModel['document']>(
         acc.push({
           type: 'documents',
           // @ts-ignore
-          list: (nextItem as Doc[]).map(
-            (singleDoc: CaptureModel['document']) => {
-              const { properties: _, ...doc } = singleDoc;
-              return {
-                ...doc,
-                fields: Object.keys(singleDoc.properties).reduce(
-                  createFormFieldReducer(singleDoc),
-                  []
-                ),
-              };
-            }
-          ),
+          list: (nextItem as Doc[]).map((singleDoc: CaptureModel['document']) => {
+            const { properties: _, ...doc } = singleDoc;
+            return {
+              ...doc,
+              fields: Object.keys(singleDoc.properties).reduce(createFormFieldReducer(singleDoc), []),
+            };
+          }),
         });
       } else {
         acc.push({
@@ -62,9 +52,7 @@ export const createFormFieldReducer = <Doc extends CaptureModel['document']>(
   const [key, fields] = next;
 
   if (typeof key !== 'string' || !Array.isArray(fields)) {
-    throw new Error(
-      'Invalid capture model. Expected: [string, [string, string]]'
-    );
+    throw new Error('Invalid capture model. Expected: [string, [string, string]]');
   }
 
   // @todo verify this is an array of documents, otherwise invalid capture model.
@@ -84,30 +72,21 @@ export const createFormFieldReducer = <Doc extends CaptureModel['document']>(
   return acc;
 };
 
-export function useInternalCurrentFormState<
-  Model extends CaptureModel = CaptureModel
->(
+export function useInternalCurrentFormState<Model extends CaptureModel = CaptureModel>(
   captureModel: Model,
   updateCaptureModel: (newModel: Model) => void,
-  currentFieldIds: Array<string | [string, Array<string>]> | null
+  currentFieldIds: ModelFields | null
 ): UseCurrentForm & {
   updateInternalFieldValue: (
     path: Array<[string, number]>,
     cb: (field: Draft<FieldTypes>, draft: Draft<CaptureModel>) => void
   ) => void;
 } {
-  const [currentFields, setCurrentFields] = useState<
-    NestedField<Model['document']>
-  >([]);
+  const [currentFields, setCurrentFields] = useState<NestedField<Model['document']>>([]);
 
   useEffect(() => {
     if (currentFieldIds) {
-      setCurrentFields(
-        currentFieldIds.reduce(
-          createFormFieldReducer(captureModel.document),
-          []
-        )
-      );
+      setCurrentFields(currentFieldIds.reduce(createFormFieldReducer(captureModel.document), []));
     }
   }, [captureModel, captureModel.document, currentFieldIds]);
 
@@ -124,21 +103,13 @@ export function useInternalCurrentFormState<
             if (cursor.type === 'entity') {
               cursor = cursor.properties[term][idx];
             } else {
-              throw Error(
-                `Invalid update path ${path
-                  .map(([a, b]) => `${a}:${b}`)
-                  .join('/')}`
-              );
+              throw Error(`Invalid update path ${path.map(([a, b]) => `${a}:${b}`).join('/')}`);
             }
           }
           const field = cursor as FieldTypes;
 
           if (!original(field)) {
-            throw new Error(
-              `Invalid update path ${path
-                .map(([a, b]) => `${a}:${b}`)
-                .join('/')}`
-            );
+            throw new Error(`Invalid update path ${path.map(([a, b]) => `${a}:${b}`).join('/')}`);
           }
 
           cb(field, draft);
@@ -154,10 +125,7 @@ export function useInternalCurrentFormState<
   );
 
   const updateInternalFieldValue = useCallback(
-    (
-      path: Array<[string, number]>,
-      cb: (field: Draft<FieldTypes>, draft: Draft<CaptureModel>) => void
-    ) => {
+    (path: Array<[string, number]>, cb: (field: Draft<FieldTypes>, draft: Draft<CaptureModel>) => void) => {
       if (currentFieldIds === null) {
         throw new Error('No form selected');
       }

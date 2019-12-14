@@ -7,8 +7,7 @@ describe('current form', () => {
     test('simple flat fields', () => {
       const reducer = createFormFieldReducer(doc.document);
 
-      expect(['name', 'description'].reduce(reducer, []))
-        .toMatchInlineSnapshot(`
+      expect(['name', 'description'].reduce(reducer, [])).toMatchInlineSnapshot(`
               Array [
                 Object {
                   "list": Array [
@@ -43,8 +42,8 @@ describe('current form', () => {
     test('nested model', () => {
       const reducer = createFormFieldReducer(doc.document);
 
-      expect(['name', ['review', ['name', 'reviewBody']]].reduce(reducer, []))
-        .toMatchInlineSnapshot(`
+      // @ts-ignore
+      expect(['name', ['review', ['name', 'reviewBody']]].reduce(reducer, [])).toMatchInlineSnapshot(`
         Array [
           Object {
             "list": Array [

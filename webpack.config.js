@@ -1,2 +1,6 @@
 
-module.exports = require('@fesk/scripts/webpack');
+const config = require('@fesk/scripts/webpack');
+
+config.output.chunkFilename = '[name].bundle.js';
+
+module.exports = config;

@@ -37,13 +37,8 @@ export const SimpleForm: React.FC = withSimpleCaptureModel(() => {
             <strong>Type: </strong> {field.type}
           </li>
           <li>
-            <strong>Value: </strong>{' '}
-            {typeof field.value === 'string' ? field.value : 'n/a'}{' '}
-            <button
-              onClick={() => updateFieldValue(path, `${new Date().getTime()}`)}
-            >
-              Update value
-            </button>
+            <strong>Value: </strong> {typeof field.value === 'string' ? field.value : 'n/a'}{' '}
+            <button onClick={() => updateFieldValue(path, `${new Date().getTime()}`)}>Update value</button>
           </li>
         </ul>
       )}

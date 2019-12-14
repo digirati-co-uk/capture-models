@@ -1,6 +1,3 @@
-
-
-
 // Required utilities.
 // - generateBlankField
 // - generateBlankSelector
@@ -9,12 +6,6 @@
 // - context for current selector
 // - context for saving selectors
 // - context for capture model crud.
-
-
-
-
-
-
 
 // export function generateBlankField<
 //   T extends Templates,

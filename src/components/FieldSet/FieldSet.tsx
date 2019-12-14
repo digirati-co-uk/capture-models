@@ -1,4 +1,3 @@
-import { ReactElement } from 'react';
 import * as React from 'react';
 import { CaptureModel } from '../../types/capture-model';
 import { FieldTypes, NestedField } from '../../types/field-types';
@@ -27,10 +26,7 @@ export type FieldSetProps = {
   renderNestedFieldset?: FieldSetRenderFieldset;
   path?: Array<[string, number]>;
   depth?: number;
-} & React.DetailedHTMLProps<
-  React.FieldsetHTMLAttributes<HTMLFieldSetElement>,
-  HTMLFieldSetElement
->;
+} & React.DetailedHTMLProps<React.FieldsetHTMLAttributes<HTMLFieldSetElement>, HTMLFieldSetElement>;
 
 export const FieldSet: React.FC<FieldSetProps> = ({
   label,
@@ -44,16 +40,7 @@ export const FieldSet: React.FC<FieldSetProps> = ({
 }) => (
   <fieldset {...props}>
     {label && (
-      <Heading
-        size={
-          (['large', 'medium', 'small'][depth] || 'small') as
-            | 'large'
-            | 'medium'
-            | 'small'
-        }
-      >
-        {label}
-      </Heading>
+      <Heading size={(['large', 'medium', 'small'][depth] || 'small') as 'large' | 'medium' | 'small'}>{label}</Heading>
     )}
     {description && <p>{description}</p>}
     {fields.map((field, fieldKey) => (

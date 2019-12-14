@@ -9,15 +9,8 @@ type Props = {
   onSave: (newFields: string[]) => void;
 };
 
-export const SelectModelFields: React.FC<Props> = ({
-  document,
-  selected = [],
-  onSave,
-}) => {
-  const processDoc = (
-    doc: CaptureModel['document'],
-    keyAcc: string[]
-  ): ITreeNode[] => {
+export const SelectModelFields: React.FC<Props> = ({ document, selected = [], onSave }) => {
+  const processDoc = (doc: CaptureModel['document'], keyAcc: string[]): ITreeNode[] => {
     const idx = selected.map(s => s.join('--HASH--'));
     return Object.keys(doc.properties)
       .map(key => {
@@ -33,10 +26,7 @@ export const SelectModelFields: React.FC<Props> = ({
             label: prop.label,
             nodeData: [...keyAcc, key],
             secondaryLabel: <Tag intent="warning">entity</Tag>,
-            childNodes: processDoc(prop as CaptureModel['document'], [
-              ...keyAcc,
-              key,
-            ]),
+            childNodes: processDoc(prop as CaptureModel['document'], [...keyAcc, key]),
           };
         }
         return {
@@ -51,14 +41,9 @@ export const SelectModelFields: React.FC<Props> = ({
       .filter(Boolean) as ITreeNode[];
   };
 
-  const [nodes, setNodes] = useState<ITreeNode[]>(() =>
-    processDoc(document, [])
-  );
+  const [nodes, setNodes] = useState<ITreeNode[]>(() => processDoc(document, []));
 
-  const mutatePoint = (
-    [i, ...path]: number[],
-    mutation: (node: Draft<ITreeNode>) => void
-  ) => {
+  const mutatePoint = ([i, ...path]: number[], mutation: (node: Draft<ITreeNode>) => void) => {
     setNodes(
       produce(nodesDraft => {
         mutation(

@@ -4,14 +4,9 @@ import { FieldTypes } from '../types/field-types';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { SelectorTypes } from '../types/selector-types';
 import { useContext } from './context';
-import {
-  CurrentSelectorState,
-  UseCurrentSelector,
-} from '../types/current-selector';
+import { CurrentSelectorState, UseCurrentSelector } from '../types/current-selector';
 
-export function useCurrentSelector<
-  Selector extends SelectorTypes = SelectorTypes
->(): UseCurrentSelector<Selector> {
+export function useCurrentSelector<Selector extends SelectorTypes = SelectorTypes>(): UseCurrentSelector<Selector> {
   const {
     currentSelectorPath,
     currentSelector,
@@ -73,14 +68,9 @@ export function useInternalCurrentSelectorState(
     cb: (field: Draft<FieldTypes>, draft: Draft<CaptureModel>) => void
   ) => void
 ): CurrentSelectorState {
-  const [currentSelectorPath, setCurrentSelector] = useState<Array<
-    [string, number]
-  > | null>(null);
+  const [currentSelectorPath, setCurrentSelector] = useState<Array<[string, number]> | null>(null);
 
-  const [
-    currentSelectorOriginalState,
-    setCurrentSelectorOriginalState,
-  ] = useState<SelectorTypes['state']>(null);
+  const [currentSelectorOriginalState, setCurrentSelectorOriginalState] = useState<SelectorTypes['state']>(null);
 
   const [currentSelector, setCurrentSelectorObj] = useState();
 
@@ -94,12 +84,9 @@ export function useInternalCurrentSelectorState(
     if (!currentSelectorPath) {
       return null;
     }
-    return (currentSelectorPath.reduce(
-      (acc: CaptureModel['document'], [path, idx]) => {
-        return acc.properties[path][idx] as CaptureModel['document'];
-      },
-      captureModel.document
-    ) as CaptureModel['document'] | FieldTypes).selector;
+    return (currentSelectorPath.reduce((acc: CaptureModel['document'], [path, idx]) => {
+      return acc.properties[path][idx] as CaptureModel['document'];
+    }, captureModel.document) as CaptureModel['document'] | FieldTypes).selector;
   }, [captureModel.document, currentSelectorPath]);
 
   useEffect(() => {
@@ -108,9 +95,7 @@ export function useInternalCurrentSelectorState(
 
   useEffect(() => {
     if (currentSelectorPath && fieldSelector) {
-      setCurrentSelectorOriginalState(
-        fieldSelector ? fieldSelector.state : null
-      );
+      setCurrentSelectorOriginalState(fieldSelector ? fieldSelector.state : null);
     }
     // This shouldn't change if the document changes. The doc will
     // change quite often, but this only needs to track the original
@@ -119,10 +104,7 @@ export function useInternalCurrentSelectorState(
   }, [currentSelectorPath]);
 
   const updateCustomSelector = useCallback(
-    <Selector extends SelectorTypes>(
-      path: Array<[string, number]>,
-      value: Selector['state']
-    ) => {
+    <Selector extends SelectorTypes>(path: Array<[string, number]>, value: Selector['state']) => {
       // Updates the capture model.
       updateField(path, field => {
         if (field.selector) {

@@ -99,6 +99,7 @@
           "type": "entity",
           "label": "Review",
           "conformsTo": "Review",
+          "term": "review",
           "properties": {
             "author": [
               {
@@ -111,6 +112,7 @@
             "datePublished": [
               {
                 "type": "current-date",
+                "label": "Current date",
                 "term": "datePublished",
                 "format": "YYYY-MM-DD",
                 "value": "2019-10-10"
@@ -135,6 +137,7 @@
             "reviewRating": [
               {
                 "term": "reviewRating",
+                "label": "Star rating",
                 "type": "star-rating",
                 "max": 5,
                 "value": 5
@@ -146,6 +149,7 @@
           "type": "entity",
           "label": "Review",
           "conformsTo": "Review",
+          "term": "review",
           "properties": {
             "author": [
               {
@@ -159,6 +163,7 @@
               {
                 "term": "datePublished",
                 "type": "current-date",
+                "label": "Current date",
                 "format": "YYYY-MM-DD",
                 "value": "2019-10-11"
               }
@@ -193,6 +198,7 @@
           "type": "entity",
           "label": "Review",
           "conformsTo": "Review",
+          "term": "review",
           "properties": {
             "author": [
               {
@@ -206,6 +212,7 @@
               {
                 "term": "datePublished",
                 "type": "current-date",
+                "label": "Current date",
                 "format": "YYYY-MM-DD",
                 "value": "2019-10-12"
               }

@@ -1,10 +1,4 @@
-import {
-  Button,
-  Card,
-  FormGroup,
-  InputGroup,
-  TextArea,
-} from '@blueprintjs/core';
+import { Button, Card, FormGroup, InputGroup, TextArea } from '@blueprintjs/core';
 import { Elevation } from '@blueprintjs/core/lib/esm/common/elevation';
 import { useFormik } from 'formik';
 import React, { useState } from 'react';
@@ -15,10 +9,7 @@ type Props = {
   onSave: (structure: CaptureModel['structure']) => void;
 };
 
-export const StructureMetadataEditor: React.FC<Props> = ({
-  structure,
-  onSave,
-}) => {
+export const StructureMetadataEditor: React.FC<Props> = ({ structure, onSave }) => {
   const formik = useFormik({
     initialValues: structure,
     onSubmit: values => {
@@ -46,9 +37,7 @@ export const StructureMetadataEditor: React.FC<Props> = ({
           value={formik.values.description}
         />
       </FormGroup>
-      {formik.dirty ? (
-        <Button type="submit" icon="tick" intent="success" text="Save" />
-      ) : null}
+      {formik.dirty ? <Button type="submit" icon="tick" intent="success" text="Save" /> : null}
     </form>
   );
 };

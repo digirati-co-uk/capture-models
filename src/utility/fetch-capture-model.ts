@@ -1,9 +1,6 @@
 import { CaptureModel } from '../types/capture-model';
 
-export async function fetchCaptureModel(
-  captureModelId?: string,
-  captureModel?: CaptureModel
-): Promise<CaptureModel> {
+export async function fetchCaptureModel(captureModelId?: string, captureModel?: CaptureModel): Promise<CaptureModel> {
   if (captureModel) {
     return captureModel;
   }
