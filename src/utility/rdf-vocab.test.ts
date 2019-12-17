@@ -133,7 +133,7 @@ describe('RDF Vocab', () => {
             "uri": "http://purl.org/dc/terms/Jurisdiction",
           },
         ],
-        "ns": Object {
+        "namespaces": Object {
           "dcam": "http://purl.org/dc/dcam/",
           "dcterms": "http://purl.org/dc/terms/",
           "owl": "http://www.w3.org/2002/07/owl#",
@@ -261,7 +261,7 @@ describe('RDF Vocab', () => {
             "uri": "http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing",
           },
         ],
-        "ns": Object {
+        "namespaces": Object {
           "dc": "http://purl.org/dc/elements/1.1/",
           "foaf": "http://xmlns.com/foaf/0.1/",
           "owl": "http://www.w3.org/2002/07/owl#",

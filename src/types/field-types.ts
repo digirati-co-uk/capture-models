@@ -1,16 +1,16 @@
 import React from 'react';
 import { SelectorTypes } from './selector-types';
 import { CaptureModel } from './capture-model';
+import {MapValues} from "./utility";
 
 export type BaseField = {
-  term: string;
+  // @todo re-enable when creating JSON-LD extension
+  // term: string;
   label: string;
   description?: string;
   selector?: SelectorTypes;
   creator?: string[];
 };
-
-export type MapValues<T, Base = {}> = T extends { [K in keyof T]: infer U } ? Base & U : never;
 
 export interface FieldTypeMap {}
 

@@ -1,32 +1,57 @@
 import React from 'react';
+import { MapValues } from './utility';
 
-export type BaseSelector<T extends { type: string; state: any }> = T & {
+// There will be something here.
+export type BaseSelector = {};
+
+// export type PointSelector = BaseSelector<{
+//   type: 'point-selector';
+//   state: null | {
+//     x: number;
+//     y: number;
+//   };
+// }>;
+//
+// export type BoxSelector = BaseSelector<{
+//   type: 'box-selector';
+//   state: null | {
+//     x: number;
+//     y: number;
+//     width: number;
+//     height: number;
+//   };
+// }>;
+
+export interface SelectorTypeMap {}
+
+export interface SelectorContentTypeMap {}
+
+export type InjectedSelectorProps<T> = {
+  updateSelector(state: T): void;
+};
+
+export type SelectorTypes = MapValues<SelectorTypeMap, BaseSelector>;
+
+export type SelectorContentTypes = MapValues<SelectorContentTypeMap>;
+
+// Injected properties.
+export type SelectorTypeProps<T extends { state: State }, State = T['state']> = T & InjectedSelectorProps<T['state']>;
+
+export type SelectorComponent<T extends { state: State }, State = T['state']> = React.FC<SelectorTypeProps<T, State>>;
+
+export type SelectorSpecification<
+  T extends SelectorTypeMap[Type],
+  Type extends keyof SelectorTypeMap,
+  CT extends keyof SelectorContentTypeMap
+> = {
+  label: string;
   type: T['type'];
-  state: null | T['state'];
-};
-
-export type PointSelector = BaseSelector<{
-  type: 'point-selector';
-  state: null | {
-    x: number;
-    y: number;
+  description: string;
+  supportedContentTypes: Array<CT>;
+  defaultState: T['state'];
+  FormComponent: React.FC<T & InjectedSelectorProps<T['state']>>;
+  contentComponents: {
+    [contentType in CT]: React.FC<T & InjectedSelectorProps<T['state']>>;
   };
-}>;
-
-export type BoxSelector = BaseSelector<{
-  type: 'box-selector';
-  state: null | {
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-  };
-}>;
-
-export type SelectorTypes = BoxSelector | PointSelector;
-
-export type SelectorTypeProps<T extends SelectorTypes> = T & {
-  updateSelector(state: T['state']): void;
+  Editor?: React.FC<Required<Omit<T, 'state'>>>;
 };
-
-export type SelectorComponent<T extends SelectorTypes> = React.FC<SelectorTypeProps<T>>;

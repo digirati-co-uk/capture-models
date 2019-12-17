@@ -1,4 +1,4 @@
-import { action, Action, computed, Computed, createContextStore, debug } from 'easy-peasy';
+import { action, Action, computed, Computed, createContextStore, debug, thunk, Thunk } from 'easy-peasy';
 import { Draft } from 'immer';
 import { CaptureModel } from '../types/capture-model';
 import { FieldTypes } from '../types/field-types';
@@ -7,31 +7,41 @@ import { SelectorTypes } from '../types/selector-types';
 type DocumentModel = {
   document: CaptureModel['document'];
   subtreePath: string[];
+  selectedFieldKey: string | null;
 
   subtree: Computed<DocumentModel, CaptureModel['document']>;
   subtreeFieldKeys: Computed<DocumentModel, string[]>;
-  subtreeFields: Computed<DocumentModel, Array<CaptureModel['document'] | FieldTypes>>;
+  subtreeFields: Computed<DocumentModel, Array<{ term: string; value: CaptureModel['document'] | FieldTypes }>>;
   setSubtree: Action<DocumentModel, string[]>;
   pushSubtree: Action<DocumentModel, string>;
   popSubtree: Action<DocumentModel>;
 
+  selectField: Action<DocumentModel, string>;
+  deselectField: Action<DocumentModel>;
+
   addField: Action<DocumentModel, { term: string; field: FieldTypes }>;
   removeField: Action<DocumentModel, string>;
   reorderField: Action<DocumentModel, { term: string; startIndex: number; endIndex: number }>;
-  setContext: Action<DocumentModel, CaptureModel['document']['@context']>;
 
-  setFieldLabel: Action<DocumentModel, { term: string; label: string }>;
-  setFieldDescription: Action<DocumentModel, { term: string; description: string }>;
-  setSelector: Action<DocumentModel, { term: string; selector: SelectorTypes }>;
-  setSelectorState: Action<DocumentModel, { term: string; selectorType: string; selector: SelectorTypes['state'] }>;
-  setFieldValue: Action<DocumentModel, { term: string; value: FieldTypes['value'] }>;
+  // @todo re-implement when JSON-LD extension
+  // setContext: Action<DocumentModel, CaptureModel['document']['@context']>;
+
+  setLabel: Action<DocumentModel, string>;
+  setDescription: Action<DocumentModel, string>;
+
+  setField: Thunk<DocumentModel, FieldTypes, any, DocumentModel>;
+
+  setFieldLabel: Action<DocumentModel, { term?: string; label: string }>;
+  setFieldDescription: Action<DocumentModel, { term?: string; description: string | undefined }>;
+  setSelector: Action<DocumentModel, { term?: string; selector: SelectorTypes }>;
+  setSelectorState: Action<DocumentModel, { term?: string; selectorType: string; selector: SelectorTypes['state'] }>;
+  setFieldValue: Action<DocumentModel, { term?: string; value: FieldTypes['value'] }>;
   setFieldTerm: Action<DocumentModel, { oldTerm: string; newTerm: string }>;
 };
 
 const createDocument = (doc: Partial<CaptureModel['document']> = {}): CaptureModel['document'] => {
   return {
     type: 'entity',
-    term: '@none',
     properties: {},
     ...doc,
   };
@@ -54,6 +64,7 @@ function resolveSubtree(subtreePath: string[], document: CaptureModel['document'
 export const DocumentStore = createContextStore<DocumentModel, CaptureModel>(captureModel => ({
   document: captureModel ? captureModel.document : createDocument(),
   subtreePath: [],
+  selectedFieldKey: null,
 
   subtree: computed([state => state.subtreePath, state => state.document], (subtreePath, document) => {
     return resolveSubtree(subtreePath, document);
@@ -64,19 +75,33 @@ export const DocumentStore = createContextStore<DocumentModel, CaptureModel>(cap
     (keys: string[], subtree: CaptureModel['document']) => {
       return keys.map(key => {
         const item = subtree.properties[key];
-        return item[0] as FieldTypes | CaptureModel['document'];
+
+        return { term: key, value: item[0] as FieldTypes | CaptureModel['document'] };
       });
     }
   ),
   setSubtree: action((state, terms) => {
+    state.selectedFieldKey = null;
     state.subtreePath = terms;
   }),
   pushSubtree: action((state, term) => {
+    state.selectedFieldKey = null;
     state.subtreePath.push(term);
   }),
   popSubtree: action((state, payload) => {
+    state.selectedFieldKey = null;
     state.subtreePath = state.subtreePath.slice(0, -1);
   }),
+
+  selectField: action((state, fieldKey) => {
+    if (resolveSubtree(state.subtreePath, state.document).properties[fieldKey]) {
+      state.selectedFieldKey = fieldKey;
+    }
+  }),
+  deselectField: action(state => {
+    state.selectedFieldKey = null;
+  }),
+
   addField: action((state, payload) => {
     resolveSubtree(state.subtreePath, state.document).properties[payload.term] = [payload.field];
   }),
@@ -86,39 +111,77 @@ export const DocumentStore = createContextStore<DocumentModel, CaptureModel>(cap
   reorderField: action((state, payload) => {
     // @todo
   }),
-  setContext: action((state, payload) => {
-    resolveSubtree(state.subtreePath, state.document)['@context'] = payload;
+
+  setField: thunk((actions, field) => {
+    // get the keys.
+    const keys = Object.keys(field);
+    // Add the following by dispatching the actions
+    const skipKeys = ['label', 'description', 'selector', 'creator', 'revision', 'value'];
+    // Loop the keys and apply custom values.
+    // Creat new action for setting custom property on field
+    // This will allow all of the field setters to be generic and look for all fields that need to be updated, at the
+    // same level but in different trees.
   }),
+
+  setLabel: action((state, label) => {
+    resolveSubtree(state.subtreePath, state.document).label = label;
+  }),
+  setDescription: action((state, description) => {
+    resolveSubtree(state.subtreePath, state.document).description = description;
+  }),
+
+  // setContext: action((state, payload) => {
+  //   resolveSubtree(state.subtreePath, state.document)['@context'] = payload;
+  // }),
+
+  // @todo all of these need support for nested resources. They should update cousin items too.
+  //   - label: resource A
+  //     collectionA:
+  //       - label: resource A1
+  //         collectionB:
+  //           - label: resource B1 <-- changing this label should change B2 and B3 too, all the way up.
+  //       - label: resource A1
+  //         collectionB:
+  //           - label: resource B2
+  //       - label: resource A1
+  //         collectionB:
+  //           - label: resource B3
   setFieldLabel: action((state, payload) => {
-    for (let term of resolveSubtree(state.subtreePath, state.document).properties[payload.term]) {
+    const prop = (payload.term ? payload.term : state.selectedFieldKey) as string;
+    for (let term of resolveSubtree(state.subtreePath, state.document).properties[prop]) {
       term.label = payload.label;
     }
   }),
   setFieldDescription: action((state, payload) => {
-    for (let term of resolveSubtree(state.subtreePath, state.document).properties[payload.term]) {
+    const prop = (payload.term ? payload.term : state.selectedFieldKey) as string;
+    for (let term of resolveSubtree(state.subtreePath, state.document).properties[prop]) {
       term.description = payload.description;
     }
   }),
   setSelector: action((state, payload) => {
-    for (let term of resolveSubtree(state.subtreePath, state.document).properties[payload.term]) {
+    const prop = (payload.term ? payload.term : state.selectedFieldKey) as string;
+    for (let term of resolveSubtree(state.subtreePath, state.document).properties[prop]) {
       term.selector = payload.selector;
     }
   }),
   setSelectorState: action((state, payload) => {
-    for (let term of resolveSubtree(state.subtreePath, state.document).properties[payload.term]) {
+    const prop = (payload.term ? payload.term : state.selectedFieldKey) as string;
+    for (let term of resolveSubtree(state.subtreePath, state.document).properties[prop]) {
       if (term.selector) {
         term.selector.state = payload as any;
       }
     }
   }),
   setFieldValue: action((state, payload) => {
-    for (let term of resolveSubtree(state.subtreePath, state.document).properties[payload.term]) {
+    const prop = (payload.term ? payload.term : state.selectedFieldKey) as string;
+    for (let term of resolveSubtree(state.subtreePath, state.document).properties[prop]) {
       if (term.type !== 'entity') {
         term.value = payload.value;
       }
     }
   }),
   setFieldTerm: action((state, payload) => {
+    // @todo validation for overriding?
     const field = state.subtree.properties[payload.oldTerm];
     delete state.subtree.properties[payload.oldTerm];
     state.subtree.properties[payload.newTerm] = field;

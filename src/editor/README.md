@@ -49,6 +49,61 @@ After this point you can repeat any of the steps and flesh out the model.
     - Full document viewer
     - Form viewer
 
+## UI Considerations
+- Document model
+    - Vocabulary editor
+        - Import RDF document
+        - Choose from existing RDF urls
+    - Document tree editor
+        - Add new field type
+        - Attach selector to field or entity
+        - Choose selector
+        - Add new entity type
+        - Reorder field types
+    - Field editor
+- Structure
+    - Structure tree editor
+    - Choice editor
+    - Form editor
+        - Document field selector
+- Data (like preview, but with all fields and no structure)
+- Preview (with structure)
+- Publish
+    - Clear all data
+    - Save to capture model service
+    - Download JSON
+
+### Components
+- Import RDF Document
+- RDF Chooser
+- RDF Property library
+- Context editor
+- Document tree view
+- Select new field type
+- Select vocabulary for field
+- Edit field
+- Select new selector type
+- Edit selector
+- Select vocabulary for entity
+- Structure tree view
+- Choice editor
+- Form editor
+- Document node selector
+- Data editing view
+- Preview screen
+- Publish screen
+- Splash screen
+- Upload existing capture model
+- Choose from capture model service
+    
+### Strategy for building
+- Display all data in simple HTML
+- Create hooks for managing state changes
+- Create simple HTML forms
+- Tidy forms and look and feel
+- Design a new look and feel
+- Wait for time to do more
+
 
 ## Import RDF
 

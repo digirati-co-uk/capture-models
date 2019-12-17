@@ -31,8 +31,9 @@ export type CaptureModel = {
         steps: Array<Exclude<CaptureModel['structure'], StructureType<'workflow'>>>;
       });
   document: {
-    '@context'?: string | ({ [key: string]: string } & { '@vocab'?: string });
-    term: string;
+    // @todo future implementation of JSON-LD Extension.
+    // '@context'?: string | ({ [key: string]: string } & { '@vocab'?: string });
+    // term: string;
     label?: string;
     description?: string;
     type: 'entity';

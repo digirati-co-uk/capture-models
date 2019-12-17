@@ -56,7 +56,7 @@
     "properties": {
       "name": [
         {
-          "type": "text-box",
+          "type": "text-field",
           "term": "name",
           "label": "Enter the name of the book",
           "value": "The Hitchhiker's Guide to the Galaxy",
@@ -76,7 +76,7 @@
       ],
       "isbn": [
         {
-          "type": "text-box",
+          "type": "text-field",
           "term": "isbn",
           "label": "Enter the ISBN",
           "value": "0345391802"
@@ -103,7 +103,7 @@
           "properties": {
             "author": [
               {
-                "type": "text-box",
+                "type": "text-field",
                 "term": "author",
                 "label": "Enter your name",
                 "value": "John Doe"
@@ -120,7 +120,7 @@
             ],
             "name": [
               {
-                "type": "text-box",
+                "type": "text-field",
                 "term": "name",
                 "label": "Short name of your review",
                 "value": "A masterpiece of literature"
@@ -154,7 +154,7 @@
             "author": [
               {
                 "term": "author",
-                "type": "text-box",
+                "type": "text-field",
                 "label": "Enter your name",
                 "value": "John Smith"
               }
@@ -171,7 +171,7 @@
             "name": [
               {
                 "term": "name",
-                "type": "text-box",
+                "type": "text-field",
                 "label": "Short name of your review",
                 "value": ""
               }
@@ -203,7 +203,7 @@
             "author": [
               {
                 "term": "author",
-                "type": "text-box",
+                "type": "text-field",
                 "label": "Enter your name",
                 "value": "Jane Doe"
               }
@@ -220,7 +220,7 @@
             "name": [
               {
                 "term": "name",
-                "type": "text-box",
+                "type": "text-field",
                 "label": "Short name of your review",
                 "value": "A great book"
               }

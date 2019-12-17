@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
-import { Button, Form, Header, Item } from 'semantic-ui-react';
-import { useField, useFieldEditor } from '../../core/plugins';
+import { Header } from 'semantic-ui-react';
+import { useField } from '../../core/plugins';
 import { FieldTypes } from '../../types/field-types';
 
 type Props<T extends FieldTypes = FieldTypes> = {

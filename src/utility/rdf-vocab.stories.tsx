@@ -105,6 +105,46 @@ export const SimpleFetch: React.FC = () => {
             The Bibliographic Ontology
           </button>
         </li>
+        <li>
+          <button
+            disabled={isLoading}
+            onClick={() =>
+              onClick('https://raw.githubusercontent.com/digirati-co-uk/annotation-vocab/master/crowds.rdf')
+            }
+          >
+            Crowds (Madoc)
+          </button>
+        </li>
+        <li>
+          <button
+            disabled={isLoading}
+            onClick={() =>
+              onClick('https://raw.githubusercontent.com/digirati-co-uk/annotation-vocab/master/madoc.rdf')
+            }
+          >
+            Madoc
+          </button>
+        </li>
+        <li>
+          <button
+            disabled={isLoading}
+            onClick={() =>
+              onClick('https://ogp.me/ns/ogp.me.rdf')
+            }
+          >
+            Open Graph - not working due to CORS
+          </button>
+        </li>
+        <li>
+          <button
+            disabled={isLoading}
+            onClick={() =>
+              onClick('https://www.w3.org/2009/08/skos-reference/skos.rdf#')
+            }
+          >
+            SKOS - bug with hash on prefix
+          </button>
+        </li>
       </ul>
     </div>
   );

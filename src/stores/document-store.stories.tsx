@@ -1,83 +1,62 @@
 import React from 'react';
-import { Button, Card, Icon, Label, List, Grid } from 'semantic-ui-react';
+import { Button, Card, Icon, Label, List, Grid, Segment, Header } from 'semantic-ui-react';
 import { CaptureModel } from '../types/capture-model';
 import { DocumentStore } from './document-store';
+import { DocumentEditor } from '../components/DocumentEditor/DocumentEditor';
+import { FieldEditor } from '../components/FieldEditor/FieldEditor';
+import { FieldTypes } from '../types/field-types';
 
 export default { title: 'Document|Document Store' };
 
 const model: CaptureModel = require('../../fixtures/simple.json');
 
 const Test: React.FC = () => {
-  const state = DocumentStore.useStoreState(s => s);
+  const state = DocumentStore.useStoreState(s => ({
+    subtree: s.subtree,
+    subtreePath: s.subtreePath,
+    subtreeFields: s.subtreeFields,
+    selectedField: s.selectedFieldKey,
+  }));
   const actions = DocumentStore.useStoreActions(a => a);
 
-  // Actions:
-  // - setSubtree
-  // - pushSubtree
-  // - popSubtree
-
-  // - addField
-  // - removeField
-  // - reorderField
-  // - setContext
-
-  // - setFieldLabel
-  // - setFieldDescription
-  // - setSelector
-  // - setSelectorState
-  // - setFieldValue
-  // - setFieldTerm
-
   return (
-    <div style={{ maxWidth: 500, margin: '40px auto' }}>
-      <Card fluid={true}>
-        <Card.Content>
-          <Grid>
-            {state.subtreePath.length ? (
-              <Grid.Column width={2}>
-                <Button icon="left arrow" onClick={() => actions.popSubtree()} />
-              </Grid.Column>
-            ) : null}
-            <Grid.Column stretched={true}>
-              <Card.Header>
-                {state.subtree.label
-                  ? state.subtree.label
-                  : state.subtreePath.length === 0
-                  ? 'Document root'
-                  : 'Untitled entity'}
-              </Card.Header>
-              <Card.Meta>Entity</Card.Meta>
-            </Grid.Column>
-          </Grid>
-        </Card.Content>
-        <Card.Content extra>
-          <List relaxed selection size="large">
-            {state.subtreeFields.map((item, key) => (
-              <List.Item
-                key={key}
-                onClick={() => {
-                  if (item.type === 'entity') {
-                    actions.pushSubtree(item.term);
-                  }
-                }}
-              >
-                <List.Content floated="right">
-                  <Label>{item.type}</Label>
-                </List.Content>
-                <Icon name={item.type === 'entity' ? 'box' : 'tag'} />
-                <List.Content>
-                  <List.Header>{item.label}</List.Header>
-                  {item.description ? <List.Description>{item.description}</List.Description> : null}
-                </List.Content>
-              </List.Item>
-            ))}
-          </List>
-          <Button onClick={() => {}} fluid={true}>
-            Add new field
-          </Button>
-        </Card.Content>
-      </Card>
-    </div>
+    <Grid padded>
+      <Grid.Column width={6}>
+        <DocumentEditor
+          selectField={actions.selectField}
+          setDescription={actions.setDescription}
+          setLabel={actions.setLabel}
+          popSubtree={actions.popSubtree}
+          pushSubtree={actions.pushSubtree}
+          subtree={state.subtree}
+          subtreeFields={state.subtreeFields}
+          subtreePath={state.subtreePath}
+        />
+      </Grid.Column>
+      <Grid.Column width={10}>
+        {state.selectedField ? (
+          <div>
+            <FieldEditor
+              field={state.subtree.properties[state.selectedField][0] as FieldTypes}
+              onSubmit={test => {
+                console.log(test);
+                actions.setFieldLabel({ label: test.label });
+                actions.setFieldDescription({ description: test.description });
+                actions.deselectField();
+              }}
+            />
+          </div>
+        ) : (
+          <Segment placeholder>
+            <Header icon>No field selected</Header>
+            <Segment.Inline>
+              <Button>Add Document</Button>
+              <Button>Add Field</Button>
+            </Segment.Inline>
+          </Segment>
+        )}
+      </Grid.Column>
+    </Grid>
   );
 };
 

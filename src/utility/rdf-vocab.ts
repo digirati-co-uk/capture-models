@@ -2,6 +2,8 @@ const RDF_NS = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#';
 
 const CLASS_TYPES = ['rdfs:Class', 'owl:Class'];
 
+// @todo support N3 https://lov.linkeddata.es/dataset/lov
+
 const PROPERTY_TYPES = [
   'rdf:Property',
   'owl:ObjectProperty',
@@ -23,7 +25,7 @@ const COMMENT_PROPERTY = ['rdfs:comment'];
 const LOCAL_NAME_PROPERTY = ['rdf:about'];
 
 export type RdfVocab = {
-  ns: RdfNSList;
+  namespaces: RdfNSList;
   properties: Array<{
     uri: string;
     term: string;
@@ -146,12 +148,12 @@ export const parseRdfVocab = (xml: string): RdfVocab => {
 
   const rootElement = doc.documentElement;
 
-  const ns = getNamespaces(rootElement);
-  const resolvedPropertyTypes = PROPERTY_TYPES.map(prop => resolveTypeFromNs(prop, ns));
-  const resolvedClassTypes = CLASS_TYPES.map(prop => resolveTypeFromNs(prop, ns));
+  const namespaces = getNamespaces(rootElement);
+  const resolvedPropertyTypes = PROPERTY_TYPES.map(prop => resolveTypeFromNs(prop, namespaces));
+  const resolvedClassTypes = CLASS_TYPES.map(prop => resolveTypeFromNs(prop, namespaces));
 
   const vocab: RdfVocab = {
-    ns,
+    namespaces,
     properties: [],
     classes: [],
   };
@@ -166,7 +168,7 @@ export const parseRdfVocab = (xml: string): RdfVocab => {
   for (const type of ['classes', 'properties'] as const) {
     for (const rdfTermDescription of found[type]) {
       const uri = getProperty(rdfTermDescription, LOCAL_NAME_PROPERTY);
-      const term = getLocalName(uri, ns);
+      const term = getLocalName(uri, namespaces);
       const label = getProperty(rdfTermDescription, LABEL_PROPERTY);
       const description = getProperty(rdfTermDescription, COMMENT_PROPERTY);
 
