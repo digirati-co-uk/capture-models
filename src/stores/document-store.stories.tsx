@@ -1,10 +1,11 @@
 import React from 'react';
-import { Button, Card, Icon, Label, List, Grid, Segment, Header } from 'semantic-ui-react';
+import { Button, Grid, Segment, Header } from 'semantic-ui-react';
 import { CaptureModel } from '../types/capture-model';
 import { DocumentStore } from './document-store';
 import { DocumentEditor } from '../components/DocumentEditor/DocumentEditor';
 import { FieldEditor } from '../components/FieldEditor/FieldEditor';
 import { FieldTypes } from '../types/field-types';
+import { ErrorBoundary } from '../utility/ErrorBoundry';
 
 export default { title: 'Document|Document Store' };
 
@@ -36,15 +37,15 @@ const Test: React.FC = () => {
       <Grid.Column width={10}>
         {state.selectedField ? (
           <div>
-            <FieldEditor
-              field={state.subtree.properties[state.selectedField][0] as FieldTypes}
-              onSubmit={test => {
-                console.log(test);
-                actions.setFieldLabel({ label: test.label });
-                actions.setFieldDescription({ description: test.description });
-                actions.deselectField();
-              }}
-            />
+            <ErrorBoundary key={state.selectedField}>
+              <FieldEditor
+                field={state.subtree.properties[state.selectedField][0] as FieldTypes}
+                onSubmit={field => {
+                  actions.setField({ field });
+                  actions.deselectField();
+                }}
+              />
+            </ErrorBoundary>
           </div>
         ) : (
           <Segment placeholder>

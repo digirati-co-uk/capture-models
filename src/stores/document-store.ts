@@ -1,5 +1,6 @@
 import { action, Action, computed, Computed, createContextStore, debug, thunk, Thunk } from 'easy-peasy';
-import { Draft } from 'immer';
+import { Draft, original } from 'immer';
+import { Simulate } from 'react-dom/test-utils';
 import { CaptureModel } from '../types/capture-model';
 import { FieldTypes } from '../types/field-types';
 import { SelectorTypes } from '../types/selector-types';
@@ -29,7 +30,8 @@ type DocumentModel = {
   setLabel: Action<DocumentModel, string>;
   setDescription: Action<DocumentModel, string>;
 
-  setField: Thunk<DocumentModel, FieldTypes, any, DocumentModel>;
+  setField: Thunk<DocumentModel, { term?: string; field: FieldTypes }, any, DocumentModel>;
+  setCustomProperty: Action<DocumentModel, { term?: string; key: string; value: any }>;
 
   setFieldLabel: Action<DocumentModel, { term?: string; label: string }>;
   setFieldDescription: Action<DocumentModel, { term?: string; description: string | undefined }>;
@@ -48,17 +50,14 @@ const createDocument = (doc: Partial<CaptureModel['document']> = {}): CaptureMod
 };
 
 function resolveSubtree(subtreePath: string[], document: CaptureModel['document']) {
-  return subtreePath.reduce(
-    (acc, next) => {
-      const propValue = acc.properties[next];
-      const singleModel = propValue[0];
-      if (!propValue.length || !singleModel || singleModel.type !== 'entity') {
-        throw Error(`Invalid prop: ${next} in list ${subtreePath.join(',')}`);
-      }
-      return singleModel;
-    },
-    document as CaptureModel['document']
-  );
+  return subtreePath.reduce((acc, next) => {
+    const propValue = acc.properties[next];
+    const singleModel = propValue[0];
+    if (!propValue.length || !singleModel || singleModel.type !== 'entity') {
+      throw Error(`Invalid prop: ${next} in list ${subtreePath.join(',')}`);
+    }
+    return singleModel;
+  }, document as CaptureModel['document']);
 }
 
 export const DocumentStore = createContextStore<DocumentModel, CaptureModel>(captureModel => ({
@@ -112,15 +111,26 @@ export const DocumentStore = createContextStore<DocumentModel, CaptureModel>(cap
     // @todo
   }),
 
-  setField: thunk((actions, field) => {
+  setField: thunk((actions, payload) => {
     // get the keys.
-    const keys = Object.keys(field);
+    const keys = Object.keys(payload.field);
     // Add the following by dispatching the actions
-    const skipKeys = ['label', 'description', 'selector', 'creator', 'revision', 'value'];
+    const skipKeys = ['selector', 'creator', 'revision', 'value'];
     // Loop the keys and apply custom values.
+    for (const key of keys) {
+      if (skipKeys.indexOf(key) !== -1) continue;
+      actions.setCustomProperty({ term: payload.term, key, value: (payload.field as any)[key] });
+    }
     // Creat new action for setting custom property on field
     // This will allow all of the field setters to be generic and look for all fields that need to be updated, at the
     // same level but in different trees.
+  }),
+
+  setCustomProperty: action((state, payload) => {
+    const prop = (payload.term ? payload.term : state.selectedFieldKey) as string;
+    for (let term of resolveSubtree(state.subtreePath, state.document).properties[prop]) {
+      (term as any)[payload.key] = payload.value;
+    }
   }),
 
   setLabel: action((state, label) => {

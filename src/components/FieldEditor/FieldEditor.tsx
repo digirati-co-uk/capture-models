@@ -57,7 +57,9 @@ export const FieldEditor: React.FC<{ field: FieldTypes; onSubmit: (newProps: Fie
             </Grid.Column>
           </Grid>
           <div style={{ marginTop: 20 }}>
-            <Button type="submit" primary>Save changes</Button>
+            <Button type="submit" primary>
+              Save changes
+            </Button>
           </div>
         </Form>
       </Formik>

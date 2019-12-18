@@ -27,7 +27,7 @@ export const ChooseSelector: React.FC<{
                 <p>{field.description}</p>
               </Card.Content>
               <Card.Content extra>
-                Supported types
+                Supported content types
                 <div>
                   {field.supportedContentTypes.map(type => (
                     <Label>{type}</Label>

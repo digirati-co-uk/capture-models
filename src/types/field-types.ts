@@ -30,6 +30,7 @@ export type FieldSpecification<T extends FieldTypeMap[Type], Type extends keyof 
   type: T['type'];
   description: string;
   defaultValue: T['value'];
+  allowMultiple: boolean;
   Component: React.FC<T & InjectedFieldProps<T['value']>>;
   Editor: React.FC<Required<Omit<T, 'value'>>>;
 };

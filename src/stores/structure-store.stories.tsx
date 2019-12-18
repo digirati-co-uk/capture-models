@@ -17,6 +17,8 @@ const Test: React.FC = () => {
   const reorderChoices = StructureStore.useStoreActions(act => act.reorderChoices);
   const { setLabel } = useFocusedStructureEditor();
 
+  // @todo implement up and down reordering (simple).
+
   return (
     <div>
       <Breadcrumb
