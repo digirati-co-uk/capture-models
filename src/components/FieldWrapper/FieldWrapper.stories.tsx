@@ -6,7 +6,7 @@ import { FieldWrapper } from './FieldWrapper';
 // Import some plugins
 import '../../input-types/TextField';
 
-export default { title: 'Unsorted|FieldWrapper' };
+export default { title: 'Components|Field Wrapper' };
 
 export const Simple: React.FC = () => {
   return (
@@ -15,7 +15,6 @@ export const Simple: React.FC = () => {
         <Card.Content>
           <FieldWrapper
             field={{
-              term: 'test',
               type: 'text-field',
               value: 'value',
               description: 'Some description',
@@ -25,7 +24,6 @@ export const Simple: React.FC = () => {
           />
           <FieldWrapper
             field={{
-              term: 'test',
               type: 'text-field',
               value: 'value 2',
               description: 'Some other longer description',

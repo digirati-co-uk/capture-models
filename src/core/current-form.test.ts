@@ -8,35 +8,35 @@ describe('current form', () => {
       const reducer = createFormFieldReducer(doc.document);
 
       expect(['name', 'description'].reduce(reducer, [])).toMatchInlineSnapshot(`
-              Array [
-                Object {
-                  "list": Array [
-                    Object {
-                      "label": "Enter the name of the book",
-                      "selector": Object {
-                        "state": null,
-                        "type": "box-selector",
-                      },
-                      "term": "name",
-                      "type": "text-box",
-                      "value": "The Hitchhiker's Guide to the Galaxy",
-                    },
-                  ],
-                  "type": "fields",
+        Array [
+          Object {
+            "list": Array [
+              Object {
+                "label": "Enter the name of the book",
+                "selector": Object {
+                  "state": null,
+                  "type": "box-selector",
                 },
-                Object {
-                  "list": Array [
-                    Object {
-                      "label": "Enter a description of the book",
-                      "term": "description",
-                      "type": "text-area",
-                      "value": "The Hitchhiker's Guide to the Galaxy is the first of five books in the Hitchhiker's Guide to the Galaxy comedy science fiction \\"trilogy\\" by Douglas Adams. The novel is an adaptation of the first four parts of Adams' radio series of the same name.",
-                    },
-                  ],
-                  "type": "fields",
-                },
-              ]
-          `);
+                "term": "name",
+                "type": "text-field",
+                "value": "The Hitchhiker's Guide to the Galaxy",
+              },
+            ],
+            "type": "fields",
+          },
+          Object {
+            "list": Array [
+              Object {
+                "label": "Enter a description of the book",
+                "term": "description",
+                "type": "text-area",
+                "value": "The Hitchhiker's Guide to the Galaxy is the first of five books in the Hitchhiker's Guide to the Galaxy comedy science fiction \\"trilogy\\" by Douglas Adams. The novel is an adaptation of the first four parts of Adams' radio series of the same name.",
+              },
+            ],
+            "type": "fields",
+          },
+        ]
+      `);
     });
 
     test('nested model', () => {
@@ -54,7 +54,7 @@ describe('current form', () => {
                   "type": "box-selector",
                 },
                 "term": "name",
-                "type": "text-box",
+                "type": "text-field",
                 "value": "The Hitchhiker's Guide to the Galaxy",
               },
             ],
@@ -70,7 +70,7 @@ describe('current form', () => {
                       Object {
                         "label": "Short name of your review",
                         "term": "name",
-                        "type": "text-box",
+                        "type": "text-field",
                         "value": "A masterpiece of literature",
                       },
                     ],
@@ -89,6 +89,7 @@ describe('current form', () => {
                   },
                 ],
                 "label": "Review",
+                "term": "review",
                 "type": "entity",
               },
               Object {
@@ -99,7 +100,7 @@ describe('current form', () => {
                       Object {
                         "label": "Short name of your review",
                         "term": "name",
-                        "type": "text-box",
+                        "type": "text-field",
                         "value": "",
                       },
                     ],
@@ -118,6 +119,7 @@ describe('current form', () => {
                   },
                 ],
                 "label": "Review",
+                "term": "review",
                 "type": "entity",
               },
               Object {
@@ -128,7 +130,7 @@ describe('current form', () => {
                       Object {
                         "label": "Short name of your review",
                         "term": "name",
-                        "type": "text-box",
+                        "type": "text-field",
                         "value": "A great book",
                       },
                     ],
@@ -147,6 +149,7 @@ describe('current form', () => {
                   },
                 ],
                 "label": "Review",
+                "term": "review",
                 "type": "entity",
               },
             ],

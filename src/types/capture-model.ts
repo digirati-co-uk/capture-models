@@ -29,11 +29,13 @@ export type CaptureModel = {
         //id: string;
         type: 'workflow';
         steps: Array<Exclude<CaptureModel['structure'], StructureType<'workflow'>>>;
-      });
+      }
+  );
   document: {
-    // @todo future implementation of JSON-LD Extension.
-    // '@context'?: string | ({ [key: string]: string } & { '@vocab'?: string });
-    // term: string;
+    // @todo future implementation of JSON-LD Extension. Added as optional for now.
+    '@context'?: string | ({ [key: string]: string } & { '@vocab'?: string });
+    term?: string;
+
     label?: string;
     description?: string;
     type: 'entity';
@@ -71,6 +73,11 @@ export type CaptureModel = {
         };
   };
 };
+
+export type StoredCaptureModel = {
+  _id?: string;
+  _rev?: string;
+} & CaptureModel;
 
 export type StructureType<ChoiceType extends string, T = CaptureModel['structure']> = T extends infer R & {
   type: ChoiceType;

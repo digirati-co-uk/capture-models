@@ -1,8 +1,4 @@
 import React, { useState } from 'react';
-import { Form } from 'semantic-ui-react';
-import { FieldWrapper } from '../../components/FieldWrapper/FieldWrapper';
-import { PluginProvider } from '../../core/plugins';
-import { text, select, withKnobs, boolean } from '@storybook/addon-knobs';
 import BoxSelectorCanvasPanel from './BoxSelector.canvas-panel';
 import {
   Manifest,
@@ -15,7 +11,7 @@ import {
   // @ts-ignore
 } from '@canvas-panel/core';
 
-export default { title: 'Unsorted|Box Selector' };
+export default { title: 'Selectors|Box Selector' };
 
 export const CanvasPanelExample: React.FC = () => {
   const [selector, setSelector] = useState({ height: 388, width: 800, x: 843, y: 1173 });

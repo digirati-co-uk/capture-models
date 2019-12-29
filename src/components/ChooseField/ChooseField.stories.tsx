@@ -1,7 +1,7 @@
 import React from 'react';
 import { ChooseField } from './ChooseField';
 
-export default { title: 'Unsorted|Choose field' };
+export default { title: 'Components|Choose field' };
 
 // Import some fields.
 import '../../input-types/TextField';

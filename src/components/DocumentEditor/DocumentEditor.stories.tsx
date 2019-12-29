@@ -1,12 +1,12 @@
 import React from 'react';
 import { DocumentEditor } from './DocumentEditor';
-import { DocumentStore } from '../../stores/document-store';
+import { DocumentStore } from '../../stores/document/document-store';
 import { CaptureModel } from '../../types/capture-model';
 
 const model: CaptureModel = require('../../../fixtures/simple.json');
 
 export default {
-  title: 'Unsorted|Document editor',
+  title: 'Components|Document editor',
   component: DocumentEditor,
 };
 
@@ -22,12 +22,15 @@ const Inner = () => {
     popSubtree: a.popSubtree,
     pushSubtree: a.pushSubtree,
     selectField: a.selectField,
+    deselectField: a.deselectField,
+    addField: a.addField,
   }));
 
   return (
     <div style={{ maxWidth: 500, margin: '40px auto' }}>
       <DocumentEditor
         selectField={actions.selectField}
+        deselectField={actions.deselectField}
         setDescription={actions.setDescription}
         setLabel={actions.setLabel}
         popSubtree={actions.popSubtree}
@@ -35,6 +38,7 @@ const Inner = () => {
         subtree={state.subtree}
         subtreeFields={state.subtreeFields}
         subtreePath={state.subtreePath}
+        addField={actions.addField}
       />
     </div>
   );

@@ -6,7 +6,7 @@ import { TextField } from './TextField';
 import { text, select, withKnobs, boolean } from '@storybook/addon-knobs';
 import { FieldEditor } from '../../components/FieldEditor/FieldEditor';
 
-export default { title: 'Unsorted|TextField', decorators: [withKnobs] };
+export default { title: 'Input types|TextField', decorators: [withKnobs] };
 
 export const Simple: React.FC = () => {
   const [value, setValue] = React.useState('');

@@ -5,7 +5,7 @@ import { ChooseSelector } from './ChooseSelector';
 // Import some fields.
 import '../../selector-types/BoxSelector';
 
-export default { title: 'Unsorted|Choose selector' };
+export default { title: 'Components|Choose selector' };
 
 export const Simple: React.FC = () => {
   return (

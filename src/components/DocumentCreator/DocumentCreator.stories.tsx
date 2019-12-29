@@ -1,8 +1,6 @@
 import React from 'react';
 import { DocumentCreator } from './DocumentCreator';
 
-export default { title: 'TODO|DocumentCreator' };
+export default { title: 'Components|Document Creator' };
 
-export const Simple: React.FC = () => (
-  <DocumentCreator/>
-);
+export const Simple: React.FC = () => <DocumentCreator />;

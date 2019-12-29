@@ -15,6 +15,8 @@ const specification: FieldSpecification<TextFieldProps, 'text-field'> = {
   description: 'Simple text field for plain text',
   Component: TextField,
   defaultValue: '',
+  allowMultiple: true,
+  defaultProps: {},
   Editor: React.lazy(() => import(/* webpackChunkName: "editors" */ './TextField.editor')),
 };
 

@@ -3,7 +3,7 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { useNavigation } from './navigation';
 import { useCurrentSelector } from './current-selector';
-import { BoxSelector } from '../types/selector-types';
+import { BoxSelector, BoxSelectorProps } from '../selector-types/BoxSelector/BoxSelector';
 
 const withSimpleCaptureModel = (Component: React.FC): React.FC => () => (
   <CaptureModelProvider captureModel={require('../../fixtures/simple.json')}>
@@ -12,7 +12,7 @@ const withSimpleCaptureModel = (Component: React.FC): React.FC => () => (
 );
 
 export default {
-  title: 'State|Current selector',
+  title: 'Core|Current selector',
 };
 
 export const SimpleSelector: React.FC = withSimpleCaptureModel(() => {
@@ -40,7 +40,7 @@ export const SimpleSelector: React.FC = withSimpleCaptureModel(() => {
   }
 
   // @todo this is a general problem with the types.
-  const selectorState = currentSelector ? (currentSelector as BoxSelector['state']) : null;
+  const selectorState = currentSelector ? (currentSelector as BoxSelectorProps['state']) : null;
 
   return (
     <div>

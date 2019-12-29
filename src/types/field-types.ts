@@ -1,7 +1,7 @@
 import React from 'react';
 import { SelectorTypes } from './selector-types';
 import { CaptureModel } from './capture-model';
-import {MapValues} from "./utility";
+import { MapValues } from './utility';
 
 export type BaseField = {
   // @todo re-enable when creating JSON-LD extension
@@ -31,6 +31,7 @@ export type FieldSpecification<T extends FieldTypeMap[Type], Type extends keyof 
   description: string;
   defaultValue: T['value'];
   allowMultiple: boolean;
+  defaultProps: Partial<T>;
   Component: React.FC<T & InjectedFieldProps<T['value']>>;
   Editor: React.FC<Required<Omit<T, 'value'>>>;
 };

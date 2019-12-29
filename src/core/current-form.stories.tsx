@@ -11,7 +11,7 @@ const withSimpleCaptureModel = (Component: React.FC): React.FC => () => (
 );
 
 export default {
-  title: 'State|Current form',
+  title: 'Core|Current form',
 };
 
 export const SimpleForm: React.FC = withSimpleCaptureModel(() => {

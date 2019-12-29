@@ -9,7 +9,7 @@ const withSimpleCaptureModel = (Component: React.FC): React.FC => () => (
 );
 
 export default {
-  title: 'State|Navigation',
+  title: 'Core|Navigation',
 };
 
 export const Nested: React.FC = withSimpleCaptureModel(() => {

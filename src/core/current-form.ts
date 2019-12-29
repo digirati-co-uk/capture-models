@@ -51,7 +51,7 @@ export const createFormFieldReducer = <Doc extends CaptureModel['document']>(doc
   }
   const [key, fields] = next;
 
-  if (typeof key !== 'string' || !Array.isArray(fields)) {
+  if (typeof (key as unknown) !== 'string' || !Array.isArray(fields)) {
     throw new Error('Invalid capture model. Expected: [string, [string, string]]');
   }
 
