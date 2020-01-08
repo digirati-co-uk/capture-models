@@ -62,7 +62,7 @@ const Test: React.FC = () => {
 };
 
 export const Simple: React.FC = () => (
-  <DocumentStore.Provider initialData={model}>
+  <DocumentStore.Provider initialData={{ captureModel: model }}>
     <Test />
   </DocumentStore.Provider>
 );

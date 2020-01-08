@@ -47,7 +47,7 @@ const Test: React.FC = () => {
 };
 
 export const Simple: React.FC = () => (
-  <StructureStore.Provider initialData={model}>
+  <StructureStore.Provider initialData={{ captureModel: model }}>
     <Test />
   </StructureStore.Provider>
 );

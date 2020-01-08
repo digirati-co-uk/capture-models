@@ -1,12 +1,15 @@
 import { ITreeNode } from '@blueprintjs/core';
-import { action, computed, createContextStore } from 'easy-peasy';
+import { action, computed, createContextStore, thunkOn } from 'easy-peasy';
 import { createChoice, structureToTree } from '../../core/structure-editor';
 import { CaptureModel, StructureType } from '../../types/capture-model';
 import { itemFromIndex } from '../../utility/item-from-index';
 import { StructureModel } from './structure-model';
 
-export const StructureStore = createContextStore<StructureModel, CaptureModel>(captureModel => ({
-  structure: captureModel ? captureModel.structure : createChoice(),
+export const StructureStore = createContextStore<
+  StructureModel,
+  { captureModel: CaptureModel; onStructureChange?: (structure: CaptureModel['structure']) => void }
+>(initial => ({
+  structure: initial ? initial.captureModel.structure : createChoice(),
   tree: computed(state => [structureToTree(state.structure as CaptureModel['structure']) as ITreeNode]),
   focus: {
     index: [],
@@ -98,4 +101,23 @@ export const StructureStore = createContextStore<StructureModel, CaptureModel>(c
     }
     state.structure = payload.structure;
   }),
+
+  onStructureChange: thunkOn(
+    actions => [
+      actions.replaceTopLevelStructure,
+      actions.addStructureToChoice,
+      actions.removeStructureFromChoice,
+      actions.setStructureLabel,
+      actions.setStructureDescription,
+      actions.setStructureProfile,
+      actions.setModelFields,
+      actions.reorderChoices,
+    ],
+    async (_, payload, store) => {
+      if (initial && initial.onStructureChange) {
+        const state = store.getStoreState() as StructureModel;
+        initial.onStructureChange(state.structure);
+      }
+    }
+  ),
 }));

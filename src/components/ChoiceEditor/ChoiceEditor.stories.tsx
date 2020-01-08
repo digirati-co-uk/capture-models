@@ -30,7 +30,7 @@ const SimpleInner: React.FC = () => {
 };
 
 export const Simple: React.FC = () => (
-  <StructureStore.Provider initialData={model}>
+  <StructureStore.Provider initialData={{ captureModel: model }}>
     <div style={{ padding: 40 }}>
       <SimpleInner />
     </div>

@@ -1,5 +1,5 @@
 import { ITreeNode } from '@blueprintjs/core';
-import { Action, Computed } from 'easy-peasy';
+import { Action, Computed, ThunkOn } from 'easy-peasy';
 import { CaptureModel, ModelFields } from '../../types/capture-model';
 
 export type StructureModel = {
@@ -28,4 +28,6 @@ export type StructureModel = {
   setStructureProfile: Action<StructureModel, { index: number[]; profile: string[] }>;
   setModelFields: Action<StructureModel, { index: number[]; fields: ModelFields }>;
   reorderChoices: Action<StructureModel, { index: number[]; startIndex: number; endIndex: number }>;
+
+  onStructureChange: ThunkOn<StructureModel>;
 };

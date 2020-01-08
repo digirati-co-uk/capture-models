@@ -1,13 +1,16 @@
-import { action, computed, createContextStore, thunk } from 'easy-peasy';
+import { action, computed, createContextStore, thunk, thunkOn } from 'easy-peasy';
 import { CaptureModel } from '../../types/capture-model';
 import { FieldTypes } from '../../types/field-types';
 import { createDocument } from '../../utility/create-document';
 import { resolveSubtree } from '../../utility/resolve-subtree';
 import { DocumentModel } from './document-model';
 
-export const DocumentStore = createContextStore<DocumentModel, CaptureModel>(captureModel => ({
+export const DocumentStore = createContextStore<
+  DocumentModel,
+  { captureModel: CaptureModel; onDocumentChange?: (model: CaptureModel['document']) => void }
+>(initial => ({
   // The actual capture model document we're working on.
-  document: captureModel ? captureModel.document : createDocument(),
+  document: initial ? initial.captureModel.document : createDocument(),
 
   // A path through the document, for example: [ fieldA, fieldB ] would be represent a subtree at:
   // root.properties.fieldA[0].properties.fieldB[0]
@@ -181,4 +184,28 @@ export const DocumentStore = createContextStore<DocumentModel, CaptureModel>(cap
     delete state.subtree.properties[payload.oldTerm];
     state.subtree.properties[payload.newTerm] = field;
   }),
+
+  onDocumentChange: thunkOn(
+    actions => [
+      actions.addField,
+      actions.removeField,
+      actions.reorderField,
+      actions.setLabel,
+      actions.setDescription,
+      actions.setField,
+      actions.setCustomProperty,
+      actions.setFieldLabel,
+      actions.setFieldDescription,
+      actions.setSelector,
+      actions.setSelectorState,
+      actions.setFieldValue,
+      actions.setFieldTerm,
+    ],
+    async (_, payload, store) => {
+      if (initial && initial.onDocumentChange) {
+        const state = store.getStoreState() as DocumentModel;
+        initial.onDocumentChange(state.document);
+      }
+    }
+  ),
 }));

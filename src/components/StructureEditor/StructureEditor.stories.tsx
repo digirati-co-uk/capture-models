@@ -10,8 +10,8 @@ export default { title: 'Components|Structure Editor' };
 const model: CaptureModel = require('../../../fixtures/simple.json');
 
 const withStructure = (Component: React.FC): React.FC => () => (
-  <DocumentStore.Provider initialData={model}>
-    <StructureStore.Provider initialData={model}>
+  <DocumentStore.Provider initialData={{ captureModel: model }}>
+    <StructureStore.Provider initialData={{ captureModel: model }}>
       <Component />
     </StructureStore.Provider>
   </DocumentStore.Provider>

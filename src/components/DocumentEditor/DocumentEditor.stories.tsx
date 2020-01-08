@@ -46,7 +46,7 @@ const Inner = () => {
 
 export const Simple: React.FC = () => {
   return (
-    <DocumentStore.Provider initialData={model}>
+    <DocumentStore.Provider initialData={{ captureModel: model }}>
       <Inner />
     </DocumentStore.Provider>
   );

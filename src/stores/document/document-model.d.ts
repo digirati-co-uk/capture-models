@@ -1,4 +1,4 @@
-import { Action, Computed, Thunk } from 'easy-peasy';
+import { Action, Computed, Thunk, ThunkOn } from 'easy-peasy';
 import { CaptureModel } from '../../types/capture-model';
 import { FieldTypes } from '../../types/field-types';
 import { SelectorTypes } from '../../types/selector-types';
@@ -37,4 +37,6 @@ export type DocumentModel = {
   setSelectorState: Action<DocumentModel, { term?: string; selectorType: string; selector: SelectorTypes['state'] }>;
   setFieldValue: Action<DocumentModel, { term?: string; value: FieldTypes['value'] }>;
   setFieldTerm: Action<DocumentModel, { oldTerm: string; newTerm: string }>;
+
+  onDocumentChange: ThunkOn<DocumentModel>;
 };
