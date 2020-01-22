@@ -6,5 +6,5 @@ export function createField(field: Partial<FieldTypes> = {}): FieldTypes {
     id: generateId(),
     label: field.label || 'Untitled field',
     ...field,
-  };
+  } as any;
 }

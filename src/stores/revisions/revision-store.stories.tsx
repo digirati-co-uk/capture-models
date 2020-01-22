@@ -4,7 +4,7 @@ import { RevisionStore } from './revisions-store';
 
 export default { title: 'Stores|Revision Store' };
 
-const models: CaptureModel[] = [
+const models: () => CaptureModel[] = () => [
   require('../../../fixtures/03-revisions/01-single-field-with-revision.json'),
   require('../../../fixtures/03-revisions/02-single-field-with-multiple-revisions.json'),
   require('../../../fixtures/03-revisions/03-nested-revision.json'),
@@ -84,13 +84,13 @@ const Test: React.FC = () => {
 };
 
 export const Simple: React.FC = () => (
-  <RevisionStore.Provider initialData={{ captureModel: models[4] }}>
+  <RevisionStore.Provider initialData={{ captureModel: models()[4] }}>
     <Test />
   </RevisionStore.Provider>
 );
 
 export const WithSelector: React.FC = () => (
-  <RevisionStore.Provider initialData={{ captureModel: models[5] }}>
+  <RevisionStore.Provider initialData={{ captureModel: models()[5] }}>
     <Test />
   </RevisionStore.Provider>
 );
