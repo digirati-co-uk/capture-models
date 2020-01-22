@@ -28,6 +28,7 @@ export const WithFieldWrapper: React.FC = () => {
     <PluginProvider>
       <FieldWrapper
         field={{
+          id: '1',
           type: 'text-field',
           value: 'value 2',
           description: 'Some other longer description',
@@ -45,6 +46,7 @@ export const TextFieldEditor: React.FC = () => {
       <Segment padded style={{ margin: 40 }}>
         <FieldEditor
           field={{
+            id: '1',
             type: 'text-field',
             value: 'value 2',
             description: 'Some other longer description',

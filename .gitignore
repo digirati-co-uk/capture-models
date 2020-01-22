@@ -5,3 +5,4 @@ lib
 *.tsbuildinfo
 .idea
 coverage
+var

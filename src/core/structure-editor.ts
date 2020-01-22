@@ -1,5 +1,5 @@
 import { ITreeNode } from '@blueprintjs/core';
-import { CaptureModel, ModelFields, NestedModelFields, StructureType } from '../types/capture-model';
+import { CaptureModel, ModelFields, NestedModelFields } from '../types/capture-model';
 
 type FlatStructureDefinition =
   | {
@@ -152,15 +152,6 @@ export function mergeFlatKeys(inputKeys: string[][]): ModelFields {
   flushBuffer();
 
   return array;
-}
-
-export function createChoice(choice: Partial<StructureType<'choice'>> = {}): StructureType<'choice'> {
-  return {
-    label: choice.label || 'Untitled choice',
-    type: 'choice',
-    items: [],
-    ...choice,
-  };
 }
 
 export function structureToTree(level: CaptureModel['structure'], keyAcc: number[] = []): ITreeNode | null {

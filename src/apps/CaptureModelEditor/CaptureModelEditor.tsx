@@ -1,19 +1,20 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useLocation, Switch, Route, Link, RouteComponentProps, useHistory, withRouter } from 'react-router-dom';
 import { Card, Grid, Header, Menu, Segment, Tab } from 'semantic-ui-react';
 import { useDebouncedCallback } from 'use-debounce';
 import { CaptureModelList } from '../../components/CaptureModelList/CaptureModelList';
 import { DocumentEditor } from '../../components/DocumentEditor/DocumentEditor';
-import { EditorContext } from '../../components/EditorContext/EditorContext';
+import { EditorContext, useCaptureModel } from '../../components/EditorContext/EditorContext';
 import { FieldEditor } from '../../components/FieldEditor/FieldEditor';
 import { StructureEditor } from '../../components/StructureEditor/StructureEditor';
-import { useCaptureModel } from '../../core/capture-model';
 import { useAllDocs, useDatabase } from '../../core/database';
 import { DocumentStore } from '../../stores/document/document-store';
 import { StructureStore } from '../../stores/structure/structure-store';
 import { useFocusedStructureEditor } from '../../stores/structure/use-focused-structure-editor';
 import { CaptureModel } from '../../types/capture-model';
 import { FieldTypes } from '../../types/field-types';
+import { createChoice } from '../../utility/create-choice';
+import { createDocument } from '../../utility/create-document';
 
 const Homepage = () => <div>Homepage.</div>;
 const About = () => <div>About.</div>;
@@ -32,15 +33,8 @@ const Models = () => {
       <button
         onClick={() => {
           db.post<CaptureModel>({
-            structure: {
-              type: 'choice',
-              label: 'Untitled model',
-              items: [],
-            },
-            document: {
-              type: 'entity',
-              properties: {},
-            },
+            structure: createChoice({ label: 'Untitled model' }),
+            document: createDocument(),
           });
         }}
       >
@@ -51,7 +45,6 @@ const Models = () => {
 };
 
 const FullDocumentEditor: React.FC = () => {
-  const model = useCaptureModel();
   const state = DocumentStore.useStoreState(s => ({
     subtree: s.subtree,
     subtreePath: s.subtreePath,
@@ -82,6 +75,7 @@ const FullDocumentEditor: React.FC = () => {
           <div>
             <FieldEditor
               key={state.selectedField}
+              term={state.selectedField}
               field={state.subtree.properties[state.selectedField][0] as FieldTypes}
               onSubmit={field => {
                 actions.setField({ field });
@@ -132,6 +126,16 @@ const FullStructureEditor: React.FC = () => {
   );
 };
 
+const Preview: React.FC = () => {
+  const captureModel = useCaptureModel();
+
+  return (
+    <pre>
+      <code>{JSON.stringify(captureModel, null, 2)}</code>
+    </pre>
+  );
+};
+
 const panes: React.ComponentProps<typeof Tab>['panes'] = [
   {
     menuItem: 'Document',
@@ -143,7 +147,7 @@ const panes: React.ComponentProps<typeof Tab>['panes'] = [
   },
   {
     menuItem: 'Preview',
-    render: () => <>Preview</>,
+    render: () => <Preview />,
   },
   {
     menuItem: 'Export',
@@ -159,7 +163,6 @@ const ModelEditor: React.FC<RouteComponentProps<{ id: string }>> = ({ match, chi
 
   useEffect(() => {
     db.get<CaptureModel>(id).then(m => {
-      console.log('getting', m);
       rev.current = m._rev;
       setModel(m);
     });
@@ -173,7 +176,11 @@ const ModelEditor: React.FC<RouteComponentProps<{ id: string }>> = ({ match, chi
         document: doc,
       }).then(resp => {
         rev.current = resp.rev;
-        console.log('saved!', resp);
+        setModel({
+          ...model,
+          _rev: resp.rev,
+          document: doc,
+        });
       });
     }
   }, 1000);
@@ -186,18 +193,37 @@ const ModelEditor: React.FC<RouteComponentProps<{ id: string }>> = ({ match, chi
         structure,
       }).then(resp => {
         rev.current = resp.rev;
-        console.log('saved!', resp);
+        setModel({
+          ...model,
+          _rev: resp.rev,
+          structure,
+        });
       });
     }
   }, 1000);
+
+  const functions = useRef<any>({
+    onStructureChange,
+    onDocumentChange,
+  });
+  useEffect(() => {
+    functions.current = {
+      onStructureChange,
+      onDocumentChange,
+    };
+  }, [onStructureChange, onDocumentChange]);
 
   if (!model) {
     return <>loading...</>;
   }
 
   return (
-    <EditorContext captureModel={model} onDocumentChange={onDocumentChange} onStructureChange={onStructureChange}>
-      <Tab menu={{ secondary: true, renderActiveOnly: true, vertical: true, pointing: true }} panes={panes} />
+    <EditorContext
+      captureModel={model}
+      onDocumentChange={doc => functions.current.onDocumentChange(doc)}
+      onStructureChange={struct => functions.current.onStructureChange(struct)}
+    >
+      <Tab menu={{ secondary: true, vertical: true, pointing: true }} panes={panes} />
     </EditorContext>
   );
 };

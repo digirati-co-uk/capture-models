@@ -2,25 +2,9 @@ import React from 'react';
 import { MapValues } from './utility';
 
 // There will be something here.
-export type BaseSelector = {};
-
-// export type PointSelector = BaseSelector<{
-//   type: 'point-selector';
-//   state: null | {
-//     x: number;
-//     y: number;
-//   };
-// }>;
-//
-// export type BoxSelector = BaseSelector<{
-//   type: 'box-selector';
-//   state: null | {
-//     x: number;
-//     y: number;
-//     width: number;
-//     height: number;
-//   };
-// }>;
+export type BaseSelector = {
+  id: string;
+};
 
 export interface SelectorTypeMap {}
 

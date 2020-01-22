@@ -2,6 +2,8 @@ import React from 'react';
 import { Card } from 'semantic-ui-react';
 import { DatabaseProvider, useAllDocs, useDatabase } from '../../core/database';
 import { CaptureModel } from '../../types/capture-model';
+import { createChoice } from '../../utility/create-choice';
+import { createDocument } from '../../utility/create-document';
 import { CaptureModelList } from './CaptureModelList';
 
 export default { title: 'Components|Capture Model List' };
@@ -28,15 +30,8 @@ export const Simple: React.FC = withDatabase(() => {
       <button
         onClick={() => {
           db.post<CaptureModel>({
-            structure: {
-              type: 'choice',
-              label: 'Untitled model',
-              items: [],
-            },
-            document: {
-              type: 'entity',
-              properties: {},
-            },
+            structure: createChoice(),
+            document: createDocument(),
           });
         }}
       >

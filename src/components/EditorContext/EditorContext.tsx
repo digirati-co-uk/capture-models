@@ -1,8 +1,10 @@
 import React from 'react';
-import { CaptureModelProvider } from '../../core/capture-model-provider';
 import { DocumentStore } from '../../stores/document/document-store';
 import { StructureStore } from '../../stores/structure/structure-store';
 import { CaptureModel } from '../../types/capture-model';
+import { createContext } from '../../utility/create-context';
+
+export const [useCaptureModel, CaptureModelProvider] = createContext<CaptureModel>();
 
 export const EditorContext: React.FC<{
   captureModel: CaptureModel;
@@ -10,7 +12,7 @@ export const EditorContext: React.FC<{
   onStructureChange?: (structure: CaptureModel['structure']) => void;
 }> = ({ captureModel, onDocumentChange, onStructureChange, children }) => {
   return (
-    <CaptureModelProvider captureModel={captureModel}>
+    <CaptureModelProvider value={captureModel}>
       <StructureStore.Provider initialData={{ captureModel, onStructureChange }}>
         <DocumentStore.Provider initialData={{ captureModel, onDocumentChange }}>{children}</DocumentStore.Provider>
       </StructureStore.Provider>

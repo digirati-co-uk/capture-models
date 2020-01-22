@@ -12,13 +12,13 @@ export const ChooseField: React.FC<{
   const { fields } = useContext(PluginContext);
 
   return (
-    <div>
+    <div style={{ width: '100%' }}>
       <h2>Choose field</h2>
       <Grid>
         <Grid.Row>
           {Object.values(fields).map(field =>
             field ? (
-              <Grid.Column>
+              <Grid.Column width={4}>
                 <Card style={{ marginBottom: 20 }}>
                   <Card.Content>
                     <H4>{field.label}</H4>

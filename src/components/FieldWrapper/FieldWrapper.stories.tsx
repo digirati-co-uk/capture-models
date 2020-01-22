@@ -15,20 +15,26 @@ export const Simple: React.FC = () => {
         <Card.Content>
           <FieldWrapper
             field={{
+              id: '1',
               type: 'text-field',
               value: 'value',
               description: 'Some description',
               label: 'Some label',
             }}
+            showTerm={true}
+            term="title"
             onUpdateValue={val => console.log(val)}
           />
           <FieldWrapper
             field={{
+              id: '1',
               type: 'text-field',
               value: 'value 2',
               description: 'Some other longer description',
               label: 'Another field',
             }}
+            showTerm={true}
+            term="description"
             onUpdateValue={val => console.log(val)}
           />
         </Card.Content>

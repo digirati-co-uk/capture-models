@@ -1,52 +1,59 @@
 import * as React from 'react';
 import { createFormFieldReducer } from '../../core/current-form';
 import { FieldTypes } from '../../types/field-types';
+import { FieldWrapper } from '../FieldWrapper/FieldWrapper';
 import { FieldSet, FieldSetRenderField } from './FieldSet';
 
 export default { title: 'Components|Fieldset' };
 
-const model = require('../../../fixtures/simple.json');
+const model0 = require('../../../fixtures/01-basic/01-single-field.json');
+const model1 = require('../../../fixtures/01-basic/02-multiple-fields.json');
+const model2 = require('../../../fixtures/02-nesting/03-deeply-nested-subset.json');
+const model = require('../../../fixtures/02-nesting/04-deeply-nested-mixed-instance.json');
 
-const firstOption = model.structure.items[0].items[0].fields.reduce(createFormFieldReducer(model.document), []);
+const firstOption = model1.structure.items[0].fields.reduce(createFormFieldReducer(model1.document), []);
 
 const simpleRenderField: FieldSetRenderField = (field: FieldTypes, config) => {
   return (
     <div key={config.key}>
-      {field.label} ({field.type})
+      <FieldWrapper field={field} onUpdateValue={value => console.log('field updated value => ', value)} />
     </div>
   );
 };
 
 export const Simple: React.FC = () => (
-  <FieldSet fields={firstOption} renderField={simpleRenderField} label={model.structure.items[0].items[0].label} />
+  <FieldSet fields={firstOption} renderField={simpleRenderField} label={model1.structure.items[0].label} />
 );
 
-const secondOption = model.structure.items[0].items[1].fields.reduce(createFormFieldReducer(model.document), []);
+const secondOption = model0.structure.items[0].fields.reduce(createFormFieldReducer(model0.document), []);
 
 export const SingleField: React.FC = () => (
-  <FieldSet fields={secondOption} renderField={simpleRenderField} label={model.structure.items[0].items[1].label} />
+  <FieldSet fields={secondOption} renderField={simpleRenderField} label={model0.structure.items[0].label} />
 );
 
-const nestedModel = model.structure.items[1].fields.reduce(createFormFieldReducer(model.document), []);
+const nestedModel = model.structure.items[0].fields.reduce(createFormFieldReducer(model.document), []);
 
 export const NestedModel: React.FC = () => (
-  <FieldSet fields={nestedModel} renderField={simpleRenderField} label={model.structure.items[1].label} />
+  <FieldSet fields={nestedModel} renderField={simpleRenderField} label={model.structure.label} />
 );
 
 export const CustomNestedModel: React.FC = () => (
   <FieldSet
     fields={nestedModel}
     renderField={simpleRenderField}
-    label={model.structure.items[1].label}
+    label={model.structure.label}
     renderNestedFieldset={(props, { key }) => (
       <FieldSet
         {...props}
-        style={{ background: 'coral', margin: 5, padding: 5 }}
+        style={{
+          background: `hsl(${(props.depth || 1) * 80}, 80%, 70%)`,
+          marginBottom: 10,
+          padding: 15,
+          border: '1px solid #000',
+        }}
         key={key}
         renderField={(field, config) => (
-          <div key={config.key}>
-            Custom Inner field > "{field.label} ({field.type})"
-          </div>
+          <FieldWrapper field={field} onUpdateValue={value => console.log('field updated value => ', value)} />
         )}
       />
     )}

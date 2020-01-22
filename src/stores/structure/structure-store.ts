@@ -1,7 +1,8 @@
 import { ITreeNode } from '@blueprintjs/core';
 import { action, computed, createContextStore, thunkOn } from 'easy-peasy';
-import { createChoice, structureToTree } from '../../core/structure-editor';
+import { structureToTree } from '../../core/structure-editor';
 import { CaptureModel, StructureType } from '../../types/capture-model';
+import { createChoice } from '../../utility/create-choice';
 import { itemFromIndex } from '../../utility/item-from-index';
 import { StructureModel } from './structure-model';
 
@@ -114,6 +115,7 @@ export const StructureStore = createContextStore<
       actions.reorderChoices,
     ],
     async (_, payload, store) => {
+      console.log('onStructureChange');
       if (initial && initial.onStructureChange) {
         const state = store.getStoreState() as StructureModel;
         initial.onStructureChange(state.structure);

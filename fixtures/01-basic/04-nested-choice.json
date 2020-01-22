@@ -1,0 +1,61 @@
+{
+  "structure": {
+    "type": "choice",
+    "label": "Nested choice",
+    "items": [
+      {
+        "label": "Choice 1",
+        "type": "model",
+        "fields": [
+          "name"
+        ],
+        "description": "The first choice in the list"
+      },
+      {
+        "label": "Choice 2",
+        "type": "model",
+        "fields": [
+          "description"
+        ],
+        "description": "The second choice in the list"
+      },
+      {
+        "label": "Nested choice",
+        "type": "choice",
+        "items": [
+          {
+            "label": "Choice 3",
+            "type": "model",
+            "fields": [
+              "name",
+              "description"
+            ]
+          }
+        ],
+        "description": "This is a nested choice"
+      }
+    ],
+    "description": "Contains 3 choices with multiple text fields nested"
+  },
+  "document": {
+    "type": "entity",
+    "properties": {
+      "name": [
+        {
+          "type": "text-field",
+          "label": "Name",
+          "description": "The name of the thing"
+        }
+      ],
+      "description": [
+        {
+          "type": "text-field",
+          "label": "Description",
+          "description": "Tell us something about the thing"
+        }
+      ]
+    },
+    "label": "Nested choices",
+    "description": ""
+  }
+}

@@ -56,7 +56,7 @@ export const FieldSet: React.FC<FieldSetProps> = ({
                     renderField,
                     renderNestedFieldset,
                     depth: depth + 1,
-                    path: [...path, [doc.term, key]],
+                    path: [...path, [doc.id, key]],
                   },
                   { key, count: field.list.length }
                 )
@@ -76,7 +76,7 @@ export const FieldSet: React.FC<FieldSetProps> = ({
               renderField(nestedField, {
                 depth: depth + 1,
                 key,
-                path: [...path, [nestedField.term, key]],
+                path: [...path, [nestedField.id, key]],
                 count: field.list.length,
               })
             )}

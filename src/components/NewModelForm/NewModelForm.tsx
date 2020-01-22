@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Form as StyledForm } from 'semantic-ui-react';
 import { StructureType } from '../../types/capture-model';
+import { createModel } from '../../utility/create-model';
 
 type Props = {
   onSave: (choice: StructureType<'model'>) => void;
@@ -11,11 +12,11 @@ export const NewModelForm: React.FC<Props> = ({ onSave }) => {
 
   const onSubmit = () => {
     if (!label) return;
-    onSave({
-      label,
-      type: 'model',
-      fields: [],
-    });
+    onSave(
+      createModel({
+        label,
+      })
+    );
   };
 
   return (

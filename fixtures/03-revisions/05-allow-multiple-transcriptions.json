@@ -1,0 +1,97 @@
+{
+  "structure": {
+    "id": "c1",
+    "type": "choice",
+    "label": "Transcribe this document",
+    "items": [
+      {
+        "id": "c2",
+        "label": "Transcriptions",
+        "type": "model",
+        "fields": [
+          "transcription"
+        ]
+      }
+    ],
+    "description": ""
+  },
+  "document": {
+    "id": "e1",
+    "type": "entity",
+    "label": "Name of entity",
+    "properties": {
+      "transcription": [
+        {
+          "id": "f1",
+          "type": "text-field",
+          "label": "Transcription",
+          "allowMultiple": true,
+          "value": "Canonical transcription, maybe OCR"
+        },
+        {
+          "id": "f2",
+          "type": "text-field",
+          "label": "Transcription",
+          "allowMultiple": true,
+          "revision": "test-person-a",
+          "value": "Person A created this one"
+        },
+        {
+          "id": "f3",
+          "type": "text-field",
+          "label": "Transcription",
+          "allowMultiple": true,
+          "revision": "test-person-b",
+          "value": "Person B created this one, to override Person A's one"
+        },
+        {
+          "id": "f4",
+          "type": "text-field",
+          "label": "Transcription",
+          "allowMultiple": true,
+          "revision": "test-person-c",
+          "value": "Person C created this one"
+        }
+      ]
+    }
+  },
+  "contributors": {
+    "test-person-a": {
+      "id": "test-person-a",
+      "type": "Person",
+      "name": "Test person A"
+    },
+    "test-person-b": {
+      "id": "test-person-b",
+      "type": "Person",
+      "name": "Test person B"
+    },
+    "test-person-c": {
+      "id": "test-person-c",
+      "type": "Person",
+      "name": "Test person C"
+    }
+  },
+  "revisions": [
+    {
+      "id": "test-person-a",
+      "approved": true,
+      "fields": [
+        "transcription"
+      ]
+    },
+    {
+      "id": "test-person-b",
+      "revises": "test-person-a",
+      "fields": [
+        "transcription"
+      ]
+    },
+    {
+      "id": "test-person-c",
+      "fields": [
+        "transcription"
+      ]
+    }
+  ]
+}

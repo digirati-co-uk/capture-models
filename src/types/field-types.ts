@@ -4,12 +4,15 @@ import { CaptureModel } from './capture-model';
 import { MapValues } from './utility';
 
 export type BaseField = {
+  id: string;
   // @todo re-enable when creating JSON-LD extension
   // term: string;
   label: string;
   description?: string;
   selector?: SelectorTypes;
+  allowMultiple?: boolean;
   creator?: string[];
+  revision?: string;
 };
 
 export interface FieldTypeMap {}

@@ -15,6 +15,21 @@ const [useContext, InternalDatabaseProvider] = createContext<DatabaseContext>();
 
 export function useDatabase() {
   const db = useContext();
+
+  useEffect(() => {
+    const remote = db.current
+      .sync('http://admin:password@localhost:5984/capture-models', {
+        live: true,
+        retry: true,
+      })
+      .on('change', () => {
+        console.log('changed?');
+      });
+    return () => {
+      remote.cancel();
+    };
+  }, [db]);
+
   return db.current;
 }
 

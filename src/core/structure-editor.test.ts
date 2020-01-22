@@ -8,11 +8,8 @@ import {
 } from './structure-editor';
 describe('structure editor', () => {
   const DEFAULT_MODEL: CaptureModel = {
-    structure: { type: 'model', label: 'empty', fields: [] },
-    document: {
-      type: 'entity',
-      properties: {},
-    },
+    structure: { id: '1', type: 'model', label: 'empty', fields: [] },
+    document: { id: '1', type: 'entity', properties: {} },
   };
 
   describe('mergeFlatKeys', () => {
@@ -91,11 +88,13 @@ describe('structure editor', () => {
     test('simple fields', () => {
       expect(
         getDocumentFields({
+          id: '1',
           type: 'entity',
           label: 'Person',
           properties: {
             firstName: [
               {
+                id: 'f1',
                 type: 'text-field',
                 label: 'First name',
                 value: '',
@@ -103,6 +102,7 @@ describe('structure editor', () => {
             ],
             lastName: [
               {
+                id: 'f2',
                 type: 'text-field',
                 label: 'Last name',
                 value: '',
@@ -139,11 +139,12 @@ describe('structure editor', () => {
   describe('structureToFlatStructureDefinition', () => {
     test('simple', () => {
       const model: CaptureModel['document'] = {
+        id: '1',
         type: 'entity',
         properties: {
-          field1: [{ type: 'text-field', label: 'field 1', value: '' }],
-          field2: [{ type: 'text-field', label: 'field 2', value: '' }],
-          field3: [{ type: 'text-field', label: 'field 3', value: '' }],
+          field1: [{ id: '1', type: 'text-field', label: 'field 1', value: '' }],
+          field2: [{ id: '2', type: 'text-field', label: 'field 2', value: '' }],
+          field3: [{ id: '3', type: 'text-field', label: 'field 3', value: '' }],
         },
       };
 
@@ -159,23 +160,20 @@ describe('structure editor', () => {
 
     test('nested', () => {
       const model: CaptureModel['document'] = {
+        id: '1',
         type: 'entity',
         properties: {
-          field1: [{ type: 'text-field', label: 'field 1', value: '' }],
+          field1: [{ id: 'f1', type: 'text-field', label: 'field 1', value: '' }],
           entity1: [
             {
+              id: 'e1',
               type: 'entity',
               label: 'field 2',
               properties: {
-                field2: [
-                  {
-                    type: 'text-field',
-                    label: 'field 2',
-                    value: '',
-                  },
-                ],
+                field2: [{ id: 'f2', type: 'text-field', label: 'field 2', value: '' }],
                 field3: [
                   {
+                    id: 'f3',
                     type: 'text-field',
                     label: 'field 3',
                     value: '',
@@ -183,6 +181,7 @@ describe('structure editor', () => {
                 ],
                 field4: [
                   {
+                    id: 'f1',
                     type: 'text-field',
                     label: 'field 4',
                     value: '',

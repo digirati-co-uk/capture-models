@@ -1,0 +1,74 @@
+{
+  "structure": {
+    "type": "choice",
+    "label": "Nested choice",
+    "items": [
+      {
+        "label": "Choice 1",
+        "type": "model",
+        "fields": [
+          "name",
+          "description"
+        ],
+        "description": "The first choice in the list"
+      },
+      {
+        "label": "Person",
+        "type": "model",
+        "fields": [
+          [
+            "person",
+            [
+              "firstName",
+              "lastName"
+            ]
+          ]
+        ],
+        "description": "The second choice in the list"
+      }
+    ],
+    "description": "Contains 3 choices with multiple text fields nested"
+  },
+  "document": {
+    "type": "entity",
+    "properties": {
+      "name": [
+        {
+          "type": "text-field",
+          "label": "Name",
+          "description": "The name of the thing"
+        }
+      ],
+      "description": [
+        {
+          "type": "text-field",
+          "label": "Description",
+          "description": "Tell us something about the thing"
+        }
+      ],
+      "person": [
+        {
+          "type": "entity",
+          "label": "Person",
+          "properties": {
+            "firstName": [
+              {
+                "type": "text-field",
+                "label": "First name"
+              }
+            ],
+            "lastName": [
+              {
+                "type": "text-field",
+                "label": "Last name"
+              }
+            ]
+          },
+          "description": "Describe a person"
+        }
+      ]
+    },
+    "label": "Nested choices",
+    "description": ""
+  }
+}

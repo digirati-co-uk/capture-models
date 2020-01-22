@@ -2,6 +2,7 @@ import { action, computed, createContextStore, thunk, thunkOn } from 'easy-peasy
 import { CaptureModel } from '../../types/capture-model';
 import { FieldTypes } from '../../types/field-types';
 import { createDocument } from '../../utility/create-document';
+import { createField } from '../../utility/create-field';
 import { resolveSubtree } from '../../utility/resolve-subtree';
 import { DocumentModel } from './document-model';
 
@@ -72,7 +73,7 @@ export const DocumentStore = createContextStore<
 
   // Adds a new field to the current subtree, and then selects it.
   addField: action((state, payload) => {
-    resolveSubtree(state.subtreePath, state.document).properties[payload.term] = [payload.field];
+    resolveSubtree(state.subtreePath, state.document).properties[payload.term] = [createField(payload.field)];
     if (payload.select) {
       if ((payload.field.type as string) === 'entity') {
         state.selectedFieldKey = null;
@@ -104,6 +105,9 @@ export const DocumentStore = createContextStore<
       if (skipKeys.indexOf(key) !== -1) continue;
       actions.setCustomProperty({ term: payload.term, key, value: (payload.field as any)[key] });
     }
+
+    actions.setFieldValue({ term: payload.term, value: payload.field.value });
+
     // Creat new action for setting custom property on field
     // This will allow all of the field setters to be generic and look for all fields that need to be updated, at the
     // same level but in different trees.

@@ -3,11 +3,11 @@ import { Field, Form, Formik } from 'formik';
 import { Button, Form as StyledForm, Label, Segment, Grid } from 'semantic-ui-react';
 import { FormPreview, PluginContext } from '../../core/plugins';
 import { FieldTypes } from '../../types/field-types';
-import { FieldWrapper } from '../FieldWrapper/FieldWrapper';
 
-export const FieldEditor: React.FC<{ field: FieldTypes; onSubmit: (newProps: FieldTypes) => void }> = ({
+export const FieldEditor: React.FC<{ field: FieldTypes; term?: string; onSubmit: (newProps: FieldTypes) => void }> = ({
   onSubmit,
   field: props,
+  term,
 }) => {
   const ctx = useContext(PluginContext);
 
@@ -52,7 +52,7 @@ export const FieldEditor: React.FC<{ field: FieldTypes; onSubmit: (newProps: Fie
                 <Label attached="top right" color="orange">
                   Preview
                 </Label>
-                <FormPreview />
+                <FormPreview term={term} />
               </Segment>
             </Grid.Column>
           </Grid>

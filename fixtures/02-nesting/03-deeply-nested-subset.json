@@ -1,0 +1,96 @@
+{
+  "structure": {
+    "type": "choice",
+    "label": "Deeply nested subset",
+    "items": [
+      {
+        "label": "Edit all names",
+        "type": "model",
+        "fields": [
+          [
+            "depth1",
+            [
+              [
+                "second",
+                [
+                  [
+                    "third",
+                    [
+                      "name"
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      },
+      {
+        "label": "Edit all descriptions",
+        "type": "model",
+        "fields": [
+          [
+            "depth1",
+            [
+              [
+                "second",
+                [
+                  [
+                    "third",
+                    [
+                      "description"
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      }
+    ],
+    "description": "A document with a nested structure, but only editing a single field deep in the tree."
+  },
+  "document": {
+    "type": "entity",
+    "properties": {
+      "depth1": [
+        {
+          "type": "entity",
+          "label": "First depth",
+          "properties": {
+            "second": [
+              {
+                "type": "entity",
+                "label": "second",
+                "properties": {
+                  "third": [
+                    {
+                      "type": "entity",
+                      "label": "Third depth",
+                      "properties": {
+                        "name": [
+                          {
+                            "type": "text-field",
+                            "label": "Name"
+                          }
+                        ],
+                        "description": [
+                          {
+                            "type": "text-field",
+                            "label": "description"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "description": "Second depth"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "label": "Deeply nested subset"
+  }
+}

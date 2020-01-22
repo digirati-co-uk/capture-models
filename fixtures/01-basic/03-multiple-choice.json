@@ -1,0 +1,48 @@
+{
+  "structure": {
+    "type": "choice",
+    "label": "Multiple choice",
+    "items": [
+      {
+        "label": "Choice 1",
+        "type": "model",
+        "fields": [
+          "name"
+        ],
+        "description": "The first choice in the list"
+      },
+      {
+        "label": "Choice 2",
+        "type": "model",
+        "fields": [
+          "description"
+        ],
+        "description": "The second choice in the list"
+      }
+    ],
+    "description": "Contains 2 choices with multiple text fields"
+  },
+  "document": {
+    "type": "entity",
+    "properties": {
+      "name": [
+        {
+          "type": "text-field",
+          "label": "Name",
+          "description": "The name of the thing"
+        }
+      ],
+      "description": [
+        {
+          "type": "text-field",
+          "label": "Description",
+          "description": "Tell us something about the thing"
+        }
+      ]
+    },
+    "label": "Multiple choices",
+    "description": ""
+  },
+  "_id": "b9e0f2a5-4617-4bc5-b088-16323ff8c6b5",
+  "_rev": "34-260429fcf6bbae540cf3ae4195a0ae2c"
+}

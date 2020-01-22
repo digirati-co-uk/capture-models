@@ -155,6 +155,7 @@ export const DocumentEditor: React.FC<DocumentEditorProps> = ({
                     field: {
                       type: newField.fieldType,
                       label: newField.term,
+                      value: newField.field.defaultValue,
                       ...newField.field.defaultProps,
                     },
                     select: true,

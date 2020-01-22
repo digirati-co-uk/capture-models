@@ -4,11 +4,13 @@ import { addContext, addDefaultContext, removeContext, removeDefaultContext } fr
 describe('document editor', () => {
   const emptyModel: CaptureModel = {
     structure: {
+      id: '1',
       label: '',
       type: 'model',
       fields: [],
     },
     document: {
+      id: '2',
       type: 'entity',
       properties: {},
     },
@@ -20,11 +22,13 @@ describe('document editor', () => {
 
       expect(result).toEqual({
         structure: {
+          id: '1',
           label: '',
           type: 'model',
           fields: [],
         },
         document: {
+          id: '2',
           '@context': 'http://example.org/context',
           type: 'entity',
           properties: {},
@@ -43,11 +47,13 @@ describe('document editor', () => {
     test('it throws when default context already exists', () => {
       const result: CaptureModel = {
         structure: {
+          id: '1',
           label: '',
           type: 'model',
           fields: [],
         },
         document: {
+          id: '2',
           '@context': { '@vocab': 'http://example.org/context/1' },
           type: 'entity',
           properties: {},
@@ -64,11 +70,13 @@ describe('document editor', () => {
 
       expect(addDefaultContext(result, 'http://example.org/context/1')).toEqual({
         structure: {
+          id: '1',
           label: '',
           type: 'model',
           fields: [],
         },
         document: {
+          id: '2',
           '@context': { '@vocab': 'http://example.org/context/1' },
           type: 'entity',
           properties: {},
@@ -79,11 +87,13 @@ describe('document editor', () => {
     test('it allows the same default context to be added (using @vocab)', () => {
       const result: CaptureModel = {
         structure: {
+          id: '1',
           label: '',
           type: 'model',
           fields: [],
         },
         document: {
+          id: '2',
           '@context': { '@vocab': 'http://example.org/context/1' },
           type: 'entity',
           properties: {},
@@ -92,11 +102,13 @@ describe('document editor', () => {
 
       expect(addDefaultContext(result, 'http://example.org/context/1')).toEqual({
         structure: {
+          id: '1',
           label: '',
           type: 'model',
           fields: [],
         },
         document: {
+          id: '2',
           '@context': { '@vocab': 'http://example.org/context/1' },
           type: 'entity',
           properties: {},
@@ -147,11 +159,13 @@ describe('document editor', () => {
     test('it can add when default context exists (string)', () => {
       const c1: CaptureModel = {
         structure: {
+          id: '1',
           label: '',
           type: 'model',
           fields: [],
         },
         document: {
+          id: '2',
           '@context': 'http://example.org/context/1',
           type: 'entity',
           properties: {},
@@ -171,11 +185,13 @@ describe('document editor', () => {
     test('removing non-existent context', () => {
       const c1: CaptureModel = {
         structure: {
+          id: '1',
           label: '',
           type: 'model',
           fields: [],
         },
         document: {
+          id: '2',
           '@context': {
             '@vocab': 'http://example.org/context/1',
             c2: 'http://example.org/context/2',
@@ -194,11 +210,13 @@ describe('document editor', () => {
     test('removing non-existent context (string)', () => {
       const c1: CaptureModel = {
         structure: {
+          id: '1',
           label: '',
           type: 'model',
           fields: [],
         },
         document: {
+          id: '2',
           '@context': 'http://example.org/context/1',
           type: 'entity',
           properties: {},
@@ -211,11 +229,13 @@ describe('document editor', () => {
     test('removing non-existent context (undefined)', () => {
       const c1: CaptureModel = {
         structure: {
+          id: '1',
           label: '',
           type: 'model',
           fields: [],
         },
         document: {
+          id: '2',
           type: 'entity',
           properties: {},
         },
@@ -227,11 +247,13 @@ describe('document editor', () => {
     test('removing existing context', () => {
       const c1: CaptureModel = {
         structure: {
+          id: '1',
           label: '',
           type: 'model',
           fields: [],
         },
         document: {
+          id: '2',
           '@context': {
             '@vocab': 'http://example.org/context/1',
             c2: 'http://example.org/context/2',
@@ -248,11 +270,13 @@ describe('document editor', () => {
     test('removing last context', () => {
       const c1: CaptureModel = {
         structure: {
+          id: '1',
           label: '',
           type: 'model',
           fields: [],
         },
         document: {
+          id: '2',
           '@context': {
             c2: 'http://example.org/context/2',
           },
@@ -268,11 +292,13 @@ describe('document editor', () => {
     test('remove default context', () => {
       const c1: CaptureModel = {
         structure: {
+          id: '1',
           label: '',
           type: 'model',
           fields: [],
         },
         document: {
+          id: '2',
           '@context': {
             '@vocab': 'http://example.org/context/2',
             c1: 'http://example.org/context/1',
@@ -288,32 +314,16 @@ describe('document editor', () => {
 
     test('remove default context (string)', () => {
       const c1: CaptureModel = {
-        structure: {
-          label: '',
-          type: 'model',
-          fields: [],
-        },
-        document: {
-          '@context': 'http://example.org/context/2',
-          type: 'entity',
-          properties: {},
-        },
+        structure: { id: '1', label: '', type: 'model', fields: [] },
+        document: { id: '2', '@context': 'http://example.org/context/2', type: 'entity', properties: {} },
       };
       expect(removeDefaultContext(c1).document['@context']).not.toBeDefined();
     });
 
     test('remove default context (non-existent)', () => {
       const c1: CaptureModel = {
-        structure: {
-          label: '',
-          type: 'model',
-          fields: [],
-        },
-        document: {
-          '@context': { c2: 'http://example.org/context/2' },
-          type: 'entity',
-          properties: {},
-        },
+        structure: { id: '1', label: '', type: 'model', fields: [] },
+        document: { id: '2', '@context': { c2: 'http://example.org/context/2' }, type: 'entity', properties: {} },
       };
       expect(removeDefaultContext(c1)).toEqual(c1);
     });

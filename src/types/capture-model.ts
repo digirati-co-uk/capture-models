@@ -7,8 +7,20 @@ import { CurrentSelectorState } from './current-selector';
 export type NestedModelFields = [string, ModelFields];
 export interface ModelFields extends Array<string | NestedModelFields> {}
 
+export type Revision = {
+  id: string;
+  label?: string;
+  structureId?: string;
+  workflowId?: string;
+  author?: string[];
+  fields: ModelFields;
+  approved?: boolean;
+  revises?: string;
+};
+
 export type CaptureModel = {
   structure: {
+    id: string;
     label: string;
     profile?: string[];
     description?: string;
@@ -32,23 +44,21 @@ export type CaptureModel = {
       }
   );
   document: {
+    id: string;
     // @todo future implementation of JSON-LD Extension. Added as optional for now.
     '@context'?: string | ({ [key: string]: string } & { '@vocab'?: string });
     term?: string;
-
+    revision?: string;
     label?: string;
     description?: string;
     type: 'entity';
     selector?: SelectorTypes;
+    allowMultiple?: boolean;
     properties: {
       [term: string]: Array<FieldTypes> | Array<CaptureModel['document']>;
     };
   };
-  revisions?: Array<{
-    id: string;
-    workflowId?: string;
-    fields: ModelFields;
-  }>;
+  revisions?: Array<Revision>;
   target?: string[];
   contributors?: {
     [id: string]: {

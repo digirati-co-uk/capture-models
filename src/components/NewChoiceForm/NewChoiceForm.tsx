@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Button, Form as StyledForm } from 'semantic-ui-react';
 import { StructureType } from '../../types/capture-model';
+import generateId from 'nanoid';
+import { createChoice } from '../../utility/create-choice';
 
 type Props = {
   onSave: (choice: StructureType<'choice'>) => void;
@@ -11,11 +13,7 @@ export const NewChoiceForm: React.FC<Props> = ({ onSave }) => {
 
   const onSubmit = () => {
     if (!label) return;
-    onSave({
-      label,
-      type: 'choice',
-      items: [],
-    });
+    onSave(createChoice({ label }));
   };
 
   return (
