@@ -76,13 +76,15 @@ export function getFieldPlugin(type: keyof FieldTypeMap) {
 
 export const PluginContext = createContext<PluginStore>(pluginStore);
 
-export function useSelectorStatus<T extends SelectorTypes>(props: T) {
+export function useSelectorStatus<T extends SelectorTypes>(props: T, updateSelector: any) {
   const ctx = useContext(PluginContext);
 
   const selector = ctx.selectors[props.type];
   if (!selector) {
     throw new Error('Plugin does not exist');
   }
+
+  return [React.createElement(selector.FormComponent, { ...props, updateSelector })];
 
   // @todo A selector needs to be rendered in two places.
   //    - On the content, using a content-specific plugin

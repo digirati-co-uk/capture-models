@@ -1,32 +1,5 @@
 import { SelectorTypes } from '../../types/selector-types';
 
-// @todo A selector needs to be rendered in two places.
-//    - On the content, using a content-specific plugin
-//    - On the form, showing the state of it
-//   On the from we need to decide what information we will
-//   show about the selector. Will it just be a lifecycle of
-//   the selector (choose, chosen, change, discard etc.) or will
-//   it also show a preview of the content in its refined state.
-//   For example, a text selector may show a the snippet of text,
-//   or an image show the cropped image.
-//   How would this vary between content, should the be up to the
-//   rendering component to just understand? How does the content-
-//   specific side of the component relay this preview-state?
-//   Selector state machine required.
-//    - opening/closing selector on form (local)
-//    - choosing to edit selector
-//    - updating state of selector
-//    - updating selector preview data
-//    - deselecting selector on form
-//    - highlighting selector? (hover on form?)
-//    - Automatically changing view based on outer most selector in revision
-//    - Displaying revisions nested selectors
-//    - clicking displayed selector and highlighting form field
-//   Also need to add some missing elements to the form editor:
-//    - choosing a selector
-//    - configuring its form (if any)
-//    - Saving to the main model
-
 // This is a small wrapper around the selector in order to have enough information about it to send update notifications
 // to an outer store that may be considered a source of truth. In general, this store is the only place where
 // selectors should be changed.

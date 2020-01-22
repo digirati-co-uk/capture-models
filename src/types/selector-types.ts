@@ -11,6 +11,18 @@ export interface SelectorTypeMap {}
 export interface SelectorContentTypeMap {}
 
 export type InjectedSelectorProps<T> = {
+  // @todo I think these are where we need to expand for the recent store changes.
+  //   These are all of the actions that both the form AND the content versions of the
+  //   components have. List of all of them here:
+  //    - chooseSelector: Action<RevisionsModel, { selectorId: string }>;
+  //    - clearSelector: Action<RevisionsModel>;
+  //    - updateSelector: Action<RevisionsModel, { selectorId: string; state: SelectorTypes['state'] }>;
+  //    - updateSelectorPreview: Action<RevisionsModel, { selectorId: string; preview: any }>;
+  //    - setTopLevelSelector: Action<RevisionsModel, { selectorId: string }>;
+  //    - clearTopLevelSelector: Action<RevisionsModel>;
+  //    - addVisibleSelectorIds: Action<RevisionsModel, { selectorIds: string[] }>;
+  //    - removeVisibleSelectorIds: Action<RevisionsModel, { selectorIds: string[] }>;
+  //   However the exact needs are not going to be clear without a UI to attach these to and test.
   updateSelector(state: T): void;
 };
 

@@ -179,7 +179,7 @@ export const RevisionStore = createContextStore<RevisionsModel>(({ captureModel 
       // - Does this work with a mix of the above, but editing revision
     }),
 
-    // Not sure what this will do yet, might be a thunk.
+    // @todo Not sure what this will do yet, might be a thunk.
     saveRevision: action((state, { revisionId }) => {
       // Grab revisions from unsavedRevisionIds
       // Call passed in callback for saving revisions
@@ -206,9 +206,6 @@ export const RevisionStore = createContextStore<RevisionsModel>(({ captureModel 
     }),
 
     // These will probably have to walk through the revision.
-    // @todo strategy for this.
-    // @todo UI for this will work well as there just needs to be a single "Document editor"
-    //   as the revisions are documents.
     updateFieldValue: action((state, { value, path, revisionId }) => {
       const field = getRevisionFieldFromPath<FieldTypes>(state, path, revisionId);
       if (field) {
@@ -228,9 +225,6 @@ export const RevisionStore = createContextStore<RevisionsModel>(({ captureModel 
       }
     }),
 
-    // @todo look into allowMultiple and allowMultiple in same revision as this
-    //   may not be the desired behaviour. Could be configuration that's passed
-    //   in and controlled by UI.
     createNewFieldInstance: action((state, { property, path, revisionId }) => {
       // Grab the parent entity where we want to add a new field.
       const entity = getRevisionFieldFromPath<CaptureModel['document']>(state, path, revisionId);
