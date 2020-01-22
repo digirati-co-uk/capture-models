@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Form as StyledForm } from 'semantic-ui-react';
 import { StructureType } from '../../types/capture-model';
-import generateId from 'nanoid';
 import { createChoice } from '../../utility/create-choice';
 
 type Props = {

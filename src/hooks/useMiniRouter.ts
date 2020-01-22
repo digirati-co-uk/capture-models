@@ -7,7 +7,7 @@ export function useMiniRouter<T extends string>(routes: T[], defaultRoute: T) {
       acc[next] = () => setCurrent(next);
       return acc;
     }, {} as any) as { [key in T]: () => void };
-  }, routes);
+  }, [routes]);
 
   return [current, router, setCurrent] as const;
 }

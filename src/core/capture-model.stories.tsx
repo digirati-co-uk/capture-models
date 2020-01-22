@@ -3,6 +3,7 @@ import { CaptureModelProvider } from './capture-model-provider';
 import React from 'react';
 import { useCaptureModel } from './capture-model';
 import notes from './capture-model.md';
+import { CaptureModel } from '../../src/types/capture-model';
 
 const withSimpleCaptureModel = (Component: React.FC): React.FC => () => (
   <CaptureModelProvider captureModel={model}>
@@ -14,8 +15,6 @@ export default {
   title: 'Core|Capture models',
   parameters: { notes },
 };
-
-import { CaptureModel } from '../../src/types/capture-model';
 
 const model: CaptureModel = require('../../fixtures/simple.json');
 

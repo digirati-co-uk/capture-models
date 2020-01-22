@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Button, Form as StyledForm, Message } from 'semantic-ui-react';
 import { PluginContext } from '../../core/plugins';
-import { FieldSpecification, FieldTypeMap, FieldTypes } from '../../types/field-types';
+import { FieldSpecification } from '../../types/field-types';
 import { ChooseFieldButton } from '../ChooseFieldButton/ChooseFieldButton';
 
 type Props = {

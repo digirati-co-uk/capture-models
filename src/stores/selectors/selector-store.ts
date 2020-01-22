@@ -2,7 +2,7 @@ import { CaptureModel } from '../../types/capture-model';
 import { SelectorModel } from './selector-model';
 import { traverseDocument } from '../../utility/traverse-document';
 import { SelectorTypes } from '../../types/selector-types';
-import { Action, action, computed, State } from 'easy-peasy';
+import { action, State } from 'easy-peasy';
 
 export function createSelectorStore(document?: CaptureModel['document']): SelectorModel {
   const selectors: SelectorTypes[] = [];

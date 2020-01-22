@@ -1,7 +1,6 @@
 import React from 'react';
 import { PluginProvider } from '../../core/plugins';
 import { ChooseSelector } from './ChooseSelector';
-
 // Import some fields.
 import '../../selector-types/BoxSelector';
 

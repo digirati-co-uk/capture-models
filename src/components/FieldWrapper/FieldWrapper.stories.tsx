@@ -2,7 +2,6 @@ import React from 'react';
 import { Button, Card } from 'semantic-ui-react';
 import { PluginProvider } from '../../core/plugins';
 import { FieldWrapper } from './FieldWrapper';
-
 // Import some plugins
 import '../../input-types/TextField';
 

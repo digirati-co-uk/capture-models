@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { PluginContext } from '../../core/plugins';
-import { H4 } from '@blueprintjs/core';
 import { Button, Card, Label } from 'semantic-ui-react';
 import { SelectorContentTypeMap, SelectorSpecification, SelectorTypeMap } from '../../types/selector-types';
 

@@ -1,8 +1,7 @@
 import { Action, Computed } from 'easy-peasy';
-import { CaptureModel, ModelFields } from '../../types/capture-model';
 import { SelectorTypes } from '../../types/selector-types';
 import { RevisionItem } from './utility/capture-model-to-revision-list';
-import { SelectorActions, SelectorModel } from '../selectors/selector-model';
+import { SelectorModel } from '../selectors/selector-model';
 
 /**
  * Revision model

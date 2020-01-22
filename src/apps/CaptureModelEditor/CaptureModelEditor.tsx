@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useLocation, Switch, Route, Link, RouteComponentProps, useHistory, withRouter } from 'react-router-dom';
+import { Link, Route, RouteComponentProps, Switch, useHistory, useLocation, withRouter } from 'react-router-dom';
 import { Card, Grid, Header, Menu, Segment, Tab } from 'semantic-ui-react';
 import { useDebouncedCallback } from 'use-debounce';
 import { CaptureModelList } from '../../components/CaptureModelList/CaptureModelList';
@@ -155,7 +155,7 @@ const panes: React.ComponentProps<typeof Tab>['panes'] = [
   },
 ];
 
-const ModelEditor: React.FC<RouteComponentProps<{ id: string }>> = ({ match, children }) => {
+const ModelEditor: React.FC<RouteComponentProps<{ id: string }>> = ({ match }) => {
   const id = match.params.id;
   const db = useDatabase();
   const [model, setModel] = useState<CaptureModel & { _rev: string; _id: string }>();

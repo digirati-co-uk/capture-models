@@ -6,6 +6,7 @@ import {
   mergeFlatKeys,
   structureToFlatStructureDefinition,
 } from './structure-editor';
+
 describe('structure editor', () => {
   const DEFAULT_MODEL: CaptureModel = {
     structure: { id: '1', type: 'model', label: 'empty', fields: [] },

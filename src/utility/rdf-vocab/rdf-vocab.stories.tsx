@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { parseRdfVocab, RdfVocab } from './rdf-vocab';
 
 export default { title: 'Utility|RDF Importer' };
@@ -126,22 +126,12 @@ export const SimpleFetch: React.FC = () => {
           </button>
         </li>
         <li>
-          <button
-            disabled={isLoading}
-            onClick={() =>
-              onClick('https://ogp.me/ns/ogp.me.rdf')
-            }
-          >
+          <button disabled={isLoading} onClick={() => onClick('https://ogp.me/ns/ogp.me.rdf')}>
             Open Graph - not working due to CORS
           </button>
         </li>
         <li>
-          <button
-            disabled={isLoading}
-            onClick={() =>
-              onClick('https://www.w3.org/2009/08/skos-reference/skos.rdf#')
-            }
-          >
+          <button disabled={isLoading} onClick={() => onClick('https://www.w3.org/2009/08/skos-reference/skos.rdf#')}>
             SKOS - bug with hash on prefix
           </button>
         </li>

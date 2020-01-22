@@ -1,7 +1,6 @@
 // import { Button, Card, Divider, Tag } from '@blueprintjs/core';
-import { Tag } from '@blueprintjs/core';
 import React, { useEffect, useMemo, useState } from 'react';
-import { Button, Card, Divider, Grid, Icon, Label, List } from 'semantic-ui-react';
+import { Button, Card, Grid, Icon, Label, List } from 'semantic-ui-react';
 import { expandModelFields, mergeFlatKeys, structureToFlatStructureDefinition } from '../../core/structure-editor';
 import { CaptureModel, ModelFields, StructureType } from '../../types/capture-model';
 import { SelectModelFields } from '../SelectModelFields/SelectModelFields';

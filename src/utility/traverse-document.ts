@@ -10,7 +10,7 @@ export function traverseDocument(
     visitSelector?: (selector: SelectorTypes, parent: CaptureModel['document'] | FieldTypes) => void;
     visitEntity?: (entity: CaptureModel['document'], key?: string, parent?: CaptureModel['document']) => void;
     visitFirstEntity?: (entity: CaptureModel['document'], key: string, parent: CaptureModel['document']) => boolean;
-  },
+  }
 ) {
   for (const propKey of Object.keys(document.properties)) {
     const prop = document.properties[propKey];

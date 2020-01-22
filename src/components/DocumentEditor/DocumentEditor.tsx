@@ -1,11 +1,8 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
-import { Breadcrumb, Button, Card, Form as StyledForm, Grid, Icon, Label, List, Segment } from 'semantic-ui-react';
-import { PluginContext } from '../../core/plugins';
+import React, { useEffect } from 'react';
+import { Button, Card, Form as StyledForm, Grid, Icon, Label, List } from 'semantic-ui-react';
 import { useMiniRouter } from '../../hooks/useMiniRouter';
 import { CaptureModel } from '../../types/capture-model';
 import { FieldTypes } from '../../types/field-types';
-import { Field, Form, Formik } from 'formik';
-import { ChooseFieldButton } from '../ChooseFieldButton/ChooseFieldButton';
 import { NewDocumentForm } from '../NewDocumentForm/NewDocumentForm';
 import { NewFieldForm } from '../NewFieldForm/NewFieldForm';
 import { SubtreeBreadcrumb } from '../SubtreeBreadcrumb/SubtreeBreadcrumb';

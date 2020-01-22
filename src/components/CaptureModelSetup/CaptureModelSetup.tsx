@@ -1,8 +1,7 @@
 import React, { useMemo } from 'react';
+import { Card, List, Tab } from 'semantic-ui-react';
 
 type Props = {};
-
-import { Card, List, Tab } from 'semantic-ui-react';
 
 // Upload existing capture model from JSON
 // Capture model from URL - fetching, needs right CORS

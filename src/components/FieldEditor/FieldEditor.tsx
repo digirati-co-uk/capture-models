@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Field, Form, Formik } from 'formik';
-import { Button, Form as StyledForm, Label, Segment, Grid } from 'semantic-ui-react';
+import { Button, Form as StyledForm, Grid, Label, Segment } from 'semantic-ui-react';
 import { FormPreview, PluginContext } from '../../core/plugins';
 import { FieldTypes } from '../../types/field-types';
 

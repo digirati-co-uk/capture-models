@@ -1,4 +1,4 @@
-import { Button, Card, H3, H4 } from '@blueprintjs/core';
+import { Button, Card, H4 } from '@blueprintjs/core';
 import React from 'react';
 
 export const CreateStructure: React.FC<{

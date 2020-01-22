@@ -1,4 +1,4 @@
-import { CaptureModel, ModelFields } from '../types/capture-model';
+import { CaptureModel } from '../types/capture-model';
 import { FieldTypes } from '../types/field-types';
 
 export function filterCaptureModel(

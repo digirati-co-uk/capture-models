@@ -1,13 +1,12 @@
 import React from 'react';
 import { ChooseField } from './ChooseField';
-
-export default { title: 'Components|Choose field' };
-
 // Import some fields.
 import '../../input-types/TextField';
 import '../../input-types/HTMLField';
 
 import { PluginProvider } from '../../core/plugins';
+
+export default { title: 'Components|Choose field' };
 
 export const Simple: React.FC = () => {
   return (

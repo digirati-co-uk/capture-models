@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { PluginContext } from '../../core/plugins';
 import { H4 } from '@blueprintjs/core';
 import { Button, Card, Grid } from 'semantic-ui-react';
-import { FieldSpecification, FieldTypeMap, FieldTypes } from '../../types/field-types';
+import { FieldSpecification, FieldTypeMap } from '../../types/field-types';
 
 export const ChooseField: React.FC<{
   handleChoice: <T extends FieldTypeMap[Type], Type extends keyof FieldTypeMap>(

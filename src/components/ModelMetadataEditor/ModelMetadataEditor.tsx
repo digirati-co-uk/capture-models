@@ -1,6 +1,6 @@
 import { FormGroup, InputGroup, TextArea } from '@blueprintjs/core';
 import { useFormik } from 'formik';
-import React, { useState } from 'react';
+import React from 'react';
 import { Button } from 'semantic-ui-react';
 import { CaptureModel } from '../../types/capture-model';
 

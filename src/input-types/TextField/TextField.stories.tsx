@@ -3,7 +3,7 @@ import { Form, Segment } from 'semantic-ui-react';
 import { FieldWrapper } from '../../components/FieldWrapper/FieldWrapper';
 import { PluginProvider } from '../../core/plugins';
 import { TextField } from './TextField';
-import { text, select, withKnobs, boolean } from '@storybook/addon-knobs';
+import { boolean, select, withKnobs } from '@storybook/addon-knobs';
 import { FieldEditor } from '../../components/FieldEditor/FieldEditor';
 
 export default { title: 'Input types|TextField', decorators: [withKnobs] };

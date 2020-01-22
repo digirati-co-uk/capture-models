@@ -1,5 +1,5 @@
 import React from 'react';
-import { FieldComponent, FieldTypeProps } from '../../types/field-types';
+import { FieldComponent } from '../../types/field-types';
 
 export type HTMLFieldProps = {
   type: 'html-field';

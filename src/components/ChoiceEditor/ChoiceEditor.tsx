@@ -1,10 +1,8 @@
-import { Field } from 'formik';
-import React, { useEffect, useMemo, useState } from 'react';
-import { Button, Card, Divider, Form as StyledForm, Grid, Icon, Label, List, Transition } from 'semantic-ui-react';
+import React, { useEffect } from 'react';
+import { Button, Card, Grid } from 'semantic-ui-react';
 import { ChoiceList } from '../ChoiceList/ChoiceList';
 import { NewChoiceForm } from '../NewChoiceForm/NewChoiceForm';
 import { NewModelForm } from '../NewModelForm/NewModelForm';
-import { SubtreeBreadcrumb } from '../SubtreeBreadcrumb/SubtreeBreadcrumb';
 import { useMiniRouter } from '../../hooks/useMiniRouter';
 import { StructureType } from '../../types/capture-model';
 import { StructureMetadataEditor } from '../StructureMetadataEditor/StructureMetadataEditor';

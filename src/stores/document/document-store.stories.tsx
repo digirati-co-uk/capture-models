@@ -1,17 +1,16 @@
 import React from 'react';
-import { Grid, Segment, Header } from 'semantic-ui-react';
+import { Grid, Header, Segment } from 'semantic-ui-react';
 import { CaptureModel } from '../../types/capture-model';
 import { DocumentStore } from './document-store';
 import { DocumentEditor } from '../../components/DocumentEditor/DocumentEditor';
 import { FieldEditor } from '../../components/FieldEditor/FieldEditor';
 import { FieldTypes } from '../../types/field-types';
+// Import plugin
+import '../../input-types/TextField/index';
 
 export default { title: 'Stores|Document Store' };
 
 const model: CaptureModel = require('../../../fixtures/simple.json');
-
-// Import plugin
-import '../../input-types/TextField/index';
 
 const Test: React.FC = () => {
   const state = DocumentStore.useStoreState(s => ({

@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import BoxSelectorCanvasPanel from './BoxSelector.canvas-panel';
 import {
-  Manifest,
   CanvasProvider,
+  CanvasRepresentation,
+  Manifest,
+  OpenSeadragonViewer,
+  OpenSeadragonViewport,
   SingleTileSource,
   Viewport,
-  OpenSeadragonViewport,
-  OpenSeadragonViewer,
-  CanvasRepresentation,
   // @ts-ignore
 } from '@canvas-panel/core';
 

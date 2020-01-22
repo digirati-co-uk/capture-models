@@ -42,6 +42,7 @@
     },
     "include": [
         "src",
+        "types",
         "fixtures"
     ],
     "exclude": [

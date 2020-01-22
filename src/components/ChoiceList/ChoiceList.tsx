@@ -21,7 +21,7 @@ export const ChoiceList: React.FC<Props> = ({ onRemove, choice, pushFocus }) => 
             color="red"
             basic
             size="mini"
-            onClick={(e) => {
+            onClick={e => {
               e.preventDefault();
               e.stopPropagation();
               // Remove the current item.

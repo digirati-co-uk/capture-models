@@ -3,7 +3,7 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { useNavigation } from './navigation';
 import { useCurrentSelector } from './current-selector';
-import { BoxSelector, BoxSelectorProps } from '../selector-types/BoxSelector/BoxSelector';
+import { BoxSelectorProps } from '../selector-types/BoxSelector/BoxSelector';
 
 const withSimpleCaptureModel = (Component: React.FC): React.FC => () => (
   <CaptureModelProvider captureModel={require('../../fixtures/simple.json')}>

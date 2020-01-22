@@ -1,5 +1,5 @@
 import { expandModelFields } from '../../../core/structure-editor';
-import { CaptureModel, ModelFields, Revision, StructureType } from '../../../types/capture-model';
+import { CaptureModel, Revision } from '../../../types/capture-model';
 import { filterCaptureModel } from '../../../utility/filter-capture-model';
 import { flattenStructures } from '../../../utility/flatten-structures';
 
