@@ -2,6 +2,7 @@ import { Action, Computed } from 'easy-peasy';
 import { CaptureModel, ModelFields } from '../../types/capture-model';
 import { SelectorTypes } from '../../types/selector-types';
 import { RevisionItem } from './utility/capture-model-to-revision-list';
+import { SelectorActions, SelectorModel } from '../selectors/selector-model';
 
 /**
  * Revision model
@@ -62,6 +63,9 @@ export type RevisionsModel = {
   currentSelector: Computed<RevisionsModel, SelectorTypes | null>;
   unsavedRevisionIds: string[];
 
+  // A slightly split out model for the selectors.
+  selector: SelectorModel;
+
   // Actions
   createRevision: Action<
     RevisionsModel,
@@ -74,15 +78,34 @@ export type RevisionsModel = {
   // discardRevisionChanges(rid) -- maybe
 
   // Fields and selector state.
-  updateFieldValue: Action<RevisionsModel, { path: Array<[string, string]>; value: any }>;
-  updateFieldSelector: Action<RevisionsModel, { path: Array<[string, string]>; state: any }>;
-  updateEntitySelector: Action<RevisionsModel, { path: Array<[string, string]>; state: any }>;
+  updateFieldValue: Action<RevisionsModel, { path: Array<[string, string]>; revisionId?: string; value: any }>;
+  updateFieldSelector: Action<RevisionsModel, { path: Array<[string, string]>; revisionId?: string; state: any }>;
+  updateEntitySelector: Action<RevisionsModel, { path: Array<[string, string]>; revisionId?: string; state: any }>;
 
   // Field instances (for allowMultiple=true)
-  createNewFieldInstance: Action<RevisionsModel, { path: Array<[string, string]>; property: string }>;
-  removeFieldInstance: Action<RevisionsModel, { path: Array<[string, string]> }>;
-  createNewEntityInstance: Action<RevisionsModel, { path: Array<[string, string]>; property: string }>;
-  removeEntityInstance: Action<RevisionsModel, { path: Array<[string, string]> }>;
+  createNewFieldInstance: Action<
+    RevisionsModel,
+    { path: Array<[string, string]>; revisionId?: string; property: string }
+  >;
+  createNewEntityInstance: Action<
+    RevisionsModel,
+    { path: Array<[string, string]>; revisionId?: string; property: string }
+  >;
+  // Remove a field OR entity instance when provided with a path.
+  removeInstance: Action<RevisionsModel, { path: Array<[string, string]>; revisionId?: string }>;
+
+  // And some selector actions
+  chooseSelector: Action<RevisionsModel, { selectorId: string }>;
+  clearSelector: Action<RevisionsModel>;
+  updateSelector: Action<RevisionsModel, { selectorId: string; state: SelectorTypes['state'] }>;
+  updateSelectorPreview: Action<RevisionsModel, { selectorId: string; preview: any }>;
+  setTopLevelSelector: Action<RevisionsModel, { selectorId: string }>;
+  clearTopLevelSelector: Action<RevisionsModel>;
+  addVisibleSelectorIds: Action<RevisionsModel, { selectorIds: string[] }>;
+  removeVisibleSelectorIds: Action<RevisionsModel, { selectorIds: string[] }>;
+  // And some computed values. (Removed for now)
+  // currentSelector: Computed<RevisionsModel, SelectorTypes | null>;
+  // visibleSelectors: Computed<RevisionsModel, SelectorTypes[]>;
 };
 
 export type EDIT_ALL_VALUES = 'EDIT_ALL_VALUES';

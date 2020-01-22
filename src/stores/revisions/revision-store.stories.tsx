@@ -10,6 +10,7 @@ const models: CaptureModel[] = [
   require('../../../fixtures/03-revisions/03-nested-revision.json'),
   require('../../../fixtures/03-revisions/04-dual-transcription.json'),
   require('../../../fixtures/03-revisions/05-allow-multiple-transcriptions.json'),
+  require('../../../fixtures/04-selectors/01-simple-selector.json'),
 ];
 
 const Test: React.FC = () => {
@@ -25,20 +26,32 @@ const Test: React.FC = () => {
         </div>
       ))}
       <pre>
+        {state.selector.availableSelectors.length ? (
+          <button
+            onClick={() => {
+              actions.chooseSelector({
+                selectorId: state.selector.availableSelectors[0].id,
+              });
+              actions.addVisibleSelectorIds({ selectorIds: [state.selector.availableSelectors[0].id] });
+            }}
+          >
+            Choose first selector
+          </button>
+        ) : null}
         <button
-          onClick={() =>
+          onClick={() => {
             actions.createRevision({
               revisionId: 'test-person-a',
               cloneMode: 'FORK_TEMPLATE',
-            })
-          }
+            });
+          }}
         >
           Create
         </button>
         <button
           onClick={() =>
             actions.selectRevision({
-              revisionId: 'test-person-a',
+              revisionId: 'c2',
             })
           }
         >
@@ -72,6 +85,12 @@ const Test: React.FC = () => {
 
 export const Simple: React.FC = () => (
   <RevisionStore.Provider initialData={{ captureModel: models[4] }}>
+    <Test />
+  </RevisionStore.Provider>
+);
+
+export const WithSelector: React.FC = () => (
+  <RevisionStore.Provider initialData={{ captureModel: models[5] }}>
     <Test />
   </RevisionStore.Provider>
 );
