@@ -1,8 +1,12 @@
-import React, { useEffect } from 'react';
+import copy from 'fast-copy';
+import React, { useContext, useEffect } from 'react';
 import { Button, Card, Form as StyledForm, Grid, Icon, Label, List } from 'semantic-ui-react';
+import { PluginContext } from '../../core/plugins';
 import { useMiniRouter } from '../../hooks/useMiniRouter';
 import { CaptureModel } from '../../types/capture-model';
 import { FieldTypes } from '../../types/field-types';
+import { SelectorTypeMap, SelectorTypes } from '../../types/selector-types';
+import { ChooseSelectorButton } from '../ChooseSelectorButton/ChooseSelectorButton';
 import { NewDocumentForm } from '../NewDocumentForm/NewDocumentForm';
 import { NewFieldForm } from '../NewFieldForm/NewFieldForm';
 import { SubtreeBreadcrumb } from '../SubtreeBreadcrumb/SubtreeBreadcrumb';
@@ -19,6 +23,7 @@ export type DocumentEditorProps = {
   subtreePath: string[];
   subtree: CaptureModel['document'];
   subtreeFields: Array<{ term: string; value: CaptureModel['document'] | FieldTypes }>;
+  setSelector: (payload: { term?: string; selector: SelectorTypes | undefined }) => void;
 };
 
 export const DocumentEditor: React.FC<DocumentEditorProps> = ({
@@ -33,8 +38,10 @@ export const DocumentEditor: React.FC<DocumentEditorProps> = ({
   subtree,
   subtreeFields,
   pushSubtree,
+  setSelector,
 }) => {
   const [route, router] = useMiniRouter(['list', 'newField', 'newDocument'], 'list');
+  const { selectors } = useContext(PluginContext);
 
   useEffect(() => {
     if (route !== 'list') {
@@ -84,6 +91,29 @@ export const DocumentEditor: React.FC<DocumentEditorProps> = ({
                       name="description"
                       value={subtree.description}
                       onChange={e => setDescription(e.currentTarget.value)}
+                    />
+                  </label>
+                </StyledForm.Field>
+                <StyledForm.Field>
+                  <label>
+                    Choose selector (optional)
+                    <ChooseSelectorButton
+                      value={subtree.selector ? subtree.selector.type : ''}
+                      onChange={t => {
+                        if (t) {
+                          const selector = selectors[t as keyof SelectorTypeMap];
+                          if (selector) {
+                            setSelector({
+                              selector: {
+                                type: selector.type,
+                                state: copy(selector.defaultState),
+                              } as any,
+                            });
+                          }
+                        } else {
+                          setSelector({ selector: undefined });
+                        }
+                      }}
                     />
                   </label>
                 </StyledForm.Field>
@@ -153,6 +183,12 @@ export const DocumentEditor: React.FC<DocumentEditorProps> = ({
                       type: newField.fieldType,
                       label: newField.term,
                       value: newField.field.defaultValue,
+                      selector: newField.selector
+                        ? {
+                            type: newField.selector.type,
+                            state: copy(newField.selector.defaultState),
+                          }
+                        : undefined,
                       ...newField.field.defaultProps,
                     },
                     select: true,
@@ -172,25 +208,32 @@ export const DocumentEditor: React.FC<DocumentEditorProps> = ({
                 <Grid.Column width={13}>
                   <Card.Header>Create new document</Card.Header>
                 </Grid.Column>
-                <Card.Content extra>
-                  <NewDocumentForm
-                    existingTerms={Object.keys(subtree.properties)}
-                    onSave={newDoc => {
-                      // Use term to get plugin.
-                      addField({
-                        term: newDoc.term,
-                        field: {
-                          type: 'entity',
-                          label: newDoc.term,
-                          properties: {},
-                        },
-                        select: true,
-                      });
-                      router.list();
-                    }}
-                  />
-                </Card.Content>
               </Grid>
+            </Card.Content>
+
+            <Card.Content extra>
+              <NewDocumentForm
+                existingTerms={Object.keys(subtree.properties)}
+                onSave={newDoc => {
+                  // Use term to get plugin.
+                  addField({
+                    term: newDoc.term,
+                    field: {
+                      type: 'entity',
+                      label: newDoc.term,
+                      selector: newDoc.selector
+                        ? {
+                            type: newDoc.selector.type,
+                            state: copy(newDoc.selector.defaultState),
+                          }
+                        : undefined,
+                      properties: {},
+                    },
+                    select: true,
+                  });
+                  router.list();
+                }}
+              />
             </Card.Content>
           </>
         )}

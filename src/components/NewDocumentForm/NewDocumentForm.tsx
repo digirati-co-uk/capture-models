@@ -1,18 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Button, Form as StyledForm, Message } from 'semantic-ui-react';
+import { PluginContext } from '../../core/plugins';
+import { SelectorSpecification } from '../../types/selector-types';
+import { ChooseSelectorButton } from '../ChooseSelectorButton/ChooseSelectorButton';
 
 type Props = {
   existingTerms: string[];
-  onSave: (t: { term: string }) => void;
+  onSave: (t: { term: string; selectorType?: string; selector?: SelectorSpecification<any, any, any> }) => void;
 };
 
 export const NewDocumentForm: React.FC<Props> = ({ existingTerms, onSave }) => {
   const [term, setTerm] = useState('');
   const [error, setError] = useState('');
+  const { selectors } = useContext(PluginContext);
+  const [selectorType, setSelectorType] = useState<keyof typeof selectors | ''>('');
 
   const onSubmit = () => {
+    const selector = selectorType ? selectors[selectorType] : undefined;
     onSave({
       term,
+      selectorType,
+      selector,
     });
   };
 
@@ -37,11 +45,17 @@ export const NewDocumentForm: React.FC<Props> = ({ existingTerms, onSave }) => {
             onChange={e => setTerm(e.currentTarget.value)}
           />
         </label>
-        {error ? <Message negative>{error}</Message> : null}
-        <Button disabled={error !== '' || term === ''} primary>
-          Save
-        </Button>
       </StyledForm.Field>
+      <StyledForm.Field>
+        <label>
+          Choose selector (optional)
+          <ChooseSelectorButton onChange={t => setSelectorType(t as any)} />
+        </label>
+      </StyledForm.Field>
+      {error ? <Message negative>{error}</Message> : null}
+      <Button disabled={error !== '' || term === ''} primary>
+        Save
+      </Button>
     </StyledForm>
   );
 };

@@ -1,14 +1,11 @@
 import React, { useContext } from 'react';
 import { PluginContext } from '../../core/plugins';
 import { Button, Card, Label } from 'semantic-ui-react';
-import { SelectorContentTypeMap, SelectorSpecification, SelectorTypeMap } from '../../types/selector-types';
+import { ContentTypeMap } from '../../types/content-types';
+import { SelectorSpecification, SelectorTypeMap } from '../../types/selector-types';
 
 export const ChooseSelector: React.FC<{
-  handleChoice: <
-    T extends SelectorTypeMap[Type],
-    Type extends keyof SelectorTypeMap,
-    CT extends keyof SelectorContentTypeMap
-  >(
+  handleChoice: <T extends SelectorTypeMap[Type], Type extends keyof SelectorTypeMap, CT extends keyof ContentTypeMap>(
     choice: SelectorSpecification<T, Type, CT>
   ) => void;
 }> = ({ handleChoice }) => {

@@ -1,4 +1,5 @@
 import React from 'react';
+import { ContentTypeMap } from './content-types';
 import { MapValues } from './utility';
 
 // There will be something here.
@@ -7,9 +8,6 @@ export type BaseSelector = {
 };
 
 export interface SelectorTypeMap {}
-
-// @deprecated
-export interface SelectorContentTypeMap {}
 
 export type InjectedSelectorProps<T> = {
   // @todo I think these are where we need to expand for the recent store changes.
@@ -24,11 +22,17 @@ export type InjectedSelectorProps<T> = {
   //    - addVisibleSelectorIds: Action<RevisionsModel, { selectorIds: string[] }>;
   //    - removeVisibleSelectorIds: Action<RevisionsModel, { selectorIds: string[] }>;
   //   However the exact needs are not going to be clear without a UI to attach these to and test.
-  updateSelector(state: T): void;
+  updateSelector?(state: T | null): void;
   readOnly?: boolean;
   // Selector preview can be set and passed to the rendering components.
   selectorPreview?: any;
   setSelectorPreview?: (newValue: any) => void;
+  // For the form.
+  chooseSelector?: (selectorId: string) => void;
+  clearSelector?: (selectorId: string) => void;
+  // Controlling the display selector
+  displaySelector?: (selectorId: string) => void;
+  hideSelector?: (selectorId: string) => void;
 };
 
 export type SelectorTypes = MapValues<SelectorTypeMap, BaseSelector>;
@@ -41,7 +45,7 @@ export type SelectorComponent<T extends { state: State }, State = T['state']> = 
 export type SelectorSpecification<
   T extends SelectorTypeMap[Type],
   Type extends keyof SelectorTypeMap,
-  CT extends keyof SelectorContentTypeMap
+  CT extends keyof ContentTypeMap
 > = {
   label: string;
   type: T['type'];

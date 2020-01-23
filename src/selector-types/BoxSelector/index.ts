@@ -2,14 +2,11 @@ import React from 'react';
 import { SelectorSpecification } from '../../types/selector-types';
 import { BoxSelector, BoxSelectorProps } from './BoxSelector';
 import { registerSelector } from '../../core/plugins';
+import '../../content-types/CanvasPanel';
 
 declare module '../../types/selector-types' {
   export interface SelectorTypeMap {
     'box-selector': BoxSelectorProps;
-  }
-
-  export interface SelectorContentTypeMap {
-    'canvas-panel': { type: 'canvas-panel' };
   }
 }
 

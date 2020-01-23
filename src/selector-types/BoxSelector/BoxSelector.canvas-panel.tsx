@@ -27,7 +27,9 @@ const BoxSelectorCanvasPanel: SelectorComponent<BoxSelectorProps> = props => {
       ratio={1}
       setCoords={(coords: any) => {
         setSelector({ ...selector, ...coords });
-        props.updateSelector({ ...selector, ...coords });
+        if (props.updateSelector) {
+          props.updateSelector({ ...selector, ...coords });
+        }
       }}
       style={{ background: 'red' }}
     />

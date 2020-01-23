@@ -68,6 +68,7 @@ const FullDocumentEditor: React.FC = () => {
           selectedField={state.selectedField}
           subtreePath={state.subtreePath}
           addField={actions.addField}
+          setSelector={actions.setSelector}
         />
       </Grid.Column>
       <Grid.Column width={10}>
@@ -79,6 +80,7 @@ const FullDocumentEditor: React.FC = () => {
               field={state.subtree.properties[state.selectedField][0] as FieldTypes}
               onSubmit={field => {
                 actions.setField({ field });
+                actions.setFieldSelector({ selector: field.selector });
                 actions.deselectField();
               }}
             />

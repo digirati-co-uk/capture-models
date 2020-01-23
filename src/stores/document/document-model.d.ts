@@ -27,14 +27,19 @@ export type DocumentModel = {
 
   setLabel: Action<DocumentModel, string>;
   setDescription: Action<DocumentModel, string>;
+  setSelector: Action<DocumentModel, { selector: SelectorTypes | undefined }>;
+  setSelectorState: Action<DocumentModel, { selectorType: string; selector: SelectorTypes['state'] }>;
 
   setField: Thunk<DocumentModel, { term?: string; field: FieldTypes }, any, DocumentModel>;
   setCustomProperty: Action<DocumentModel, { term?: string; key: string; value: any }>;
 
   setFieldLabel: Action<DocumentModel, { term?: string; label: string }>;
   setFieldDescription: Action<DocumentModel, { term?: string; description: string | undefined }>;
-  setSelector: Action<DocumentModel, { term?: string; selector: SelectorTypes }>;
-  setSelectorState: Action<DocumentModel, { term?: string; selectorType: string; selector: SelectorTypes['state'] }>;
+  setFieldSelector: Action<DocumentModel, { term?: string; selector: SelectorTypes | undefined }>;
+  setFieldSelectorState: Action<
+    DocumentModel,
+    { term?: string; selectorType: string; selector: SelectorTypes['state'] }
+  >;
   setFieldValue: Action<DocumentModel, { term?: string; value: FieldTypes['value'] }>;
   setFieldTerm: Action<DocumentModel, { oldTerm: string; newTerm: string }>;
 

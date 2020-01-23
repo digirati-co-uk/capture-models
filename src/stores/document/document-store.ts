@@ -107,6 +107,7 @@ export const DocumentStore = createContextStore<
     }
 
     actions.setFieldValue({ term: payload.term, value: payload.field.value });
+    actions.setFieldSelector({ term: payload.term, selector: payload.field.selector });
 
     // Creat new action for setting custom property on field
     // This will allow all of the field setters to be generic and look for all fields that need to be updated, at the
@@ -129,6 +130,17 @@ export const DocumentStore = createContextStore<
   // Sets description on the selected field.
   setDescription: action((state, description) => {
     resolveSubtree(state.subtreePath, state.document).description = description;
+  }),
+
+  setSelector: action((state, payload) => {
+    resolveSubtree(state.subtreePath, state.document).selector = payload.selector;
+  }),
+
+  setSelectorState: action((state, payload) => {
+    const selector = resolveSubtree(state.subtreePath, state.document).selector;
+    if (selector) {
+      selector.state = payload as any;
+    }
   }),
 
   // setContext: action((state, payload) => {
@@ -160,13 +172,13 @@ export const DocumentStore = createContextStore<
       term.description = payload.description;
     }
   }),
-  setSelector: action((state, payload) => {
+  setFieldSelector: action((state, payload) => {
     const prop = (payload.term ? payload.term : state.selectedFieldKey) as string;
     for (let term of resolveSubtree(state.subtreePath, state.document).properties[prop]) {
       term.selector = payload.selector;
     }
   }),
-  setSelectorState: action((state, payload) => {
+  setFieldSelectorState: action((state, payload) => {
     const prop = (payload.term ? payload.term : state.selectedFieldKey) as string;
     for (let term of resolveSubtree(state.subtreePath, state.document).properties[prop]) {
       if (term.selector) {
