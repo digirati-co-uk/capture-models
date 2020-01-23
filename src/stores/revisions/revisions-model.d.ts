@@ -1,4 +1,4 @@
-import { Action, Computed } from 'easy-peasy';
+import { Action, Computed, Thunk } from 'easy-peasy';
 import { SelectorTypes } from '../../types/selector-types';
 import { RevisionItem } from './utility/capture-model-to-revision-list';
 import { SelectorModel } from '../selectors/selector-model';
@@ -58,8 +58,6 @@ export type RevisionsModel = {
   // The revision.
   currentRevisionId: string | null;
   currentRevision: Computed<RevisionsModel, RevisionItem | null>;
-  currentSelectorItemId: string | null;
-  currentSelector: Computed<RevisionsModel, SelectorTypes | null>;
   unsavedRevisionIds: string[];
 
   // A slightly split out model for the selectors.
@@ -97,6 +95,7 @@ export type RevisionsModel = {
   chooseSelector: Action<RevisionsModel, { selectorId: string }>;
   clearSelector: Action<RevisionsModel>;
   updateSelector: Action<RevisionsModel, { selectorId: string; state: SelectorTypes['state'] }>;
+  updateCurrentSelector: Thunk<RevisionsModel, SelectorTypes['state']>;
   updateSelectorPreview: Action<RevisionsModel, { selectorId: string; preview: any }>;
   setTopLevelSelector: Action<RevisionsModel, { selectorId: string }>;
   clearTopLevelSelector: Action<RevisionsModel>;

@@ -8,6 +8,7 @@ export type BaseSelector = {
 
 export interface SelectorTypeMap {}
 
+// @deprecated
 export interface SelectorContentTypeMap {}
 
 export type InjectedSelectorProps<T> = {
@@ -24,11 +25,13 @@ export type InjectedSelectorProps<T> = {
   //    - removeVisibleSelectorIds: Action<RevisionsModel, { selectorIds: string[] }>;
   //   However the exact needs are not going to be clear without a UI to attach these to and test.
   updateSelector(state: T): void;
+  readOnly?: boolean;
+  // Selector preview can be set and passed to the rendering components.
+  selectorPreview?: any;
+  setSelectorPreview?: (newValue: any) => void;
 };
 
 export type SelectorTypes = MapValues<SelectorTypeMap, BaseSelector>;
-
-export type SelectorContentTypes = MapValues<SelectorContentTypeMap>;
 
 // Injected properties.
 export type SelectorTypeProps<T extends { state: State }, State = T['state']> = T & InjectedSelectorProps<T['state']>;

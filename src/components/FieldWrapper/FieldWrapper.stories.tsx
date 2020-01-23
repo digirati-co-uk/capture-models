@@ -4,6 +4,7 @@ import { PluginProvider } from '../../core/plugins';
 import { FieldWrapper } from './FieldWrapper';
 // Import some plugins
 import '../../input-types/TextField';
+import '../../selector-types/BoxSelector';
 
 export default { title: 'Components|Field Wrapper' };
 
@@ -30,6 +31,16 @@ export const Simple: React.FC = () => {
               type: 'text-field',
               value: 'value 2',
               description: 'Some other longer description',
+              selector: {
+                id: '123',
+                type: 'box-selector',
+                state: {
+                  x: 0,
+                  y: 0,
+                  height: 100,
+                  width: 100,
+                },
+              },
               label: 'Another field',
             }}
             showTerm={true}

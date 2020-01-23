@@ -1,30 +1,39 @@
-import { action, computed, createContextStore } from 'easy-peasy';
+import { action, computed, createContextStore, thunk } from 'easy-peasy';
 import { original } from 'immer';
 import { pluginStore } from '../../core/plugins';
 import { CaptureModel } from '../../types/capture-model';
 import { FieldTypes } from '../../types/field-types';
+import { SelectorTypes } from '../../types/selector-types';
 import { traverseDocument } from '../../utility/traverse-document';
 import { RevisionsModel } from './revisions-model';
 import { captureModelToRevisionList } from './utility/capture-model-to-revision-list';
 import createId from 'nanoid';
-import { createSelectorActions, createSelectorStore } from '../selectors/selector-store';
+import { createSelectorStore } from '../selectors/selector-store';
 import { getRevisionFieldFromPath } from './utility/get-revision-field-from-path';
 import { copyOriginal } from '../../utility/copy-original';
 
-export const RevisionStore = createContextStore<RevisionsModel>(({ captureModel }: { captureModel: CaptureModel }) => {
+type RevisionData = {
+  captureModel: CaptureModel;
+  initialRevision?: string;
+};
+
+export const RevisionStore = createContextStore<RevisionsModel>(({ captureModel, initialRevision }: RevisionData) => {
+  // Calculated revisions for the store.
+  const revisions = captureModelToRevisionList(captureModel, true).reduce((mapOfRevisions, nextRevision) => {
+    mapOfRevisions[nextRevision.revision.id] = nextRevision;
+    return mapOfRevisions;
+  }, {} as any);
+
   return {
     // Can we safely assume the structure won't change in this store? - I think so.
     // Do we need a "root" revision for items without a revision ID?
     // Actually – root revisions can have the SAME id as the structure choice, since they are just the revision
     // for that actual structure. If it's not in the structure AND not in a revision then it can't be edited in
     // the capture model editor, unless you edit the whole document at once.
-    revisions: captureModelToRevisionList(captureModel, true).reduce((mapOfRevisions, nextRevision) => {
-      mapOfRevisions[nextRevision.revision.id] = nextRevision;
-      return mapOfRevisions;
-    }, {} as any),
+    revisions,
 
     // The revision.
-    currentRevisionId: null,
+    currentRevisionId: initialRevision ? initialRevision : null,
     currentRevision: computed(state =>
       state.currentRevisionId && state.revisions[state.currentRevisionId]
         ? state.revisions[state.currentRevisionId]
@@ -34,14 +43,49 @@ export const RevisionStore = createContextStore<RevisionsModel>(({ captureModel 
 
     // Empty state for selectors. This will be populated when you select a revision and be reset when you deselect one.
     // It contains the basic state for what's currently selected.
-    selector: createSelectorStore(),
-    ...createSelectorActions<RevisionsModel>(model => model.selector),
-
-    // Where does this get a selector from?
-    // Does it HAVE to be on the current revision?
-    // Is this computed value going to be walking the whole revision?
-    currentSelectorItemId: null,
-    currentSelector: computed(state => null),
+    selector: initialRevision ? createSelectorStore(revisions[initialRevision].document) : createSelectorStore(),
+    chooseSelector: action((state, payload) => {
+      state.selector.currentSelectorId = payload.selectorId;
+    }),
+    clearSelector: action(state => {
+      state.selector.currentSelectorId = null;
+    }),
+    clearTopLevelSelector: action((state, payload) => {
+      state.selector.topLevelSelector = null;
+    }),
+    setTopLevelSelector: action((state, payload) => {
+      state.selector.topLevelSelector = payload.selectorId;
+    }),
+    updateSelector: action((state, payload) => {
+      const selectorToUpdate = state.selector.availableSelectors.find(selector => selector.id === payload.selectorId);
+      if (selectorToUpdate) {
+        selectorToUpdate.state = payload.state;
+        // if (onUpdateSelector) {
+        //   onUpdateSelector(payload.selectorId, payload.state);
+        // }
+      }
+    }),
+    updateSelectorPreview: action((state, payload) => {
+      state.selector.selectorPreviewData[payload.selectorId] = payload.preview;
+    }),
+    addVisibleSelectorIds: action((state, payload) => {
+      for (const id of payload.selectorIds) {
+        if (state.selector.visibleSelectorIds.indexOf(id) === -1) {
+          state.selector.visibleSelectorIds.push(id);
+        }
+      }
+    }),
+    removeVisibleSelectorIds: action((state, payload) => {
+      state.selector.visibleSelectorIds = state.selector.visibleSelectorIds.filter(
+        selector => payload.selectorIds.indexOf(selector) === -1
+      );
+    }),
+    updateCurrentSelector: thunk<RevisionsModel, SelectorTypes['state']>((actions, payload, helpers) => {
+      const state = helpers.getState().selector;
+      if (state.currentSelectorId) {
+        actions.updateSelector({ selectorId: state.currentSelectorId, state: payload });
+      }
+    }),
 
     // This method assumes we have the latest capture model available, which may not
     // be the case. This needs to be more generic.
@@ -166,7 +210,6 @@ export const RevisionStore = createContextStore<RevisionsModel>(({ captureModel 
       };
 
       state.currentRevisionId = newRevisionId;
-      state.currentSelectorItemId = null;
       state.selector = createSelectorStore(newDocument);
       state.unsavedRevisionIds.push(newRevisionId);
 
@@ -253,6 +296,7 @@ export const RevisionStore = createContextStore<RevisionsModel>(({ captureModel 
       // Modify the new field with defaults form the plugin store
       newField.id = createId();
       newField.value = copyOriginal(description.defaultValue);
+
       // @todo nuke selector.. maybe
       entity.properties[property].push(newField as any);
     }),

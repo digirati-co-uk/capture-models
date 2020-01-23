@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { Header, Label } from 'semantic-ui-react';
-import { useField } from '../../core/plugins';
+import { useField, useSelectorStatus } from '../../core/plugins';
 import { FieldTypes } from '../../types/field-types';
 
 type Props<T extends FieldTypes = FieldTypes> = {
@@ -21,7 +21,12 @@ export const FieldWrapper: React.FC<Props> = ({ field, term, onUpdateValue, show
     [onUpdateValue]
   );
 
+  const updateSelectorValue = useCallback(() => {
+    console.log('selector updated.');
+  }, []);
+
   const fieldComponent = useField(field, value, updateValue);
+  const selectorComponent = useSelectorStatus(field.selector, updateSelectorValue);
 
   return (
     <div style={{ marginBottom: 30 }}>
@@ -35,7 +40,7 @@ export const FieldWrapper: React.FC<Props> = ({ field, term, onUpdateValue, show
         }
         subheader={field.description}
       />
-      {/* @todo selector */}
+      {selectorComponent ? <div>{selectorComponent}</div> : null}
       {/* @todo input type */}
       <div>{fieldComponent}</div>
     </div>
