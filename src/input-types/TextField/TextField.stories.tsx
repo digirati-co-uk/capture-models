@@ -5,6 +5,7 @@ import { PluginProvider } from '../../core/plugins';
 import { TextField } from './TextField';
 import { boolean, select, withKnobs } from '@storybook/addon-knobs';
 import { FieldEditor } from '../../components/FieldEditor/FieldEditor';
+import '../../input-types/TextField';
 
 export default { title: 'Input types|TextField', decorators: [withKnobs] };
 
@@ -13,6 +14,7 @@ export const Simple: React.FC = () => {
   return (
     <Form>
       <TextField
+        id="1"
         type="text-field"
         value={value}
         updateValue={setValue}

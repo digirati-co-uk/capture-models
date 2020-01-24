@@ -33,6 +33,7 @@ export type InjectedSelectorProps<T> = {
   // Controlling the display selector
   displaySelector?: (selectorId: string) => void;
   hideSelector?: (selectorId: string) => void;
+  currentSelectorId?: string;
 };
 
 export type SelectorTypes = MapValues<SelectorTypeMap, BaseSelector>;

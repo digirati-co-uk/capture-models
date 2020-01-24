@@ -15,7 +15,7 @@ export const FieldEditor: React.FC<{ field: FieldTypes; term?: string; onSubmit:
 }) => {
   const ctx = useContext(PluginContext);
   const { selectors } = useContext(PluginContext);
-  const [selector, setSelector] = useState<SelectorTypes | undefined>();
+  const [selector, setSelector] = useState<SelectorTypes | undefined>(props.selector);
 
   const field = ctx.fields[props.type];
   if (!field) {

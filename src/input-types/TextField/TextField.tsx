@@ -3,6 +3,7 @@ import { Input } from 'semantic-ui-react';
 import { FieldComponent } from '../../types/field-types';
 
 export type TextFieldProps = {
+  id: string;
   type: 'text-field';
   placeholder?: string;
   required?: boolean;
@@ -14,6 +15,8 @@ export type TextFieldProps = {
 export const TextField: FieldComponent<TextFieldProps> = props => {
   return (
     <Input
+      name={props.id}
+      id={props.id}
       icon={props.icon}
       iconPosition={props.iconPosition}
       fluid={true}

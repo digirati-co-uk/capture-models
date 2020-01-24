@@ -42,7 +42,7 @@
     },
     "include": [
         "src",
-        "types",
+        "types/*",
         "fixtures"
     ],
     "exclude": [

@@ -27,7 +27,7 @@ export const Simple: React.FC = () => {
           />
           <FieldWrapper
             field={{
-              id: '1',
+              id: '2',
               type: 'text-field',
               value: 'value 2',
               description: 'Some other longer description',

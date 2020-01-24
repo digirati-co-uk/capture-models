@@ -48,7 +48,7 @@ export const registerField = (specification: { type: keyof FieldTypeMap }) => {
 };
 
 export const registerContent = (contentType: { type: keyof ContentTypeMap }) => {
-  pluginStore.contentTypes[contentType.type] = contentType as any;
+  (pluginStore.contentTypes as any)[contentType.type] = contentType;
 };
 
 export const registerSelector = (selector: { type: keyof SelectorTypeMap }) => {

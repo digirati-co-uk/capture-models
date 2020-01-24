@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
-import { Header, Label } from 'semantic-ui-react';
 import { useField, useSelectorStatus } from '../../core/plugins';
 import { FieldTypes } from '../../types/field-types';
+import { FieldHeader2 } from '../FieldHeader/FieldHeader2';
 
 type Props<T extends FieldTypes = FieldTypes> = {
   field: FieldTypes;
@@ -33,6 +33,8 @@ export const FieldWrapper: React.FC<Props> = ({ field, term, onUpdateValue, show
   }, []);
 
   const fieldComponent = useField(field, value, updateValue);
+
+  // @todo pass a lot of (optional) things from props to this selector status for actions on selectors.
   const selectorComponent = useSelectorStatus(field.selector, updateSelectorValue);
 
   // 1. user clicks on top right selector.
@@ -43,18 +45,14 @@ export const FieldWrapper: React.FC<Props> = ({ field, term, onUpdateValue, show
 
   return (
     <div style={{ marginBottom: 30 }}>
-      <Header
-        as="h3"
-        content={
-          <>
-            {field.label}
-            {showTerm ? <Label size="tiny">{term}</Label> : null}
-          </>
-        }
-        subheader={field.description}
+      <FieldHeader2
+        labelFor={field.id}
+        label={field.label}
+        description={field.description}
+        selectorComponent={selectorComponent}
+        showTerm={showTerm}
+        term={term}
       />
-      {selectorComponent ? <div>{selectorComponent}</div> : null}
-      {/* @todo input type */}
       <div>{fieldComponent}</div>
     </div>
   );
