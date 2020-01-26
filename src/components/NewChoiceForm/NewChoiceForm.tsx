@@ -9,7 +9,6 @@ type Props = {
 
 export const NewChoiceForm: React.FC<Props> = ({ onSave }) => {
   const [label, setLabel] = useState('');
-
   const onSubmit = () => {
     if (!label) return;
     onSave(createChoice({ label }));

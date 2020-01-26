@@ -103,6 +103,11 @@
                             "type": "text-field",
                             "label": "Name",
                             "value": "two instances at second level (second)"
+                          },
+                          {
+                            "type": "text-field",
+                            "label": "Name",
+                            "value": "two instances at second level (third)"
                           }
                         ]
                       }

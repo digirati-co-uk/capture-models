@@ -25,12 +25,12 @@ export function captureModelToRevisionList(captureModel: CaptureModel, includeSt
   }
   if (includeStructures) {
     const flatStructures = flattenStructures(captureModel.structure);
-
     for (const structure of flatStructures) {
       const flatFields = expandModelFields(structure.fields);
       const structureDocument = filterCaptureModel(structure.id, captureModel.document, flatFields, field => {
         return !field.revision; // Where there is no revision.
       });
+
       if (structureDocument) {
         models.push({
           revision: {

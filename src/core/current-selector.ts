@@ -6,6 +6,9 @@ import { SelectorTypes } from '../types/selector-types';
 import { useContext } from './context';
 import { CurrentSelectorState, UseCurrentSelector } from '../types/current-selector';
 
+/**
+ * @deprecated use revisions instead
+ */
 export function useCurrentSelector<Selector extends SelectorTypes = SelectorTypes>(): UseCurrentSelector<Selector> {
   const {
     currentSelectorPath,
@@ -61,6 +64,9 @@ export function useCurrentSelector<Selector extends SelectorTypes = SelectorType
   );
 }
 
+/**
+ * @deprecated use revisions instead
+ */
 export function useInternalCurrentSelectorState(
   captureModel: CaptureModel,
   updateField: (

@@ -3,6 +3,7 @@ import { CaptureModelProvider } from './capture-model-provider';
 import React, { useEffect } from 'react';
 import { useCurrentForm } from './current-form';
 import { useNavigation } from './navigation';
+import '../input-types/TextField';
 
 const withSimpleCaptureModel = (Component: React.FC): React.FC => () => (
   <CaptureModelProvider captureModel={require('../../fixtures/simple.json')}>

@@ -18,7 +18,7 @@ type RevisionData = {
 };
 
 export const RevisionStore = createContextStore<RevisionsModel>(({ captureModel, initialRevision }: RevisionData) => {
-  // Calculated revisions for the store.
+  // Calculated revisions for the store from the capture models, including structures.
   const revisions = captureModelToRevisionList(captureModel, true).reduce((mapOfRevisions, nextRevision) => {
     mapOfRevisions[nextRevision.revision.id] = nextRevision;
     return mapOfRevisions;

@@ -2,6 +2,7 @@ import { Card } from 'semantic-ui-react';
 import { CaptureModelProvider } from './capture-model-provider';
 import React from 'react';
 import { useCaptureModel } from './capture-model';
+// @ts-ignore
 import notes from './capture-model.md';
 import { CaptureModel } from '../../src/types/capture-model';
 

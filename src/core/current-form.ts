@@ -5,6 +5,9 @@ import produce, { Draft, original } from 'immer';
 import { FieldTypes, NestedField } from '../types/field-types';
 import { useContext } from './context';
 
+/**
+ * @deprecated use revisions instead
+ */
 export function useCurrentForm(): UseCurrentForm {
   const { currentFields, updateFieldValue, createUpdateFieldValue } = useContext();
 
@@ -15,6 +18,9 @@ export function useCurrentForm(): UseCurrentForm {
   ]);
 }
 
+/**
+ * @deprecated use revisions instead
+ */
 export const createFormFieldReducer = <Doc extends CaptureModel['document']>(document: Doc) => (
   acc: NestedField<Doc>,
   next: string | NestedModelFields
@@ -72,6 +78,9 @@ export const createFormFieldReducer = <Doc extends CaptureModel['document']>(doc
   return acc;
 };
 
+/**
+ * @deprecated use revisions instead
+ */
 export function useInternalCurrentFormState<Model extends CaptureModel = CaptureModel>(
   captureModel: Model,
   updateCaptureModel: (newModel: Model) => void,

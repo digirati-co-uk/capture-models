@@ -7,7 +7,8 @@ export function useMiniRouter<T extends string>(routes: T[], defaultRoute: T) {
       acc[next] = () => setCurrent(next);
       return acc;
     }, {} as any) as { [key in T]: () => void };
-  }, [routes]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return [current, router, setCurrent] as const;
 }

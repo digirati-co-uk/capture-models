@@ -3,6 +3,9 @@ import { useCallback, useMemo, useState } from 'react';
 import { CaptureModel } from '../types/capture-model';
 import { useContext } from './context';
 
+/**
+ * @deprecated use self-contained ./hooks/use-navigation.ts
+ */
 export function useNavigation(): UseNavigation {
   const { currentView, currentPath, replacePath } = useContext();
 
@@ -34,6 +37,9 @@ export function useNavigation(): UseNavigation {
   );
 }
 
+/**
+ * @deprecated use self-contained ./hooks/use-navigation.ts
+ */
 export function useInternalNavigationState(captureModel: CaptureModel) {
   // Navigation actions.
   const [currentView, setCurrentView] = useState<CaptureModel['structure']>(() => captureModel.structure);

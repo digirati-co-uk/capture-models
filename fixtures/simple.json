@@ -1,14 +1,17 @@
 {
   "structure": {
+    "id": "c1",
     "type": "choice",
     "label": "Annotate this book",
     "description": "Add some details on this book, or leave a review",
     "items": [
       {
+        "id": "c2",
         "type": "choice",
         "label": "Describe this book",
         "items": [
           {
+            "id": "c3",
             "type": "model",
             "label": "Basic information",
             "fields": [
@@ -18,6 +21,7 @@
             ]
           },
           {
+            "id": "c4",
             "type": "model",
             "label": "Add an ISBN number",
             "fields": [
@@ -27,6 +31,7 @@
         ]
       },
       {
+        "id": "c5",
         "type": "model",
         "label": "Add a review",
         "fields": [
@@ -34,6 +39,7 @@
         ]
       },
       {
+        "id": "c6",
         "type": "model",
         "label": "Rate this book",
         "fields": [

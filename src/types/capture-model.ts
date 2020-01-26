@@ -33,15 +33,6 @@ export type CaptureModel = {
         type: 'model';
         fields: ModelFields;
       }
-    | {
-        type: 'review';
-        fields: ModelFields;
-      }
-    | {
-        //id: string;
-        type: 'workflow';
-        steps: Array<Exclude<CaptureModel['structure'], StructureType<'workflow'>>>;
-      }
   );
   document: {
     id: string;
