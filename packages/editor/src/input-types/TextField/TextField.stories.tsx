@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, Segment } from 'semantic-ui-react';
 import { FieldWrapper } from '../../components/FieldWrapper/FieldWrapper';
-import { PluginProvider } from '../../core/plugins';
+import { PluginProvider } from '@capture-models/plugin-api';
 import { TextField } from './TextField';
 import { boolean, select, withKnobs } from '@storybook/addon-knobs';
 import { FieldEditor } from '../../components/FieldEditor/FieldEditor';

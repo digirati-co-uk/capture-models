@@ -1,5 +1,5 @@
 import React from 'react';
-import { PluginProvider } from '../../core/plugins';
+import { PluginProvider } from '@capture-models/plugin-api';
 import { ChooseSelector } from './ChooseSelector';
 // Import some fields.
 import '../../selector-types/BoxSelector/index';

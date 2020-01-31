@@ -2,10 +2,11 @@ import copy from 'fast-copy';
 import React, { useContext, useState } from 'react';
 import { Field, Form, Formik } from 'formik';
 import { Button, Form as StyledForm, Grid, Label, Segment } from 'semantic-ui-react';
-import { FormPreview, PluginContext } from '../../core/plugins';
+import { PluginContext } from '@capture-models/plugin-api';
 import generateId from 'nanoid';
 import { ChooseSelectorButton } from '../ChooseSelectorButton/ChooseSelectorButton';
 import { BaseField, SelectorTypeMap, BaseSelector } from '@capture-models/types';
+import { FormPreview } from '../FormPreview/FormPreview';
 
 export const FieldEditor: React.FC<{ field: BaseField; term?: string; onSubmit: (newProps: BaseField) => void }> = ({
   onSubmit,

@@ -1,6 +1,6 @@
 import React from 'react';
 import { HTMLField, HTMLFieldProps } from './HTMLField';
-import { registerField } from '../../core/plugins';
+import { registerField } from '@capture-models/plugin-api';
 import { FieldSpecification } from '@capture-models/types';
 
 declare module '@capture-models/types' {

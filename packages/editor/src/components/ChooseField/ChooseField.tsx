@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { PluginContext } from '../../core/plugins';
+import { PluginContext } from '@capture-models/plugin-api';
 import { H4 } from '@blueprintjs/core';
 import { Button, Card, Grid } from 'semantic-ui-react';
 import { BaseField, FieldSpecification, FieldTypeMap } from '@capture-models/types';

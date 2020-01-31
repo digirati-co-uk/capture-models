@@ -10,7 +10,7 @@ import {
 } from '@canvas-panel/core';
 import { BaseContent } from '@capture-models/types';
 import React, { Suspense, useEffect } from 'react';
-import { Content } from '../../core/plugins';
+import { Content } from '@capture-models/plugin-api';
 import { useCurrentSelector, useDisplaySelectors, useSelectorActions } from '../../stores/selectors/selector-hooks';
 
 export interface CanvasPanelProps extends BaseContent {

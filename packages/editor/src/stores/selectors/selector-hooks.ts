@@ -1,5 +1,5 @@
 import { BaseSelector } from '@capture-models/types';
-import { useSelector, useSelectors } from '../../core/plugins';
+import { useSelector, useSelectors } from '@capture-models/plugin-api';
 import { RevisionStore } from '../revisions/revisions-store';
 
 export function useCurrentSelector(contentType: string) {

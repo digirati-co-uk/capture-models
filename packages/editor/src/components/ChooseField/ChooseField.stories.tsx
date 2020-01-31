@@ -4,7 +4,7 @@ import { ChooseField } from './ChooseField';
 import '../../input-types/TextField/index';
 import '../../input-types/HTMLField';
 
-import { PluginProvider } from '../../core/plugins';
+import { PluginProvider } from '@capture-models/plugin-api';
 
 export default { title: 'Components|Choose field' };
 

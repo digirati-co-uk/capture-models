@@ -1,7 +1,7 @@
 import { SelectorSpecification } from '@capture-models/types';
 import React from 'react';
 import { BoxSelector, BoxSelectorProps } from './BoxSelector';
-import { registerSelector } from '../../core/plugins';
+import { registerSelector } from '@capture-models/plugin-api';
 import '../../content-types/CanvasPanel/index';
 
 declare module '@capture-models/types' {

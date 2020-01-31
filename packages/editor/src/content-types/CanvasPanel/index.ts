@@ -1,5 +1,5 @@
 import React from 'react';
-import { registerContent } from '../../core/plugins';
+import { registerContent } from '@capture-models/plugin-api';
 import { CanvasPanelProps } from './CanvasPanel';
 import { ContentSpecification } from '@capture-models/types';
 

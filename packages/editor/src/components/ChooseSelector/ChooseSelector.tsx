@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { PluginContext } from '../../core/plugins';
+import { PluginContext } from '@capture-models/plugin-api';
 import { Button, Card, Label } from 'semantic-ui-react';
 import { ContentTypeMap, SelectorSpecification, SelectorTypeMap } from '@capture-models/types';
 

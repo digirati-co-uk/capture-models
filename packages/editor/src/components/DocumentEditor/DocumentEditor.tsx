@@ -1,7 +1,7 @@
 import copy from 'fast-copy';
 import React, { useContext, useEffect } from 'react';
 import { Button, Card, Form as StyledForm, Grid, Icon, Label, List } from 'semantic-ui-react';
-import { PluginContext } from '../../core/plugins';
+import { PluginContext } from '@capture-models/plugin-api';
 import { useMiniRouter } from '../../hooks/useMiniRouter';
 import { ChooseSelectorButton } from '../ChooseSelectorButton/ChooseSelectorButton';
 import { NewDocumentForm } from '../NewDocumentForm/NewDocumentForm';

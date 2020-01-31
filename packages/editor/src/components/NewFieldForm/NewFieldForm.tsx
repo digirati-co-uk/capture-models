@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Button, Form as StyledForm, Message } from 'semantic-ui-react';
-import { PluginContext } from '../../core/plugins';
+import { PluginContext } from '@capture-models/plugin-api';
 import { ChooseFieldButton } from '../ChooseFieldButton/ChooseFieldButton';
 import { ChooseSelectorButton } from '../ChooseSelectorButton/ChooseSelectorButton';
 import { FieldSpecification, FieldTypeMap, FieldTypes, SelectorSpecification } from '@capture-models/types';

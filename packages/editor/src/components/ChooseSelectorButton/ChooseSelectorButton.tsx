@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Dropdown } from 'semantic-ui-react';
 import { DropdownItemProps } from 'semantic-ui-react/dist/commonjs/modules/Dropdown/DropdownItem';
-import { PluginContext } from '../../core/plugins';
+import { PluginContext } from '@capture-models/plugin-api';
 // Pull in the build-in selectors.
 import '../../selector-types/BoxSelector/index';
 

@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { useField, useSelectorStatus } from '../../core/plugins';
+import { useField, useSelectorStatus } from '@capture-models/plugin-api';
 import { FieldHeader2 } from '../FieldHeader/FieldHeader2';
 import { BaseField } from '@capture-models/types';
 

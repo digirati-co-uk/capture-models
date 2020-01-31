@@ -1,7 +1,7 @@
 import { CaptureModel, BaseField, BaseSelector } from '@capture-models/types';
 import { action, computed, createContextStore, thunk } from 'easy-peasy';
 import { original } from 'immer';
-import { pluginStore } from '../../core/plugins';
+import { pluginStore } from '@capture-models/plugin-api';
 import { traverseDocument } from '../../utility/traverse-document';
 import { RevisionsModel } from './revisions-model';
 import { captureModelToRevisionList } from './utility/capture-model-to-revision-list';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { registerField } from '../../core/plugins';
+import { registerField } from '@capture-models/plugin-api';
 import { TextField, TextFieldProps } from './TextField';
 import { FieldSpecification } from '@capture-models/types';
 
