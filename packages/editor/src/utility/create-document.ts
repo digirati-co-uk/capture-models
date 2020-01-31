@@ -1,0 +1,11 @@
+import { CaptureModel } from '@capture-models/types';
+import generateId from 'nanoid';
+
+export const createDocument = (doc: Partial<CaptureModel['document']> = {}): CaptureModel['document'] => {
+  return {
+    id: generateId(),
+    type: 'entity',
+    properties: {},
+    ...doc,
+  };
+};

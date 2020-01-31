@@ -1,6 +1,10 @@
+const path = require('path');
 
-const config = require('@fesk/scripts/webpack');
-
-config.output.chunkFilename = '[name].bundle.js';
-
-module.exports = config;
+module.exports = {
+  resolve: {
+    extensions: ['ts', 'tsx'],
+    alias: {
+      '@capture-model/': path.resolve(__dirname, './packages/'),
+    },
+  },
+};

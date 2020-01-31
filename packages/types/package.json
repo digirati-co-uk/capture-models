@@ -1,0 +1,20 @@
+{
+  "name": "@capture-models/types",
+  "version": "1.0.0",
+  "license": "MIT",
+  "types": "src/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/digirati-co-uk/capture-models.git",
+    "directory": "packages/types"
+  },
+  "scripts": {
+    "build": "tsc --project tsconfig.json"
+  },
+  "files": [
+    "src/index.d.ts"
+  ],
+  "include": [
+    "src/index.d.ts"
+  ]
+}

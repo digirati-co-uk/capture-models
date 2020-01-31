@@ -1,0 +1,29 @@
+{
+  "name": "@capture-models/plugin-api",
+  "version": "1.0.0",
+  "license": "MIT",
+  "main": "dist/umd/@capture-models/plugin-api.js",
+  "module": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/digirati-co-uk/capture-models.git",
+    "directory": "packages/plugin-api"
+  },
+  "scripts": {
+    "build": "fesk-build --cjs --umd",
+    "start": "fesk-start --cjs --noServer",
+    "build-types": "tsc -p ./ --emitDeclarationOnly",
+    "build:prod": "NODE_ENV=production fesk-build --cjs --umd && tsc -p ./ --emitDeclarationOnly"
+  },
+  "dependencies": {
+    "@capture-models/types": "1.0.0",
+    "react": "^16.12.0"
+  },
+  "fesk": {
+    "typescript": true
+  },
+  "devDependencies": {
+    "@fesk/scripts": "1.4.0-pr.b3558389"
+  }
+}
