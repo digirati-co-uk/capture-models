@@ -14,7 +14,7 @@ type FieldHeaderProps = {
   selectorComponent: any;
 };
 
-export const FieldHeader2: React.FC<FieldHeaderProps> = ({ description, term, selectorComponent, showTerm, labelFor, label }) => {
+export const FieldHeader: React.FC<FieldHeaderProps> = ({ description, term, selectorComponent, showTerm, labelFor, label }) => {
   const [open, setOpen] = useState(false);
 
   return (

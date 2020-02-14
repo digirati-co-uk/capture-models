@@ -11,8 +11,3 @@ export * from './custom';
 export * from './to-be-removed';
 
 import { FieldTypeMap } from './field-types';
-
-export module '@capture-model/types' {
-  export interface ChangeThis {}
-
-}

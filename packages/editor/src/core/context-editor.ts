@@ -13,15 +13,15 @@ export function addDefaultContext(model: CaptureModel, context: string): Capture
     throw new Error('Cannot add default context, context already exists');
   }
 
-  const { ['@context']: _context, ...document } = model.document;
+  const { ['@context']: atContext, ...document } = model.document;
 
   return {
     ...model,
     document: {
-      '@context': _context
+      '@context': atContext
         ? {
             '@vocab': context,
-            ...(!_context || typeof _context === 'string' ? {} : _context),
+            ...(!atContext || typeof atContext === 'string' ? {} : atContext),
           }
         : context,
       ...document,
@@ -30,9 +30,9 @@ export function addDefaultContext(model: CaptureModel, context: string): Capture
 }
 
 export function addContext(model: CaptureModel, context: string, alias: string): CaptureModel {
-  const { ['@context']: _context, ...document } = model.document;
+  const { ['@context']: atContext, ...document } = model.document;
   const fullContext: { [vocab: string]: string } =
-    typeof _context === 'string' ? { '@vocab': _context } : _context || {};
+    typeof atContext === 'string' ? { '@vocab': atContext } : atContext || {};
 
   if (fullContext[alias] && fullContext[alias] !== context) {
     throw new Error(`Cannot add context ${alias}, context already exists (${fullContext[alias]})`);
@@ -50,27 +50,6 @@ export function addContext(model: CaptureModel, context: string, alias: string):
   };
 }
 
-export function removeDefaultContext(model: CaptureModel): CaptureModel {
-  if (
-    !model.document['@context'] ||
-    (typeof model.document['@context'] !== 'string' && !model.document['@context']['@vocab'])
-  ) {
-    return model;
-  }
-
-  const { ['@context']: _context, ...document } = model.document;
-
-  if (typeof _context === 'string') {
-    // Return without the context at all.
-    return {
-      ...model,
-      document,
-    };
-  }
-
-  return removeContext(model, '@vocab');
-}
-
 export function removeContext(model: CaptureModel, alias: string): CaptureModel {
   if (
     !model.document['@context'] ||
@@ -81,8 +60,8 @@ export function removeContext(model: CaptureModel, alias: string): CaptureModel 
     return model;
   }
 
-  const { ['@context']: _context, ...document } = model.document;
-  const { [alias]: _, ...ctx } = _context;
+  const { ['@context']: atContext, ...document } = model.document;
+  const { [alias]: _, ...ctx } = atContext;
 
   return {
     ...model,
@@ -91,4 +70,25 @@ export function removeContext(model: CaptureModel, alias: string): CaptureModel 
       ...document,
     },
   };
+}
+
+export function removeDefaultContext(model: CaptureModel): CaptureModel {
+  if (
+    !model.document['@context'] ||
+    (typeof model.document['@context'] !== 'string' && !model.document['@context']['@vocab'])
+  ) {
+    return model;
+  }
+
+  const { ['@context']: atContext, ...document } = model.document;
+
+  if (typeof atContext === 'string') {
+    // Return without the context at all.
+    return {
+      ...model,
+      document,
+    };
+  }
+
+  return removeContext(model, '@vocab');
 }

@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { useField, useSelectorStatus } from '@capture-models/plugin-api';
-import { FieldHeader2 } from '../FieldHeader/FieldHeader2';
+import { FieldHeader } from '../FieldHeader/FieldHeader';
 import { BaseField } from '@capture-models/types';
 
 type Props<T extends BaseField = BaseField> = {
@@ -45,7 +45,7 @@ export const FieldWrapper: React.FC<Props> = ({ field, term, onUpdateValue, show
 
   return (
     <div style={{ marginBottom: 30 }}>
-      <FieldHeader2
+      <FieldHeader
         labelFor={field.id}
         label={field.label}
         description={field.description}

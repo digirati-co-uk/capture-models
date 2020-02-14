@@ -15,7 +15,7 @@ type RevisionData = {
   initialRevision?: string;
 };
 
-export const RevisionStore = createContextStore<RevisionsModel>(({ captureModel, initialRevision }: RevisionData) => {
+export const createRevisionStore = ({ captureModel, initialRevision }: RevisionData): RevisionsModel => {
   // Calculated revisions for the store from the capture models, including structures.
   const revisions = captureModelToRevisionList(captureModel, true).reduce((mapOfRevisions, nextRevision) => {
     mapOfRevisions[nextRevision.revision.id] = nextRevision;
@@ -241,7 +241,7 @@ export const RevisionStore = createContextStore<RevisionsModel>(({ captureModel,
         );
       }
     }),
-    deselectRevision: action((state, { revisionId }) => {
+    deselectRevision: action(state => {
       state.currentRevisionId = null;
       state.selector = createSelectorStore();
     }),
@@ -315,4 +315,6 @@ export const RevisionStore = createContextStore<RevisionsModel>(({ captureModel,
       }
     }),
   };
-});
+};
+
+export const RevisionStore = createContextStore<RevisionsModel>(createRevisionStore);

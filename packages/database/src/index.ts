@@ -1,8 +1,6 @@
 import 'reflect-metadata';
 import { createConnection } from 'typeorm';
 import { Structure } from './entity/Structure';
-// @ts-ignore
-import config from '../ormconfig.json';
 
 createConnection({
   type: 'postgres',

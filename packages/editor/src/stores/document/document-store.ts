@@ -91,7 +91,7 @@ export const DocumentStore = createContextStore<
       delete resolveSubtree(state.subtreePath, state.document).properties[payload];
     }),
 
-    reorderField: action((state, payload) => {
+    reorderField: action(() => {
       // @todo
     }),
 
@@ -119,7 +119,7 @@ export const DocumentStore = createContextStore<
     // Sets a custom property on the selected field.
     setCustomProperty: action((state, payload) => {
       const prop = (payload.term ? payload.term : state.selectedFieldKey) as string;
-      for (let term of resolveSubtree(state.subtreePath, state.document).properties[prop]) {
+      for (const term of resolveSubtree(state.subtreePath, state.document).properties[prop]) {
         (term as any)[payload.key] = payload.value;
       }
     }),
@@ -164,25 +164,25 @@ export const DocumentStore = createContextStore<
     //           - label: resource B3
     setFieldLabel: action((state, payload) => {
       const prop = (payload.term ? payload.term : state.selectedFieldKey) as string;
-      for (let term of resolveSubtree(state.subtreePath, state.document).properties[prop]) {
+      for (const term of resolveSubtree(state.subtreePath, state.document).properties[prop]) {
         term.label = payload.label;
       }
     }),
     setFieldDescription: action((state, payload) => {
       const prop = (payload.term ? payload.term : state.selectedFieldKey) as string;
-      for (let term of resolveSubtree(state.subtreePath, state.document).properties[prop]) {
+      for (const term of resolveSubtree(state.subtreePath, state.document).properties[prop]) {
         term.description = payload.description;
       }
     }),
     setFieldSelector: action((state, payload) => {
       const prop = (payload.term ? payload.term : state.selectedFieldKey) as string;
-      for (let term of resolveSubtree(state.subtreePath, state.document).properties[prop]) {
+      for (const term of resolveSubtree(state.subtreePath, state.document).properties[prop]) {
         term.selector = payload.selector;
       }
     }),
     setFieldSelectorState: action((state, payload) => {
       const prop = (payload.term ? payload.term : state.selectedFieldKey) as string;
-      for (let term of resolveSubtree(state.subtreePath, state.document).properties[prop]) {
+      for (const term of resolveSubtree(state.subtreePath, state.document).properties[prop]) {
         if (term.selector) {
           term.selector.state = payload as any;
         }
@@ -190,7 +190,7 @@ export const DocumentStore = createContextStore<
     }),
     setFieldValue: action((state, payload) => {
       const prop = (payload.term ? payload.term : state.selectedFieldKey) as string;
-      for (let term of resolveSubtree(state.subtreePath, state.document).properties[prop]) {
+      for (const term of resolveSubtree(state.subtreePath, state.document).properties[prop]) {
         if (!isEntity(term)) {
           term.value = payload.value;
         }

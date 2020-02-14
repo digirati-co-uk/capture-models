@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { PluginContext } from '@capture-models/plugin-api';
 import { H4 } from '@blueprintjs/core';
 import { Button, Card, Grid } from 'semantic-ui-react';
-import { BaseField, FieldSpecification, FieldTypeMap } from '@capture-models/types';
+import { BaseField } from '@capture-models/types';
 
 export const ChooseField: React.FC<{
   handleChoice: (choice: BaseField) => void;

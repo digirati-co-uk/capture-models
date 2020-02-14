@@ -11,10 +11,12 @@
   "typings": "lib/index.d.ts",
   "author": "Stephen Fraser <stephen.fraser@digirati.com>",
   "scripts": {
-    "build": "fesk-build --cjs --umd",
+    "build": "fesk-build --cjs --umd && build-storybook",
     "start": "fesk-start --cjs --noServer",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook",
     "build-types": "tsc -p ./ --emitDeclarationOnly",
-    "build:prod": "NODE_ENV=production fesk-build --cjs --umd && tsc -p ./ --emitDeclarationOnly"
+    "build:prod": "NODE_ENV=production fesk-build --cjs --umd && tsc -p ./ --emitDeclarationOnly && build-storybook"
   },
   "dependencies": {
     "@blueprintjs/core": "^3.22.1",
@@ -47,8 +49,11 @@
     "@babel/core": "^7.8.3",
     "@babel/plugin-syntax-jsx": "^7.8.3",
     "@babel/plugin-transform-modules-commonjs": "^7.8.3",
-    "@fesk/babel-config": "^1.3.0-next.2945936d",
-    "@fesk/scripts": "1.4.0-pr.b3558389",
+    "@fesk/babel-config": "1.4.0-pr.b6dc2fa3",
+    "@fesk/scripts": "1.4.0-pr.b6dc2fa3",
+    "@storybook/source-loader": "^5.3.13",
+    "regenerator-runtime": "^0.13.3",
+    "@storybook/core": "^5.3.13",
     "@storybook/addon-actions": "^5.2.8",
     "@storybook/addon-console": "^1.2.1",
     "@storybook/addon-knobs": "^5.2.4",

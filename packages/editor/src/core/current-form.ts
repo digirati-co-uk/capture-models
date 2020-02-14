@@ -115,9 +115,9 @@ export function useInternalCurrentFormState<Model extends CaptureModel = Capture
       updateCaptureModel(
         produce((draft: Draft<CaptureModel>) => {
           let cursor: CaptureModel['document'] | BaseField = draft.document;
-          for (let [term, idx] of path) {
+          for (const [term, idx] of path) {
             if (isEntity(cursor)) {
-              cursor = cursor.properties[term][idx];
+              cursor = (cursor as CaptureModel['document']).properties[term][idx];
             } else {
               throw Error(`Invalid update path ${path.map(([a, b]) => `${a}:${b}`).join('/')}`);
             }
