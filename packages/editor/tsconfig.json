@@ -1,22 +1,17 @@
-
 {
   "extends": "../../tsconfig.json",
-  "compilerOptions": {
-    "rootDir": "src",
-    "jsx": "react",
-    "declaration": true,
-    "declarationDir": "./dist/@types"
-  },
   "include": [
     "src/**/*",
     "../../fixtures/**/*",
     "./@types/bem.d.ts"
   ],
-  "exclude": [
-    "node_modules",
-    "lib",
-    "dist",
-    "**/__tests__/*.test.ts",
-    "__tests__"
+  "compilerOptions": {
+    "rootDir": "src",
+    "declarationDir": "dist/@types"
+  },
+  // Dependencies must be declared in references.
+  "references": [
+    { "path": "../types" },
+    { "path": "../plugin-api" }
   ]
 }
