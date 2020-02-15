@@ -34,7 +34,7 @@ export function getDocumentFields(
     // we have a key.
     structure.fields.push(
       isEntity(value)
-        ? getDocumentFields(value, [...rootKeys, key])
+        ? getDocumentFields(value as CaptureModel['document'], [...rootKeys, key])
         : {
             label: value.label,
             type: value.type,

@@ -6,11 +6,12 @@ import {
   OpenSeadragonViewport,
   SingleTileSource,
   Viewport,
-// @ts-ignore
+  // @ts-ignore
 } from '@canvas-panel/core';
+import { RevisionStore } from '@capture-models/editor';
 import { BaseContent } from '@capture-models/types';
 import React, { Suspense, useEffect } from 'react';
-import { Content } from '@capture-models/plugin-api';
+// import { Content } from '@capture-models/plugin-api';
 import { useCurrentSelector, useDisplaySelectors, useSelectorActions } from '../../stores/selectors/selector-hooks';
 
 export interface CanvasPanelProps extends BaseContent {
@@ -30,15 +31,20 @@ export const CanvasPanel: React.FC<CanvasPanelProps['state']> = ({ canvasId, man
   const [actions, availableSelectors] = useSelectorActions();
   // @todo useTopLevelSelector();
 
+  console.log(availableSelectors);
+
   useEffect(() => {
     // @todo UI to toggle these on and off and props to control this behaviour.
     if (actions && availableSelectors && displaySelectors && displaySelectors.length === 0) {
-      actions.addVisibleSelectorIds({
-        selectorIds: ((availableSelectors as any) || []).map((s: any) => s.id),
-      });
+      const selectorIds = ((availableSelectors as any) || []).map((s: any) => s.id);
+      if (selectorIds.length) {
+        actions.addVisibleSelectorIds({
+          selectorIds: selectorIds,
+        });
+      }
     }
 
-    if (actions && !currentSelector && availableSelectors) {
+    if (actions && !currentSelector && availableSelectors && availableSelectors[0]) {
       actions.chooseSelector({ selectorId: availableSelectors[0].id });
     }
 
@@ -68,11 +74,7 @@ export const CanvasPanel: React.FC<CanvasPanelProps['state']> = ({ canvasId, man
 };
 
 const WrappedCanvasPanel: React.FC<CanvasPanelProps> = ({ id, state }) => {
-  return (
-    <Content type="canvas-panel" state={state}>
-      <CanvasPanel key={id} {...state} />;
-    </Content>
-  );
+  return <CanvasPanel key={id} {...state} />;
 };
 
 export default WrappedCanvasPanel;

@@ -39,19 +39,23 @@
       "@capture-models/*": ["packages/*/src"]
     }
   },
+  "include": [
+    "packages",
+    "fixtures"
+  ],
   // Need to be manually added for each package.
   "references": [
     { "path": "packages/types" },
     { "path": "packages/editor" },
     { "path": "packages/server" },
-    { "path": "packages/plugin-api" }
+    { "path": "packages/plugin-api" },
+    { "path": "packages/viewer" }
   ],
   "exclude": [
     "node_modules",
     "dist",
     "lib",
     "__mocks__",
-    "**/*.stories.tsx",
     "**/*.test.ts"
   ]
 }

@@ -1,9 +1,11 @@
 {
   "structure": {
+    "id": "c1",
     "type": "choice",
     "label": "Nested choice",
     "items": [
       {
+        "id": "c2",
         "label": "Choice 1",
         "type": "model",
         "fields": [
@@ -12,6 +14,7 @@
         "description": "The first choice in the list"
       },
       {
+        "id": "c3",
         "label": "Choice 2",
         "type": "model",
         "fields": [
@@ -20,11 +23,13 @@
         "description": "The second choice in the list"
       },
       {
+        "id": "c4",
         "label": "Nested choice",
         "type": "choice",
         "items": [
           {
             "label": "Choice 3",
+            "id": "c5",
             "type": "model",
             "fields": [
               "name",
@@ -38,10 +43,12 @@
     "description": "Contains 3 choices with multiple text fields nested"
   },
   "document": {
+    "id": "e1",
     "type": "entity",
     "properties": {
       "name": [
         {
+          "id": "f1",
           "type": "text-field",
           "label": "Name",
           "description": "The name of the thing"
@@ -49,6 +56,7 @@
       ],
       "description": [
         {
+          "id": "f2",
           "type": "text-field",
           "label": "Description",
           "description": "Tell us something about the thing"

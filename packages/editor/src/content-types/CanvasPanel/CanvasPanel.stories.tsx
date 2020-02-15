@@ -2,8 +2,7 @@ import * as React from 'react';
 import { RevisionStore } from '../../stores/revisions/revisions-store';
 import CanvasPanel from './CanvasPanel';
 import './index';
-// @ts-ignore
-import model from '../../../../../fixtures/04-selectors/05-wunder-selector.json';
+const model = require('../../../../../fixtures/04-selectors/05-wunder-selector.json');
 
 export default { title: 'Content Types|Canvas Panel' };
 

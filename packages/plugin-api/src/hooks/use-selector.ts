@@ -1,4 +1,5 @@
 import { useSelectors } from '@capture-models/plugin-api';
+import { BaseSelector } from '@capture-models/types';
 
 export function useSelector<T extends BaseSelector>(
   selectorProps: T | undefined,

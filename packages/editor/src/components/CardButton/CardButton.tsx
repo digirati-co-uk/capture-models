@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 
 export const CardButton = styled.button<{ size?: 'large' | 'medium' | 'small'; shadow?: boolean; inline?: boolean }>`
@@ -35,7 +34,7 @@ export const CardButton = styled.button<{ size?: 'large' | 'medium' | 'small'; s
     transform: translateY(1px);
   }
   &:focus {
-    outline: 2px solid rgba(255, 255, 255, .5);
+    outline: 2px solid rgba(255, 255, 255, 0.5);
     outline-offset: -4px;
     &:active {
       outline: none;

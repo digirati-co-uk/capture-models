@@ -12,7 +12,7 @@
   "author": "Stephen Fraser <stephen.fraser@digirati.com>",
   "scripts": {
     "build": "fesk-build --cjs --umd && build-storybook",
-    "start": "fesk-start --cjs --noServer",
+    "start": "fesk-start --cjs --umd --noServer",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "build-types": "tsc -p ./ --emitDeclarationOnly",
@@ -41,9 +41,11 @@
     "redbox-react": "^1.6.0",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.88.1",
-    "styled-components": "^5.0.0",
     "use-async-effect": "^2.2.1",
     "use-debounce": "^3.3.0"
+  },
+  "peerDependencies": {
+    "styled-components": "^5.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.8.3",
@@ -65,7 +67,8 @@
     "@types/react": "^16.9.9",
     "@types/react-dom": "^16.9.2",
     "@types/react-router-dom": "^5.1.3",
-    "@types/styled-components": "^4.4.2",
+    "@types/styled-components": "^4.4.3",
+    "styled-components": "^5.0.1",
     "dotenv-webpack": "^1.7.0",
     "html-webpack-plugin": "^3.2.0",
     "jest": "^24.9.0",

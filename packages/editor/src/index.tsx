@@ -36,11 +36,11 @@ export * from './components/StructureMetadataEditor/StructureMetadataEditor';
 export * from './components/SubtreeBreadcrumb/SubtreeBreadcrumb';
 
 // Default content types.
-export * from './content-types/CanvasPanel';
+import './content-types/CanvasPanel';
 
 // Default input types.
-export * from './input-types/TextField';
-export * from './input-types/HTMLField';
+import './input-types/TextField';
+import './input-types/HTMLField';
 
 // Structure editor
 export * from './core/structure-editor';
@@ -77,3 +77,6 @@ export * from './utility/item-from-index';
 export * from './utility/resolve-subtree';
 // export * from './utility/traverse-document';
 export * from './utility/traverse-structure';
+
+// Theme
+export { defaultTheme } from './themes';

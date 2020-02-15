@@ -1,21 +1,13 @@
-
 {
   "extends": "../../tsconfig.json",
+  "include": ["src/**/*"],
   "compilerOptions": {
     "rootDir": "src",
-    "declaration": true,
     "declarationDir": "./lib"
   },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "*/node_modules/*",
-    "node_modules",
-    "lib",
-    "dist",
-    "**/__tests__/*.test.ts",
-    "**/*.stories.ts",
-    "__tests__"
+  "references": [
+    { "path": "../editor" },
+    { "path": "../plugin-api" },
+    { "path": "../types" }
   ]
 }

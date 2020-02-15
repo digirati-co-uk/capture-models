@@ -3,7 +3,7 @@
   "include": ["src"],
   "compilerOptions": {
     "rootDir": "src",
-    "declarationDir": "dist/@types"
+    "declarationDir": "lib"
   },
   "references": [
     { "path": "../types" }

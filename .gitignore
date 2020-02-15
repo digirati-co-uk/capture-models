@@ -7,3 +7,5 @@ lib
 coverage
 var
 .yarn
+**/src/**/*.js
+**/src/**/*.js.map

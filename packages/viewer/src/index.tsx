@@ -1,11 +1,13 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { CardButton } from '@capture-models/editor';
+import { defaultTheme } from '@capture-models/editor';
+import { ThemeProvider } from 'styled-components';
+import { RootExamples } from './RootExamples';
+import './layout.scss';
 
 render(
-  <div>
-    Hello World
-    <CardButton>Button</CardButton>
-  </div>,
+  <ThemeProvider theme={defaultTheme}>
+    <RootExamples />
+  </ThemeProvider>,
   document.getElementById('root')
 );
