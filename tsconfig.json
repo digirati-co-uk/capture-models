@@ -55,7 +55,6 @@
     "node_modules",
     "dist",
     "lib",
-    "__mocks__",
-    "**/*.test.ts"
+    "__mocks__"
   ]
 }

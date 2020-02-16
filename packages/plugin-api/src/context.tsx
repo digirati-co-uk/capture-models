@@ -1,5 +1,5 @@
 import { ContentTypeMap, PluginStore } from '@capture-models/types';
-import React, { createContext, PropsWithChildren, useMemo } from 'react';
+import React, { createContext, PropsWithChildren, useContext, useMemo } from 'react';
 import { pluginStore } from './globals';
 
 export const PluginContext = React.createContext<PluginStore>(pluginStore);
@@ -32,3 +32,10 @@ export function ContentProvider<
     </ContentContext.Provider>
   );
 }
+
+export function useContent() {
+  const c = useContext(ContentContext);
+  if (!c) throw new Error('useCtx must be inside a Provider with a value');
+  return c;
+}
+

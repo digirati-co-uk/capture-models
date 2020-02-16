@@ -12,17 +12,24 @@ export interface TextFieldProps extends BaseField {
   iconPosition?: 'left';
 }
 
-export const TextField: FieldComponent<TextFieldProps> = props => {
+export const TextField: FieldComponent<TextFieldProps> = ({
+  value,
+  id,
+  icon,
+  placeholder,
+  iconPosition,
+  updateValue,
+}) => {
   return (
     <Input
-      name={props.id}
-      id={props.id}
-      icon={props.icon}
-      iconPosition={props.iconPosition}
+      name={id}
+      id={id}
+      icon={icon}
+      iconPosition={iconPosition}
       fluid={true}
-      placeholder={props.placeholder}
-      value={props.value}
-      onChange={e => props.updateValue(e.currentTarget.value)}
+      placeholder={placeholder}
+      value={value || ''}
+      onChange={e => updateValue(e.currentTarget.value)}
     />
   );
 };

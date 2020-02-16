@@ -18,5 +18,5 @@ export function useSelectorStatus<T extends BaseSelector>(
     throw new Error('Plugin does not exist');
   }
 
-  return [createElement(selector.FormComponent, { ...props, updateSelector, selectorPreview })];
+  return createElement(selector.FormComponent, { ...props, updateSelector, selectorPreview });
 }

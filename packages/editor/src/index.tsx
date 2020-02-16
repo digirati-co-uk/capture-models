@@ -51,10 +51,10 @@ export * from './hooks/useNavigation';
 export * from './hooks/useTreeNode';
 
 // Stores
+export * from './stores/revisions';
+
 export * from './stores/document/document-store';
 export * from './stores/document/document-model.d';
-export * from './stores/revisions/revisions-model.d';
-export * from './stores/revisions/revisions-store';
 export * from './stores/selectors/selector-hooks';
 export * from './stores/selectors/selector-model.d';
 export * from './stores/selectors/selector-store';
@@ -72,7 +72,7 @@ export * from './utility/create-field';
 export * from './utility/fetch-capture-model';
 export * from './utility/filter-capture-model';
 export * from './utility/flatten-structures';
-// export * from './utility/is-entity'; // Babel error.
+export * from './utility/is-entity'; // Babel error.
 export * from './utility/item-from-index';
 export * from './utility/resolve-subtree';
 // export * from './utility/traverse-document';

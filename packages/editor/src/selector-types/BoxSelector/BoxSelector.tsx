@@ -37,11 +37,6 @@ export const BoxSelector: SelectorComponent<BoxSelectorProps> = ({ chooseSelecto
     );
   }
 
-  if (!chooseSelector) {
-    // We can edit or add.
-    return null;
-  }
-
   return (
     <div>
       You can add a box {chooseSelector ? <button onClick={() => chooseSelector(props.id)}>edit</button> : null}

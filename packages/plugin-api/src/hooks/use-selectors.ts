@@ -9,9 +9,10 @@ export function useSelectors<T extends BaseSelector>(
     updateSelector?: any;
     selectorPreview?: any;
     readOnly?: boolean;
+    defaultState?: any;
   }
 ) {
-  const { updateSelector = null, selectorPreview = null, readOnly = false } = customOptions;
+  const { updateSelector = null, selectorPreview = null, readOnly = false, defaultState = null } = customOptions;
   const ctx = useContext(PluginContext);
 
   if (!selectorProps) {
@@ -24,6 +25,10 @@ export function useSelectors<T extends BaseSelector>(
     if (!selector) {
       // throw new Error('Plugin does not exist');
       continue;
+    }
+
+    if (!props.state) {
+      props.state = defaultState;
     }
 
     returnSelectors.push([

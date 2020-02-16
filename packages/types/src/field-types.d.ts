@@ -34,6 +34,7 @@ export type FieldSpecification<Props extends BaseField = BaseField> = {
   allowMultiple: boolean;
   defaultProps: Partial<Props>;
   Component: FC<Props & InjectedFieldProps<Props['value']>>;
+  TextPreview: FC<Props>;
   Editor: FC<Required<Omit<Props, 'value'>>>;
 };
 

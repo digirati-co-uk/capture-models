@@ -6,12 +6,12 @@ import './FieldHeader.scss';
 const $fieldHeader = bem.block('field-header');
 
 type FieldHeaderProps = {
-  labelFor: string;
+  labelFor?: string;
   label: string;
   showTerm?: boolean;
   term?: string;
   description?: string;
-  selectorComponent: any;
+  selectorComponent?: any;
 };
 
 export const FieldHeader: React.FC<FieldHeaderProps> = ({ description, term, selectorComponent, showTerm, labelFor, label }) => {

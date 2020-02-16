@@ -192,7 +192,7 @@ export const DocumentStore = createContextStore<
       const prop = (payload.term ? payload.term : state.selectedFieldKey) as string;
       for (const term of resolveSubtree(state.subtreePath, state.document).properties[prop]) {
         if (!isEntity(term)) {
-          (term as BaseField).value = payload.value;
+          term.value = payload.value;
         }
       }
     }),

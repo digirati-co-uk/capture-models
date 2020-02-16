@@ -34,7 +34,7 @@ export function getDocumentFields(
     // we have a key.
     structure.fields.push(
       isEntity(value)
-        ? getDocumentFields(value as CaptureModel['document'], [...rootKeys, key])
+        ? getDocumentFields(value, [...rootKeys, key])
         : {
             label: value.label,
             type: value.type,
@@ -44,15 +44,6 @@ export function getDocumentFields(
   }
 
   return structure;
-}
-
-export function documentFieldOptionsToStructure(definitions: FlatStructureDefinition[]): ModelFields {
-  const flatKeys = [];
-  for (const def of definitions) {
-    flatKeys.push(def.key);
-  }
-
-  return mergeFlatKeys(flatKeys);
 }
 
 export function structureToFlatStructureDefinition(
@@ -153,6 +144,15 @@ export function mergeFlatKeys(inputKeys: string[][]): ModelFields {
   flushBuffer();
 
   return array;
+}
+
+export function documentFieldOptionsToStructure(definitions: FlatStructureDefinition[]): ModelFields {
+  const flatKeys = [];
+  for (const def of definitions) {
+    flatKeys.push(def.key);
+  }
+
+  return mergeFlatKeys(flatKeys);
 }
 
 export function structureToTree(level: CaptureModel['structure'], keyAcc: number[] = []): ITreeNode | null {

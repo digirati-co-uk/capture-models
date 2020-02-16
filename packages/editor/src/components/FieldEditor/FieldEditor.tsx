@@ -3,7 +3,7 @@ import React, { useContext, useState } from 'react';
 import { Field, Form, Formik } from 'formik';
 import { Button, Form as StyledForm, Grid, Label, Segment } from 'semantic-ui-react';
 import { PluginContext } from '@capture-models/plugin-api';
-import generateId from 'nanoid';
+import { generateId } from '../../utility/generate-id';
 import { ChooseSelectorButton } from '../ChooseSelectorButton/ChooseSelectorButton';
 import { BaseField, SelectorTypeMap, BaseSelector } from '@capture-models/types';
 import { FormPreview } from '../FormPreview/FormPreview';

@@ -7,13 +7,14 @@ import EditableAnnotation from '@canvas-panel/core/es/components/EditableAnnotat
 const BoxSelectorCanvasPanel: SelectorComponent<BoxSelectorProps> = props => {
   const [selector, setSelector] = useState<BoxSelectorProps['state']>(props.state);
 
+
   if (!props.state) return null;
 
   if (props.readOnly) {
     return (
       <EditableAnnotation
         {...props}
-        {...props.state}
+        {...selector}
         ratio={1}
         boxStyles={{ pointerEvents: 'none', background: 'rgba(100,100,100,.1)', outline: '5px solid rgba(0,0,80,.8)' }}
       />

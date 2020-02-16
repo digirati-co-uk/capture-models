@@ -18,7 +18,7 @@ import { ThemeProvider } from 'styled-components';
 import { defaultTheme } from '../../themes';
 import { BackgroundSplash } from '../../components/BackgroundSplash/BackgroundSplash';
 import { RoundedCard } from '../../components/RoundedCard/RoundedCard';
-import { RevisionStore } from '../../stores/revisions/revisions-store';
+import { Revisions as RevisionStore } from '../../stores/revisions';
 import { CardDropdown } from '../../components/CardDropdown/CardDropdown';
 import { CardButton } from '../../components/CardButton/CardButton';
 import { BaseField, CaptureModel, StructureType } from '@capture-models/types';

@@ -1,5 +1,5 @@
 import { StructureType } from '@capture-models/types';
-import generateId from 'nanoid';
+import { generateId } from './generate-id';
 
 export function createModel(model: Partial<StructureType<'model'>> = {}): StructureType<'model'> {
   return {

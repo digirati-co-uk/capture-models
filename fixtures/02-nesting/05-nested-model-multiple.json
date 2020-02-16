@@ -2,7 +2,7 @@
   "structure": {
     "id": "c1",
     "type": "choice",
-    "label": "Nested choice",
+    "label": "Nested choice (multiple people)",
     "items": [
       {
         "id": "c2",
@@ -57,19 +57,47 @@
           "id": "e2",
           "type": "entity",
           "label": "Person",
+          "allowMultiple": true,
           "properties": {
             "firstName": [
               {
                 "id": "f3",
                 "type": "text-field",
-                "label": "First name"
+                "label": "First name",
+                "value": "first first name"
               }
             ],
             "lastName": [
               {
                 "id": "f4",
                 "type": "text-field",
-                "label": "Last name"
+                "label": "Last name",
+                "value": "first last name"
+              }
+            ]
+          },
+          "description": "Describe a person"
+        },
+        {
+          "id": "e3",
+          "type": "entity",
+          "label": "Person",
+          "allowMultiple": true,
+          "properties": {
+            "firstName": [
+              {
+                "id": "f5",
+                "type": "text-field",
+                "label": "First name",
+                "value": "second first name"
+              }
+            ],
+            "lastName": [
+              {
+                "id": "f6",
+                "type": "text-field",
+                "label": "Last name",
+                "value": "second last name"
               }
             ]
           },

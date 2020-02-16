@@ -23,7 +23,7 @@
     "@canvas-panel/core": "^0.2.0",
     "@capture-models/plugin-api": "1.0.0",
     "@capture-models/types": "1.0.0",
-    "@storybook/react": "6.0.0-alpha.1",
+    "@storybook/react": "^5.3.13",
     "easy-peasy": "^3.2.3",
     "fast-copy": "^2.0.4",
     "formik": "^2.0.6",

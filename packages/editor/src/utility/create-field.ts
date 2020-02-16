@@ -1,5 +1,5 @@
 import { BaseField } from '@capture-models/types';
-import generateId from 'nanoid';
+import { generateId } from './generate-id';
 
 export function createField(field: Partial<BaseField> = {}): BaseField {
   const finalField = {

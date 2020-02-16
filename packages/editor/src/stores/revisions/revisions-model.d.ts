@@ -1,3 +1,4 @@
+import { CaptureModel, SelectorTypes } from '@capture-models/types';
 import { Action, Computed, Thunk } from 'easy-peasy';
 import { RevisionItem } from './utility/capture-model-to-revision-list';
 import { SelectorModel } from '../selectors/selector-model';
@@ -103,6 +104,10 @@ export type RevisionsModel = {
   // And some computed values. (Removed for now)
   // currentSelector: Computed<RevisionsModel, SelectorTypes | null>;
   // visibleSelectors: Computed<RevisionsModel, SelectorTypes[]>;
+  setCaptureModel: Action<
+    RevisionsModel,
+    { captureModel: CaptureModel; initialRevision?: string; excludeStructures?: boolean }
+  >;
 };
 
 export type EDIT_ALL_VALUES = 'EDIT_ALL_VALUES';

@@ -39,10 +39,10 @@ export function useNavigation(structure: CaptureModel['structure'], startId?: st
   }, []);
 
   const pop = useCallback(() => {
-    const [popped, ...remaining] = idStack;
-    setIdStack(remaining);
-    return popped;
-  }, [idStack]);
+    setIdStack((stack: string[]) => {
+      return stack.slice(0, -1);
+    });
+  }, []);
 
   const peek = useCallback(() => {
     if (idStack.length <= 1) {
@@ -65,6 +65,8 @@ export function useNavigation(structure: CaptureModel['structure'], startId?: st
     },
     [structureMap]
   );
+
+  console.log({ currentId });
 
   return [
     structureMap[currentId].structure,

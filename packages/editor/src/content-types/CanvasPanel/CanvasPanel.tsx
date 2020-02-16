@@ -8,7 +8,6 @@ import {
   Viewport,
   // @ts-ignore
 } from '@canvas-panel/core';
-import { RevisionStore } from '@capture-models/editor';
 import { BaseContent } from '@capture-models/types';
 import React, { Suspense, useEffect } from 'react';
 // import { Content } from '@capture-models/plugin-api';
@@ -26,12 +25,17 @@ export interface CanvasPanelProps extends BaseContent {
 export const CanvasPanel: React.FC<CanvasPanelProps['state']> = ({ canvasId, manifestId }) => {
   // Starting with display selectors. I need the selector context, BUT it should
   // work without the context too.
-  const currentSelector = useCurrentSelector('canvas-panel');
+  const currentSelector = useCurrentSelector('canvas-panel', {
+    width: 400,
+    height: 400,
+    x: 500,
+    y: 500
+  });
   const displaySelectors = useDisplaySelectors('canvas-panel');
   const [actions, availableSelectors] = useSelectorActions();
   // @todo useTopLevelSelector();
 
-  console.log(availableSelectors);
+  console.log({availableSelectors, currentSelector});
 
   useEffect(() => {
     // @todo UI to toggle these on and off and props to control this behaviour.

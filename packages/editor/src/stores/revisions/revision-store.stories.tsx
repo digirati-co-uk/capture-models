@@ -1,6 +1,6 @@
 import { CaptureModel } from '@capture-models/types';
 import React from 'react';
-import { RevisionStore } from './revisions-store';
+import { Revisions } from './';
 
 export default { title: 'Stores|Revision Store' };
 
@@ -14,8 +14,8 @@ const models: () => CaptureModel[] = () => [
 ];
 
 const Test: React.FC = () => {
-  const state = RevisionStore.useStoreState(s => s);
-  const actions = RevisionStore.useStoreActions(a => a);
+  const state = Revisions.useStoreState(s => s);
+  const actions = Revisions.useStoreActions(a => a);
 
   return (
     <div>
@@ -84,13 +84,13 @@ const Test: React.FC = () => {
 };
 
 export const Simple: React.FC = () => (
-  <RevisionStore.Provider initialData={{ captureModel: models()[4] }}>
+  <Revisions.Provider initialData={{ captureModel: models()[4] }}>
     <Test />
-  </RevisionStore.Provider>
+  </Revisions.Provider>
 );
 
 export const WithSelector: React.FC = () => (
-  <RevisionStore.Provider initialData={{ captureModel: models()[5] }}>
+  <Revisions.Provider initialData={{ captureModel: models()[5] }}>
     <Test />
-  </RevisionStore.Provider>
+  </Revisions.Provider>
 );

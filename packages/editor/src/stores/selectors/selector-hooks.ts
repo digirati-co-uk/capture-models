@@ -1,40 +1,39 @@
 import { BaseSelector } from '@capture-models/types';
 import { useSelector, useSelectors } from '@capture-models/plugin-api';
-import { RevisionStore } from '../revisions/revisions-store';
+import { Revisions } from '../revisions';
 
-export function useCurrentSelector(contentType: string) {
-  const updateSelector = RevisionStore.useStoreActions(a => a.updateCurrentSelector);
+export function useCurrentSelector(contentType: string, defaultState: any = null) {
+  const updateSelector = Revisions.useStoreActions(a => a.updateCurrentSelector);
 
   return useSelector(
-    RevisionStore.useStoreState(s =>
-      s.selector.availableSelectors.find(({ id }) => id === s.selector.currentSelectorId)
-    ),
+    Revisions.useStoreState(s => s.selector.availableSelectors.find(({ id }) => id === s.selector.currentSelectorId)),
     contentType,
     {
-      selectorPreview: RevisionStore.useStoreState(s =>
+      selectorPreview: Revisions.useStoreState(s =>
         s.selector.currentSelectorId ? s.selector.selectorPreviewData[s.selector.currentSelectorId] : null
       ),
       updateSelector,
+      defaultState,
     }
   );
 }
 
 export function useSelectorActions() {
   return [
-    RevisionStore.useStoreActions(s => ({
+    Revisions.useStoreActions(s => ({
       addVisibleSelectorIds: s.addVisibleSelectorIds,
       removeVisibleSelectorIds: s.removeVisibleSelectorIds,
       updateSelectorPreview: s.updateSelectorPreview,
       chooseSelector: s.chooseSelector,
       clearSelector: s.clearSelector,
     })),
-    RevisionStore.useStoreState(s => s.selector.availableSelectors),
+    Revisions.useStoreState(s => s.selector.availableSelectors),
   ] as const;
 }
 
 export function useDisplaySelectors(contentType: string) {
   return useSelectors(
-    RevisionStore.useStoreState(s =>
+    Revisions.useStoreState(s =>
       s.selector.visibleSelectorIds.map(id => s.selector.availableSelectors.find(r => r.id === id))
     ) as BaseSelector[],
     contentType,

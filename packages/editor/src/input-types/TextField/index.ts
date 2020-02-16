@@ -2,6 +2,7 @@ import React from 'react';
 import { registerField } from '@capture-models/plugin-api';
 import { TextField, TextFieldProps } from './TextField';
 import { FieldSpecification } from '@capture-models/types';
+import { TextFieldPreview } from './TextField.preview';
 
 declare module '@capture-models/types' {
   export interface FieldTypeMap {
@@ -18,6 +19,7 @@ const specification: FieldSpecification<TextFieldProps> = {
   allowMultiple: true,
   defaultProps: {},
   Editor: React.lazy(() => import(/* webpackChunkName: "editors" */ './TextField.editor')),
+  TextPreview: TextFieldPreview,
 };
 
 registerField(specification);

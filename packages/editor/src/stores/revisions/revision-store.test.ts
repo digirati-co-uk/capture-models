@@ -1,6 +1,4 @@
 import { CaptureModel } from '@capture-models/types';
-import { createStore } from 'easy-peasy';
-import { createDocument } from '../../utility/create-document';
 import { createRevisionStore } from './revisions-store';
 
 const models: () => CaptureModel[] = () => [
@@ -14,7 +12,7 @@ const models: () => CaptureModel[] = () => [
 
 describe('Revision store', () => {
   test('create revision', () => {
-    const store = createStore(createRevisionStore({ captureModel: models()[0] }));
+    const store = createRevisionStore({ captureModel: models()[0] });
     const { createRevision } = store.getActions();
 
     createRevision({ revisionId: 'c2', cloneMode: 'FORK_TEMPLATE' });
@@ -23,8 +21,4 @@ describe('Revision store', () => {
 
     expect(Object.keys(revisions).length).toEqual(3);
   });
-
-  test('getting existing submissions', () => {
-
-  })
 });

@@ -1,3 +1,4 @@
+import { isEntityList } from '@capture-models/editor';
 import { CaptureModel, BaseField } from '@capture-models/types';
 
 export function filterCaptureModel(
@@ -8,8 +9,7 @@ export function filterCaptureModel(
 ): CaptureModel['document'] | null {
   const newDocument: CaptureModel['document'] = {
     id,
-    type: 'entity',
-    label: document.label,
+    ...document,
     properties: {},
   };
   for (const [rootFieldKey, ...flatField] of flatFields) {
@@ -35,6 +35,26 @@ export function filterCaptureModel(
         }
         // check if matches condition and add it to new field list.
       }
+    }
+  }
+
+  // Now we filter.
+  const propertyNames = Object.keys(newDocument.properties);
+  for (const prop of propertyNames) {
+    const possibleEntityList = newDocument.properties[prop];
+    if (isEntityList(possibleEntityList)) {
+      // Now we need to merge.
+      const newProperties: {
+        [key: string]: CaptureModel['document'];
+      } = {};
+      for (const instance of possibleEntityList) {
+        if (newProperties[instance.id]) {
+          Object.assign(newProperties[instance.id].properties, instance.properties);
+        } else {
+          newProperties[instance.id] = instance;
+        }
+      }
+      newDocument.properties[prop] = Object.values(newProperties);
     }
   }
 

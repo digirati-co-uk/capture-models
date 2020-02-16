@@ -1,3 +1,4 @@
+import { Revisions } from '@capture-models/editor';
 import React, { useCallback, useState } from 'react';
 import { useField, useSelectorStatus } from '@capture-models/plugin-api';
 import { FieldHeader } from '../FieldHeader/FieldHeader';
@@ -34,8 +35,14 @@ export const FieldWrapper: React.FC<Props> = ({ field, term, onUpdateValue, show
 
   const fieldComponent = useField(field, value, updateValue);
 
+  const selector = Revisions.useStoreState(s =>
+    field.selector
+      ? s.selector.availableSelectors.find(({ id }) => (field.selector ? id === field.selector.id : false))
+      : undefined
+  );
+
   // @todo pass a lot of (optional) things from props to this selector status for actions on selectors.
-  const selectorComponent = useSelectorStatus(field.selector, updateSelectorValue);
+  const selectorComponent = useSelectorStatus(selector, updateSelectorValue);
 
   // 1. user clicks on top right selector.
   // 2. user sees current status of the selector.

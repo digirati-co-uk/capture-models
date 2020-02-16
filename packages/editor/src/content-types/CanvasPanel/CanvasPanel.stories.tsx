@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { RevisionStore } from '../../stores/revisions/revisions-store';
+import { Revisions as RevisionStore } from '../../stores/revisions';
 import CanvasPanel from './CanvasPanel';
 import './index';
 const model = require('../../../../../fixtures/04-selectors/05-wunder-selector.json');
