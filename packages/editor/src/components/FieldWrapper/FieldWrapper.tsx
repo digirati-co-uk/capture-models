@@ -1,4 +1,4 @@
-import { Revisions } from '@capture-models/editor';
+import { Revisions } from '../../stores/revisions';
 import React, { useCallback, useState } from 'react';
 import { useField, useSelectorStatus } from '@capture-models/plugin-api';
 import { FieldHeader } from '../FieldHeader/FieldHeader';

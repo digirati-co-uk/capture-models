@@ -1,4 +1,4 @@
-import { isEntityList } from '@capture-models/editor';
+import { isEntityList } from './is-entity';
 import { CaptureModel, BaseField } from '@capture-models/types';
 
 export function filterCaptureModel(
