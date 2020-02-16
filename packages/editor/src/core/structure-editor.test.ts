@@ -6,7 +6,7 @@ import {
   mergeFlatKeys,
   structureToFlatStructureDefinition,
 } from './structure-editor';
-import '../input-types/TextField/index';
+import '../input-types/TextField';
 
 describe('structure editor', () => {
   const DEFAULT_MODEL: CaptureModel = {
