@@ -8,6 +8,7 @@ const models: () => any[] = () => [
   require('../../../../../fixtures/03-revisions/05-allow-multiple-transcriptions.json'),
   require('../../../../../fixtures/04-selectors/01-simple-selector.json'),
   require('../../../../../fixtures/04-selectors/02-multiple-selectors.json'),
+  require('../../../../../fixtures/04-selectors/03-nested-selector.json'),
 ];
 
 describe('Revision store', () => {
@@ -123,6 +124,18 @@ describe('Revision store', () => {
 
       clearTopLevelSelector();
       expect(store.getState().selector.topLevelSelector).toEqual(null);
+    });
+
+    test('can build a selector index', () => {
+      const [store, { selectRevision }] = selectorStore(false, 7);
+
+      selectRevision({ revisionId: 'c3' });
+
+
+
+
+      expect(true).toBe(true);
+
     });
   });
 

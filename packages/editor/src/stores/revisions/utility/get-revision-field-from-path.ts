@@ -20,8 +20,6 @@ export function getRevisionFieldFromPath<T extends any = any>(
     return null;
   }
 
-  console.log('path =>', path);
-
   for (const [prop, id] of path) {
     if (current.type === 'entity') {
       const property = current.properties[prop];
@@ -31,7 +29,5 @@ export function getRevisionFieldFromPath<T extends any = any>(
     }
   }
 
-  console.log('done...');
-  console.log();
   return (current as any) as T;
 }

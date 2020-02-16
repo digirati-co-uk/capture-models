@@ -5,18 +5,20 @@ export function traverseDocument<TempEntityFields = any>(
   document: CaptureModel['document'] & { temp?: Partial<TempEntityFields> },
   transforms: {
     visitFirstField?: (
-      field: BaseField,
+      field: BaseField & { temp?: Partial<TempEntityFields> },
       key: string,
       parent: CaptureModel['document'] & { temp?: Partial<TempEntityFields> }
     ) => boolean;
     visitField?: (
-      field: BaseField,
+      field: BaseField & { temp?: Partial<TempEntityFields> },
       key: string,
       parent: CaptureModel['document'] & { temp?: Partial<TempEntityFields> }
     ) => void;
     visitSelector?: (
-      selector: BaseSelector,
-      parent: (CaptureModel['document'] & { temp?: Partial<TempEntityFields> }) | BaseField
+      selector: BaseSelector & { temp?: Partial<TempEntityFields> },
+      parent:
+        | (CaptureModel['document'] & { temp?: Partial<TempEntityFields> })
+        | (BaseField & { temp?: Partial<TempEntityFields> })
     ) => void;
     visitEntity?: (
       entity: CaptureModel['document'] & { temp?: Partial<TempEntityFields> },
@@ -28,8 +30,18 @@ export function traverseDocument<TempEntityFields = any>(
       key: string,
       parent: CaptureModel['document'] & { temp?: Partial<TempEntityFields> }
     ) => boolean;
-  }
+    beforeVisitEntity?: (
+      entity: CaptureModel['document'] & { temp?: Partial<TempEntityFields> },
+      key?: string,
+      parent?: CaptureModel['document'] & { temp?: Partial<TempEntityFields> }
+    ) => void;
+  },
+  key?: string,
+  rootParent?: CaptureModel['document'] & { temp?: Partial<TempEntityFields> }
 ) {
+  if (transforms.beforeVisitEntity) {
+    transforms.beforeVisitEntity(document, key, rootParent);
+  }
   for (const propKey of Object.keys(document.properties)) {
     const prop = document.properties[propKey];
     let first = true;
@@ -38,11 +50,11 @@ export function traverseDocument<TempEntityFields = any>(
         if (first && transforms.visitFirstEntity) {
           first = false;
           if (transforms.visitFirstEntity(field, propKey, document)) {
-            traverseDocument(field, transforms);
+            traverseDocument(field, transforms, propKey, document);
           }
           break;
         }
-        traverseDocument(field, transforms);
+        traverseDocument(field, transforms, propKey, document);
       } else {
         if (first && transforms.visitFirstField) {
           first = false;
@@ -60,13 +72,16 @@ export function traverseDocument<TempEntityFields = any>(
       if (field.selector && transforms.visitSelector) {
         transforms.visitSelector(field.selector, field);
       }
+      if ((field as any).temp) {
+        delete (field as any).temp;
+      }
     }
   }
   if (document.selector && transforms.visitSelector) {
     transforms.visitSelector(document.selector, document);
   }
   if (transforms.visitEntity) {
-    transforms.visitEntity(document);
+    transforms.visitEntity(document, key, rootParent);
   }
   if (document.temp) {
     delete document.temp;

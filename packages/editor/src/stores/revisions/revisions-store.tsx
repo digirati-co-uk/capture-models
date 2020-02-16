@@ -66,6 +66,9 @@ export const revisionStore: RevisionsModel = {
   setTopLevelSelector: action((state, payload) => {
     state.selector.topLevelSelector = payload.selectorId;
   }),
+
+
+  // @todo update selector in revision too (not ideal, but avoids traversing tree each time to find a selector)
   updateSelector: action((state, payload) => {
     const selectorToUpdate = state.selector.availableSelectors.find(selector => selector.id === payload.selectorId);
     if (selectorToUpdate) {
@@ -75,6 +78,7 @@ export const revisionStore: RevisionsModel = {
       // }
     }
   }),
+  // @todo update selector on revision
   updateSelectorPreview: action((state, payload) => {
     state.selector.selectorPreviewData[payload.selectorId] = payload.preview;
   }),
@@ -215,6 +219,7 @@ export const revisionStore: RevisionsModel = {
         break;
     }
 
+    // @todo split out into createRevision
     state.revisions[newRevisionId] = {
       revision: {
         id: newRevisionId,
