@@ -1,0 +1,54 @@
+{
+  "structure": {
+    "id": "c1",
+    "type": "choice",
+    "label": "Model with multiple selectors",
+    "items": [
+      {
+        "id": "c2",
+        "label": "Only choice",
+        "type": "model",
+        "fields": [
+          "firstName",
+          "lastName"
+        ],
+        "description": "This could be a top level item without a choice."
+      }
+    ],
+    "description": "Contains single choice with single text field"
+  },
+  "document": {
+    "id": "e1",
+    "type": "entity",
+    "properties": {
+      "firstName": [
+        {
+          "id": "f1",
+          "type": "text-field",
+          "selector": {
+            "id": "s1",
+            "type": "box-selector",
+            "state": null
+          },
+          "label": "First name",
+          "description": "The name of the thing"
+        }
+      ],
+      "lastName": [
+        {
+          "id": "f2",
+          "type": "text-field",
+          "selector": {
+            "id": "s2",
+            "type": "box-selector",
+            "state": null
+          },
+          "label": "Last name",
+          "description": "The last name of the thing"
+        }
+      ]
+    },
+    "label": "Simple document",
+    "description": ""
+  }
+}

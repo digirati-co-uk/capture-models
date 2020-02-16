@@ -1,4 +1,4 @@
-import { CaptureModel, SelectorTypes } from '@capture-models/types';
+import { BaseSelector, CaptureModel, SelectorTypes } from '@capture-models/types';
 import { Action, Computed, Thunk } from 'easy-peasy';
 import { RevisionItem } from './utility/capture-model-to-revision-list';
 import { SelectorModel } from '../selectors/selector-model';
@@ -94,8 +94,8 @@ export type RevisionsModel = {
   // And some selector actions
   chooseSelector: Action<RevisionsModel, { selectorId: string }>;
   clearSelector: Action<RevisionsModel>;
-  updateSelector: Action<RevisionsModel, { selectorId: string; state: SelectorTypes['state'] }>;
-  updateCurrentSelector: Thunk<RevisionsModel, SelectorTypes['state']>;
+  updateSelector: Action<RevisionsModel, { selectorId: string; state: BaseSelector['state'] }>;
+  updateCurrentSelector: Thunk<RevisionsModel, BaseSelector['state']>;
   updateSelectorPreview: Action<RevisionsModel, { selectorId: string; preview: any }>;
   setTopLevelSelector: Action<RevisionsModel, { selectorId: string }>;
   clearTopLevelSelector: Action<RevisionsModel>;

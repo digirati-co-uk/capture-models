@@ -14,7 +14,8 @@ describe('revisionFilter', () => {
     expect(revisionFilter(single01 as CaptureModel, 'abc-123')).toMatchInlineSnapshot(`
       Object {
         "document": Object {
-          "id": "abc-123",
+          "description": "",
+          "id": "e1",
           "label": "Simple document",
           "properties": Object {
             "name": Array [
@@ -43,7 +44,8 @@ describe('revisionFilter', () => {
     expect(revisionFilter(single02 as CaptureModel, 'test-person-a')).toMatchInlineSnapshot(`
       Object {
         "document": Object {
-          "id": "test-person-a",
+          "description": "",
+          "id": "e1",
           "label": "Simple document",
           "properties": Object {
             "name": Array [
@@ -70,7 +72,8 @@ describe('revisionFilter', () => {
     expect(revisionFilter(single02 as CaptureModel, 'test-person-b')).toMatchInlineSnapshot(`
       Object {
         "document": Object {
-          "id": "test-person-b",
+          "description": "",
+          "id": "e1",
           "label": "Simple document",
           "properties": Object {
             "name": Array [
@@ -99,11 +102,13 @@ describe('revisionFilter', () => {
     expect(revisionFilter(single03 as CaptureModel, 'abc-123')).toMatchInlineSnapshot(`
       Object {
         "document": Object {
-          "id": "abc-123",
+          "description": "",
+          "id": "e1",
           "label": "Nested choices",
           "properties": Object {
             "person": Array [
               Object {
+                "description": "Describe a person",
                 "id": "e2",
                 "label": "Person",
                 "properties": Object {
@@ -143,7 +148,7 @@ describe('revisionFilter', () => {
     expect(revisionFilter(single04 as any, 'test-person-a')).toMatchInlineSnapshot(`
       Object {
         "document": Object {
-          "id": "test-person-a",
+          "id": "e1",
           "label": "Name of entity",
           "properties": Object {
             "transcription": Array [
@@ -170,7 +175,7 @@ describe('revisionFilter', () => {
     expect(revisionFilter(single04 as any, 'test-person-b')).toMatchInlineSnapshot(`
       Object {
         "document": Object {
-          "id": "test-person-b",
+          "id": "e1",
           "label": "Name of entity",
           "properties": Object {
             "transcription": Array [
@@ -199,7 +204,7 @@ describe('revisionFilter', () => {
     expect(revisionFilter(single05 as any, 'test-person-a')).toMatchInlineSnapshot(`
       Object {
         "document": Object {
-          "id": "test-person-a",
+          "id": "e1",
           "label": "Name of entity",
           "properties": Object {
             "transcription": Array [
@@ -227,7 +232,7 @@ describe('revisionFilter', () => {
     expect(revisionFilter(single05 as any, 'test-person-b')).toMatchInlineSnapshot(`
       Object {
         "document": Object {
-          "id": "test-person-b",
+          "id": "e1",
           "label": "Name of entity",
           "properties": Object {
             "transcription": Array [
@@ -253,31 +258,31 @@ describe('revisionFilter', () => {
       }
     `);
     expect(revisionFilter(single05 as any, 'test-person-c')).toMatchInlineSnapshot(`
-      Object {
-        "document": Object {
-          "id": "test-person-c",
-          "label": "Name of entity",
-          "properties": Object {
-            "transcription": Array [
-              Object {
-                "allowMultiple": true,
-                "id": "f4",
-                "label": "Transcription",
-                "revision": "test-person-c",
-                "type": "text-field",
-                "value": "Person C created this one",
-              },
-            ],
-          },
-          "type": "entity",
+Object {
+  "document": Object {
+    "id": "e1",
+    "label": "Name of entity",
+    "properties": Object {
+      "transcription": Array [
+        Object {
+          "allowMultiple": true,
+          "id": "f4",
+          "label": "Transcription",
+          "revision": "test-person-c",
+          "type": "text-field",
+          "value": "Person C created this one",
         },
-        "revision": Object {
-          "fields": Array [
-            "transcription",
-          ],
-          "id": "test-person-c",
-        },
-      }
-    `);
+      ],
+    },
+    "type": "entity",
+  },
+  "revision": Object {
+    "fields": Array [
+      "transcription",
+    ],
+    "id": "test-person-c",
+  },
+}
+`);
   });
 });

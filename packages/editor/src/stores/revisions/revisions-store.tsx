@@ -1,8 +1,7 @@
 import { CaptureModel, BaseField, BaseSelector } from '@capture-models/types';
-import { action, computed, createContextStore, createStore, thunk } from 'easy-peasy';
+import { action, computed, createStore, thunk } from 'easy-peasy';
 import { original } from 'immer';
 import { pluginStore } from '@capture-models/plugin-api';
-import React from 'react';
 import { generateId } from '../../utility/generate-id';
 import { traverseDocument } from '../../utility/traverse-document';
 import { RevisionsModel } from './revisions-model';
@@ -54,7 +53,9 @@ export const revisionStore: RevisionsModel = {
   }),
 
   chooseSelector: action((state, payload) => {
-    state.selector.currentSelectorId = payload.selectorId;
+    if (state.selector.availableSelectors.find(selector => selector.id === payload.selectorId)) {
+      state.selector.currentSelectorId = payload.selectorId;
+    }
   }),
   clearSelector: action(state => {
     state.selector.currentSelectorId = null;
@@ -90,10 +91,8 @@ export const revisionStore: RevisionsModel = {
     );
   }),
   updateCurrentSelector: thunk<RevisionsModel, BaseSelector['state']>((actions, payload, helpers) => {
-    console.log('update current selector was called.');
     const state = helpers.getState().selector;
     if (state.currentSelectorId) {
-      console.log('update current selector was updated.', payload);
       actions.updateSelector({ selectorId: state.currentSelectorId, state: payload });
     }
   }),

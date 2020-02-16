@@ -16,11 +16,14 @@ describe('filterCaptureModel', () => {
 
     expect(filtered).toMatchInlineSnapshot(`
       Object {
-        "id": "something",
+        "description": "",
+        "id": "e1",
         "label": "Nested choices",
         "properties": Object {
           "person": Array [
             Object {
+              "allowMultiple": true,
+              "description": "Describe a person",
               "id": "e2",
               "label": "Person",
               "properties": Object {
@@ -44,6 +47,8 @@ describe('filterCaptureModel', () => {
               "type": "entity",
             },
             Object {
+              "allowMultiple": true,
+              "description": "Describe a person",
               "id": "e3",
               "label": "Person",
               "properties": Object {
@@ -78,11 +83,14 @@ describe('filterCaptureModel', () => {
 
     expect(filtered).toMatchInlineSnapshot(`
       Object {
-        "id": "something",
+        "description": "",
+        "id": "e1",
         "label": "Nested choices",
         "properties": Object {
           "person": Array [
             Object {
+              "allowMultiple": true,
+              "description": "Describe a person",
               "id": "e2",
               "label": "Person",
               "properties": Object {
@@ -98,6 +106,8 @@ describe('filterCaptureModel', () => {
               "type": "entity",
             },
             Object {
+              "allowMultiple": true,
+              "description": "Describe a person",
               "id": "e3",
               "label": "Person",
               "properties": Object {

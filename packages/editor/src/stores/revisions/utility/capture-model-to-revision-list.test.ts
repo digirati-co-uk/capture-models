@@ -17,7 +17,8 @@ describe('capture model to revision list', () => {
       Array [
         Object {
           "document": Object {
-            "id": "abc-123",
+            "description": "",
+            "id": "e1",
             "label": "Simple document",
             "properties": Object {
               "name": Array [
@@ -49,7 +50,8 @@ describe('capture model to revision list', () => {
       Array [
         Object {
           "document": Object {
-            "id": "test-person-a",
+            "description": "",
+            "id": "e1",
             "label": "Simple document",
             "properties": Object {
               "name": Array [
@@ -74,7 +76,8 @@ describe('capture model to revision list', () => {
         },
         Object {
           "document": Object {
-            "id": "test-person-b",
+            "description": "",
+            "id": "e1",
             "label": "Simple document",
             "properties": Object {
               "name": Array [
@@ -106,11 +109,13 @@ describe('capture model to revision list', () => {
       Array [
         Object {
           "document": Object {
-            "id": "abc-123",
+            "description": "",
+            "id": "e1",
             "label": "Nested choices",
             "properties": Object {
               "person": Array [
                 Object {
+                  "description": "Describe a person",
                   "id": "e2",
                   "label": "Person",
                   "properties": Object {
@@ -153,7 +158,7 @@ describe('capture model to revision list', () => {
       Array [
         Object {
           "document": Object {
-            "id": "test-person-a",
+            "id": "e1",
             "label": "Name of entity",
             "properties": Object {
               "transcription": Array [
@@ -178,7 +183,7 @@ describe('capture model to revision list', () => {
         },
         Object {
           "document": Object {
-            "id": "test-person-b",
+            "id": "e1",
             "label": "Name of entity",
             "properties": Object {
               "transcription": Array [
@@ -210,7 +215,7 @@ describe('capture model to revision list', () => {
       Array [
         Object {
           "document": Object {
-            "id": "test-person-a",
+            "id": "e1",
             "label": "Name of entity",
             "properties": Object {
               "transcription": Array [
@@ -236,7 +241,7 @@ describe('capture model to revision list', () => {
         },
         Object {
           "document": Object {
-            "id": "test-person-b",
+            "id": "e1",
             "label": "Name of entity",
             "properties": Object {
               "transcription": Array [
@@ -262,7 +267,7 @@ describe('capture model to revision list', () => {
         },
         Object {
           "document": Object {
-            "id": "test-person-c",
+            "id": "e1",
             "label": "Name of entity",
             "properties": Object {
               "transcription": Array [
