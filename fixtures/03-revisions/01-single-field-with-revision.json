@@ -1,0 +1,58 @@
+{
+  "structure": {
+    "id": "c1",
+    "type": "choice",
+    "label": "Basic Model",
+    "items": [
+      {
+        "id": "c2",
+        "label": "Only choice",
+        "type": "model",
+        "fields": [
+          "name"
+        ],
+        "description": "This could be a top level item without a choice."
+      }
+    ],
+    "description": "Contains single choice with single text field"
+  },
+  "document": {
+    "id": "e1",
+    "type": "entity",
+    "properties": {
+      "name": [
+        {
+          "id": "f1",
+          "type": "text-field",
+          "label": "Name",
+          "description": "The name of the thing"
+        },
+        {
+          "id": "f2",
+          "type": "text-field",
+          "label": "Name",
+          "revision": "abc-123",
+          "description": "The name of the thing",
+          "value": "Some value that was submitted"
+        }
+      ]
+    },
+    "label": "Simple document",
+    "description": ""
+  },
+  "contributors": {
+    "abc-123": {
+      "id": "abc-123",
+      "type": "Person",
+      "name": "Test person"
+    }
+  },
+  "revisions": [
+    {
+      "id": "abc-123",
+      "fields": [
+        "name"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "structure": {
+    "id": "c1",
+    "type": "choice",
+    "label": "Nested choice",
+    "items": [
+      {
+        "id": "c2",
+        "label": "Person + data",
+        "type": "model",
+        "fields": [
+          [
+            "person",
+            [
+              "firstName",
+              "lastName"
+            ]
+          ],
+          "name",
+          "description"
+        ],
+        "description": "The only choice in the list"
+      }
+    ],
+    "description": "Contains 3 choices with multiple text fields nested"
+  },
+  "document": {
+    "id": "e1",
+    "type": "entity",
+    "properties": {
+      "name": [
+        {
+          "id": "f1",
+          "type": "text-field",
+          "label": "Name",
+          "description": "The name of the thing",
+          "value": ""
+        }
+      ],
+      "description": [
+        {
+          "id": "f2",
+          "type": "text-field",
+          "label": "Description",
+          "description": "Tell us something about the thing",
+          "value": ""
+        }
+      ],
+      "person": [
+        {
+          "id": "e2",
+          "type": "entity",
+          "label": "Person",
+          "properties": {
+            "firstName": [
+              {
+                "id": "f3",
+                "type": "text-field",
+                "label": "First name",
+                "value": ""
+              },
+              {
+                "id": "f4",
+                "type": "text-field",
+                "label": "First name",
+                "value": "Some value",
+                "revision": "abc-123"
+              }
+            ],
+            "lastName": [
+              {
+                "id": "f5",
+                "type": "text-field",
+                "label": "Last name",
+                "value": ""
+              }
+            ]
+          },
+          "description": "Describe a person"
+        }
+      ]
+    },
+    "label": "Nested choices",
+    "description": ""
+  },
+  "contributors": {
+    "abc-123": {
+      "id": "abc-123",
+      "type": "Person",
+      "name": "Test person"
+    }
+  },
+  "revisions": [
+    {
+      "id": "abc-123",
+      "fields": [
+        [
+          "person",
+          [
+            "firstName",
+            "lastName"
+          ]
+        ],
+        "name"
+      ]
+    }
+  ]
+}

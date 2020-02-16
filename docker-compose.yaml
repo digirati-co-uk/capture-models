@@ -1,0 +1,11 @@
+couchdb:
+  image: "couchdb:2.3.1"
+  environment:
+    COUCHDB_USER: admin
+    COUCHDB_PASSWORD: password
+  ports:
+    - "5984:5984"
+  volumes:
+    - ./var/couchdb:/home/couchdb/data
+    - ./docker/couchdb/local.ini:/opt/couchdb/etc/local.d/local.ini
+

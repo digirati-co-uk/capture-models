@@ -3,3 +3,9 @@ dist
 lib
 *.log
 *.tsbuildinfo
+.idea
+coverage
+var
+.yarn
+**/src/**/*.js
+**/src/**/*.js.map

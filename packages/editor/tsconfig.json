@@ -1,0 +1,17 @@
+{
+  "extends": "../../tsconfig.json",
+  "include": [
+    "src/**/*",
+    "../../fixtures/**/*",
+    "./@types/bem.d.ts"
+  ],
+  "compilerOptions": {
+    "rootDir": "src",
+    "declarationDir": "lib"
+  },
+  // Dependencies must be declared in references.
+  "references": [
+    { "path": "../types" },
+    { "path": "../plugin-api" }
+  ]
+}

@@ -1,0 +1,247 @@
+{
+  "structure": {
+    "type": "choice",
+    "label": "Deeply nested subset",
+    "items": [
+      {
+        "label": "Edit all names",
+        "type": "model",
+        "fields": [
+          [
+            "depth1",
+            [
+              [
+                "second",
+                [
+                  [
+                    "third",
+                    [
+                      "name"
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      }
+    ],
+    "description": "A document with a nested structure, but only editing a single field deep in the tree."
+  },
+  "document": {
+    "type": "entity",
+    "properties": {
+      "depth1": [
+        {
+          "type": "entity",
+          "label": "First depth",
+          "properties": {
+            "second": [
+              {
+                "type": "entity",
+                "label": "second",
+                "properties": {
+                  "third": [
+                    {
+                      "type": "entity",
+                      "label": "Third depth",
+                      "properties": {
+                        "name": [
+                          {
+                            "type": "text-field",
+                            "label": "Name",
+                            "value": "One instance at the depth"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "description": "Second depth"
+              }
+            ]
+          }
+        },
+        {
+          "type": "entity",
+          "label": "First depth",
+          "properties": {
+            "second": [
+              {
+                "type": "entity",
+                "label": "second",
+                "properties": {
+                  "third": [
+                    {
+                      "type": "entity",
+                      "label": "Third depth",
+                      "properties": {
+                        "name": [
+                          {
+                            "type": "text-field",
+                            "label": "Name",
+                            "value": "two instances at second level (first)"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "description": "Second depth"
+              },
+              {
+                "type": "entity",
+                "label": "second",
+                "properties": {
+                  "third": [
+                    {
+                      "type": "entity",
+                      "label": "Third depth",
+                      "properties": {
+                        "name": [
+                          {
+                            "type": "text-field",
+                            "label": "Name",
+                            "value": "two instances at second level (second)"
+                          },
+                          {
+                            "type": "text-field",
+                            "label": "Name",
+                            "value": "two instances at second level (third)"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "description": "Second depth"
+              }
+            ]
+          }
+        },
+        {
+          "type": "entity",
+          "label": "First depth",
+          "properties": {
+            "second": [
+              {
+                "type": "entity",
+                "label": "second",
+                "properties": {
+                  "third": [
+                    {
+                      "type": "entity",
+                      "label": "Third depth",
+                      "properties": {
+                        "name": [
+                          {
+                            "type": "text-field",
+                            "label": "Name",
+                            "value": "two instance at third depth (first)"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "entity",
+                      "label": "Third depth",
+                      "properties": {
+                        "name": [
+                          {
+                            "type": "text-field",
+                            "label": "Name",
+                            "value": "two instance at third depth (second)"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "description": "Second depth"
+              }
+            ]
+          }
+        },
+        {
+          "type": "entity",
+          "label": "First depth",
+          "properties": {
+            "second": [
+              {
+                "type": "entity",
+                "label": "second",
+                "properties": {
+                  "third": [
+                    {
+                      "type": "entity",
+                      "label": "Third depth",
+                      "properties": {
+                        "name": [
+                          {
+                            "type": "text-field",
+                            "label": "Name",
+                            "value": "2x2 at second and third levels (first 1-1)"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "entity",
+                      "label": "Third depth",
+                      "properties": {
+                        "name": [
+                          {
+                            "type": "text-field",
+                            "label": "Name",
+                            "value": "2x2 at second and third levels (second 1-2)"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "description": "Second depth"
+              },
+              {
+                "type": "entity",
+                "label": "second",
+                "properties": {
+                  "third": [
+                    {
+                      "type": "entity",
+                      "label": "Third depth",
+                      "properties": {
+                        "name": [
+                          {
+                            "type": "text-field",
+                            "label": "Name",
+                            "value": "2x2 at second and third levels (third 2-1)"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "entity",
+                      "label": "Third depth",
+                      "properties": {
+                        "name": [
+                          {
+                            "type": "text-field",
+                            "label": "Name",
+                            "value": "2x2 at second and third levels (fourth 2-2)"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "description": "Second depth"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "label": "Deeply nested subset"
+  }
+}

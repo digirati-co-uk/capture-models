@@ -1,0 +1,111 @@
+{
+  "structure": {
+    "id": "c1",
+    "type": "choice",
+    "label": "Nested choice (multiple people)",
+    "items": [
+      {
+        "id": "c2",
+        "label": "Choice 1",
+        "type": "model",
+        "fields": [
+          "name",
+          "description"
+        ],
+        "description": "The first choice in the list"
+      },
+      {
+        "id": "c3",
+        "label": "Person",
+        "type": "model",
+        "fields": [
+          [
+            "person",
+            [
+              "firstName",
+              "lastName"
+            ]
+          ]
+        ],
+        "description": "The second choice in the list"
+      }
+    ],
+    "description": "Contains 3 choices with multiple text fields nested"
+  },
+  "document": {
+    "id": "e1",
+    "type": "entity",
+    "properties": {
+      "name": [
+        {
+          "id": "f1",
+          "type": "text-field",
+          "label": "Name",
+          "description": "The name of the thing"
+        }
+      ],
+      "description": [
+        {
+          "id": "f2",
+          "type": "text-field",
+          "label": "Description",
+          "description": "Tell us something about the thing"
+        }
+      ],
+      "person": [
+        {
+          "id": "e2",
+          "type": "entity",
+          "label": "Person",
+          "allowMultiple": true,
+          "properties": {
+            "firstName": [
+              {
+                "id": "f3",
+                "type": "text-field",
+                "label": "First name",
+                "value": "first first name"
+              }
+            ],
+            "lastName": [
+              {
+                "id": "f4",
+                "type": "text-field",
+                "label": "Last name",
+                "value": "first last name"
+              }
+            ]
+          },
+          "description": "Describe a person"
+        },
+        {
+          "id": "e3",
+          "type": "entity",
+          "label": "Person",
+          "allowMultiple": true,
+          "properties": {
+            "firstName": [
+              {
+                "id": "f5",
+                "type": "text-field",
+                "label": "First name",
+                "value": "second first name"
+              }
+            ],
+            "lastName": [
+              {
+                "id": "f6",
+                "type": "text-field",
+                "label": "Last name",
+                "value": "second last name"
+              }
+            ]
+          },
+          "description": "Describe a person"
+        }
+      ]
+    },
+    "label": "Nested choices",
+    "description": ""
+  }
+}

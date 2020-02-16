@@ -1,6 +1,6 @@
 module.exports = {
   preset: 'ts-jest/presets/js-with-ts',
-  testEnvironment: 'node',
+  testEnvironment: 'jest-environment-jsdom-fourteen',
   coveragePathIgnorePatterns: [
     '/node_modules/',
     '/coverage/',

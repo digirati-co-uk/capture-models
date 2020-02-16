@@ -1,0 +1,39 @@
+{
+  "name": "@capture-models/viewer",
+  "version": "1.0.0",
+  "license": "MIT",
+  "main": "dist/umd/@capture-models/viewer.js",
+  "module": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/digirati-co-uk/capture-models.git",
+    "directory": "packages/viewer"
+  },
+  "scripts": {
+    "build": "fesk-build --cjs --umd",
+    "start": "fesk-start",
+    "build-types": "tsc -p ./ --emitDeclarationOnly",
+    "build:prod": "NODE_ENV=production fesk-build --cjs --umd && tsc -p ./ --emitDeclarationOnly"
+  },
+  "dependencies": {
+    "@capture-models/editor": "1.0.0",
+    "@capture-models/plugin-api": "1.0.0",
+    "@capture-models/types": "1.0.0",
+    "@layouts/core": "^0.1.2",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0"
+  },
+  "peerDependencies": {
+    "styled-components": "^5.0.1"
+  },
+  "fesk": {
+    "typescript": true
+  },
+  "devDependencies": {
+    "styled-components": "^5.0.1",
+    "@fesk/scripts": "1.4.0-pr.b6dc2fa3",
+    "@types/react": "^16.9.19",
+    "@types/react-dom": "^16.9.5"
+  }
+}

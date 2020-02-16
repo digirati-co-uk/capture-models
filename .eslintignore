@@ -4,3 +4,8 @@
 
 # Build products
 dist/
+lib/
+var/
+__mocks__/
+coverage/
+docker/

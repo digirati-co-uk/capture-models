@@ -1,0 +1,40 @@
+{
+  "structure": {
+    "id": "c1",
+    "type": "choice",
+    "label": "Basic Model with simple selector",
+    "items": [
+      {
+        "id": "c2",
+        "label": "Book cover",
+        "type": "model",
+        "fields": [
+          "title"
+        ],
+        "description": "Describe the cover of a book"
+      }
+    ]
+  },
+  "document": {
+    "id": "e1",
+    "type": "entity",
+    "properties": {
+      "title": [
+        {
+          "id": "f1",
+          "type": "text-field",
+          "selector": {
+            "id": "s1",
+            "type": "box-selector",
+            "state": {"height": 771, "width": 2199, "x": 164, "y": 235}
+          },
+          "label": "Title",
+          "description": "The title of the book as it is printed on the cover.",
+          "value": "WUNDER DER VERERBUNG"
+        }
+      ]
+    },
+    "label": "Simple document",
+    "description": ""
+  }
+}

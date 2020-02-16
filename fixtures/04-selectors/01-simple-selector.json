@@ -1,0 +1,40 @@
+{
+  "structure": {
+    "id": "c1",
+    "type": "choice",
+    "label": "Basic Model with simple selector",
+    "items": [
+      {
+        "id": "c2",
+        "label": "Only choice",
+        "type": "model",
+        "fields": [
+          "name"
+        ],
+        "description": "This could be a top level item without a choice."
+      }
+    ],
+    "description": "Contains single choice with single text field"
+  },
+  "document": {
+    "id": "e1",
+    "type": "entity",
+    "properties": {
+      "name": [
+        {
+          "id": "f1",
+          "type": "text-field",
+          "selector": {
+            "id": "s1",
+            "type": "box-selector",
+            "state": null
+          },
+          "label": "Name",
+          "description": "The name of the thing"
+        }
+      ]
+    },
+    "label": "Simple document",
+    "description": ""
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "structure": {
+    "id": "c1",
+    "type": "choice",
+    "label": "Basic Model",
+    "items": [
+      {
+        "id": "c2",
+        "label": "Only choice - multiple fields",
+        "type": "model",
+        "fields": [
+          "name",
+          "description"
+        ],
+        "description": "This could be a top level item without a choice."
+      }
+    ],
+    "description": "Contains single choice with multiple single text fields"
+  },
+  "document": {
+    "id": "e1",
+    "type": "entity",
+    "properties": {
+      "name": [
+        {
+          "id": "f1",
+          "type": "text-field",
+          "label": "Name",
+          "description": "The name of the thing"
+        }
+      ],
+      "description": [
+        {
+          "id": "f2",
+          "type": "text-field",
+          "label": "Description",
+          "description": "Tell us something about the thing"
+        }
+      ]
+    },
+    "label": "Simple document",
+    "description": ""
+  }
+}

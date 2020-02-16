@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.json",
+  "include": ["src/**/*"],
+  "compilerOptions": {
+    "rootDir": "src",
+    "declarationDir": "./lib"
+  },
+  "references": [
+    { "path": "../editor" },
+    { "path": "../plugin-api" },
+    { "path": "../types" }
+  ]
+}
