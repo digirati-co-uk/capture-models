@@ -29,7 +29,7 @@ describe('current form', () => {
               Object {
                 "label": "Enter a description of the book",
                 "term": "description",
-                "type": "text-area",
+                "type": "text-field",
                 "value": "The Hitchhiker's Guide to the Galaxy is the first of five books in the Hitchhiker's Guide to the Galaxy comedy science fiction \\"trilogy\\" by Douglas Adams. The novel is an adaptation of the first four parts of Adams' radio series of the same name.",
               },
             ],
@@ -81,7 +81,7 @@ describe('current form', () => {
                       Object {
                         "label": "Write your review",
                         "term": "reviewBody",
-                        "type": "text-area",
+                        "type": "text-field",
                         "value": "Very simply, the book is one of the funniest SF spoofs ever written, with hyperbolic ideas folding in on themselves",
                       },
                     ],
@@ -111,7 +111,7 @@ describe('current form', () => {
                       Object {
                         "label": "Write your review",
                         "term": "reviewBody",
-                        "type": "text-area",
+                        "type": "text-field",
                         "value": "",
                       },
                     ],
@@ -141,7 +141,7 @@ describe('current form', () => {
                       Object {
                         "label": "Write your review",
                         "term": "reviewBody",
-                        "type": "text-area",
+                        "type": "text-field",
                         "value": "It's very great",
                       },
                     ],
