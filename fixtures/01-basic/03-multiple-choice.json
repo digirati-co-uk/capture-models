@@ -1,9 +1,11 @@
 {
   "structure": {
+    "id": "c1",
     "type": "choice",
-    "label": "Multiple choice",
+    "label": "Basic - Multiple choices",
     "items": [
       {
+        "id": "c2",
         "label": "Choice 1",
         "type": "model",
         "fields": [
@@ -12,6 +14,7 @@
         "description": "The first choice in the list"
       },
       {
+        "id": "c3",
         "label": "Choice 2",
         "type": "model",
         "fields": [
@@ -23,10 +26,12 @@
     "description": "Contains 2 choices with multiple text fields"
   },
   "document": {
+    "id": "e1",
     "type": "entity",
     "properties": {
       "name": [
         {
+          "id": "f1",
           "type": "text-field",
           "label": "Name",
           "description": "The name of the thing"
@@ -34,6 +39,7 @@
       ],
       "description": [
         {
+          "id": "f2",
           "type": "text-field",
           "label": "Description",
           "description": "Tell us something about the thing"
@@ -42,7 +48,5 @@
     },
     "label": "Multiple choices",
     "description": ""
-  },
-  "_id": "b9e0f2a5-4617-4bc5-b088-16323ff8c6b5",
-  "_rev": "34-260429fcf6bbae540cf3ae4195a0ae2c"
+  }
 }

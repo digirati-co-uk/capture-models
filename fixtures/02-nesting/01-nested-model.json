@@ -2,7 +2,7 @@
   "structure": {
     "id": "c1",
     "type": "choice",
-    "label": "Nested choice",
+    "label": "Nesting - Person + fields",
     "items": [
       {
         "id": "c2",

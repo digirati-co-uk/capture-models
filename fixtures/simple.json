@@ -31,14 +31,6 @@
         ]
       },
       {
-        "id": "c5",
-        "type": "model",
-        "label": "Add a review",
-        "fields": [
-          "review"
-        ]
-      },
-      {
         "id": "c6",
         "type": "model",
         "label": "Rate this book",
@@ -74,7 +66,7 @@
       ],
       "description": [
         {
-          "type": "text-area",
+          "type": "text-field",
           "term": "description",
           "label": "Enter a description of the book",
           "value": "The Hitchhiker's Guide to the Galaxy is the first of five books in the Hitchhiker's Guide to the Galaxy comedy science fiction \"trilogy\" by Douglas Adams. The novel is an adaptation of the first four parts of Adams' radio series of the same name."
@@ -90,14 +82,10 @@
       ],
       "author": [
         {
-          "type": "viaf-lookup",
+          "type": "text-field",
           "term": "author",
           "label": "Author",
-          "viaf-nametype": "personal",
-          "value": {
-            "@id": "http://viaf.org/viaf/113230702",
-            "label": "Douglas Adams"
-          }
+          "value": "http://viaf.org/viaf/113230702"
         }
       ],
       "review": [
@@ -117,7 +105,7 @@
             ],
             "datePublished": [
               {
-                "type": "current-date",
+                "type": "text-field",
                 "label": "Current date",
                 "term": "datePublished",
                 "format": "YYYY-MM-DD",
@@ -134,7 +122,7 @@
             ],
             "reviewBody": [
               {
-                "type": "text-area",
+                "type": "text-field",
                 "term": "reviewBody",
                 "label": "Write your review",
                 "value": "Very simply, the book is one of the funniest SF spoofs ever written, with hyperbolic ideas folding in on themselves"
@@ -144,7 +132,7 @@
               {
                 "term": "reviewRating",
                 "label": "Star rating",
-                "type": "star-rating",
+                "type": "text-field",
                 "max": 5,
                 "value": 5
               }
@@ -168,7 +156,7 @@
             "datePublished": [
               {
                 "term": "datePublished",
-                "type": "current-date",
+                "type": "text-field",
                 "label": "Current date",
                 "format": "YYYY-MM-DD",
                 "value": "2019-10-11"
@@ -185,14 +173,14 @@
             "reviewBody": [
               {
                 "term": "reviewBody",
-                "type": "text-area",
+                "type": "text-field",
                 "label": "Write your review",
                 "value": ""
               }
             ],
             "reviewRating": [
               {
-                "type": "star-rating",
+                "type": "text-field",
                 "max": 5,
                 "value": 4,
                 "term": "reviewRating"
@@ -217,7 +205,7 @@
             "datePublished": [
               {
                 "term": "datePublished",
-                "type": "current-date",
+                "type": "text-field",
                 "label": "Current date",
                 "format": "YYYY-MM-DD",
                 "value": "2019-10-12"
@@ -234,7 +222,7 @@
             "reviewBody": [
               {
                 "term": "reviewBody",
-                "type": "text-area",
+                "type": "text-field",
                 "label": "Write your review",
                 "value": "It's very great"
               }
@@ -242,7 +230,7 @@
             "reviewRating": [
               {
                 "term": "reviewRating",
-                "type": "star-rating",
+                "type": "text-field",
                 "max": 5,
                 "value": 5
               }

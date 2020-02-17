@@ -10,10 +10,10 @@ import {
   CardButtonGroup,
   FieldWrapper,
 } from '@capture-models/editor';
-import { useFieldPreview } from '@capture-models/plugin-api';
+import { useFieldPreview, useContentType } from '@capture-models/plugin-api';
 import { BaseField, CaptureModel, StructureType } from '@capture-models/types';
 import { ContentLayout, RootLayout } from '@layouts/core';
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, Suspense } from 'react';
 import { getExampleContent } from './utility/get-example-content';
 import { getExampleModels } from './utility/get-example-models';
 import { CanvasPanel } from '@capture-models/editor/lib/content-types/CanvasPanel/CanvasPanel';
@@ -140,8 +140,8 @@ const RevisionList: React.FC<{ model: StructureType<'model'> }> = ({ model }) =>
         />
       ))}
       <CardButtonGroup>
-        <CardButton onClick={() => createRevision({ revisionId: model.id, cloneMode: 'EDIT_ALL_VALUES' })}>
-          Edit canonical
+        <CardButton onClick={() => createRevision({ revisionId: model.id, cloneMode: 'FORK_ALL_VALUES' })}>
+          Fork values
         </CardButton>
         <CardButton onClick={() => createRevision({ revisionId: model.id, cloneMode: 'FORK_TEMPLATE' })}>
           Create new
@@ -156,7 +156,7 @@ const VerboseFieldPage: React.FC<{
   path: Array<[string, string]>;
   goBack: () => void;
 }> = ({ field, path, goBack }) => {
-  const [value, setValue] = useState();
+  const [value, setValue] = useState(field.instance.value);
   const updateFieldValue = Revisions.useStoreActions(a => a.updateFieldValue);
 
   return (
@@ -273,6 +273,7 @@ const Root: React.FC<any> = ({
   setSelectedContent,
   backHome,
 }) => {
+  const contentComponent = useContentType(selectedCaptureModel ? selectedCaptureModel.target : undefined);
   return (
     <RootLayout>
       <ContentLayout
@@ -280,33 +281,45 @@ const Root: React.FC<any> = ({
           <>
             <button onClick={backHome}>Back home</button>
             {selectedCaptureModel ? (
-              selectedContent ? (
+              selectedContent || contentComponent ? (
                 <Nav structure={selectedCaptureModel.structure} />
               ) : (
                 'Select content'
               )
             ) : (
-              <div style={{ padding: '40px 20px', background: '#d0cce2', height: '100%' }}>
+              <div style={{ padding: '40px 20px', background: '#d0cce2', height: '100%', overflowY: 'auto' }}>
                 {examples.map((example, key) => (
-                  <div key={key}>
-                    <Heading size="medium">{example.structure.label}</Heading>
+                  <RoundedCard key={key}>
+                    <Heading size="small">{example.structure.label}</Heading>
                     <p>{example.structure.description}</p>
-                    <CardButton onClick={() => setSelectedCaptureModel(example)}>Choose model</CardButton>
-                  </div>
+                    {example.target ? (
+                      <p style={{ fontSize: 11, color: '#999' }}>
+                        {example.target.map((t, k) => {
+                          return <div key={k}>{t.id}</div>;
+                        })}
+                      </p>
+                    ) : null}
+                    <CardButton inline size="medium" onClick={() => setSelectedCaptureModel(example)}>
+                      Choose model {!selectedContent && example.target && 'and content'}
+                    </CardButton>
+                  </RoundedCard>
                 ))}
               </div>
             )}
           </>
         }
       >
-        {selectedContent ? (
+        {selectedContent || contentComponent ? (
           <>
-            <Heading size="medium">{selectedContent.label}</Heading>
-            {selectedCaptureModel ? (
-              <CanvasPanel canvasId={''} manifestId={selectedContent.manifest} />
-            ) : (
-              'Select model.'
-            )}
+            <Suspense fallback={'loading...'}>
+              {selectedCaptureModel && selectedContent ? (
+                <CanvasPanel canvasId={''} manifestId={selectedContent.manifest} />
+              ) : contentComponent ? (
+                contentComponent
+              ) : (
+                'Select model.'
+              )}
+            </Suspense>
           </>
         ) : (
           <div style={{ padding: 40 }}>
@@ -342,7 +355,10 @@ export const RootExamples: React.FC = () => {
   return (
     <Revisions.Provider captureModel={selectedCaptureModel}>
       <Root
-        backHome={() => setSelectedCaptureModel(undefined)}
+        backHome={() => {
+          setSelectedContent(undefined);
+          setSelectedCaptureModel(undefined);
+        }}
         selectedCaptureModel={selectedCaptureModel}
         setSelectedCaptureModel={setSelectedCaptureModel}
         selectedContent={selectedContent}

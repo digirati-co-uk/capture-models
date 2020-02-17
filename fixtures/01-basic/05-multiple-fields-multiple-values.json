@@ -20,6 +20,8 @@
   "document": {
     "id": "e1",
     "type": "entity",
+    "label": "Simple document",
+    "description": "",
     "properties": {
       "name": [
         {
@@ -65,8 +67,6 @@
           "value": "Third description"
         }
       ]
-    },
-    "label": "Simple document",
-    "description": ""
+    }
   }
 }

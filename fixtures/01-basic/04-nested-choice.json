@@ -2,7 +2,7 @@
   "structure": {
     "id": "c1",
     "type": "choice",
-    "label": "Nested choice",
+    "label": "Basic - Nested choice",
     "items": [
       {
         "id": "c2",
@@ -45,6 +45,7 @@
   "document": {
     "id": "e1",
     "type": "entity",
+    "label": "Nested choices",
     "properties": {
       "name": [
         {
@@ -62,8 +63,6 @@
           "description": "Tell us something about the thing"
         }
       ]
-    },
-    "label": "Nested choices",
-    "description": ""
+    }
   }
 }
