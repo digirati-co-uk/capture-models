@@ -29,13 +29,12 @@ export const CanvasPanel: React.FC<CanvasPanelProps['state']> = ({ canvasId, man
     width: 400,
     height: 400,
     x: 500,
-    y: 500
+    y: 500,
   });
+
   const displaySelectors = useDisplaySelectors('canvas-panel');
   const [actions, availableSelectors] = useSelectorActions();
   // @todo useTopLevelSelector();
-
-  console.log({availableSelectors, currentSelector});
 
   useEffect(() => {
     // @todo UI to toggle these on and off and props to control this behaviour.
@@ -58,10 +57,12 @@ export const CanvasPanel: React.FC<CanvasPanelProps['state']> = ({ canvasId, man
     //     thumbnail, if available.
   }, [actions, availableSelectors, currentSelector, displaySelectors]);
 
+  console.log({ canvasId });
+
   return (
     <Suspense fallback={() => null}>
       <Manifest url={manifestId}>
-        <CanvasProvider canvasId={canvasId}>
+        <CanvasProvider startCanvas={canvasId || undefined}>
           <SingleTileSource>
             <Viewport maxHeight={600}>
               <OpenSeadragonViewport viewportController={true}>

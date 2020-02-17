@@ -2,7 +2,7 @@
   "structure": {
     "id": "c1",
     "type": "choice",
-    "label": "Basic Model",
+    "label": "Basic - Multiple fields",
     "items": [
       {
         "id": "c2",

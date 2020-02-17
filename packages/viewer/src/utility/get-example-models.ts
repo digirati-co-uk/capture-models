@@ -1,13 +1,16 @@
 import { CaptureModel } from '@capture-models/types';
 
+const ctx = require.context('../../../../fixtures', true, /\.json$/);
+
 export function getExampleModels(): CaptureModel[] {
-  return [
-    require('../../../../fixtures/01-basic/02-multiple-fields.json'),
-    require('../../../../fixtures/01-basic/05-multiple-fields-multiple-values.json'),
-    require('../../../../fixtures/03-revisions/01-single-field-with-revision.json'),
-    require('../../../../fixtures/04-selectors/01-simple-selector.json'),
-    require('../../../../fixtures/01-basic/04-nested-choice.json'),
-    require('../../../../fixtures/02-nesting/01-nested-model.json'),
-    require('../../../../fixtures/02-nesting/05-nested-model-multiple.json'),
-  ] as CaptureModel[];
+  return ctx
+    .keys()
+    .map(key => ctx(key))
+    .filter(model => Object.keys(model).length)
+    .map(model => {
+      if (model.structure && model.structure.id === undefined) {
+        model.structure.description += ' – WARNING: NO IDS, EDITING WILL NOT WORK';
+      }
+      return model;
+    }) as CaptureModel[];
 }

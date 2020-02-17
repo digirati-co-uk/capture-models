@@ -3,6 +3,7 @@ import { BaseSelector } from './selector-types';
 
 export type NestedModelFields = [string, ModelFields];
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface ModelFields extends Array<string | NestedModelFields> {}
 
 export type Revision = {
@@ -14,6 +15,11 @@ export type Revision = {
   fields: ModelFields;
   approved?: boolean;
   revises?: string;
+};
+
+type Target = {
+  id: string;
+  type: string;
 };
 
 export type CaptureModel = {
@@ -48,7 +54,7 @@ export type CaptureModel = {
     };
   };
   revisions?: Array<Revision>;
-  target?: string[];
+  target?: Array<Target>;
   contributors?: {
     [id: string]: {
       id: string;

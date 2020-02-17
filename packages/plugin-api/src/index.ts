@@ -1,6 +1,7 @@
 export * from './globals';
 export * from './global-store';
 export * from './context';
+export * from './hooks/use-content-type';
 export * from './hooks/use-field';
 export * from './hooks/use-field-plugin';
 export * from './hooks/use-field-preview';
