@@ -24,8 +24,7 @@ export type InjectedFieldProps<ValueType> = {
   updateValue: (value: ValueType) => void;
 };
 // Injected properties.
-export type FieldTypeProps<T extends { value: Value }, Value = T['value']> = T &
-  InjectedFieldProps<T['value']>;
+export type FieldTypeProps<T extends { value: Value }, Value = T['value']> = T & InjectedFieldProps<T['value']>;
 export type FieldSpecification<Props extends BaseField = BaseField> = {
   label: string;
   type: string;
@@ -35,7 +34,7 @@ export type FieldSpecification<Props extends BaseField = BaseField> = {
   defaultProps: Partial<Props>;
   Component: FC<Props & InjectedFieldProps<Props['value']>>;
   TextPreview: FC<Props>;
-  Editor: FC<Required<Omit<Props, 'value'>>>;
+  Editor: FC<Required<Omit<Props, 'value', 'selector'>> & Pick<Props, 'selector'>>;
 };
 
 export type NestedField<Doc extends CaptureModel['document']> = Array<

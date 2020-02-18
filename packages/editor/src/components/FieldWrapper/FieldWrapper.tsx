@@ -1,11 +1,11 @@
-import { Revisions } from '../../stores/revisions';
 import React, { useCallback, useState } from 'react';
 import { useField, useSelectorStatus } from '@capture-models/plugin-api';
-import { FieldHeader } from '../FieldHeader/FieldHeader';
-import { BaseField } from '@capture-models/types';
+import { FieldHeaderComponent } from '../FieldHeader/FieldHeader-component';
+import { BaseField, BaseSelector } from '@capture-models/types';
 
 type Props<T extends BaseField = BaseField> = {
   field: T;
+  selector?: BaseSelector;
   term?: string;
   showTerm?: boolean;
   onUpdateValue: (value: T['value']) => void;
@@ -18,7 +18,7 @@ type Props<T extends BaseField = BaseField> = {
   // onHideSelector()
 };
 
-export const FieldWrapper: React.FC<Props> = ({ field, term, onUpdateValue, showTerm }) => {
+export const FieldWrapper: React.FC<Props> = ({ field, term, onUpdateValue, showTerm, selector }) => {
   const [value, setValue] = useState(field.value);
 
   const updateValue = useCallback(
@@ -30,16 +30,10 @@ export const FieldWrapper: React.FC<Props> = ({ field, term, onUpdateValue, show
   );
 
   const updateSelectorValue = useCallback(() => {
-    console.log('selector updated.');
+    // console.log('selector updated.');
   }, []);
 
   const fieldComponent = useField(field, value, updateValue);
-
-  const selector = Revisions.useStoreState(s =>
-    field.selector
-      ? s.selector.availableSelectors.find(({ id }) => (field.selector ? id === field.selector.id : false))
-      : undefined
-  );
 
   // @todo pass a lot of (optional) things from props to this selector status for actions on selectors.
   const selectorComponent = useSelectorStatus(selector, updateSelectorValue);
@@ -52,7 +46,7 @@ export const FieldWrapper: React.FC<Props> = ({ field, term, onUpdateValue, show
 
   return (
     <div style={{ marginBottom: 30 }}>
-      <FieldHeader
+      <FieldHeaderComponent
         labelFor={field.id}
         label={field.label}
         description={field.description}
@@ -60,7 +54,7 @@ export const FieldWrapper: React.FC<Props> = ({ field, term, onUpdateValue, show
         showTerm={showTerm}
         term={term}
       />
-      <div>{fieldComponent}</div>
+      <div>{fieldComponent || ''}</div>
     </div>
   );
 };

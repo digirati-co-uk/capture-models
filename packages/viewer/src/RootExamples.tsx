@@ -1,7 +1,7 @@
 import {
   BackgroundSplash,
   CardButton,
-  FieldHeader,
+  FieldHeaderComponent,
   isEntityList,
   Heading,
   Revisions,
@@ -9,11 +9,14 @@ import {
   useNavigation,
   CardButtonGroup,
   FieldWrapper,
+  useChoiceRevisions,
+  FieldPreview,
+  DocumentPreview
 } from '@capture-models/editor';
-import { useFieldPreview, useContentType } from '@capture-models/plugin-api';
+import { useContentType } from '@capture-models/plugin-api';
 import { BaseField, CaptureModel, StructureType } from '@capture-models/types';
 import { ContentLayout, RootLayout } from '@layouts/core';
-import React, { useMemo, useState, Suspense } from 'react';
+import React, { useState, Suspense } from 'react';
 import { getExampleContent } from './utility/get-example-content';
 import { getExampleModels } from './utility/get-example-models';
 import { CanvasPanel } from '@capture-models/editor/lib/content-types/CanvasPanel/CanvasPanel';
@@ -33,25 +36,6 @@ const content = getExampleContent();
 
 // Things:
 // - field index: id => [id, id, id]: computed field on revision
-
-const useChoiceRevisions = (choiceId: string) => {
-  const revisions = Revisions.useStoreState(s => s.revisions);
-
-  return useMemo(
-    () =>
-      Object.keys(revisions)
-        .map(revId => revisions[revId])
-        .filter(rev => rev.revision.structureId === choiceId),
-    [choiceId, revisions]
-  );
-};
-
-// const FieldIdStack = () => {};
-
-const FieldPreview: React.FC<{ field: BaseField }> = ({ field }) => {
-  const preview = useFieldPreview(field);
-  return <>{preview}</>;
-};
 
 const FieldInstanceList: React.FC<{
   fields: Array<BaseField>;
@@ -86,7 +70,9 @@ const EntityInstanceList: React.FC<{
       {entities.map((field, idx) => {
         return (
           <RoundedCard key={idx} interactive={true} onClick={() => chooseEntity({ instance: field, property })}>
-            Field number {idx} (type: {field.type})
+            <DocumentPreview entity={field}>
+              Field number {idx} (type: {field.type})
+            </DocumentPreview>
           </RoundedCard>
         );
       })}
@@ -107,7 +93,7 @@ const FieldList: React.FC<{
           const entity = instances[0];
           return (
             <div key={idx}>
-              <FieldHeader label={entity.label || 'Untitled'} />
+              <FieldHeaderComponent label={entity.label || 'Untitled'} />
               <EntityInstanceList entities={instances} property={propertyId} chooseEntity={chooseEntity} />
             </div>
           );
@@ -115,7 +101,7 @@ const FieldList: React.FC<{
         const field = instances[0];
         return (
           <div key={idx}>
-            <FieldHeader label={field.label} />
+            <FieldHeaderComponent label={field.label} />
             <FieldInstanceList fields={instances} property={propertyId} chooseField={chooseField} />
           </div>
         );
@@ -133,15 +119,17 @@ const RevisionList: React.FC<{ model: StructureType<'model'> }> = ({ model }) =>
     <BackgroundSplash header={model.label} description={model.description}>
       {revisions.map((rev, idx) => (
         <RoundedCard
-          label={rev.revision.label}
+          label={rev.revision.label || rev.revision.id}
           interactive
           key={idx}
           onClick={() => selectRevision({ revisionId: rev.revision.id })}
-        />
+        >
+          {rev.revision.approved ? 'Approved' : 'Draft'}
+        </RoundedCard>
       ))}
       <CardButtonGroup>
         <CardButton onClick={() => createRevision({ revisionId: model.id, cloneMode: 'FORK_ALL_VALUES' })}>
-          Fork values
+          Edit
         </CardButton>
         <CardButton onClick={() => createRevision({ revisionId: model.id, cloneMode: 'FORK_TEMPLATE' })}>
           Create new
@@ -158,16 +146,18 @@ const VerboseFieldPage: React.FC<{
 }> = ({ field, path, goBack }) => {
   const [value, setValue] = useState(field.instance.value);
   const updateFieldValue = Revisions.useStoreActions(a => a.updateFieldValue);
+  const selector = Revisions.useStoreState(s =>
+    field.instance.selector
+      ? s.selector.availableSelectors.find(({ id }) =>
+          field.instance.selector ? id === field.instance.selector.id : false
+        )
+      : undefined
+  );
 
   return (
     <BackgroundSplash header={field.instance.label}>
       <RoundedCard size="small">
-        <div style={{ textAlign: 'center' }}>
-          <a href="#">Add selector</a>
-        </div>
-      </RoundedCard>
-      <RoundedCard size="small">
-        <FieldWrapper field={field.instance} onUpdateValue={setValue} />
+        <FieldWrapper field={field.instance} selector={selector} onUpdateValue={setValue} />
       </RoundedCard>
       <CardButton
         onClick={() => {

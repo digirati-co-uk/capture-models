@@ -138,6 +138,18 @@ export const DocumentStore = createContextStore<
       resolveSubtree(state.subtreePath, state.document).selector = payload.selector;
     }),
 
+    setAllowMultiple: action((state, payload) => {
+      resolveSubtree(state.subtreePath, state.document).allowMultiple = payload;
+    }),
+
+    setLabelledBy: action((state, payload) => {
+      if (!payload) {
+        delete resolveSubtree(state.subtreePath, state.document).labelledBy;
+      } else {
+        resolveSubtree(state.subtreePath, state.document).labelledBy = payload;
+      }
+    }),
+
     setSelectorState: action((state, payload) => {
       const selector = resolveSubtree(state.subtreePath, state.document).selector;
       if (selector) {
@@ -168,6 +180,21 @@ export const DocumentStore = createContextStore<
         term.label = payload.label;
       }
     }),
+
+    setFieldType: action((state, payload) => {
+      const prop = (payload.term ? payload.term : state.selectedFieldKey) as string;
+      for (const term of resolveSubtree(state.subtreePath, state.document).properties[prop]) {
+        term.type = payload.type;
+        if (payload.defaults) {
+          for (const defaultKey of Object.keys(payload.defaults)) {
+            if (typeof (term as any)[defaultKey] === 'undefined') {
+              (term as any)[defaultKey] = payload.defaults[defaultKey];
+            }
+          }
+        }
+      }
+    }),
+
     setFieldDescription: action((state, payload) => {
       const prop = (payload.term ? payload.term : state.selectedFieldKey) as string;
       for (const term of resolveSubtree(state.subtreePath, state.document).properties[prop]) {

@@ -2,7 +2,7 @@
   "structure": {
     "id": "c1",
     "type": "choice",
-    "label": "Basic Model",
+    "label": "Revisions - single field",
     "items": [
       {
         "id": "c2",
@@ -50,6 +50,7 @@
   "revisions": [
     {
       "id": "abc-123",
+      "structureId": "c2",
       "fields": [
         "name"
       ]

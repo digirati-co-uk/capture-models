@@ -25,6 +25,8 @@ const Inner = () => {
     deselectField: a.deselectField,
     addField: a.addField,
     setSelector: a.setSelector,
+    setAllowMultiple: a.setAllowMultiple,
+    setLabelledBy: a.setLabelledBy,
   }));
 
   return (
@@ -35,6 +37,8 @@ const Inner = () => {
         deselectField={actions.deselectField}
         setDescription={actions.setDescription}
         setLabel={actions.setLabel}
+        setAllowMultiple={actions.setAllowMultiple}
+        setLabelledBy={actions.setLabelledBy}
         popSubtree={actions.popSubtree}
         pushSubtree={actions.pushSubtree}
         subtree={state.subtree}

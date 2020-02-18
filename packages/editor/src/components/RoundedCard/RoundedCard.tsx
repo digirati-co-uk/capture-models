@@ -86,11 +86,13 @@ export const RoundedCard: React.FC<RoundedCardProps> = ({
   image,
 }) => (
   <CardWrapper interactive={interactive} size={size} onClick={onClick}>
-    <CardLayout showMargin={!!children}>
-      {image ? <CardImage src={image} /> : null}
-      <CardLabel htmlFor={labelFor}>{label}</CardLabel>
-      {count ? <CardCount>{count}</CardCount> : null}
-    </CardLayout>
+    {image || label || count ? (
+      <CardLayout showMargin={!!children}>
+        {image ? <CardImage src={image} /> : null}
+        {label ? <CardLabel htmlFor={labelFor}>{label}</CardLabel> : null}
+        {count ? <CardCount>{count}</CardCount> : null}
+      </CardLayout>
+    ) : null}
     {children ? <CardBody>{children}</CardBody> : null}
   </CardWrapper>
 );

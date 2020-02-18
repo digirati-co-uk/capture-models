@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { PluginContext } from '@capture-models/plugin-api';
 import { Button, Card, Label } from 'semantic-ui-react';
-import { ContentTypeMap, SelectorSpecification, SelectorTypeMap } from '@capture-models/types';
+import { SelectorSpecification } from '@capture-models/types';
 
 export const ChooseSelector: React.FC<{
   handleChoice: (choice: SelectorSpecification) => void;
@@ -23,7 +23,7 @@ export const ChooseSelector: React.FC<{
                 Supported content types
                 <div>
                   {field.supportedContentTypes.map(type => (
-                    <Label>{type}</Label>
+                    <Label key={type}>{type}</Label>
                   ))}
                 </div>
               </Card.Content>

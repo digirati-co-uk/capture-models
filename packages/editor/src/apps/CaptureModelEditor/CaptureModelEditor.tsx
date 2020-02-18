@@ -23,6 +23,21 @@ import { CardDropdown } from '../../components/CardDropdown/CardDropdown';
 import { CardButton } from '../../components/CardButton/CardButton';
 import { BaseField, CaptureModel, StructureType } from '@capture-models/types';
 
+const ctx = require.context('../../../../../fixtures', true, /\.json$/);
+
+export function getExampleModels(): CaptureModel[] {
+  return ctx
+    .keys()
+    .map(key => ctx(key))
+    .filter(model => Object.keys(model).length)
+    .map(model => {
+      if (model.structure && model.structure.id === undefined) {
+        model.structure.description += ' – WARNING: NO IDS, EDITING WILL NOT WORK';
+      }
+      return model;
+    }) as CaptureModel[];
+}
+
 const Homepage = () => <div>Homepage.</div>;
 const About = () => <div>About.</div>;
 const Models = () => {
@@ -69,6 +84,8 @@ const FullDocumentEditor: React.FC = () => {
           selectField={actions.selectField}
           setDescription={actions.setDescription}
           setLabel={actions.setLabel}
+          setAllowMultiple={actions.setAllowMultiple}
+          setLabelledBy={actions.setLabelledBy}
           deselectField={actions.deselectField}
           popSubtree={actions.popSubtree}
           pushSubtree={actions.pushSubtree}
@@ -87,6 +104,13 @@ const FullDocumentEditor: React.FC = () => {
               key={state.selectedField}
               term={state.selectedField}
               field={state.subtree.properties[state.selectedField][0] as BaseField}
+              onChangeFieldType={(type, defaults) => {
+                actions.setFieldType({
+                  type,
+                  defaults,
+                });
+                actions.deselectField();
+              }}
               onSubmit={field => {
                 actions.setField({ field });
                 actions.setFieldSelector({ selector: field.selector });

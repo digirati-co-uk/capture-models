@@ -8,5 +8,5 @@ export const FormPreview: React.FC<{ term?: string }> = ({ term }) => {
 
   // const [field] = useField(values, value, setValue);
 
-  return <FieldWrapper field={{ ...values, value }} term={term} onUpdateValue={setValue}/>;
+  return <FieldWrapper field={{ ...values, value }} term={term} onUpdateValue={setValue} />;
 };

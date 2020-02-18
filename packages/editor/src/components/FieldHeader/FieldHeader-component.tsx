@@ -14,7 +14,14 @@ type FieldHeaderProps = {
   selectorComponent?: any;
 };
 
-export const FieldHeader: React.FC<FieldHeaderProps> = ({ description, term, selectorComponent, showTerm, labelFor, label }) => {
+export const FieldHeaderComponent: React.FC<FieldHeaderProps> = ({
+  description,
+  term,
+  selectorComponent,
+  showTerm,
+  labelFor,
+  label,
+}) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -22,7 +29,7 @@ export const FieldHeader: React.FC<FieldHeaderProps> = ({ description, term, sel
       <div className={$fieldHeader.element('top')}>
         <div className={$fieldHeader.element('left')}>
           <label className={$fieldHeader.element('title')} htmlFor={labelFor}>
-            {label} {showTerm ? <Label size="tiny">{term}</Label> : null}
+            {label} {showTerm && term ? <Label size="tiny">{term}</Label> : null}
           </label>
           {description ? <div className={$fieldHeader.element('subtitle')}>{description}</div> : null}
         </div>
