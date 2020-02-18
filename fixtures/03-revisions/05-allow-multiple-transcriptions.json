@@ -2,7 +2,7 @@
   "structure": {
     "id": "c1",
     "type": "choice",
-    "label": "Transcribe this document",
+    "label": "Revisions - multiple transcriptions",
     "items": [
       {
         "id": "c2",
@@ -76,6 +76,7 @@
     {
       "id": "test-person-a",
       "approved": true,
+      "structureId": "c2",
       "fields": [
         "transcription"
       ]
@@ -83,12 +84,14 @@
     {
       "id": "test-person-b",
       "revises": "test-person-a",
+      "structureId": "c2",
       "fields": [
         "transcription"
       ]
     },
     {
       "id": "test-person-c",
+      "structureId": "c2",
       "fields": [
         "transcription"
       ]

@@ -44,6 +44,7 @@ export type CaptureModel = {
     '@context'?: string | ({ [key: string]: string } & { '@vocab'?: string });
     term?: string;
     revision?: string;
+    labelledBy?: string;
     label?: string;
     description?: string;
     type: 'entity';

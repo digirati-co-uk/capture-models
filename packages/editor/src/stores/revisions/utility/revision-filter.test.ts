@@ -36,6 +36,7 @@ describe('revisionFilter', () => {
             "name",
           ],
           "id": "abc-123",
+          "structureId": "c2",
         },
       }
     `);
@@ -202,61 +203,63 @@ describe('revisionFilter', () => {
   });
   test('allow-multiple-transcriptions', () => {
     expect(revisionFilter(single05 as any, 'test-person-a')).toMatchInlineSnapshot(`
-      Object {
-        "document": Object {
-          "id": "e1",
-          "label": "Name of entity",
-          "properties": Object {
-            "transcription": Array [
-              Object {
-                "allowMultiple": true,
-                "id": "f2",
-                "label": "Transcription",
-                "revision": "test-person-a",
-                "type": "text-field",
-                "value": "Person A created this one",
-              },
-            ],
-          },
-          "type": "entity",
+Object {
+  "document": Object {
+    "id": "e1",
+    "label": "Name of entity",
+    "properties": Object {
+      "transcription": Array [
+        Object {
+          "allowMultiple": true,
+          "id": "f2",
+          "label": "Transcription",
+          "revision": "test-person-a",
+          "type": "text-field",
+          "value": "Person A created this one",
         },
-        "revision": Object {
-          "approved": true,
-          "fields": Array [
-            "transcription",
-          ],
-          "id": "test-person-a",
-        },
-      }
-    `);
+      ],
+    },
+    "type": "entity",
+  },
+  "revision": Object {
+    "approved": true,
+    "fields": Array [
+      "transcription",
+    ],
+    "id": "test-person-a",
+    "structureId": "c2",
+  },
+}
+`);
     expect(revisionFilter(single05 as any, 'test-person-b')).toMatchInlineSnapshot(`
-      Object {
-        "document": Object {
-          "id": "e1",
-          "label": "Name of entity",
-          "properties": Object {
-            "transcription": Array [
-              Object {
-                "allowMultiple": true,
-                "id": "f3",
-                "label": "Transcription",
-                "revision": "test-person-b",
-                "type": "text-field",
-                "value": "Person B created this one, to override Person A's one",
-              },
-            ],
-          },
-          "type": "entity",
+Object {
+  "document": Object {
+    "id": "e1",
+    "label": "Name of entity",
+    "properties": Object {
+      "transcription": Array [
+        Object {
+          "allowMultiple": true,
+          "id": "f3",
+          "label": "Transcription",
+          "revision": "test-person-b",
+          "type": "text-field",
+          "value": "Person B created this one, to override Person A's one",
         },
-        "revision": Object {
-          "fields": Array [
-            "transcription",
-          ],
-          "id": "test-person-b",
-          "revises": "test-person-a",
-        },
-      }
-    `);
+      ],
+    },
+    "type": "entity",
+  },
+  "revision": Object {
+    "fields": Array [
+      "transcription",
+    ],
+    "id": "test-person-b",
+    "revises": "test-person-a",
+    "structureId": "c2",
+  },
+}
+`);
     expect(revisionFilter(single05 as any, 'test-person-c')).toMatchInlineSnapshot(`
 Object {
   "document": Object {
@@ -281,6 +284,7 @@ Object {
       "transcription",
     ],
     "id": "test-person-c",
+    "structureId": "c2",
   },
 }
 `);

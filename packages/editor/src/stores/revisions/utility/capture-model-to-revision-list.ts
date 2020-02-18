@@ -11,18 +11,6 @@ export type RevisionItem = {
 export function captureModelToRevisionList(captureModel: CaptureModel, includeStructures = false): RevisionItem[] {
   const models: RevisionItem[] = [];
 
-  for (const revision of captureModel.revisions || []) {
-    const flatFields = expandModelFields(revision.fields);
-    const document = filterCaptureModel(revision.id, captureModel.document, flatFields, field => {
-      return field.revision ? field.revision === revision.id : false;
-    });
-    if (document) {
-      models.push({
-        revision,
-        document,
-      });
-    }
-  }
   if (includeStructures) {
     const flatStructures = flattenStructures(captureModel.structure);
     for (const structure of flatStructures) {
@@ -43,6 +31,19 @@ export function captureModelToRevisionList(captureModel: CaptureModel, includeSt
           document: structureDocument,
         });
       }
+    }
+  }
+
+  for (const revision of captureModel.revisions || []) {
+    const flatFields = expandModelFields(revision.fields);
+    const document = filterCaptureModel(revision.id, captureModel.document, flatFields, field => {
+      return field.revision ? field.revision === revision.id : false;
+    });
+    if (document) {
+      models.push({
+        revision,
+        document,
+      });
     }
   }
 

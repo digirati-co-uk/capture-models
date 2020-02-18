@@ -57,6 +57,7 @@
           "id": "e2",
           "type": "entity",
           "label": "Person",
+          "labelledBy": "firstName",
           "allowMultiple": true,
           "properties": {
             "firstName": [
@@ -82,6 +83,7 @@
           "id": "e3",
           "type": "entity",
           "label": "Person",
+          "labelledBy":  "firstName",
           "allowMultiple": true,
           "properties": {
             "firstName": [

@@ -1,7 +1,8 @@
 import copy from 'fast-copy';
 import React, { useContext, useEffect } from 'react';
-import { Button, Card, Form as StyledForm, Grid, Icon, Label, List } from 'semantic-ui-react';
+import { Button, Card, Dropdown, Form as StyledForm, Grid, Icon, Label, List } from 'semantic-ui-react';
 import { PluginContext } from '@capture-models/plugin-api';
+import { DropdownItemProps } from 'semantic-ui-react/dist/commonjs/modules/Dropdown/DropdownItem';
 import { useMiniRouter } from '../../hooks/useMiniRouter';
 import { ChooseSelectorButton } from '../ChooseSelectorButton/ChooseSelectorButton';
 import { NewDocumentForm } from '../NewDocumentForm/NewDocumentForm';
@@ -12,6 +13,8 @@ import { CaptureModel, BaseField, SelectorTypeMap, BaseSelector } from '@capture
 export type DocumentEditorProps = {
   setLabel: (label: string) => void;
   setDescription: (label: string) => void;
+  setAllowMultiple: (allow: boolean) => void;
+  setLabelledBy: (term: string) => void;
   selectField: (term: string) => void;
   popSubtree: (payload?: { count: number }) => void;
   pushSubtree: (term: string) => void;
@@ -29,6 +32,8 @@ export const DocumentEditor: React.FC<DocumentEditorProps> = ({
   setDescription,
   selectField,
   deselectField,
+  setAllowMultiple,
+  setLabelledBy,
   addField,
   popSubtree,
   selectedField,
@@ -40,6 +45,7 @@ export const DocumentEditor: React.FC<DocumentEditorProps> = ({
 }) => {
   const [route, router] = useMiniRouter(['list', 'newField', 'newDocument'], 'list');
   const { selectors } = useContext(PluginContext);
+  const isRoot = subtreePath.length === 0;
 
   useEffect(() => {
     if (route !== 'list') {
@@ -92,6 +98,48 @@ export const DocumentEditor: React.FC<DocumentEditorProps> = ({
                     />
                   </label>
                 </StyledForm.Field>
+                {!isRoot && (
+                  <>
+                    <StyledForm.Field>
+                      <label>
+                        Allow multiple instances
+                        <StyledForm.Input
+                          type="checkbox"
+                          name="allowMultiple"
+                          checked={!!subtree.allowMultiple}
+                          value={!!subtree.allowMultiple}
+                          onChange={e => setAllowMultiple(e.currentTarget.checked)}
+                        />
+                      </label>
+                    </StyledForm.Field>
+                  </>
+                )}
+                <StyledForm.Field>
+                  <label>
+                    Entity labelled by property
+                    <Dropdown
+                      placeholder="Choose property"
+                      fluid
+                      selection
+                      value={subtree.labelledBy}
+                      onChange={(_, ev) => {
+                        setLabelledBy(ev.value as string);
+                      }}
+                      options={[
+                        {
+                          key: '',
+                          value: '',
+                          text: 'none',
+                        },
+                        ...subtreeFields.map(item => ({
+                          key: item.term,
+                          value: item.term,
+                          text: item.value.label === item.term ? item.term : `${item.value.label} (${item.term})`,
+                        })),
+                      ]}
+                    />
+                  </label>
+                </StyledForm.Field>
                 <StyledForm.Field>
                   <label>
                     Choose selector (optional)
@@ -136,7 +184,7 @@ export const DocumentEditor: React.FC<DocumentEditorProps> = ({
                     </List.Content>
                     <Icon name={item.type === 'entity' ? 'box' : 'tag'} />
                     <List.Content>
-                      <List.Header>{item.label}</List.Header>
+                      <List.Header>{item.label === term ? term : `${item.label} (${term})`}</List.Header>
                       {item.description ? <List.Description>{item.description}</List.Description> : null}
                     </List.Content>
                   </List.Item>
@@ -144,18 +192,37 @@ export const DocumentEditor: React.FC<DocumentEditorProps> = ({
               </List>
             </Card.Content>
             <Card.Content extra>
-              <Grid columns={2}>
-                <Grid.Column>
-                  <Button fluid onClick={router.newDocument}>
-                    Add Document
-                  </Button>
-                </Grid.Column>
-                <Grid.Column>
-                  <Button fluid onClick={router.newField}>
-                    Add Field
-                  </Button>
-                </Grid.Column>
-              </Grid>
+              <p>Add an nested entity field</p>
+              <Button fluid onClick={router.newDocument}>
+                Add Entity
+              </Button>
+            </Card.Content>
+            <Card.Content extra>
+              <p>Add a new field</p>
+              <NewFieldForm
+                key={Object.keys(subtree.properties).length}
+                existingTerms={Object.keys(subtree.properties)}
+                onSave={newField => {
+                  // Use term to get plugin.
+                  addField({
+                    term: newField.term,
+                    field: {
+                      type: newField.fieldType,
+                      label: newField.term,
+                      value: newField.field.defaultValue,
+                      selector: newField.selector
+                        ? {
+                            type: newField.selector.type,
+                            state: copy(newField.selector.defaultState),
+                          }
+                        : undefined,
+                      ...newField.field.defaultProps,
+                    },
+                    select: true,
+                  });
+                  router.list();
+                }}
+              />
             </Card.Content>
           </>
         ) : route === 'newField' ? (

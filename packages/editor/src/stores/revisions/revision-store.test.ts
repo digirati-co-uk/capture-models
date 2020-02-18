@@ -43,6 +43,7 @@ describe('Revision store', () => {
               "name",
             ],
             "id": "abc-123",
+            "structureId": "c2",
           },
         }
       `);
@@ -131,11 +132,7 @@ describe('Revision store', () => {
 
       selectRevision({ revisionId: 'c3' });
 
-
-
-
       expect(true).toBe(true);
-
     });
   });
 

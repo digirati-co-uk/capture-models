@@ -27,6 +27,8 @@ export type DocumentModel = {
   setDescription: Action<DocumentModel, string>;
   setSelector: Action<DocumentModel, { selector: BaseSelector | undefined }>;
   setSelectorState: Action<DocumentModel, { selectorType: string; selector: BaseSelector['state'] }>;
+  setAllowMultiple: Action<DocumentModel, boolean>;
+  setLabelledBy: Action<DocumentModel, string>;
 
   setField: Thunk<DocumentModel, { term?: string; field: BaseField }, any, DocumentModel>;
   setCustomProperty: Action<DocumentModel, { term?: string; key: string; value: any }>;
@@ -40,6 +42,7 @@ export type DocumentModel = {
   >;
   setFieldValue: Action<DocumentModel, { term?: string; value: BaseField['value'] }>;
   setFieldTerm: Action<DocumentModel, { oldTerm: string; newTerm: string }>;
+  setFieldType: Action<DocumentModel, { term?: string; type: string; defaults?: any }>;
 
   onDocumentChange: ThunkOn<DocumentModel>;
 };

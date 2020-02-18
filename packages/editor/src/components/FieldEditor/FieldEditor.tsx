@@ -5,24 +5,25 @@ import { Button, Form as StyledForm, Grid, Label, Segment } from 'semantic-ui-re
 import { PluginContext } from '@capture-models/plugin-api';
 import { generateId } from '../../utility/generate-id';
 import { ChooseSelectorButton } from '../ChooseSelectorButton/ChooseSelectorButton';
+import { ChooseFieldButton } from '../ChooseFieldButton/ChooseFieldButton';
 import { BaseField, SelectorTypeMap, BaseSelector } from '@capture-models/types';
 import { FormPreview } from '../FormPreview/FormPreview';
 
-export const FieldEditor: React.FC<{ field: BaseField; term?: string; onSubmit: (newProps: BaseField) => void }> = ({
-  onSubmit,
-  field: props,
-  term,
-}) => {
+export const FieldEditor: React.FC<{
+  field: BaseField;
+  term?: string;
+  onSubmit: (newProps: BaseField) => void;
+  onChangeFieldType?: (type: string, defaults: any) => void;
+}> = ({ onSubmit, onChangeFieldType, field: props, term }) => {
   const ctx = useContext(PluginContext);
-  const { selectors } = useContext(PluginContext);
+  const { fields, selectors } = useContext(PluginContext);
   const [selector, setSelector] = useState<BaseSelector | undefined>(props.selector);
-
   const field = ctx.fields[props.type];
+
   if (!field) {
     throw new Error('Plugin does not exist');
   }
 
-  // @ts-ignore
   const editor = React.createElement(field.Editor, props);
 
   return (
@@ -51,6 +52,23 @@ export const FieldEditor: React.FC<{ field: BaseField; term?: string; onSubmit: 
                   <Field as="textarea" name="description" />
                 </label>
               </StyledForm.Field>
+              <StyledForm.Field>
+                <label>
+                  <Field type="checkbox" name="allowMultiple" style={{ marginRight: 10 }} />
+                  Allow multiple instances
+                </label>
+              </StyledForm.Field>
+              {onChangeFieldType ? (
+                <StyledForm.Field>
+                  <label>
+                    Field type
+                    <ChooseFieldButton
+                      fieldType={field.type}
+                      onChange={t => (fields[t] ? onChangeFieldType(t as any, (fields[t] as any).defaultProps) : null)}
+                    />
+                  </label>
+                </StyledForm.Field>
+              ) : null}
               <StyledForm.Field>
                 <label>
                   Choose selector (optional)

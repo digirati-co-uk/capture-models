@@ -39,6 +39,7 @@ describe('capture model to revision list', () => {
               "name",
             ],
             "id": "abc-123",
+            "structureId": "c2",
           },
         },
       ]
@@ -212,85 +213,88 @@ describe('capture model to revision list', () => {
 
   test('dual-transcription', () => {
     expect(captureModelToRevisionList(single05 as CaptureModel)).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "document": Object {
-            "id": "e1",
-            "label": "Name of entity",
-            "properties": Object {
-              "transcription": Array [
-                Object {
-                  "allowMultiple": true,
-                  "id": "f2",
-                  "label": "Transcription",
-                  "revision": "test-person-a",
-                  "type": "text-field",
-                  "value": "Person A created this one",
-                },
-              ],
-            },
-            "type": "entity",
+Array [
+  Object {
+    "document": Object {
+      "id": "e1",
+      "label": "Name of entity",
+      "properties": Object {
+        "transcription": Array [
+          Object {
+            "allowMultiple": true,
+            "id": "f2",
+            "label": "Transcription",
+            "revision": "test-person-a",
+            "type": "text-field",
+            "value": "Person A created this one",
           },
-          "revision": Object {
-            "approved": true,
-            "fields": Array [
-              "transcription",
-            ],
-            "id": "test-person-a",
+        ],
+      },
+      "type": "entity",
+    },
+    "revision": Object {
+      "approved": true,
+      "fields": Array [
+        "transcription",
+      ],
+      "id": "test-person-a",
+      "structureId": "c2",
+    },
+  },
+  Object {
+    "document": Object {
+      "id": "e1",
+      "label": "Name of entity",
+      "properties": Object {
+        "transcription": Array [
+          Object {
+            "allowMultiple": true,
+            "id": "f3",
+            "label": "Transcription",
+            "revision": "test-person-b",
+            "type": "text-field",
+            "value": "Person B created this one, to override Person A's one",
           },
-        },
-        Object {
-          "document": Object {
-            "id": "e1",
-            "label": "Name of entity",
-            "properties": Object {
-              "transcription": Array [
-                Object {
-                  "allowMultiple": true,
-                  "id": "f3",
-                  "label": "Transcription",
-                  "revision": "test-person-b",
-                  "type": "text-field",
-                  "value": "Person B created this one, to override Person A's one",
-                },
-              ],
-            },
-            "type": "entity",
+        ],
+      },
+      "type": "entity",
+    },
+    "revision": Object {
+      "fields": Array [
+        "transcription",
+      ],
+      "id": "test-person-b",
+      "revises": "test-person-a",
+      "structureId": "c2",
+    },
+  },
+  Object {
+    "document": Object {
+      "id": "e1",
+      "label": "Name of entity",
+      "properties": Object {
+        "transcription": Array [
+          Object {
+            "allowMultiple": true,
+            "id": "f4",
+            "label": "Transcription",
+            "revision": "test-person-c",
+            "type": "text-field",
+            "value": "Person C created this one",
           },
-          "revision": Object {
-            "fields": Array [
-              "transcription",
-            ],
-            "id": "test-person-b",
-            "revises": "test-person-a",
-          },
-        },
-        Object {
-          "document": Object {
-            "id": "e1",
-            "label": "Name of entity",
-            "properties": Object {
-              "transcription": Array [
-                Object {
-                  "allowMultiple": true,
-                  "id": "f4",
-                  "label": "Transcription",
-                  "revision": "test-person-c",
-                  "type": "text-field",
-                  "value": "Person C created this one",
-                },
-              ],
-            },
-            "type": "entity",
-          },
-          "revision": Object {
-            "fields": Array [
-              "transcription",
-            ],
-            "id": "test-person-c",
-          },
-        },
-      ]
-    `);
+        ],
+      },
+      "type": "entity",
+    },
+    "revision": Object {
+      "fields": Array [
+        "transcription",
+      ],
+      "id": "test-person-c",
+      "structureId": "c2",
+    },
+  },
+]
+`);
   });
 });

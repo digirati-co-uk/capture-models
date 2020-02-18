@@ -16,10 +16,12 @@ export * from './components/ChooseSelectorButton/ChooseSelectorButton';
 export * from './components/CreateStructure/CreateStructure';
 export * from './components/DocumentCreator/DocumentCreator';
 export * from './components/DocumentEditor/DocumentEditor';
+export * from './components/DocumentPreview/DocumentPreview';
 export * from './components/EditorContext/EditorContext';
 export * from './components/FieldEditor/FieldEditor';
-export * from './components/FieldHeader/FieldHeader';
+export * from './components/FieldHeader/FieldHeader-component';
 export * from './components/FieldSet/FieldSet';
+export * from './components/FieldPreview/FieldPreview';
 export * from './components/FieldWrapper/FieldWrapper';
 export * from './components/FormPreview/FormPreview';
 export * from './components/Heading/Heading';
@@ -49,6 +51,7 @@ export * from './core/structure-editor';
 export * from './hooks/useMiniRouter';
 export * from './hooks/useNavigation';
 export * from './hooks/useTreeNode';
+export * from './hooks/useChoiceRevisions';
 
 // Stores
 export * from './stores/revisions';

@@ -5,15 +5,16 @@ import { PluginContext } from '@capture-models/plugin-api';
 
 type Props = {
   onChange: (term: string) => void;
+  fieldType?: string;
 };
 
 // - Choose type select
 // - Choose label
 // - Choose term / JSON property
 
-export const ChooseFieldButton: React.FC<Props> = ({ onChange }) => {
+export const ChooseFieldButton: React.FC<Props> = ({ onChange, fieldType }) => {
   const { fields } = useContext(PluginContext);
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState(fieldType);
 
   return (
     <Dropdown
