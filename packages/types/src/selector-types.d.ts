@@ -11,6 +11,7 @@ export type BaseSelector = {
   state: any;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface SelectorTypeMap {}
 
 export type InjectedSelectorProps<T> = {
