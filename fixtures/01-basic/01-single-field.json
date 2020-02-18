@@ -8,10 +8,9 @@
       {
         "id": "c2",
         "type": "model",
-        "label": "Only choice",
-        "description": "This could be a top level item without a choice.",
+        "label": "Metadata",
         "fields": [
-          "name"
+          "label"
         ]
       }
     ]
@@ -23,13 +22,15 @@
   "document": {
     "id": "e1",
     "type": "entity",
-    "label": "Simple document",
+    "label": "Label",
+    "labelledBy": "label",
     "properties": {
-      "name": [
+      "label": [
         {
           "id": "f1",
           "type": "text-field",
-          "label": "Name"
+          "label": "Name",
+          "value": "Forth Road Bridge"
         }
       ]
     }

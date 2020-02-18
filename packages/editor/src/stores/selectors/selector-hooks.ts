@@ -1,4 +1,4 @@
-import { BaseSelector } from '@capture-models/types';
+import { BaseField, BaseSelector } from '@capture-models/types';
 import { useSelector, useSelectors } from '@capture-models/plugin-api';
 import { Revisions } from '../revisions';
 
@@ -15,6 +15,14 @@ export function useCurrentSelector(contentType: string, defaultState: any = null
       updateSelector,
       defaultState,
     }
+  );
+}
+
+export function useFieldSelector(field: BaseField) {
+  return Revisions.useStoreState(s =>
+    field.selector
+      ? s.selector.availableSelectors.find(({ id }) => (field.selector ? id === field.selector.id : false))
+      : undefined
   );
 }
 
