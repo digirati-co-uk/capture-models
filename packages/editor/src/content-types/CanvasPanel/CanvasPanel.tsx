@@ -57,8 +57,6 @@ export const CanvasPanel: React.FC<CanvasPanelProps['state']> = ({ canvasId, man
     //     thumbnail, if available.
   }, [actions, availableSelectors, currentSelector, displaySelectors]);
 
-  console.log({ canvasId });
-
   return (
     <Suspense fallback={() => null}>
       <Manifest url={manifestId}>

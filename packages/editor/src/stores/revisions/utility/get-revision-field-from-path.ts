@@ -23,7 +23,6 @@ export function getRevisionFieldFromPath<T extends any = any>(
   for (const [prop, id] of path) {
     if (current.type === 'entity') {
       const property = current.properties[prop];
-      console.log('prop', prop, property, current.properties);
 
       current = (property as []).find((field: any) => field.id === id) as any;
     }
