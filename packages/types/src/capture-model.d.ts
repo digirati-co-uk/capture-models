@@ -47,6 +47,7 @@ export type CaptureModel = {
     labelledBy?: string;
     label?: string;
     description?: string;
+    author?: string;
     type: 'entity';
     selector?: BaseSelector;
     allowMultiple?: boolean;

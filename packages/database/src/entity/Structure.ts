@@ -1,4 +1,5 @@
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, Tree, TreeChildren, TreeParent } from 'typeorm';
+import { CaptureModel, ModelFields } from '@capture-models/types';
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 export enum StructureTypes {
   CHOICE = 'choice',
@@ -15,59 +16,60 @@ export enum StructureTypes {
  * @todo Postgres function to get required document fields
  * @todo mapper - https://typeorm.io/#/active-record-data-mapper
  * @todo Before import - add parent root choice recursively: https://typeorm.io/#/listeners-and-subscribers/beforeinsert
- * @todo add life-cyle and owner fields.
+ * @todo add lifecycle and owner fields.
  */
 @Entity()
 export class Structure {
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  id: string;
 
-  @Column()
+  @Column('text', { default: 'Untitled structure' })
   label: string;
 
   @Column('simple-array', { nullable: true })
   profile: string[];
 
-  @Column({ default: 0 })
+  @Column('int8', { default: 0 })
   order: number;
 
   @Column({ nullable: true })
-  description: string;
+  description?: string;
 
   @Column({
     type: 'enum',
     enum: StructureTypes,
     default: StructureTypes.CHOICE,
   })
-  type: string;
+  type: 'choice' | 'model';
 
   @OneToMany(
-    type => Structure,
+    () => Structure,
     structure => structure.parentChoice,
     { cascade: true }
   )
   items: Structure[];
 
   @OneToMany(
-    type => Structure,
-    structure => structure.rootChoice
+    () => Structure,
+    structure => structure.rootChoice,
+    { lazy: true }
   )
-  flatItems: Structure[];
+  flatItems: Promise<Structure[]>;
 
   @ManyToOne(
-    type => Structure,
+    () => Structure,
     structure => structure.items,
-    { nullable: true }
+    { nullable: true, lazy: true }
   )
-  parentChoice?: Structure;
+  parentChoice?: Promise<Structure>;
 
   @ManyToOne(
-    type => Structure,
+    () => Structure,
     structure => structure.items,
     { nullable: true }
   )
   rootChoice?: Structure;
 
-  @Column('simple-array', { nullable: true })
-  fields: string[];
+  @Column('jsonb', { nullable: true })
+  fields: ModelFields;
 }
