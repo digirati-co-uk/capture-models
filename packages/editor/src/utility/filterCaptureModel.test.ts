@@ -26,6 +26,7 @@ describe('filterCaptureModel', () => {
               "description": "Describe a person",
               "id": "e2",
               "label": "Person",
+              "labelledBy": "firstName",
               "properties": Object {
                 "firstName": Array [
                   Object {
@@ -51,6 +52,7 @@ describe('filterCaptureModel', () => {
               "description": "Describe a person",
               "id": "e3",
               "label": "Person",
+              "labelledBy": "firstName",
               "properties": Object {
                 "firstName": Array [
                   Object {
@@ -93,6 +95,7 @@ describe('filterCaptureModel', () => {
               "description": "Describe a person",
               "id": "e2",
               "label": "Person",
+              "labelledBy": "firstName",
               "properties": Object {
                 "firstName": Array [
                   Object {
@@ -110,6 +113,7 @@ describe('filterCaptureModel', () => {
               "description": "Describe a person",
               "id": "e3",
               "label": "Person",
+              "labelledBy": "firstName",
               "properties": Object {
                 "firstName": Array [
                   Object {
