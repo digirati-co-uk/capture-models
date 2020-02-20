@@ -101,7 +101,7 @@ export const DocumentStore = createContextStore<
       // get the keys.
       const keys = Object.keys(payload.field);
       // Add the following by dispatching the actions
-      const skipKeys = ['selector', 'creator', 'revision', 'value'];
+      const skipKeys = ['selector', 'authors', 'revision', 'value'];
       // Loop the keys and apply custom values.
       for (const key of keys) {
         if (skipKeys.indexOf(key) !== -1) continue;

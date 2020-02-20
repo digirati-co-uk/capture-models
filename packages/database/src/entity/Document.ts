@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { CaptureModel } from './CaptureModel';
 import { Property } from './Property';
 import { Revision } from './Revision';
@@ -19,23 +19,31 @@ export class Document {
   @Column('text')
   label: string;
 
-  @OneToMany(
-    () => Revision,
-    revision => revision.author
-  )
-  revisions: Revision[];
+  @Column({ nullable: true })
+  revisionId?: string;
 
-  @Column('text')
-  labelledBy: string;
+  @ManyToOne(() => Revision, { onDelete: 'CASCADE', nullable: true })
+  revision?: Revision;
 
-  @Column('text')
-  description: string;
+  // @todo maybe this shouldn't be nullable?
+  @Column('text', { nullable: true })
+  labelledBy?: string;
 
-  @OneToOne(() => SelectorInstance, { onDelete: 'CASCADE' })
+  @Column('text', { nullable: true })
+  description?: string;
+
+  @Column({ nullable: true })
+  selectorId?: string;
+
+  @OneToOne(() => SelectorInstance, { onDelete: 'CASCADE', cascade: true, nullable: true })
+  @JoinColumn()
   selector?: SelectorInstance;
 
-  @Column('boolean')
-  allowMultiple: boolean;
+  @Column('boolean', { nullable: true })
+  allowMultiple?: boolean;
+
+  @Column({ nullable: true })
+  parentId?: string;
 
   @ManyToOne(
     () => Property,
@@ -47,16 +55,25 @@ export class Document {
   @OneToMany(
     () => Property,
     prop => prop.document,
-    { onDelete: 'CASCADE' }
+    { onDelete: 'CASCADE', eager: true }
   )
-  properties: Property[];
+  properties?: Property[];
 
   @OneToMany(
     () => Property,
-    prop => prop.rootDocument
+    prop => prop.rootDocument,
+    { eager: true }
   )
   nestedProperties: Property[];
 
-  @ManyToOne(() => CaptureModel)
-  captureModel: CaptureModel;
+  @Column({ nullable: true })
+  captureModelId?: string;
+
+  @OneToOne(
+    () => CaptureModel,
+    model => model.document,
+    { onDelete: 'CASCADE', nullable: true }
+  )
+  @JoinColumn()
+  captureModel?: CaptureModel;
 }

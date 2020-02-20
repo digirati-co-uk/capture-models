@@ -13,7 +13,6 @@ export type BaseField = {
   description?: string;
   selector?: BaseSelector;
   allowMultiple?: boolean;
-  creator?: string[];
   revision?: string;
   value: any;
 };

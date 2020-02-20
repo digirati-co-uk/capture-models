@@ -11,7 +11,7 @@ export type Revision = {
   label?: string;
   structureId?: string;
   workflowId?: string;
-  author?: string[];
+  authors?: string[];
   fields: ModelFields;
   approved?: boolean;
   revises?: string;
@@ -22,7 +22,18 @@ type Target = {
   type: string;
 };
 
+export type Contributor = {
+  id: string;
+  type: 'Person' | 'Organization' | 'Software';
+  email?: string;
+  homepage?: string;
+  email_sha1?: string;
+  name?: string;
+  nickname?: string;
+};
+
 export type CaptureModel = {
+  id?: string;
   structure: {
     id: string;
     label: string;
@@ -47,7 +58,7 @@ export type CaptureModel = {
     labelledBy?: string;
     label?: string;
     description?: string;
-    author?: string;
+    authors?: string[];
     type: 'entity';
     selector?: BaseSelector;
     allowMultiple?: boolean;
@@ -58,15 +69,7 @@ export type CaptureModel = {
   revisions?: Array<Revision>;
   target?: Array<Target>;
   contributors?: {
-    [id: string]: {
-      id: string;
-      type: 'Person' | 'Organization' | 'Software';
-      email?: string;
-      homepage?: string;
-      email_sha1?: string;
-      name?: string;
-      nickname?: string;
-    };
+    [id: string]: Contributor;
   };
   integrity?: {
     _hash?: string;
