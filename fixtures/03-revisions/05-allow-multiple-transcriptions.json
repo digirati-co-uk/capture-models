@@ -56,17 +56,17 @@
     }
   },
   "contributors": {
-    "test-person-a": {
+    "f496a9aa-25eb-4b1d-9d94-9cdcef03e527": {
       "id": "f496a9aa-25eb-4b1d-9d94-9cdcef03e527",
       "type": "Person",
       "name": "Test person A"
     },
-    "test-person-b": {
+    "daf3f9d9-2a16-4c1f-8657-3560775bd9eb": {
       "id": "daf3f9d9-2a16-4c1f-8657-3560775bd9eb",
       "type": "Person",
       "name": "Test person B"
     },
-    "test-person-c": {
+    "bb5d55b1-6c38-4bb9-a6e6-ed236347671b": {
       "id": "bb5d55b1-6c38-4bb9-a6e6-ed236347671b",
       "type": "Person",
       "name": "Test person C"
