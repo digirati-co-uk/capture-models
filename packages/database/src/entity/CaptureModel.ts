@@ -1,4 +1,13 @@
-import { Column, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, VersionColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  VersionColumn,
+} from 'typeorm';
 import { Contributor } from './Contributor';
 import { Document } from './Document';
 import { Revision } from './Revision';
@@ -7,35 +16,45 @@ import { Structure } from './Structure';
 @Entity()
 export class CaptureModel {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id?: string;
 
-  @ManyToOne(() => Structure, { onDelete: 'CASCADE' })
+  @Column()
+  structureId: string;
+
+  @ManyToOne(() => Structure, { eager: true })
+  @JoinColumn()
   structure: Structure;
 
-  @ManyToOne(
+  @OneToOne(
     () => Document,
-    doc => doc.captureModel
+    doc => doc.captureModel,
+    { onDelete: 'CASCADE', eager: true }
   )
   document: Document;
 
   @OneToMany(
     () => Revision,
-    rev => rev.captureModel
+    rev => rev.captureModel,
+    { eager: true }
   )
-  revisions: Revision[];
+  revisions?: Revision[];
 
-  @Column('jsonb', { default: [] })
+  @Column('jsonb', { nullable: true })
   target: Array<{
     id: string;
     type: string;
   }>;
 
-  @ManyToMany(
-    () => Contributor,
-    contributor => contributor.captureModels
-  )
-  contributors: Contributor[];
+  @Column('jsonb', { nullable: true })
+  integrity?: any;
+
+  // @ManyToMany(
+  //   () => Contributor,
+  //   contributor => contributor.captureModels,
+  //   { nullable: true }
+  // )
+  contributors?: Contributor[];
 
   @VersionColumn()
-  version: number;
+  version?: number;
 }

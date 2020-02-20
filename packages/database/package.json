@@ -4,14 +4,16 @@
    "description": "Capture model database with TypeORM.",
    "devDependencies": {
       "@capture-models/types": "1.0.0",
-      "ts-node": "3.3.0",
       "@types/node": "^8.0.29",
+      "ts-node": "3.3.0",
       "typescript": "3.3.3333"
    },
    "dependencies": {
-      "typeorm": "0.2.22",
+      "@types/uuid": "^3.4.7",
+      "pg": "^7.3.0",
       "reflect-metadata": "^0.1.10",
-      "pg": "^7.3.0"
+      "typeorm": "0.2.22",
+      "uuid": "^3.4.0"
    },
    "scripts": {
       "start": "ts-node src/index.ts",

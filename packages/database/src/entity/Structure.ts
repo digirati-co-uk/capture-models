@@ -1,5 +1,6 @@
-import { CaptureModel, ModelFields } from '@capture-models/types';
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { ModelFields } from '@capture-models/types';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { CaptureModel } from './CaptureModel';
 
 export enum StructureTypes {
   CHOICE = 'choice',
@@ -32,7 +33,7 @@ export class Structure {
   @Column('int8', { default: 0 })
   order: number;
 
-  @Column({ nullable: true })
+  @Column('text', { nullable: true })
   description?: string;
 
   @Column({
@@ -45,7 +46,7 @@ export class Structure {
   @OneToMany(
     () => Structure,
     structure => structure.parentChoice,
-    { cascade: true }
+    { onDelete: 'CASCADE', cascade: true }
   )
   items: Structure[];
 
@@ -56,10 +57,13 @@ export class Structure {
   )
   flatItems: Promise<Structure[]>;
 
+  @Column({ nullable: true })
+  parentChoiceId?: string;
+
   @ManyToOne(
     () => Structure,
     structure => structure.items,
-    { nullable: true, lazy: true }
+    { nullable: true, lazy: true, onDelete: 'CASCADE' }
   )
   parentChoice?: Promise<Structure>;
 
@@ -69,6 +73,13 @@ export class Structure {
     { nullable: true }
   )
   rootChoice?: Structure;
+
+  @OneToMany(
+    () => CaptureModel,
+    model => model.structure,
+    { nullable: true, onDelete: 'CASCADE' }
+  )
+  captureModels?: CaptureModel[];
 
   @Column('jsonb', { nullable: true })
   fields: ModelFields;

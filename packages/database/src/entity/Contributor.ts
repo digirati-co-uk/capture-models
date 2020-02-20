@@ -1,6 +1,6 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { CaptureModel } from './CaptureModel';
-import { Revision } from './Revision';
+import { RevisionAuthors } from './RevisionAuthors';
 
 export enum ContributorTypes {
   PERSON = 'Person',
@@ -18,7 +18,7 @@ export class Contributor {
     enum: ContributorTypes,
     default: ContributorTypes.PERSON,
   })
-  type: ContributorTypes;
+  type: string;
 
   @Column('text', { nullable: true })
   email?: string;
@@ -35,15 +35,17 @@ export class Contributor {
   @Column('text', { nullable: true })
   nickname?: string;
 
-  @OneToMany(
+  @ManyToMany(
     () => CaptureModel,
-    model => model.contributors
+    model => model.contributors,
+    { nullable: true }
   )
-  captureModels: CaptureModel[];
+  captureModels?: CaptureModel[];
 
   @OneToMany(
-    () => Revision,
-    revision => revision.author
+    () => RevisionAuthors,
+    ra => ra.contributor,
+    { nullable: true }
   )
-  revisions: Revision[];
+  revisions?: RevisionAuthors[];
 }

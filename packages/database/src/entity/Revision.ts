@@ -3,9 +3,11 @@ import { ModelFields } from '@capture-models/types';
 // Revision by user
 // Revision by user type
 // Revision by target (regardless of capture model)
-import { Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn, VersionColumn } from 'typeorm';
+import { Column, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, VersionColumn } from 'typeorm';
 import { CaptureModel } from './CaptureModel';
 import { Contributor } from './Contributor';
+import { Field } from './Field';
+import { RevisionAuthors } from './RevisionAuthors';
 import { Structure } from './Structure';
 
 @Entity()
@@ -13,17 +15,21 @@ export class Revision {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column('text')
+  @Column('text', { nullable: true })
   label: string;
+
+  @Column({ nullable: true })
+  structureId: string;
 
   @ManyToOne(() => Structure, { nullable: true })
   structure?: Structure;
 
-  @ManyToMany(
-    () => Contributor,
-    contributor => contributor.revisions
+  @OneToMany(
+    () => RevisionAuthors,
+    ra => ra.revision,
+    { eager: true, cascade: true }
   )
-  author: Contributor[];
+  authors?: RevisionAuthors[];
 
   @Column('jsonb')
   fields: ModelFields;
@@ -31,15 +37,28 @@ export class Revision {
   @Column('boolean', { default: false })
   approved: boolean;
 
+  @Column({ nullable: true })
+  revisesId?: string;
+
   @ManyToOne(() => Revision, { nullable: true })
   revises?: Revision;
 
+  @Column({ nullable: true })
+  captureModelId?: string;
+
   @ManyToOne(
     () => CaptureModel,
-    model => model.revisions
+    model => model.revisions,
+    { onDelete: 'CASCADE', nullable: true }
   )
-  captureModel: CaptureModel;
+  captureModel?: CaptureModel;
+
+  @OneToMany(
+    () => Field,
+    field => field.revision
+  )
+  revisionFields: Field[];
 
   @VersionColumn()
-  version: number;
+  version?: number;
 }

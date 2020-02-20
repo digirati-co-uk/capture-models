@@ -33,14 +33,12 @@ export async function toStructure(structure: Structure, root = true): Promise<Ca
     // Go back through the hash map to build the tree
     for (let i = 0; i < resolvedFlatFields.length; i++) {
       const singleStructure = fieldHashTable[resolvedFlatFields[i].id];
-      // @todo replace this with ID field directly, we don't need to load the whole parent choice.
-      //   this will make the structure 2 simple queries (one join if we can get it loading eagerly)
-      const parent = await singleStructure.parentChoice;
-      if (parent) {
-        if (parent.id === structure.id) {
+      const parentId = singleStructure.parentChoiceId;
+      if (parentId) {
+        if (parentId === structure.id) {
           rootFields[singleStructure.order] = singleStructure;
         } else {
-          fieldHashTable[parent.id].items[singleStructure.order] = singleStructure;
+          fieldHashTable[parentId].items[singleStructure.order] = singleStructure;
         }
       }
     }

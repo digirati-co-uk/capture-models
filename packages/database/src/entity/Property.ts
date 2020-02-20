@@ -1,53 +1,45 @@
-import { BeforeInsert, Column, Entity, ManyToOne, OneToMany, OneToOne, PrimaryColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { Document } from './Document';
 import { Field } from './Field';
-import { SelectorInstance } from './SelectorInstance';
 
 @Entity()
 export class Property {
-
   @Column('text', { primary: true })
   id?: string; // `${documentId}/${term}`
 
+  @Column({ nullable: true })
+  documentId?: string;
+
   @ManyToOne(
     () => Document,
-    doc => doc.properties
+    doc => doc.properties,
+    { onDelete: 'CASCADE' }
   )
-  document: Document;
+  document?: Document;
 
-  @PrimaryColumn('text')
+  @Column('text')
+  type: string;
+
+  @Column('text')
   term: string;
 
-  @Column('text')
-  label: string;
+  @Column({ nullable: true })
+  rootDocumentId?: string;
 
-  @Column('text')
-  description: string;
-
-  @Column('boolean')
-  allowMultiple: boolean;
-
-  @OneToOne(() => SelectorInstance, { onDelete: 'CASCADE' })
-  selector?: SelectorInstance;
-
-  @ManyToOne(() => Document)
-  rootDocument: Document;
+  @ManyToOne(() => Document, { nullable: true })
+  rootDocument?: Document;
 
   @OneToMany(
     () => Document,
-    doc => doc.parent
+    doc => doc.parent,
+    { onDelete: 'CASCADE', lazy: true }
   )
-  documentInstances: Document[];
+  documentInstances?: Promise<Document[]>;
 
   @OneToMany(
     () => Field,
     field => field.parent,
-    { onDelete: 'CASCADE' }
+    { onDelete: 'CASCADE', lazy: true }
   )
-  fieldInstances: Field[];
-
-  @BeforeInsert()
-  generateId() {
-    this.id = `${this.document.id}/${this.term}`;
-  }
+  fieldInstances?: Promise<Field[]>;
 }

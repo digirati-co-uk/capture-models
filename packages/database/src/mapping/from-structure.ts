@@ -32,15 +32,11 @@ export function fromStructure(input: CaptureModel['structure'], rootChoice?: Str
       index++;
 
       // Set the parent choice.
-      item.parentChoice = Promise.resolve(structure);
+      item.parentChoiceId = structure.id;
 
       // Finally, push onto structure.
       structure.items.push(item);
     }
-
-    // @todo Hoist the flat structures.
-    // structure.flatItems.push(...item.flatItems);
-    // item.flatItems = [];
   } else {
     // error?
   }
