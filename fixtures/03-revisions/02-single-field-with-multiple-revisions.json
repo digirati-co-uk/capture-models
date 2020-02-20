@@ -49,12 +49,12 @@
     "description": ""
   },
   "contributors": {
-    "test-person-a": {
+    "514c8d52-80b0-49c1-ab97-24a67f29d194": {
       "id": "514c8d52-80b0-49c1-ab97-24a67f29d194",
       "type": "Person",
       "name": "Test person A"
     },
-    "test-person-b": {
+    "b4077dff-3bea-4783-9712-32b52a1146e3": {
       "id": "b4077dff-3bea-4783-9712-32b52a1146e3",
       "type": "Person",
       "name": "Test person B"

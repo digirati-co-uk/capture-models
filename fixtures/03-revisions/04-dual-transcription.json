@@ -48,12 +48,12 @@
     }
   },
   "contributors": {
-    "test-person-a": {
+    "04267f75-bb8d-4321-8046-12db3f9d6ceb": {
       "id": "04267f75-bb8d-4321-8046-12db3f9d6ceb",
       "type": "Person",
       "name": "Test person A"
     },
-    "test-person-b": {
+    "81ab315e-200e-4649-bb11-99db766a5f66": {
       "id": "81ab315e-200e-4649-bb11-99db766a5f66",
       "type": "Person",
       "name": "Test person B"

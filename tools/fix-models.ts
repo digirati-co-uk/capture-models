@@ -5,18 +5,20 @@ import { v4 } from 'uuid';
 import { readdirSync, statSync, readFileSync, writeFileSync } from 'fs';
 import path from 'path';
 
-const dir = readdirSync(path.join(__dirname, 'fixtures'));
+const dir = readdirSync(path.join(__dirname, '..', 'fixtures'));
 
 const reg = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 for (const folder of dir) {
-  if (!statSync(path.join(__dirname, 'fixtures', folder)).isDirectory()) {
+  if (!statSync(path.join(__dirname, '..', 'fixtures', folder)).isDirectory()) {
     continue;
   }
-  const jsonList = readdirSync(path.join(__dirname, 'fixtures', folder));
+  const jsonList = readdirSync(path.join(__dirname, '..', 'fixtures', folder));
 
   for (const jsonName of jsonList) {
-    const json: CaptureModel = JSON.parse(readFileSync(path.join(__dirname, 'fixtures', folder, jsonName)).toString());
+    const json: CaptureModel = JSON.parse(
+      readFileSync(path.join(__dirname, '..', 'fixtures', folder, jsonName)).toString()
+    );
     if (!Object.keys(json).length) {
       // Empty example.
       continue;
@@ -71,11 +73,15 @@ for (const folder of dir) {
     });
 
     if (json.contributors) {
+      const newContributors = {};
       Object.keys(json.contributors).forEach(id => {
         if (json.contributors) {
-          json.contributors[id].id = getId(id);
+          const newId = getId(json.contributors[id].id);
+          json.contributors[id].id = newId;
+          (newContributors as any)[newId] = json.contributors[id];
         }
       });
+      json.contributors = newContributors;
     }
 
     if (json.revisions) {
@@ -93,6 +99,6 @@ for (const folder of dir) {
       });
     }
 
-    writeFileSync(path.join(__dirname, 'fixtures', folder, jsonName), JSON.stringify(json, null, 2));
+    writeFileSync(path.join(__dirname, '..', 'fixtures', folder, jsonName), JSON.stringify(json, null, 2));
   }
 }
