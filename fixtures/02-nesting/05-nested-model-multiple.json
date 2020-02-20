@@ -1,11 +1,11 @@
 {
   "structure": {
-    "id": "c1",
+    "id": "f197bd74-5ede-407b-aace-a2223c520b8f",
     "type": "choice",
     "label": "Nested choice (multiple people)",
     "items": [
       {
-        "id": "c2",
+        "id": "b0405656-79cb-4295-b7bb-940e0318ae1b",
         "label": "Choice 1",
         "type": "model",
         "fields": [
@@ -15,7 +15,7 @@
         "description": "The first choice in the list"
       },
       {
-        "id": "c3",
+        "id": "0e29f176-aeeb-4bf3-a92c-d64654e29c90",
         "label": "Person",
         "type": "model",
         "fields": [
@@ -33,12 +33,12 @@
     "description": "Contains 3 choices with multiple text fields nested"
   },
   "document": {
-    "id": "e1",
+    "id": "626422b1-abbf-4f46-b160-d9bb768b2e29",
     "type": "entity",
     "properties": {
       "name": [
         {
-          "id": "f1",
+          "id": "714479f5-f46a-486e-8b86-2638d9ae0259",
           "type": "text-field",
           "label": "Name",
           "description": "The name of the thing"
@@ -46,7 +46,7 @@
       ],
       "description": [
         {
-          "id": "f2",
+          "id": "54e3f035-fd5c-4593-bd28-8af49f039d27",
           "type": "text-field",
           "label": "Description",
           "description": "Tell us something about the thing"
@@ -54,7 +54,7 @@
       ],
       "person": [
         {
-          "id": "e2",
+          "id": "3036e4a5-c350-426b-82b5-8fafdfe55e27",
           "type": "entity",
           "label": "Person",
           "labelledBy": "firstName",
@@ -62,7 +62,7 @@
           "properties": {
             "firstName": [
               {
-                "id": "f3",
+                "id": "1da67423-f4a1-49e6-8561-55c40be47c00",
                 "type": "text-field",
                 "label": "First name",
                 "value": "first first name"
@@ -70,7 +70,7 @@
             ],
             "lastName": [
               {
-                "id": "f4",
+                "id": "6b7ce0c3-2a13-4ea3-a190-822fee80176b",
                 "type": "text-field",
                 "label": "Last name",
                 "value": "first last name"
@@ -80,15 +80,15 @@
           "description": "Describe a person"
         },
         {
-          "id": "e3",
+          "id": "41cf9550-af77-4310-82ca-130141ed215d",
           "type": "entity",
           "label": "Person",
-          "labelledBy":  "firstName",
+          "labelledBy": "firstName",
           "allowMultiple": true,
           "properties": {
             "firstName": [
               {
-                "id": "f5",
+                "id": "f8678b43-f803-40b2-8e2e-fcc014631e1a",
                 "type": "text-field",
                 "label": "First name",
                 "value": "second first name"
@@ -96,7 +96,7 @@
             ],
             "lastName": [
               {
-                "id": "f6",
+                "id": "12e92ef6-6ebc-49af-95b3-42718ac92c26",
                 "type": "text-field",
                 "label": "Last name",
                 "value": "second last name"

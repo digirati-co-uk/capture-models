@@ -1,11 +1,11 @@
 {
   "structure": {
-    "id": "c1",
+    "id": "8d36f25f-649b-47b4-b7fe-02043f8cfe7a",
     "type": "choice",
     "label": "Revisions - multiple transcriptions",
     "items": [
       {
-        "id": "c2",
+        "id": "fd847948-11bf-42ca-bfdd-cab85ea818f3",
         "label": "Transcriptions",
         "type": "model",
         "fields": [
@@ -16,40 +16,40 @@
     "description": ""
   },
   "document": {
-    "id": "e1",
+    "id": "47e8a9d8-76f8-422b-91af-b457d1c624a0",
     "type": "entity",
     "label": "Name of entity",
     "properties": {
       "transcription": [
         {
-          "id": "f1",
+          "id": "1615a172-b2c5-4192-bcc1-606a871b6230",
           "type": "text-field",
           "label": "Transcription",
           "allowMultiple": true,
           "value": "Canonical transcription, maybe OCR"
         },
         {
-          "id": "f2",
+          "id": "2666cf79-ef2f-419f-a3f4-038216a89783",
           "type": "text-field",
           "label": "Transcription",
           "allowMultiple": true,
-          "revision": "test-person-a",
+          "revision": "f496a9aa-25eb-4b1d-9d94-9cdcef03e527",
           "value": "Person A created this one"
         },
         {
-          "id": "f3",
+          "id": "1efd5946-a3a1-484f-a862-710741a3b682",
           "type": "text-field",
           "label": "Transcription",
           "allowMultiple": true,
-          "revision": "test-person-b",
+          "revision": "daf3f9d9-2a16-4c1f-8657-3560775bd9eb",
           "value": "Person B created this one, to override Person A's one"
         },
         {
-          "id": "f4",
+          "id": "892f3abe-bbbe-4b1e-9167-a52ec76ea5c1",
           "type": "text-field",
           "label": "Transcription",
           "allowMultiple": true,
-          "revision": "test-person-c",
+          "revision": "bb5d55b1-6c38-4bb9-a6e6-ed236347671b",
           "value": "Person C created this one"
         }
       ]
@@ -57,41 +57,41 @@
   },
   "contributors": {
     "test-person-a": {
-      "id": "test-person-a",
+      "id": "f496a9aa-25eb-4b1d-9d94-9cdcef03e527",
       "type": "Person",
       "name": "Test person A"
     },
     "test-person-b": {
-      "id": "test-person-b",
+      "id": "daf3f9d9-2a16-4c1f-8657-3560775bd9eb",
       "type": "Person",
       "name": "Test person B"
     },
     "test-person-c": {
-      "id": "test-person-c",
+      "id": "bb5d55b1-6c38-4bb9-a6e6-ed236347671b",
       "type": "Person",
       "name": "Test person C"
     }
   },
   "revisions": [
     {
-      "id": "test-person-a",
+      "id": "f496a9aa-25eb-4b1d-9d94-9cdcef03e527",
       "approved": true,
-      "structureId": "c2",
+      "structureId": "fd847948-11bf-42ca-bfdd-cab85ea818f3",
       "fields": [
         "transcription"
       ]
     },
     {
-      "id": "test-person-b",
-      "revises": "test-person-a",
-      "structureId": "c2",
+      "id": "daf3f9d9-2a16-4c1f-8657-3560775bd9eb",
+      "revises": "f496a9aa-25eb-4b1d-9d94-9cdcef03e527",
+      "structureId": "fd847948-11bf-42ca-bfdd-cab85ea818f3",
       "fields": [
         "transcription"
       ]
     },
     {
-      "id": "test-person-c",
-      "structureId": "c2",
+      "id": "bb5d55b1-6c38-4bb9-a6e6-ed236347671b",
+      "structureId": "fd847948-11bf-42ca-bfdd-cab85ea818f3",
       "fields": [
         "transcription"
       ]

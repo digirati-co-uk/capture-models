@@ -1,11 +1,11 @@
 {
   "structure": {
-    "id": "c1",
+    "id": "38102e81-04b2-4bfe-8096-3ac1c856368f",
     "type": "choice",
     "label": "Basic - Multiple fields",
     "items": [
       {
-        "id": "c2",
+        "id": "8f60e6aa-0c1e-458b-a7ef-6de6996420d8",
         "label": "Only choice - multiple fields",
         "type": "model",
         "fields": [
@@ -18,12 +18,12 @@
     "description": "Contains single choice with multiple single text fields"
   },
   "document": {
-    "id": "e1",
+    "id": "5b85d67a-5038-45ad-82f1-cc9290e9def1",
     "type": "entity",
     "properties": {
       "name": [
         {
-          "id": "f1",
+          "id": "5940778a-b2b9-4e47-9d80-53dfa697b596",
           "type": "text-field",
           "label": "Name",
           "description": "The name of the thing"
@@ -31,7 +31,7 @@
       ],
       "description": [
         {
-          "id": "f2",
+          "id": "78728361-d1f1-4db7-a9c3-52f8bdbc1a88",
           "type": "text-field",
           "label": "Description",
           "description": "Tell us something about the thing"

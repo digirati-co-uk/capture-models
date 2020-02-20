@@ -23,10 +23,12 @@
               ]
             ]
           ]
-        ]
+        ],
+        "id": "a7555a55-4e3f-4bf2-954e-5f1e51a7b35c"
       }
     ],
-    "description": "A document with a nested structure, but only editing a single field deep in the tree."
+    "description": "A document with a nested structure, but only editing a single field deep in the tree.",
+    "id": "0a6ec3f0-4f9e-49c4-9051-eadbb5a6df09"
   },
   "document": {
     "type": "entity",

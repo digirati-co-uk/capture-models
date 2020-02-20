@@ -1,11 +1,11 @@
 {
   "structure": {
-    "id": "c1",
+    "id": "a980bf48-5572-423f-8eac-ac1d491b8e4a",
     "type": "choice",
     "label": "Nested choice",
     "items": [
       {
-        "id": "c2",
+        "id": "d4000be7-1407-43a4-b5e7-75479fb96a0d",
         "label": "Person + data",
         "type": "model",
         "fields": [
@@ -25,12 +25,12 @@
     "description": "Contains 3 choices with multiple text fields nested"
   },
   "document": {
-    "id": "e1",
+    "id": "a8d5ff43-adb2-456a-a615-3d24fbfa05f7",
     "type": "entity",
     "properties": {
       "name": [
         {
-          "id": "f1",
+          "id": "a1ed84d2-c44c-4877-ac3d-10559acd7fce",
           "type": "text-field",
           "label": "Name",
           "description": "The name of the thing",
@@ -39,7 +39,7 @@
       ],
       "description": [
         {
-          "id": "f2",
+          "id": "5d610b23-3b03-400b-a9cf-6923563639eb",
           "type": "text-field",
           "label": "Description",
           "description": "Tell us something about the thing",
@@ -48,28 +48,28 @@
       ],
       "person": [
         {
-          "id": "e2",
+          "id": "5c8a5874-8bca-422c-be71-300612d67c72",
           "type": "entity",
           "label": "Person",
           "properties": {
             "firstName": [
               {
-                "id": "f3",
+                "id": "7b45ec25-15a6-40dd-9a1d-0fd1d673df15",
                 "type": "text-field",
                 "label": "First name",
                 "value": ""
               },
               {
-                "id": "f4",
+                "id": "dda6d8bc-ca6d-48e0-8bcc-a24537586346",
                 "type": "text-field",
                 "label": "First name",
                 "value": "Some value",
-                "revision": "abc-123"
+                "revision": "fa500021-7408-4318-ab05-ac6e4d4a3096"
               }
             ],
             "lastName": [
               {
-                "id": "f5",
+                "id": "f5e7480c-411e-486d-a91e-0bf24f146ab5",
                 "type": "text-field",
                 "label": "Last name",
                 "value": ""
@@ -85,14 +85,14 @@
   },
   "contributors": {
     "abc-123": {
-      "id": "abc-123",
+      "id": "fa500021-7408-4318-ab05-ac6e4d4a3096",
       "type": "Person",
       "name": "Test person"
     }
   },
   "revisions": [
     {
-      "id": "abc-123",
+      "id": "fa500021-7408-4318-ab05-ac6e4d4a3096",
       "fields": [
         [
           "person",

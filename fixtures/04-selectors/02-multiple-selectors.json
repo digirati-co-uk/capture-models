@@ -1,11 +1,11 @@
 {
   "structure": {
-    "id": "c1",
+    "id": "32777457-064d-42c5-866a-678e6c95c722",
     "type": "choice",
     "label": "Model with multiple selectors",
     "items": [
       {
-        "id": "c2",
+        "id": "bc28bc85-2fc5-4371-916a-c23779a88b43",
         "label": "Only choice",
         "type": "model",
         "fields": [
@@ -18,15 +18,15 @@
     "description": "Contains single choice with single text field"
   },
   "document": {
-    "id": "e1",
+    "id": "bc5e10b9-1ee2-4318-a46c-36c61b4e58a2",
     "type": "entity",
     "properties": {
       "firstName": [
         {
-          "id": "f1",
+          "id": "060dd509-d167-49f5-bd9e-8da5080583e4",
           "type": "text-field",
           "selector": {
-            "id": "s1",
+            "id": "6ffcfd34-4141-4f38-918d-5348e9d42ab5",
             "type": "box-selector",
             "state": null
           },
@@ -36,10 +36,10 @@
       ],
       "lastName": [
         {
-          "id": "f2",
+          "id": "9d81a5d1-c626-41a6-9f6f-e11bda2fbdb3",
           "type": "text-field",
           "selector": {
-            "id": "s2",
+            "id": "9b25da35-f1fb-4b58-92e4-0eef3d929029",
             "type": "box-selector",
             "state": null
           },

@@ -1,4 +1,4 @@
-import { BaseSelector, CaptureModel, SelectorTypes } from '@capture-models/types';
+import { BaseSelector, CaptureModel, RevisionRequest, SelectorTypes } from '@capture-models/types';
 import { Action, Computed, Thunk } from 'easy-peasy';
 import { RevisionItem } from './utility/capture-model-to-revision-list';
 import { SelectorModel } from '../selectors/selector-model';
@@ -57,7 +57,7 @@ export type RevisionsModel = {
 
   // The revision.
   currentRevisionId: string | null;
-  currentRevision: Computed<RevisionsModel, RevisionItem | null>;
+  currentRevision: Computed<RevisionsModel, RevisionRequest | null>;
   unsavedRevisionIds: string[];
 
   // A slightly split out model for the selectors.

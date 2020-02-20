@@ -1,11 +1,11 @@
 {
   "structure": {
-    "id": "c1",
+    "id": "11f4882a-b246-4415-b90b-d3bb91598835",
     "type": "choice",
     "label": "Basic Model",
     "items": [
       {
-        "id": "c2",
+        "id": "b321af45-bac1-4f5e-b069-f4bef4fda215",
         "label": "Only choice",
         "type": "model",
         "fields": [
@@ -17,29 +17,29 @@
     "description": "Contains single choice with single text field"
   },
   "document": {
-    "id": "e1",
+    "id": "b3f53013-23cc-45db-825a-12500bf3c20e",
     "type": "entity",
     "properties": {
       "name": [
         {
-          "id": "f1",
+          "id": "06b23c90-b4a4-437c-ade2-fb84bbefaa6e",
           "type": "text-field",
           "label": "Name",
           "description": "The name of the thing"
         },
         {
-          "id": "f2",
+          "id": "baf51d8c-ce99-4bf4-afd0-0ca2092a7784",
           "type": "text-field",
           "label": "Name",
-          "revision": "test-person-a",
+          "revision": "514c8d52-80b0-49c1-ab97-24a67f29d194",
           "value": "Person A wrote this",
           "description": "The name of the thing"
         },
         {
-          "id": "f3",
+          "id": "205c9b62-48e3-43ff-8853-222dcd357710",
           "type": "text-field",
           "label": "Name",
-          "revision": "test-person-b",
+          "revision": "b4077dff-3bea-4783-9712-32b52a1146e3",
           "value": "Person B wrote this",
           "description": "The name of the thing"
         }
@@ -50,25 +50,25 @@
   },
   "contributors": {
     "test-person-a": {
-      "id": "test-person-a",
+      "id": "514c8d52-80b0-49c1-ab97-24a67f29d194",
       "type": "Person",
       "name": "Test person A"
     },
     "test-person-b": {
-      "id": "test-person-b",
+      "id": "b4077dff-3bea-4783-9712-32b52a1146e3",
       "type": "Person",
       "name": "Test person B"
     }
   },
   "revisions": [
     {
-      "id": "test-person-a",
+      "id": "514c8d52-80b0-49c1-ab97-24a67f29d194",
       "fields": [
         "name"
       ]
     },
     {
-      "id": "test-person-b",
+      "id": "b4077dff-3bea-4783-9712-32b52a1146e3",
       "fields": [
         "name"
       ]

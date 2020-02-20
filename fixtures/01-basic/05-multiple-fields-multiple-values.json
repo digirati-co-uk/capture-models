@@ -1,11 +1,11 @@
 {
   "structure": {
-    "id": "c1",
+    "id": "04e37aea-9a1e-48f1-af1c-35fe3a83f3d9",
     "type": "choice",
     "label": "Multiple fields with multiple values",
     "items": [
       {
-        "id": "c2",
+        "id": "e28edc8c-66a2-453a-aaf1-55ff3b833efa",
         "label": "Only choice - multiple fields, multiple values",
         "type": "model",
         "fields": [
@@ -18,14 +18,14 @@
     "description": "Contains single choice with multiple single text fields"
   },
   "document": {
-    "id": "e1",
+    "id": "9fc61fd8-9f0c-4bfd-b7a5-4e60b909cb0f",
     "type": "entity",
     "label": "Simple document",
     "description": "",
     "properties": {
       "name": [
         {
-          "id": "f1",
+          "id": "ae2b084e-9eb0-4514-83e9-51f2f18aa785",
           "type": "text-field",
           "label": "Name",
           "allowMultiple": true,
@@ -33,7 +33,7 @@
           "value": "The first name in the list"
         },
         {
-          "id": "f2",
+          "id": "701abade-3c4a-4574-8714-535192500317",
           "type": "text-field",
           "label": "Name",
           "allowMultiple": true,
@@ -43,7 +43,7 @@
       ],
       "description": [
         {
-          "id": "f3",
+          "id": "686fa013-8ad6-4ab0-bbe2-57b9694f81a9",
           "type": "text-field",
           "label": "Description",
           "allowMultiple": true,
@@ -51,7 +51,7 @@
           "value": "First description"
         },
         {
-          "id": "f4",
+          "id": "8aa400bd-5e74-4f34-ab9b-4892dc97c472",
           "type": "text-field",
           "label": "Description",
           "allowMultiple": true,
@@ -59,7 +59,7 @@
           "value": "Second description"
         },
         {
-          "id": "f5",
+          "id": "f94f9dec-0245-4fdf-84e0-9535c3fcf732",
           "type": "text-field",
           "label": "Description",
           "allowMultiple": true,

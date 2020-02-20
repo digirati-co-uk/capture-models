@@ -1,11 +1,11 @@
 {
   "structure": {
-    "id": "c1",
+    "id": "2416e3ed-90cc-4160-8d7b-ceefeb6d2adc",
     "type": "choice",
     "label": "Revisions - single field",
     "items": [
       {
-        "id": "c2",
+        "id": "31b27c9b-2388-47df-b6f4-73fb4878c1fa",
         "label": "Only choice",
         "type": "model",
         "fields": [
@@ -17,21 +17,21 @@
     "description": "Contains single choice with single text field"
   },
   "document": {
-    "id": "e1",
+    "id": "3353dc03-9f35-49e7-9b81-4090fa533c64",
     "type": "entity",
     "properties": {
       "name": [
         {
-          "id": "f1",
+          "id": "aca844a3-836a-45c3-bb16-dc28bcdce46f",
           "type": "text-field",
           "label": "Name",
           "description": "The name of the thing"
         },
         {
-          "id": "f2",
+          "id": "eafb62d7-71b7-47bd-b887-def8655d8d2a",
           "type": "text-field",
           "label": "Name",
-          "revision": "abc-123",
+          "revision": "7c26cf57-5950-4849-b533-11e0ee4afa4b",
           "description": "The name of the thing",
           "value": "Some value that was submitted"
         }
@@ -42,15 +42,15 @@
   },
   "contributors": {
     "abc-123": {
-      "id": "abc-123",
+      "id": "7c26cf57-5950-4849-b533-11e0ee4afa4b",
       "type": "Person",
       "name": "Test person"
     }
   },
   "revisions": [
     {
-      "id": "abc-123",
-      "structureId": "c2",
+      "id": "7c26cf57-5950-4849-b533-11e0ee4afa4b",
+      "structureId": "31b27c9b-2388-47df-b6f4-73fb4878c1fa",
       "fields": [
         "name"
       ]
