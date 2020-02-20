@@ -18,15 +18,15 @@ describe('capture model to revision list', () => {
         Object {
           "document": Object {
             "description": "",
-            "id": "e1",
+            "id": "3353dc03-9f35-49e7-9b81-4090fa533c64",
             "label": "Simple document",
             "properties": Object {
               "name": Array [
                 Object {
                   "description": "The name of the thing",
-                  "id": "f2",
+                  "id": "eafb62d7-71b7-47bd-b887-def8655d8d2a",
                   "label": "Name",
-                  "revision": "abc-123",
+                  "revision": "7c26cf57-5950-4849-b533-11e0ee4afa4b",
                   "type": "text-field",
                   "value": "Some value that was submitted",
                 },
@@ -34,13 +34,15 @@ describe('capture model to revision list', () => {
             },
             "type": "entity",
           },
+          "id": undefined,
           "revision": Object {
             "fields": Array [
               "name",
             ],
-            "id": "abc-123",
-            "structureId": "c2",
+            "id": "7c26cf57-5950-4849-b533-11e0ee4afa4b",
+            "structureId": "31b27c9b-2388-47df-b6f4-73fb4878c1fa",
           },
+          "source": "structure",
         },
       ]
     `);
@@ -52,15 +54,15 @@ describe('capture model to revision list', () => {
         Object {
           "document": Object {
             "description": "",
-            "id": "e1",
+            "id": "b3f53013-23cc-45db-825a-12500bf3c20e",
             "label": "Simple document",
             "properties": Object {
               "name": Array [
                 Object {
                   "description": "The name of the thing",
-                  "id": "f2",
+                  "id": "baf51d8c-ce99-4bf4-afd0-0ca2092a7784",
                   "label": "Name",
-                  "revision": "test-person-a",
+                  "revision": "514c8d52-80b0-49c1-ab97-24a67f29d194",
                   "type": "text-field",
                   "value": "Person A wrote this",
                 },
@@ -68,25 +70,27 @@ describe('capture model to revision list', () => {
             },
             "type": "entity",
           },
+          "id": undefined,
           "revision": Object {
             "fields": Array [
               "name",
             ],
-            "id": "test-person-a",
+            "id": "514c8d52-80b0-49c1-ab97-24a67f29d194",
           },
+          "source": "structure",
         },
         Object {
           "document": Object {
             "description": "",
-            "id": "e1",
+            "id": "b3f53013-23cc-45db-825a-12500bf3c20e",
             "label": "Simple document",
             "properties": Object {
               "name": Array [
                 Object {
                   "description": "The name of the thing",
-                  "id": "f3",
+                  "id": "205c9b62-48e3-43ff-8853-222dcd357710",
                   "label": "Name",
-                  "revision": "test-person-b",
+                  "revision": "b4077dff-3bea-4783-9712-32b52a1146e3",
                   "type": "text-field",
                   "value": "Person B wrote this",
                 },
@@ -94,12 +98,14 @@ describe('capture model to revision list', () => {
             },
             "type": "entity",
           },
+          "id": undefined,
           "revision": Object {
             "fields": Array [
               "name",
             ],
-            "id": "test-person-b",
+            "id": "b4077dff-3bea-4783-9712-32b52a1146e3",
           },
+          "source": "structure",
         },
       ]
     `);
@@ -111,20 +117,20 @@ describe('capture model to revision list', () => {
         Object {
           "document": Object {
             "description": "",
-            "id": "e1",
+            "id": "a8d5ff43-adb2-456a-a615-3d24fbfa05f7",
             "label": "Nested choices",
             "properties": Object {
               "person": Array [
                 Object {
                   "description": "Describe a person",
-                  "id": "e2",
+                  "id": "5c8a5874-8bca-422c-be71-300612d67c72",
                   "label": "Person",
                   "properties": Object {
                     "firstName": Array [
                       Object {
-                        "id": "f4",
+                        "id": "dda6d8bc-ca6d-48e0-8bcc-a24537586346",
                         "label": "First name",
-                        "revision": "abc-123",
+                        "revision": "fa500021-7408-4318-ab05-ac6e4d4a3096",
                         "type": "text-field",
                         "value": "Some value",
                       },
@@ -136,6 +142,7 @@ describe('capture model to revision list', () => {
             },
             "type": "entity",
           },
+          "id": undefined,
           "revision": Object {
             "fields": Array [
               Array [
@@ -147,8 +154,9 @@ describe('capture model to revision list', () => {
               ],
               "name",
             ],
-            "id": "abc-123",
+            "id": "fa500021-7408-4318-ab05-ac6e4d4a3096",
           },
+          "source": "structure",
         },
       ]
     `);
@@ -159,15 +167,15 @@ describe('capture model to revision list', () => {
       Array [
         Object {
           "document": Object {
-            "id": "e1",
+            "id": "279e8fb2-13c3-43cc-aff2-2b41d9025828",
             "label": "Name of entity",
             "properties": Object {
               "transcription": Array [
                 Object {
                   "allowMultiple": false,
-                  "id": "f2",
+                  "id": "c0ac6fd6-9146-4eac-a2b3-0067bc689cb6",
                   "label": "Transcription",
-                  "revision": "test-person-a",
+                  "revision": "04267f75-bb8d-4321-8046-12db3f9d6ceb",
                   "type": "text-field",
                   "value": "Person A created this one",
                 },
@@ -175,24 +183,26 @@ describe('capture model to revision list', () => {
             },
             "type": "entity",
           },
+          "id": undefined,
           "revision": Object {
             "fields": Array [
               "transcription",
             ],
-            "id": "test-person-a",
+            "id": "04267f75-bb8d-4321-8046-12db3f9d6ceb",
           },
+          "source": "structure",
         },
         Object {
           "document": Object {
-            "id": "e1",
+            "id": "279e8fb2-13c3-43cc-aff2-2b41d9025828",
             "label": "Name of entity",
             "properties": Object {
               "transcription": Array [
                 Object {
                   "allowMultiple": false,
-                  "id": "f3",
+                  "id": "c2b68f02-cce4-4a12-940b-d1359d89e807",
                   "label": "Transcription",
-                  "revision": "test-person-b",
+                  "revision": "81ab315e-200e-4649-bb11-99db766a5f66",
                   "type": "text-field",
                   "value": "Person B created this one",
                 },
@@ -200,12 +210,14 @@ describe('capture model to revision list', () => {
             },
             "type": "entity",
           },
+          "id": undefined,
           "revision": Object {
             "fields": Array [
               "transcription",
             ],
-            "id": "test-person-b",
+            "id": "81ab315e-200e-4649-bb11-99db766a5f66",
           },
+          "source": "structure",
         },
       ]
     `);
@@ -213,88 +225,94 @@ describe('capture model to revision list', () => {
 
   test('dual-transcription', () => {
     expect(captureModelToRevisionList(single05 as CaptureModel)).toMatchInlineSnapshot(`
-Array [
-  Object {
-    "document": Object {
-      "id": "e1",
-      "label": "Name of entity",
-      "properties": Object {
-        "transcription": Array [
-          Object {
-            "allowMultiple": true,
-            "id": "f2",
-            "label": "Transcription",
-            "revision": "test-person-a",
-            "type": "text-field",
-            "value": "Person A created this one",
+      Array [
+        Object {
+          "document": Object {
+            "id": "47e8a9d8-76f8-422b-91af-b457d1c624a0",
+            "label": "Name of entity",
+            "properties": Object {
+              "transcription": Array [
+                Object {
+                  "allowMultiple": true,
+                  "id": "2666cf79-ef2f-419f-a3f4-038216a89783",
+                  "label": "Transcription",
+                  "revision": "f496a9aa-25eb-4b1d-9d94-9cdcef03e527",
+                  "type": "text-field",
+                  "value": "Person A created this one",
+                },
+              ],
+            },
+            "type": "entity",
           },
-        ],
-      },
-      "type": "entity",
-    },
-    "revision": Object {
-      "approved": true,
-      "fields": Array [
-        "transcription",
-      ],
-      "id": "test-person-a",
-      "structureId": "c2",
-    },
-  },
-  Object {
-    "document": Object {
-      "id": "e1",
-      "label": "Name of entity",
-      "properties": Object {
-        "transcription": Array [
-          Object {
-            "allowMultiple": true,
-            "id": "f3",
-            "label": "Transcription",
-            "revision": "test-person-b",
-            "type": "text-field",
-            "value": "Person B created this one, to override Person A's one",
+          "id": undefined,
+          "revision": Object {
+            "approved": true,
+            "fields": Array [
+              "transcription",
+            ],
+            "id": "f496a9aa-25eb-4b1d-9d94-9cdcef03e527",
+            "structureId": "fd847948-11bf-42ca-bfdd-cab85ea818f3",
           },
-        ],
-      },
-      "type": "entity",
-    },
-    "revision": Object {
-      "fields": Array [
-        "transcription",
-      ],
-      "id": "test-person-b",
-      "revises": "test-person-a",
-      "structureId": "c2",
-    },
-  },
-  Object {
-    "document": Object {
-      "id": "e1",
-      "label": "Name of entity",
-      "properties": Object {
-        "transcription": Array [
-          Object {
-            "allowMultiple": true,
-            "id": "f4",
-            "label": "Transcription",
-            "revision": "test-person-c",
-            "type": "text-field",
-            "value": "Person C created this one",
+          "source": "structure",
+        },
+        Object {
+          "document": Object {
+            "id": "47e8a9d8-76f8-422b-91af-b457d1c624a0",
+            "label": "Name of entity",
+            "properties": Object {
+              "transcription": Array [
+                Object {
+                  "allowMultiple": true,
+                  "id": "1efd5946-a3a1-484f-a862-710741a3b682",
+                  "label": "Transcription",
+                  "revision": "daf3f9d9-2a16-4c1f-8657-3560775bd9eb",
+                  "type": "text-field",
+                  "value": "Person B created this one, to override Person A's one",
+                },
+              ],
+            },
+            "type": "entity",
           },
-        ],
-      },
-      "type": "entity",
-    },
-    "revision": Object {
-      "fields": Array [
-        "transcription",
-      ],
-      "id": "test-person-c",
-      "structureId": "c2",
-    },
-  },
-]
-`);
+          "id": undefined,
+          "revision": Object {
+            "fields": Array [
+              "transcription",
+            ],
+            "id": "daf3f9d9-2a16-4c1f-8657-3560775bd9eb",
+            "revises": "f496a9aa-25eb-4b1d-9d94-9cdcef03e527",
+            "structureId": "fd847948-11bf-42ca-bfdd-cab85ea818f3",
+          },
+          "source": "structure",
+        },
+        Object {
+          "document": Object {
+            "id": "47e8a9d8-76f8-422b-91af-b457d1c624a0",
+            "label": "Name of entity",
+            "properties": Object {
+              "transcription": Array [
+                Object {
+                  "allowMultiple": true,
+                  "id": "892f3abe-bbbe-4b1e-9167-a52ec76ea5c1",
+                  "label": "Transcription",
+                  "revision": "bb5d55b1-6c38-4bb9-a6e6-ed236347671b",
+                  "type": "text-field",
+                  "value": "Person C created this one",
+                },
+              ],
+            },
+            "type": "entity",
+          },
+          "id": undefined,
+          "revision": Object {
+            "fields": Array [
+              "transcription",
+            ],
+            "id": "bb5d55b1-6c38-4bb9-a6e6-ed236347671b",
+            "structureId": "fd847948-11bf-42ca-bfdd-cab85ea818f3",
+          },
+          "source": "structure",
+        },
+      ]
+    `);
   });
 });

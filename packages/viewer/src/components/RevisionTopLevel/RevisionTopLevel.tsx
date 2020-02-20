@@ -6,12 +6,14 @@ export const RevisionTopLevel: React.FC = () => {
   const current = Revisions.useStoreState(s => s.currentRevision);
   if (!current) return null;
 
+  console.log({ current });
+
   return (
     <>
       <VerboseEntityPage
         entity={{ property: 'root', instance: current.document }}
         path={[]}
-        goBack={() => console.log('Whole revision!', current)}
+        goBack={() => console.log('Whole revision!', JSON.stringify(current))}
       />
     </>
   );

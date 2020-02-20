@@ -1,11 +1,11 @@
 {
   "structure": {
-    "id": "c1",
+    "id": "892f0228-53d2-4f79-986d-712c122bd33f",
     "type": "choice",
     "label": "Basic Model with simple selector",
     "items": [
       {
-        "id": "c2",
+        "id": "e801f905-5afc-4612-9e59-2b78cf407b9d",
         "label": "Book cover",
         "type": "model",
         "fields": [
@@ -16,17 +16,22 @@
     ]
   },
   "document": {
-    "id": "e1",
+    "id": "12396c9f-0706-49c1-9559-1ab853040be1",
     "type": "entity",
     "properties": {
       "title": [
         {
-          "id": "f1",
+          "id": "35ffb3e1-76ef-437e-acce-3523db75b54a",
           "type": "text-field",
           "selector": {
-            "id": "s1",
+            "id": "d35b5a96-e653-4b9b-8f6c-a93ea590dbd4",
             "type": "box-selector",
-            "state": {"height": 771, "width": 2199, "x": 164, "y": 235}
+            "state": {
+              "height": 771,
+              "width": 2199,
+              "x": 164,
+              "y": 235
+            }
           },
           "label": "Title",
           "description": "The title of the book as it is printed on the cover.",

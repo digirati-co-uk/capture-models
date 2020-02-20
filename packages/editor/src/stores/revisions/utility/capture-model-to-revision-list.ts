@@ -1,15 +1,11 @@
+import { RevisionRequest } from '@capture-models/types';
 import { expandModelFields } from '../../../core/structure-editor';
-import { CaptureModel, Revision } from '@capture-models/types';
+import { CaptureModel } from '@capture-models/types';
 import { filterCaptureModel } from '../../../utility/filter-capture-model';
 import { flattenStructures } from '../../../utility/flatten-structures';
 
-export type RevisionItem = {
-  document: CaptureModel['document'];
-  revision: Revision;
-};
-
-export function captureModelToRevisionList(captureModel: CaptureModel, includeStructures = false): RevisionItem[] {
-  const models: RevisionItem[] = [];
+export function captureModelToRevisionList(captureModel: CaptureModel, includeStructures = false): RevisionRequest[] {
+  const models: RevisionRequest[] = [];
 
   if (includeStructures) {
     const flatStructures = flattenStructures(captureModel.structure);
@@ -21,6 +17,7 @@ export function captureModelToRevisionList(captureModel: CaptureModel, includeSt
 
       if (structureDocument) {
         models.push({
+          id: captureModel.id,
           revision: {
             id: structure.id,
             fields: structure.fields,
@@ -28,6 +25,7 @@ export function captureModelToRevisionList(captureModel: CaptureModel, includeSt
             structureId: structure.id,
             label: structure.label,
           },
+          source: 'canonical',
           document: structureDocument,
         });
       }
@@ -41,8 +39,10 @@ export function captureModelToRevisionList(captureModel: CaptureModel, includeSt
     });
     if (document) {
       models.push({
+        id: captureModel.id,
         revision,
         document,
+        source: 'structure',
       });
     }
   }

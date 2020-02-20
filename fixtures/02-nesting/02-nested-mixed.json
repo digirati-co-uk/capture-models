@@ -18,9 +18,11 @@
           "name",
           "description"
         ],
-        "description": "The only choice in the list"
+        "description": "The only choice in the list",
+        "id": "f8c51997-bc5b-4777-8e50-f9a7ed1b495d"
       }
-    ]
+    ],
+    "id": "6fbc611b-e16d-45e0-9637-bff692ca6802"
   },
   "document": {
     "type": "entity",
