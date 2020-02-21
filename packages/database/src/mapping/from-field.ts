@@ -1,4 +1,4 @@
-import { BaseField } from '../../../types/src/field-types';
+import { BaseField } from '@capture-models/types';
 import { Field } from '../entity/Field';
 import { fromSelector } from './from-selector';
 

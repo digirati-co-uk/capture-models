@@ -1,4 +1,4 @@
-import { Contributor as ContributorType } from '../../../types/src/capture-model';
+import { Contributor as ContributorType } from '@capture-models/types';
 import { Contributor } from '../entity/Contributor';
 
 export function toContributor({

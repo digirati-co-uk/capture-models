@@ -11,12 +11,13 @@
   "typings": "lib/index.d.ts",
   "author": "Stephen Fraser <stephen.fraser@digirati.com>",
   "scripts": {
-    "build": "fesk-build --cjs --umd && build-storybook",
+    "build": "fesk-build --umd && tsc -p ./ && build-storybook",
     "start": "fesk-start --cjs --umd --noServer",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "build-types": "tsc -p ./ --emitDeclarationOnly",
-    "build:prod": "NODE_ENV=production fesk-build --cjs --umd && tsc -p ./ --emitDeclarationOnly && build-storybook"
+    "build-ts": "tsc -p ./",
+    "build:prod": "NODE_ENV=production fesk-build --umd && tsc -p ./ && build-storybook"
   },
   "dependencies": {
     "@blueprintjs/core": "^3.22.1",
@@ -76,7 +77,7 @@
     "react-test-renderer": "^16.10.2",
     "sass-loader": "^8.0.0",
     "ts-jest": "^25.2.0",
-    "typescript": "^3.6.5",
+    "typescript": "^3.7.5",
     "url-loader": "^3.0.0",
     "webpack-dev-middleware": "^3.7.2"
   },

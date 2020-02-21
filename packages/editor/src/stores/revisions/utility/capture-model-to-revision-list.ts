@@ -17,7 +17,7 @@ export function captureModelToRevisionList(captureModel: CaptureModel, includeSt
 
       if (structureDocument) {
         models.push({
-          id: captureModel.id,
+          captureModelId: captureModel.id,
           revision: {
             id: structure.id,
             fields: structure.fields,
@@ -39,7 +39,7 @@ export function captureModelToRevisionList(captureModel: CaptureModel, includeSt
     });
     if (document) {
       models.push({
-        id: captureModel.id,
+        captureModelId: captureModel.id,
         revision,
         document,
         source: 'structure',

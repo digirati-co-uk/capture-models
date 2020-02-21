@@ -16,7 +16,7 @@ export function fromCaptureModel({
   const model = new CaptureModel();
 
   const linkedDocument = fromDocument(document);
-  linkedDocument.captureModeId = id;
+  linkedDocument.captureModelId = id;
 
   return Object.assign(model, {
     id: id,

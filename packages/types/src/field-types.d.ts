@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { CaptureModel } from './capture-model';
 import { FieldTypeMap } from './custom';
-import { AnyIfEmpty, MapValues } from './utility';
+import { MapValues } from './utility';
 import { BaseSelector } from './selector-types';
 
 export type BaseField = {

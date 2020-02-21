@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { CaptureModel, Target } from './capture-model';
+import { Target } from './capture-model';
 import { MapValues } from './utility';
 
 interface BaseContent {

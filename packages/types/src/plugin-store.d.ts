@@ -1,6 +1,6 @@
-import { FieldSpecification, FieldTypeMap } from './field-types';
-import { ContentSpecification, ContentTypeMap } from './content-types';
-import { SelectorSpecification, SelectorTypeMap } from './selector-types';
+import { FieldSpecification } from './field-types';
+import { ContentSpecification } from './content-types';
+import { SelectorSpecification } from './selector-types';
 
 export type PluginStore = {
   fields: {

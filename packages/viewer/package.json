@@ -11,10 +11,10 @@
     "directory": "packages/viewer"
   },
   "scripts": {
-    "build": "fesk-build --cjs --umd",
+    "build": "fesk-build --umd && tsc -p ./",
     "start": "fesk-start",
     "build-types": "tsc -p ./ --emitDeclarationOnly",
-    "build:prod": "NODE_ENV=production fesk-build --cjs --umd && tsc -p ./ --emitDeclarationOnly"
+    "build:prod": "NODE_ENV=production fesk-build --umd && tsc -p ./"
   },
   "dependencies": {
     "@capture-models/editor": "1.0.0",

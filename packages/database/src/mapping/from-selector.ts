@@ -1,4 +1,4 @@
-import { BaseSelector } from '../../../types/src/selector-types';
+import { BaseSelector } from '@capture-models/types';
 import { SelectorInstance } from '../entity/SelectorInstance';
 
 export function fromSelector({ id, state, type, ...additional }: BaseSelector): SelectorInstance {

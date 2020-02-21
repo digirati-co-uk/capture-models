@@ -1,11 +1,6 @@
-// Revision by capture model (obv)
-import { ModelFields } from '@capture-models/types';
-// Revision by user
-// Revision by user type
-// Revision by target (regardless of capture model)
-import { Column, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, VersionColumn } from 'typeorm';
+import { ModelFields, StatusTypes } from '@capture-models/types';
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, VersionColumn } from 'typeorm';
 import { CaptureModel } from './CaptureModel';
-import { Contributor } from './Contributor';
 import { Field } from './Field';
 import { RevisionAuthors } from './RevisionAuthors';
 import { Structure } from './Structure';
@@ -17,6 +12,13 @@ export class Revision {
 
   @Column('text', { nullable: true })
   label: string;
+
+  @Column({
+    type: 'enum',
+    enum: ['draft', 'submitted', 'accepted'] as StatusTypes[],
+    default: 'draft',
+  })
+  status: StatusTypes;
 
   @Column({ nullable: true })
   structureId: string;

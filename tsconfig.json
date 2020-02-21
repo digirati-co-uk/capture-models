@@ -5,7 +5,6 @@
     "esModuleInterop": true,
     "allowJs": false,
     "checkJs": false,
-    "declarationDir": "./lib",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
@@ -25,7 +24,6 @@
     "noUnusedLocals": false,
     "traceResolution": false,
     "strict": true,
-    "strictNullChecks": true,
     "pretty": true,
     "removeComments": true,
     "resolveJsonModule": true,
@@ -39,10 +37,6 @@
       "@capture-models/*": ["packages/*/src"]
     }
   },
-  "include": [
-    "packages",
-    "fixtures"
-  ],
   // Need to be manually added for each package.
   "references": [
     { "path": "packages/types" },
@@ -50,11 +44,5 @@
     { "path": "packages/server" },
     { "path": "packages/plugin-api" },
     { "path": "packages/viewer" }
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "lib",
-    "__mocks__"
   ]
 }

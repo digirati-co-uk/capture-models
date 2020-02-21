@@ -1,4 +1,4 @@
-import { BaseField } from '../../../types/src/field-types';
+import { BaseField } from '@capture-models/types';
 import { Field } from '../entity/Field';
 import { toSelector } from './to-selector';
 
@@ -17,11 +17,11 @@ export function toField({
     id,
     type,
     label,
-    description,
     value,
-    allowMultiple,
+    description: description ? description : undefined,
+    allowMultiple: allowMultiple ? allowMultiple : undefined,
     selector: selector ? toSelector(selector) : undefined,
-    revision: revisionId,
+    revision: revisionId ? revisionId : undefined,
     ...additionalProperties,
   };
 }

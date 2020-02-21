@@ -9,6 +9,7 @@ export interface ModelFields extends Array<string | NestedModelFields> {}
 export type Revision = {
   id: string;
   label?: string;
+  status?: StatusTypes;
   structureId?: string;
   workflowId?: string;
   authors?: string[];
@@ -17,7 +18,9 @@ export type Revision = {
   revises?: string;
 };
 
-type Target = {
+export type StatusTypes = 'draft' | 'submitted' | 'accepted';
+
+export type Target = {
   id: string;
   type: string;
 };
