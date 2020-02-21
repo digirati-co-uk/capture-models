@@ -5,6 +5,7 @@
     "esModuleInterop": true,
     "allowJs": false,
     "checkJs": false,
+    "declarationDir": "./lib",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
@@ -24,6 +25,7 @@
     "noUnusedLocals": false,
     "traceResolution": false,
     "strict": true,
+    "strictNullChecks": true,
     "pretty": true,
     "removeComments": true,
     "resolveJsonModule": true,
@@ -42,7 +44,14 @@
     { "path": "packages/types" },
     { "path": "packages/editor" },
     { "path": "packages/server" },
-    { "path": "packages/plugin-api" },
-    { "path": "packages/viewer" }
+    { "path": "packages/plugin-api" }
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "lib",
+    "__mocks__",
+    "**/*.stories.tsx",
+    "**/*.test.ts"
   ]
 }
