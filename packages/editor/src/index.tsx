@@ -78,7 +78,7 @@ export * from './utility/flatten-structures';
 export * from './utility/is-entity'; // Babel error.
 export * from './utility/item-from-index';
 export * from './utility/resolve-subtree';
-// export * from './utility/traverse-document';
+export * from './utility/traverse-document';
 export * from './utility/traverse-structure';
 
 // Theme

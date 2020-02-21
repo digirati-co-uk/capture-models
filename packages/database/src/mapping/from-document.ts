@@ -1,5 +1,5 @@
-import { CaptureModel } from '@capture-models/types';
-import { isEntityList } from '@capture-models/editor';
+import { BaseField, CaptureModel } from '@capture-models/types';
+import { isEntityList } from '@capture-models/editor/lib/utility/is-entity';
 import { Document } from '../entity/Document';
 import { Property } from '../entity/Property';
 import { fromField } from './from-field';
@@ -31,12 +31,14 @@ export function fromDocument(input: CaptureModel['document'], instances = true):
     if (isEntityList(fields)) {
       property.type = 'entity-list';
       if (instances) {
-        property.documentInstances = Promise.resolve(fields.map(doc => fromDocument(doc)));
+        property.documentInstances = Promise.resolve(
+          (fields as CaptureModel['document'][]).map(doc => fromDocument(doc))
+        );
       }
     } else {
       property.type = 'field-list';
       if (instances) {
-        property.fieldInstances = Promise.resolve(fields.map(fromField));
+        property.fieldInstances = Promise.resolve((fields as BaseField[]).map(fromField));
       }
     }
 
