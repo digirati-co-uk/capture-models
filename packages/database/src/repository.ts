@@ -1,6 +1,8 @@
 import { EntityManager, EntityRepository } from 'typeorm';
-import { CaptureModel as CaptureModelType, RevisionRequest } from '@capture-models/types';
+import { BaseField, CaptureModel as CaptureModelType, RevisionRequest } from '@capture-models/types';
 import { traverseDocument } from '@capture-models/editor/lib/utility/traverse-document';
+import { filterDocumentByRevision } from '@capture-models/editor';
+import { expandModelFields } from '../../editor/src/core/structure-editor';
 import { CaptureModel } from './entity/CaptureModel';
 import { Contributor } from './entity/Contributor';
 import { Field } from './entity/Field';
@@ -206,7 +208,7 @@ export class CaptureModelRepository {
    * @param allowOverwrite Allows the request to mutate existing fields
    * @param allowAnonymous Allows `author` to be omitted
    */
-  createRevision(
+  async createRevision(
     req: RevisionRequest,
     {
       createNewCaptureModel = false,
@@ -250,24 +252,94 @@ export class CaptureModelRepository {
 
     // We parse our document, the top level here is immutable.
     // We need to, like the capture model, traverse this.
-    const doc = req.document;
+    let document = req.document;
 
-    // If the source is `structure` we want to validate that the fields match.
+    // If the source is `structure` we want to validate that the fields match
+    // and that there is a user associated with the change.
     const source = req.source;
+    if (source === 'structure' && !allowCanonicalChanges) {
+      // We will re-apply the filter that was applied to the frontend.
+      // Even if this does not match the structure, it still _needs_ to be
+      // describe the fields correctly in order to be valid.
+      document = filterDocumentByRevision(req.document, req.revision);
 
-    // If the source is `structure` we want to make sure a user was associated. We add this to the revision.
-    // This will be added by the consuming service. (In addition to checking `allowCanonicalChanges`)
-    const author = req.author;
+      // If the source is `structure` we want to make sure a user was associated. We add this to the revision.
+      // This will be added by the consuming service. (In addition to checking `allowCanonicalChanges`)
+      const author = req.author;
+      if (!allowAnonymous && !author) {
+        throw new Error('No user associated with change');
+      }
 
-    // If the source is `structure` we also want to check the attached structureId and compare it against
-    // the fields loaded. Although these may drift
-    const structure = req.revision.structureId;
+      if (!req.revision.structureId) {
+        throw new Error('Revision requires structure ID, use { allowCanonicalChanges: true } to override');
+      }
+
+      if (!allowCustomStructure) {
+        // If the source is `structure` we also want to check the attached structureId and compare it against
+        // the fields loaded. Although these may drift over time, for new items they must match.
+        const structure = await this.manager
+          .createQueryBuilder()
+          .select(['c.id', 'c.fields'])
+          .from(Structure, 'c')
+          .where({ id: req.revision.structureId })
+          .getOne();
+
+        // Diff the keys.
+        const keysInStructure = new Set(...expandModelFields(structure.fields).map(f => f.join('.')));
+        const keysInRevision = new Set(...expandModelFields(req.revision.fields).map(f => f.join('.')));
+        if (
+          keysInRevision.size !== keysInStructure.size ||
+          [...keysInRevision.values()].reduce((fail, key) => keysInStructure.has(key) || fail, false)
+        ) {
+          throw new Error('Revision fields do not match structure, use { allowCustomStructure: true } to override');
+        }
+      }
+    }
+
+    const fields: Field[] = [];
+    const documents: Document[] = [];
+    // First we need to flatten the document, plucking out the fields, and
+    // documents.
+    traverseDocument(document, {
+      visitEntity(entity: CaptureModelType['document'], key, parent) {
+        // We don't want the top level document.
+        if (parent) {
+          // Documents will instantiate their own `Property` instances.
+          documents.push(fromDocument(entity, false));
+        }
+      },
+      visitField(field: BaseField, propKey, parent) {
+        // The field needs to know the `Property` identifier
+        const fieldToSave = fromField(field);
+        fieldToSave.parentId = `${parent.id}/${propKey}`;
+        fields.push(fieldToSave);
+      },
+    });
 
     // We can use the fields to map the properties.
-    const fields = req.revision.fields;
+    // const fields = req.revision.fields;
 
     // Using the fields above, we can extract the new values, ensuring that the revision ID is attached.
-    const props = doc.properties;
+    const props = req.document.properties;
+
+    if (createNewCaptureModel) {
+      // @todo.
+      throw new Error('Not yet implemented');
+    }
+
+    if (!allowOverwrite) {
+      // @todo, we need to validate that the fields do not already exist in the DB.
+    }
+
+    // Persisting.
+    // ModelRoot - this is the path at where all entities are immutable, after this
+    //   nesting level. If provided in the model, it will be used as an override. Default
+    //   is highest common entity in the tree that contains all fields (excluding entities)
+    //
+    // ReplicationRoot - this is highest common allowMultiple entity in the tree,
+    //   under and including the model root (excluding entity fields).
+
+    // Once we calculate the replication root, we should know where the model root is.
 
     // We can also do additional checks for `allowMultiple` fields too.
     // The first instance without a revision ID in the `Property` is considered canonical, so we fetch those to
@@ -282,6 +354,23 @@ export class CaptureModelRepository {
     // We DONT want to upsert this endpoint, so INSERT only with fail.
     // For saving an existing revision, that will be another function.
     // Updating will have some modes: noAdditionalFields, noDeletedFields
+  }
+
+  /**
+   * Updating of existing revision.
+   *
+   * @param req
+   * @param allowAdditionalFields
+   * @param allowDeletedFields
+   */
+  updateRevision(
+    req: RevisionRequest,
+    {
+      allowAdditionalFields = false,
+      allowDeletedFields = false,
+    }: { allowAdditionalFields?: boolean; allowDeletedFields?: boolean } = {}
+  ) {
+    // @todo
   }
 
   /**

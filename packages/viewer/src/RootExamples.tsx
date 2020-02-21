@@ -3,7 +3,7 @@ import { CanvasPanel } from '@capture-models/editor/lib/content-types/CanvasPane
 import { useContentType } from '@capture-models/plugin-api';
 import { CaptureModel } from '@capture-models/types';
 import { ContentLayout, RootLayout } from '@layouts/core';
-import React, { Suspense, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { RevisionNavigation } from './components/RevisionNavigation/RevisionNavigation';
 import { getExampleContent } from './utility/get-example-content';
 import { getExampleModels } from './utility/get-example-models';
@@ -32,6 +32,11 @@ const Root: React.FC<any> = ({
   backHome,
 }) => {
   const contentComponent = useContentType(selectedCaptureModel ? selectedCaptureModel.target : undefined);
+
+  useEffect(() => {
+    setSelectedCaptureModel(examples[16]);
+  })
+
   return (
     <RootLayout>
       <ContentLayout
@@ -48,7 +53,7 @@ const Root: React.FC<any> = ({
               <div style={{ padding: '40px 20px', background: '#d0cce2', height: '100%', overflowY: 'auto' }}>
                 {examples.map((example, key) => (
                   <RoundedCard key={key}>
-                    <Heading size="small">{example.structure.label}</Heading>
+                    <Heading size="small">{example.structure.label} ({key})</Heading>
                     <p>{example.structure.description}</p>
                     {example.target ? (
                       <p style={{ fontSize: 11, color: '#999' }}>

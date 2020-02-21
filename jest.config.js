@@ -1,6 +1,6 @@
 module.exports = {
   preset: 'ts-jest/presets/js-with-ts',
-  testEnvironment: 'jest-environment-jsdom-fourteen',
+  testEnvironment: 'node',
   coveragePathIgnorePatterns: [
     '/node_modules/',
     '/coverage/',
@@ -11,7 +11,7 @@ module.exports = {
     '.json',
   ],
   modulePathIgnorePatterns: ['dist/', 'lib/'],
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
+  // setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   moduleNameMapper: {
     '\\.(css|scss)$': '<rootDir>/__mocks__/styleMock.ts',
   },
