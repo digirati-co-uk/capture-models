@@ -67,7 +67,6 @@ export const revisionStore: RevisionsModel = {
     state.selector.topLevelSelector = payload.selectorId;
   }),
 
-
   // @todo update selector in revision too (not ideal, but avoids traversing tree each time to find a selector)
   updateSelector: action((state, payload) => {
     const selectorToUpdate = state.selector.availableSelectors.find(selector => selector.id === payload.selectorId);
@@ -115,6 +114,18 @@ export const revisionStore: RevisionsModel = {
     // state.revisions[revisionId].revision.structureId
     const newRevisionId = generateId(); // Do I need this here?
     const newDocument = copyOriginal(documentToClone);
+
+    // Changes.
+    // - Find Model Root - where everything above is immutable
+    // - Calculate Replication root - where everything under is duplicated
+    // These are likely to be the same, however the MODEL ROOT can be
+    // manually set to be BELOW the replication root, pushing them both down.
+
+
+    // FORK_ALL_VALUES -> find the Replication root, copy all values from this level with new IDs
+    // FORK_TEMPLATE -> fork values using the rules, when you find the Replication
+    //                  root, create a new _empty_ instance of it.
+
     // Then we nuke the values recursively if revises=null (unless specified)
     // - field id -> generate new (if allowMultiple=true on field)
     // - entity id -> generate new (if allowMultiple=true on entity)
@@ -146,6 +157,8 @@ export const revisionStore: RevisionsModel = {
           },
           visitEntity(entity) {
             if (entity.allowMultiple) {
+              // @todo make sure that if allowMultiple happens, EVERYTHING under
+              //   the allow multiple has it too.
               entity.id = generateId();
             }
           },

@@ -74,8 +74,9 @@ export * from './utility/create-model';
 export * from './utility/create-field';
 export * from './utility/fetch-capture-model';
 export * from './utility/filter-capture-model';
+export * from './utility/filter-document-by-revision';
 export * from './utility/flatten-structures';
-export * from './utility/is-entity'; // Babel error.
+export * from './utility/is-entity';
 export * from './utility/item-from-index';
 export * from './utility/resolve-subtree';
 export * from './utility/traverse-document';

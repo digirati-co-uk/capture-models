@@ -15,5 +15,12 @@
   "references": [
     { "path": "../types" },
     { "path": "../plugin-api" }
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "lib",
+    "**/*.stories.tsx",
+    "**/*.test.ts"
   ]
 }

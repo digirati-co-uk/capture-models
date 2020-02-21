@@ -50,6 +50,7 @@ export type CaptureModel = {
     | {
         type: 'model';
         fields: ModelFields;
+        modelRoot?: string[];
       }
   );
   document: {
@@ -59,6 +60,7 @@ export type CaptureModel = {
     term?: string;
     revision?: string;
     labelledBy?: string;
+    revises?: string;
     label?: string;
     description?: string;
     authors?: string[];

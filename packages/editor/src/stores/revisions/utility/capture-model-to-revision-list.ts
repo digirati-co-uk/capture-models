@@ -42,7 +42,7 @@ export function captureModelToRevisionList(captureModel: CaptureModel, includeSt
         captureModelId: captureModel.id,
         revision,
         document,
-        source: 'structure',
+        source: revision.structureId ? 'structure' : 'unknown',
       });
     }
   }

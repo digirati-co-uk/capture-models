@@ -13,7 +13,8 @@ export type BaseField = {
   description?: string;
   selector?: BaseSelector;
   allowMultiple?: boolean;
-  revision?: string;
+  revision?: string; // revision Id
+  revises?: string; // field Id
   value: any;
 };
 
