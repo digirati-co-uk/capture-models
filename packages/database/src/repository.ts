@@ -1,6 +1,6 @@
 import { EntityManager, EntityRepository } from 'typeorm';
 import { CaptureModel as CaptureModelType, RevisionRequest } from '@capture-models/types';
-import { traverseDocument } from '@capture-models/editor';
+import { traverseDocument } from '@capture-models/editor/lib/utility/traverse-document';
 import { CaptureModel } from './entity/CaptureModel';
 import { Contributor } from './entity/Contributor';
 import { Field } from './entity/Field';

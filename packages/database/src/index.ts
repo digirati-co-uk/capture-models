@@ -1,4 +1,5 @@
 import 'reflect-metadata';
+import { join } from 'path';
 import { createConnection } from 'typeorm';
 import { CaptureModelRepository } from './repository';
 
@@ -12,13 +13,13 @@ createConnection({
   schema: 'public',
   synchronize: true,
   logging: false,
-  entities: ['src/entity/**/*.ts'],
-  migrations: ['src/migration/**/*.ts'],
-  subscribers: ['src/subscriber/**/*.ts'],
+  entities: [join(__dirname, 'entity/**/*.js'), join(__dirname, 'entity/**/*.ts')],
+  migrations: [join(__dirname, 'migration/**/*.js'), join(__dirname, 'migration/**/*.ts')],
+  subscribers: [join(__dirname, 'subscriber/**/*.js'), join(__dirname, 'subscriber/**/*.ts')],
   cli: {
-    entitiesDir: 'src/entity',
-    migrationsDir: 'src/migration',
-    subscribersDir: 'src/subscriber',
+    entitiesDir: join(__dirname, 'entity'),
+    migrationsDir: join(__dirname, 'migration'),
+    subscribersDir: join(__dirname, 'subscriber'),
   },
 })
   .then(async connection => {
