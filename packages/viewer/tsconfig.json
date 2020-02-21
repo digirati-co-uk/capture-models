@@ -5,6 +5,7 @@
   ],
   "compilerOptions": {
     "rootDir": "./src",
+    "noEmitOnError": true,
     "declarationDir": "./lib"
   },
   // Dependencies must be declared in references.

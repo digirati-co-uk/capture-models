@@ -11,11 +11,10 @@
     "directory": "packages/plugin-api"
   },
   "scripts": {
-    "build": "fesk-build --umd && tsc -p ./",
+    "build": "fesk-build --cjs --umd && tsc -p ./ --emitDeclarationOnly",
     "start": "fesk-start --cjs --umd --noServer",
     "build-types": "tsc -p ./ --emitDeclarationOnly",
-    "build-ts": "tsc -p ./",
-    "build:prod": "NODE_ENV=production fesk-build --umd && tsc -p ./"
+    "build:prod": "NODE_ENV=production fesk-build --umd --cjs && tsc -p ./ --emitDeclarationOnly"
   },
   "dependencies": {
     "@capture-models/types": "1.0.0",
