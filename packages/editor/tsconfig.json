@@ -1,11 +1,21 @@
 {
-  "extends": "../../tsconfig.json",
   "include": ["src/**/*"],
   "compilerOptions": {
     "rootDir": "src",
-    "declarationDir": "lib",
-    "outDir": "lib"
+    "outDir": "lib",
+    "declaration": true,
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "jsx": "react",
+    "composite": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "noEmitOnError": false
   },
+  "exclude": [
+    "**/*.stories.tsx",
+    "**/*.test.ts"
+  ],
   "references": [
     { "path": "../types" },
     { "path": "../plugin-api" }
