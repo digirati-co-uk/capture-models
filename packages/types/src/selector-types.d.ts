@@ -1,9 +1,6 @@
 // There will be something here.
-import { FieldTypeMap } from './custom';
-import { BaseField } from './field-types';
 import { MapValues } from './utility';
 import { FC } from 'react';
-import { ContentTypeMap } from './content-types';
 
 export type BaseSelector = {
   id: string;

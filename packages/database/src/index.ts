@@ -1,16 +1,6 @@
 import 'reflect-metadata';
 import { createConnection } from 'typeorm';
-import { Document } from './entity/Document';
-import { Structure } from './entity/Structure';
-import { fromCaptureModel } from './mapping/from-capture-model';
-import { fromDocument } from './mapping/from-document';
-import { fromStructure } from './mapping/from-structure';
-import { toCaptureModel } from './mapping/to-capture-model';
-import { toDocument } from './mapping/to-document';
-import { toStructure } from './mapping/to-structure';
 import { CaptureModelRepository } from './repository';
-import { CaptureModel } from '@capture-models/types';
-import { v4 } from 'uuid';
 
 createConnection({
   type: 'postgres',
@@ -101,104 +91,7 @@ createConnection({
 
     const repo = connection.getCustomRepository(CaptureModelRepository);
 
-    const revisions = [v4(), v4(), v4()];
-    const s2 = v4();
-
-    const modelFromType: CaptureModel = {
-      structure: {
-        id: v4(),
-        type: 'choice',
-        label: 'Revisions - multiple transcriptions',
-        items: [
-          {
-            id: s2,
-            label: 'Transcriptions',
-            type: 'model',
-            fields: ['transcription'],
-          },
-        ],
-        description: '',
-      },
-      document: {
-        id: v4(),
-        type: 'entity',
-        label: 'Name of entity',
-        properties: {
-          transcription: [
-            {
-              id: v4(),
-              type: 'text-field',
-              label: 'Transcription',
-              allowMultiple: true,
-              value: 'Canonical transcription, maybe OCR',
-            },
-            {
-              id: v4(),
-              type: 'text-field',
-              label: 'Transcription',
-              allowMultiple: true,
-              revision: revisions[0],
-              value: 'Person A created this one',
-            },
-            {
-              id: v4(),
-              type: 'text-field',
-              label: 'Transcription',
-              allowMultiple: true,
-              revision: revisions[1],
-              value: "Person B created this one, to override Person A's one",
-            },
-            {
-              id: v4(),
-              type: 'text-field',
-              label: 'Transcription',
-              allowMultiple: true,
-              revision: revisions[2],
-              value: 'Person C created this one',
-            },
-          ],
-        },
-      },
-      contributors: {
-        [revisions[0]]: {
-          id: revisions[0],
-          type: 'Person',
-          name: 'Test person A',
-        },
-        [revisions[1]]: {
-          id: revisions[1],
-          type: 'Person',
-          name: 'Test person B',
-        },
-        [revisions[2]]: {
-          id: revisions[2],
-          type: 'Person',
-          name: 'Test person C',
-        },
-      },
-      revisions: [
-        {
-          id: revisions[0],
-          approved: true,
-          structureId: s2,
-          fields: ['transcription'],
-          authors: [revisions[0]],
-        },
-        {
-          id: revisions[1],
-          revises: revisions[0],
-          structureId: s2,
-          fields: ['transcription'],
-          authors: [revisions[1]],
-        },
-        {
-          id: revisions[2],
-          structureId: s2,
-          fields: ['transcription'],
-          authors: [revisions[2]],
-        },
-      ],
-    };
+    const modelFromType = require('../../../fixtures/01-basic/01-single-field.json');
 
     const model = await repo.saveCaptureModel(modelFromType);
 

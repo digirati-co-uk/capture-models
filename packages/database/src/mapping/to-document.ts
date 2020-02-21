@@ -10,10 +10,10 @@ export async function toDocument(doc: Document): Promise<CaptureModel['document'
     id,
     type: 'entity',
     label,
-    description,
-    allowMultiple,
-    labelledBy,
-    revision: revisionId,
+    description: description ? description : undefined,
+    allowMultiple: allowMultiple ? allowMultiple : undefined,
+    labelledBy: labelledBy ? labelledBy : undefined,
+    revision: revisionId ? revisionId : undefined,
     properties: {},
   };
 

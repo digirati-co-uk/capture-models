@@ -1,9 +1,8 @@
 import { expandModelFields } from '../../../core/structure-editor';
-import { CaptureModel } from '@capture-models/types';
+import { CaptureModel, RevisionRequest } from '@capture-models/types';
 import { filterCaptureModel } from '../../../utility/filter-capture-model';
-import { RevisionItem } from './capture-model-to-revision-list';
 
-export function revisionFilter(captureModel: CaptureModel, revision: string): RevisionItem | null {
+export function revisionFilter(captureModel: CaptureModel, revision: string): RevisionRequest | null {
   const revisionDescription = captureModel.revisions ? captureModel.revisions.find(item => item.id === revision) : null;
   if (!revisionDescription) {
     return null;
@@ -23,6 +22,8 @@ export function revisionFilter(captureModel: CaptureModel, revision: string): Re
   }
 
   return {
+    captureModelId: captureModel.id,
+    source: 'structure',
     document: model,
     revision: revisionDescription,
   };

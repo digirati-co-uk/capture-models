@@ -1,5 +1,5 @@
 import { CaptureModel } from '@capture-models/types';
-import { isEntityList } from '../../../editor/src/utility/is-entity';
+import { isEntityList } from '@capture-models/editor';
 import { Document } from '../entity/Document';
 import { Property } from '../entity/Property';
 import { fromField } from './from-field';

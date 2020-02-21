@@ -19,13 +19,14 @@ export async function toCaptureModel({
     structure: await toStructure(structure),
     document: await toDocument(document),
     target,
-    revisions: revisions ? revisions.map(toRevision) : undefined,
-    contributors: contributors
-      ? contributors.map(toContributor).reduce((mappedContributors, nextContributor) => {
-          mappedContributors[nextContributor.id] = nextContributor;
-          return mappedContributors;
-        }, {})
-      : undefined,
-    integrity,
+    revisions: revisions && revisions.length ? revisions.map(toRevision) : undefined,
+    contributors:
+      contributors && contributors.length
+        ? contributors.map(toContributor).reduce((mappedContributors, nextContributor) => {
+            mappedContributors[nextContributor.id] = nextContributor;
+            return mappedContributors;
+          }, {})
+        : undefined,
+    integrity: integrity ? integrity : undefined,
   };
 }

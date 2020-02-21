@@ -1,4 +1,3 @@
-import { CurrentSelectorState, NavigationContext, UseCurrentForm } from '../selector-types.d.ts/index';
 import { CaptureModel } from './capture-model';
 import { NestedField } from './field-types';
 import { BaseSelector } from './selector-types';
@@ -94,3 +93,8 @@ export type UseNavigation<Model extends CaptureModel = CaptureModel> = Navigatio
   popPath: () => void;
   resetPath: () => void;
 };
+
+export type StoredCaptureModel = {
+  _id?: string;
+  _rev?: string;
+} & CaptureModel;

@@ -1,14 +1,13 @@
 import { PluginStore } from '@capture-models/types';
 
 declare global {
-  export var $$captureModelGlobalStore: PluginStore;
+  export let $$captureModelGlobalStore: PluginStore;
 }
 
 const bootstrapGlobalStore: () => PluginStore = () => {
-  // @ts-ignore
-  const globalVar = (global || window) as typeof window;
+  const globalVar = (global || window) as any;
 
-  if (!globalVar.hasOwnProperty('$$captureModelGlobalStore')) {
+  if (!globalVar.$$captureModelGlobalStore) {
     globalVar.$$captureModelGlobalStore = {
       fields: {},
       contentTypes: {},

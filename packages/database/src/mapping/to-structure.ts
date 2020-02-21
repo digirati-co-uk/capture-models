@@ -6,8 +6,8 @@ export async function toStructure(structure: Structure, root = true): Promise<Ca
   const baseFields: Partial<CaptureModel['structure']> = {
     id: structure.id,
     type: structure.type as any,
-    description: structure.description,
-    profile: structure.profile,
+    description: structure.description ? structure.description : undefined,
+    profile: structure.profile ? structure.profile : undefined,
     label: structure.label,
   };
 

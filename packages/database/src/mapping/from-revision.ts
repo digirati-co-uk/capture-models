@@ -10,10 +10,12 @@ export function fromRevision({
   id,
   authors,
   revises,
+  status,
   workflowId,
 }: RevisionType): Revision {
   const revision = new Revision();
   revision.id = id;
+  revision.status = status;
   revision.label = label;
   revision.approved = approved;
   revision.structureId = structureId;

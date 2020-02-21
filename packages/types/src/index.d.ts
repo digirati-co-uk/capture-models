@@ -10,5 +10,3 @@ export * from './revision-request';
 
 // @todo to be removed
 export * from './to-be-removed';
-
-import { FieldTypeMap } from './field-types';

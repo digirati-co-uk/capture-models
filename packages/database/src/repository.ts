@@ -1,6 +1,6 @@
 import { EntityManager, EntityRepository } from 'typeorm';
-import { CaptureModel as CaptureModelType } from '@capture-models/types';
-import { traverseDocument } from '../../editor/src/utility/traverse-document';
+import { CaptureModel as CaptureModelType, RevisionRequest } from '@capture-models/types';
+import { traverseDocument } from '@capture-models/editor';
 import { CaptureModel } from './entity/CaptureModel';
 import { Contributor } from './entity/Contributor';
 import { Field } from './entity/Field';
@@ -24,8 +24,9 @@ export class CaptureModelRepository {
    * Returns a capture model when given an ID.
    *
    * @param id
+   * @param canonical - Only load the canonical document, no revisions.
    */
-  async getCaptureModel(id: string): Promise<CaptureModelType> {
+  async getCaptureModel(id: string, { canonical = false }: { canonical?: boolean } = {}): Promise<CaptureModelType> {
     return toCaptureModel(await this.manager.findOne(CaptureModel, id));
   }
 
@@ -186,6 +187,10 @@ export class CaptureModelRepository {
     });
   }
 
+  getRevision(id: string) {}
+
+  searchRevisions() {}
+
   /**
    * Create revision
    *
@@ -194,25 +199,98 @@ export class CaptureModelRepository {
    *
    * The purpose of this is to merge in that revision and it's fields into the main document.
    *
-   * @param revisionId The ID of the revision, should be generated on the frontend. This will be checked
-   *                   as a unique value.
-   * @param documentId The ID of the original document that is being revised.
-   * @param revision The partial capture model with revisions.
+   * @param req The revision request
+   * @param createNewCaptureModel Creates a new capture model from the one provided
+   * @param allowCanonicalChanges Allows the request to make canonical changes to the document in this revision
+   * @param allowCustomStructure Allows the request to deviate from the structure stored in the database
+   * @param allowOverwrite Allows the request to mutate existing fields
+   * @param allowAnonymous Allows `author` to be omitted
    */
-  createRevision(revisionId: string, documentId: string, revision: CaptureModelType) {}
+  createRevision(
+    req: RevisionRequest,
+    {
+      createNewCaptureModel = false,
+      allowCanonicalChanges = false,
+      allowCustomStructure = false,
+      allowOverwrite = false,
+      allowAnonymous = false,
+    }: {
+      createNewCaptureModel?: boolean;
+      allowCanonicalChanges?: boolean;
+      allowCustomStructure?: boolean;
+      allowOverwrite?: boolean;
+      allowAnonymous?: boolean;
+    } = {}
+  ) {
+    const example = {
+      revision: {
+        id: 'bb5d55b1-6c38-4bb9-a6e6-ed236347671b',
+        structureId: 'fd847948-11bf-42ca-bfdd-cab85ea818f3',
+        fields: ['transcription'],
+      },
+      document: {
+        id: '47e8a9d8-76f8-422b-91af-b457d1c624a0',
+        type: 'entity',
+        label: 'Name of entity',
+        properties: {
+          transcription: [
+            {
+              id: '892f3abe-bbbe-4b1e-9167-a52ec76ea5c1',
+              type: 'text-field',
+              label: 'Transcription',
+              allowMultiple: true,
+              revision: 'bb5d55b1-6c38-4bb9-a6e6-ed236347671b',
+              value: 'Person C created this one',
+            },
+          ],
+        },
+      },
+      source: 'structure',
+    };
 
-  /**
-   * Update a revision
-   *
-   * @param revisionId
-   * @param revision
-   */
-  updateRevision(revisionId: string, revision: CaptureModelType) {}
+    // We parse our document, the top level here is immutable.
+    // We need to, like the capture model, traverse this.
+    const doc = req.document;
+
+    // If the source is `structure` we want to validate that the fields match.
+    const source = req.source;
+
+    // If the source is `structure` we want to make sure a user was associated. We add this to the revision.
+    // This will be added by the consuming service. (In addition to checking `allowCanonicalChanges`)
+    const author = req.author;
+
+    // If the source is `structure` we also want to check the attached structureId and compare it against
+    // the fields loaded. Although these may drift
+    const structure = req.revision.structureId;
+
+    // We can use the fields to map the properties.
+    const fields = req.revision.fields;
+
+    // Using the fields above, we can extract the new values, ensuring that the revision ID is attached.
+    const props = doc.properties;
+
+    // We can also do additional checks for `allowMultiple` fields too.
+    // The first instance without a revision ID in the `Property` is considered canonical, so we fetch those to
+    // verify. In an efficient way.
+    // We might have to create a new capture model
+    // - shared structure
+    // - new document
+    // - fresh list of contributors
+    // - target from previous, unless in request.
+    // - canonical document structure from old model
+    // - new additions applied
+    // We DONT want to upsert this endpoint, so INSERT only with fail.
+    // For saving an existing revision, that will be another function.
+    // Updating will have some modes: noAdditionalFields, noDeletedFields
+  }
 
   /**
    * Remove a revision
    *
    * @param revisionId
    */
-  removeRevision(revisionId: string) {}
+  removeRevision(revisionId: string) {
+    // Need some options here. Although this will be a reviewer-instantiated call, we want to make sure
+    // that the revision has not already been accepted (or config for that) and that it is safe to remove.
+  }
 }
