@@ -9,3 +9,4 @@ var
 .yarn
 **/src/**/*.js
 **/src/**/*.js.map
+.jest-cache

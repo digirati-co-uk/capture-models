@@ -13,10 +13,9 @@ export function useContentType(target?: Target[]) {
   for (const key of keys) {
     const type = ctx.contentTypes[key];
     if (type && type.supports(target)) {
-      // @ts-ignore
       return React.createElement(type.DefaultComponent, {
         state: type.targetToState(target),
-      });
+      } as any);
     }
   }
   return null;

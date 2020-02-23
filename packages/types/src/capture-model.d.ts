@@ -1,10 +1,20 @@
+import { BaseProperty } from './base-property';
 import { BaseField } from './field-types';
-import { BaseSelector } from './selector-types';
 
 export type NestedModelFields = [string, ModelFields];
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface ModelFields extends Array<string | NestedModelFields> {}
+
+export interface Document extends BaseProperty {
+  id: string;
+  // @todo future implementation of JSON-LD Extension. Added as optional for now.
+  '@context'?: string | ({ [key: string]: string } & { '@vocab'?: string });
+  type: 'entity';
+  properties: {
+    [term: string]: Array<BaseField> | Array<Document>;
+  };
+}
 
 export type Revision = {
   id: string;
@@ -51,26 +61,12 @@ export type CaptureModel = {
         type: 'model';
         fields: ModelFields;
         modelRoot?: string[];
+        forkValues?: boolean;
+        editableAboveRoot?: boolean;
+        preventAdditionsAdjacentToRoot?: boolean;
       }
   );
-  document: {
-    id: string;
-    // @todo future implementation of JSON-LD Extension. Added as optional for now.
-    '@context'?: string | ({ [key: string]: string } & { '@vocab'?: string });
-    term?: string;
-    revision?: string;
-    labelledBy?: string;
-    revises?: string;
-    label?: string;
-    description?: string;
-    authors?: string[];
-    type: 'entity';
-    selector?: BaseSelector;
-    allowMultiple?: boolean;
-    properties: {
-      [term: string]: Array<BaseField> | Array<CaptureModel['document']>;
-    };
-  };
+  document: Document;
   revisions?: Array<Revision>;
   target?: Array<Target>;
   contributors?: {

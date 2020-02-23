@@ -1,22 +1,14 @@
 import { FC } from 'react';
+import { BaseProperty } from './base-property';
 import { CaptureModel } from './capture-model';
 import { FieldTypeMap } from './custom';
 import { MapValues } from './utility';
-import { BaseSelector } from './selector-types';
 
-export type BaseField = {
+export interface BaseField extends BaseProperty {
   id: string;
-  // @todo re-enable when creating JSON-LD extension
-  // term: string;
   type: Exclude<string, 'entity'>;
-  label: string;
-  description?: string;
-  selector?: BaseSelector;
-  allowMultiple?: boolean;
-  revision?: string; // revision Id
-  revises?: string; // field Id
   value: any;
-};
+}
 
 export type FieldTypes<Type extends FieldTypeMap = FieldTypeMap> = MapValues<Type>;
 

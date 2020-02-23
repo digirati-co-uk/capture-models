@@ -2,8 +2,8 @@ import { CaptureModel, BaseField, BaseSelector } from '@capture-models/types';
 import { action, computed, createStore, thunk } from 'easy-peasy';
 import { original } from 'immer';
 import { pluginStore } from '@capture-models/plugin-api';
+import { createRevisionDocument } from '../../utility/create-revision-document';
 import { generateId } from '../../utility/generate-id';
-import { traverseDocument } from '../../utility/traverse-document';
 import { RevisionsModel } from './revisions-model';
 import { captureModelToRevisionList } from './utility/capture-model-to-revision-list';
 import { createSelectorStore } from '../selectors/selector-store';
@@ -113,124 +113,7 @@ export const revisionStore: RevisionsModel = {
     // Structure ID if we need it.
     // state.revisions[revisionId].revision.structureId
     const newRevisionId = generateId(); // Do I need this here?
-    const newDocument = copyOriginal(documentToClone);
-
-    // Changes.
-    // - Find Model Root - where everything above is immutable
-    // - Calculate Replication root - where everything under is duplicated
-    // These are likely to be the same, however the MODEL ROOT can be
-    // manually set to be BELOW the replication root, pushing them both down.
-
-
-    // FORK_ALL_VALUES -> find the Replication root, copy all values from this level with new IDs
-    // FORK_TEMPLATE -> fork values using the rules, when you find the Replication
-    //                  root, create a new _empty_ instance of it.
-
-    // Then we nuke the values recursively if revises=null (unless specified)
-    // - field id -> generate new (if allowMultiple=true on field)
-    // - entity id -> generate new (if allowMultiple=true on entity)
-    // - selector states -> set to default
-    // - field values -> set to default
-    // - enumerable @types -> keep first, remove rest @todo add case for not doing this (tuple-like)
-    // @todo question cases where revises!=null and there are enumerable values. Will this break things?
-    // @todo should revises be a field ID or a revision? Do we need both? Could be the same value: `{revision}/{entityId}`
-    switch (cloneMode) {
-      case 'EDIT_ALL_VALUES':
-        // Straight clone, same IDs. Does this even need to be a clone? Or is this just selecting?
-        // I think it does, as this will be used when a user wants to edit something they cannot directly.
-        // Once copied, don't need to do anything.
-        // newDocument
-        break;
-      case 'FORK_ALL_VALUES':
-        // Visit every entity + field.
-        // Change ID (mutation in place)
-        // Clone + change IDs
-        traverseDocument(newDocument, {
-          visitSelector(selector) {
-            // Not really we need selector IDs.
-            selector.id = generateId();
-          },
-          visitField(field) {
-            if (field.allowMultiple) {
-              field.id = generateId();
-            }
-          },
-          visitEntity(entity) {
-            if (entity.allowMultiple) {
-              // @todo make sure that if allowMultiple happens, EVERYTHING under
-              //   the allow multiple has it too.
-              entity.id = generateId();
-            }
-          },
-        });
-        break;
-      case 'FORK_TEMPLATE':
-        // Clone + apply template logic to remove values. Might produce same
-        // output as EDIT_ALL_VALUES in many common cases without enumerable @types.
-        // This is different in the case where there are a list of items anywhere
-        // in the revision, as the template rules will produce a new single value
-        // instead of a new list. IDs will be dependant on allowMultiple=true
-        // Visit every entity + field.
-        // Change ID (mutation in place) depending on custom logic.
-        newDocument.id = generateId();
-        traverseDocument<{ inheritedAllowMultiple?: boolean }>(newDocument, {
-          visitFirstField(field, key, parent) {
-            const description = pluginStore.fields[field.type];
-            if (!description) {
-              // error? delete?
-              parent.properties[key] = [];
-              return true;
-            }
-
-            if (
-              description.allowMultiple &&
-              (field.allowMultiple || parent.allowMultiple || (parent.temp && parent.temp.inheritedAllowMultiple))
-            ) {
-              // Supported in both the base and in the field.
-              // If this is true then we need to clone
-              // We want to create a new field here, based on the first (the one here).
-              // If we have a revision, nuke the value and use the default
-              // Otherwise, if we don't have a revision it was added during the set
-              // up phase, so we do want the value copied over.
-              field.id = generateId();
-              if (field.revision) {
-                field.value = copyOriginal(description.defaultValue);
-              }
-            }
-
-            parent.properties[key] = [field];
-            return true;
-          },
-          visitSelector(selector, parent) {
-            const description = pluginStore.selectors[selector.type];
-            if (!description) {
-              // Error? Delete?
-              parent.selector = undefined;
-              return;
-            }
-            selector.id = generateId();
-
-            if (parent.type !== 'entity' && parent.revision) {
-              selector.state = copyOriginal(description.defaultState);
-            }
-          },
-          visitFirstEntity(entity, key, parent) {
-            if (parent.allowMultiple) {
-              entity.temp = entity.temp ? entity.temp : {};
-              entity.temp.inheritedAllowMultiple = true;
-            }
-
-            if (entity.allowMultiple) {
-              entity.id = generateId();
-            }
-            parent.properties[key] = [entity];
-            return true;
-          },
-        });
-        break;
-      default:
-        break;
-    }
+    const newDocument = createRevisionDocument(original(documentToClone), cloneMode);
 
     // @todo split out into createRevision
     state.revisions[newRevisionId] = {

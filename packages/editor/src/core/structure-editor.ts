@@ -87,6 +87,11 @@ export function expandModelFields(fields: ModelFields): string[][] {
       return acc;
     }
     const [name, nextFields] = next;
+
+    if (typeof nextFields === 'undefined') {
+      throw new Error(`Invalid model fields at level ${name} (${JSON.stringify(fields, null, 2)})`);
+    }
+
     return nextFields.reduce(reducer([...prefix, name]), acc);
   };
 

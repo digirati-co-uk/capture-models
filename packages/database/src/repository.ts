@@ -284,6 +284,14 @@ export class CaptureModelRepository {
           .where({ id: req.revision.structureId })
           .getOne();
 
+        // Model Root field (new option - allowCustomModelRoot)
+        // Fork Values boolean
+        // Editable above root option.
+        // Prevent additions adjacent to root
+        // We need a test to detect and then test that each of these hold. With options to override.
+        // Then we need to traverse, from the structure root (can split doc with utility)
+        // And only save new fields from the model root – downwards. MAKE SURE THEY ARE CONNECTED
+
         // Diff the keys.
         const keysInStructure = new Set(...expandModelFields(structure.fields).map(f => f.join('.')));
         const keysInRevision = new Set(...expandModelFields(req.revision.fields).map(f => f.join('.')));

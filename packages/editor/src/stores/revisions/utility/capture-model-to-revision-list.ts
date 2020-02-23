@@ -25,6 +25,7 @@ export function captureModelToRevisionList(captureModel: CaptureModel, includeSt
             structureId: structure.id,
             label: structure.label,
           },
+          modelRoot: structure.modelRoot,
           source: 'canonical',
           document: structureDocument,
         });

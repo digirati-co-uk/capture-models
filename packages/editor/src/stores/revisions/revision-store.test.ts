@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+ */
+
 import { createRevisionStore } from './revisions-store';
 import { CaptureModel, StructureType } from '@capture-models/types';
 
@@ -24,6 +28,7 @@ describe('Revision store', () => {
 
       expect(store.getState().currentRevision).toMatchInlineSnapshot(`
         Object {
+          "captureModelId": undefined,
           "document": Object {
             "description": "",
             "id": "3353dc03-9f35-49e7-9b81-4090fa533c64",
@@ -42,7 +47,6 @@ describe('Revision store', () => {
             },
             "type": "entity",
           },
-          "id": undefined,
           "revision": Object {
             "fields": Array [
               "name",
@@ -78,7 +82,9 @@ describe('Revision store', () => {
       const [store, { selectRevision }, revId] = selectorStore();
       expect(store.getState().selector.availableSelectors).toEqual([]);
       selectRevision({ revisionId: revId });
-      expect(store.getState().selector.availableSelectors).toEqual([{ id: '0c15c2b8-48e9-4c83-b77e-054cd8215f93', state: null, type: 'box-selector' }]);
+      expect(store.getState().selector.availableSelectors).toEqual([
+        { id: '0c15c2b8-48e9-4c83-b77e-054cd8215f93', state: null, type: 'box-selector' },
+      ]);
     });
 
     test('can choose a selector that exists', () => {

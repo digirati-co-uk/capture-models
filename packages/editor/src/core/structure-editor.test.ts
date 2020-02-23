@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+ */
+
 import { CaptureModel } from '@capture-models/types';
 import {
   documentFieldOptionsToStructure,
@@ -11,7 +15,7 @@ import '../input-types/TextField';
 describe('structure editor', () => {
   const DEFAULT_MODEL: CaptureModel = {
     structure: { id: '1', type: 'model', label: 'empty', fields: [] },
-    document: { id: '1', type: 'entity', properties: {} },
+    document: { id: '1', type: 'entity', label: 'Untitled document', properties: {} },
   };
 
   describe('mergeFlatKeys', () => {
@@ -143,6 +147,7 @@ describe('structure editor', () => {
       const model: CaptureModel['document'] = {
         id: '1',
         type: 'entity',
+        label: 'Untitled document',
         properties: {
           field1: [{ id: '1', type: 'text-field', label: 'field 1', value: '' }],
           field2: [{ id: '2', type: 'text-field', label: 'field 2', value: '' }],
@@ -164,6 +169,7 @@ describe('structure editor', () => {
       const model: CaptureModel['document'] = {
         id: '1',
         type: 'entity',
+        label: 'Untitled document',
         properties: {
           field1: [{ id: 'f1', type: 'text-field', label: 'field 1', value: '' }],
           entity1: [

@@ -14,6 +14,9 @@ export function filterCaptureModel(
   };
   for (const [rootFieldKey, ...flatField] of flatFields) {
     const rootField = document.properties[rootFieldKey];
+    if (!rootField) {
+      throw new Error(`Invalid root field ${rootFieldKey}`);
+    }
     // These are instances of the root field. The first field indicates the type
     for (const field of rootField) {
       if ((field as CaptureModel['document']).type === 'entity') {

@@ -5,6 +5,7 @@ export const createDocument = (doc: Partial<CaptureModel['document']> = {}): Cap
   return {
     id: generateId(),
     type: 'entity',
+    label: 'Untitled document',
     properties: {},
     ...doc,
   };

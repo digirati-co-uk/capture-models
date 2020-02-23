@@ -13,6 +13,7 @@
     "noEmitHelpers": true,
     "lib": ["dom", "esnext"],
     "target": "es2015",
+    "incremental": true,
     "module": "commonjs",
     "moduleResolution": "node",
     "noEmitOnError": true,
@@ -26,8 +27,8 @@
     "traceResolution": false,
     "strict": true,
     "strictNullChecks": true,
-    "pretty": true,
-    "removeComments": true,
+    "pretty": false,
+    "removeComments": false,
     "resolveJsonModule": true,
     "skipLibCheck": true,
     // Mono-repo required.
@@ -39,6 +40,10 @@
       "@capture-models/*": ["packages/*/src"]
     }
   },
+  "include": [
+    "packages/**/*",
+    "jest.setup.ts"
+  ],
   // Need to be manually added for each package.
   "references": [
     { "path": "packages/types" },
