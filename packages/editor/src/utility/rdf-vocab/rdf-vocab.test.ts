@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 import { parseRdfVocab } from './rdf-vocab';
 
 describe('RDF Vocab', () => {

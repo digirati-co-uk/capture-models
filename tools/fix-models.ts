@@ -48,6 +48,9 @@ for (const folder of dir) {
         if (entity.id) {
           entity.id = getId(entity.id);
         }
+        if (!entity.label) {
+          entity.label = 'Untitled entity';
+        }
         if (entity.revision) {
           entity.revision = getId(entity.revision);
         }

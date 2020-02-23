@@ -1,3 +1,4 @@
+export * from './base-property';
 export * from './capture-model';
 export * from './content-types';
 export * from './field-types';

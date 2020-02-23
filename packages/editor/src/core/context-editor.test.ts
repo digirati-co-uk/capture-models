@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+ */
+
 import { addContext, addDefaultContext, removeContext, removeDefaultContext } from './context-editor';
 import { CaptureModel } from '@capture-models/types';
 
@@ -12,6 +16,7 @@ describe('document editor', () => {
     document: {
       id: '2',
       type: 'entity',
+      label: 'untitled entity',
       properties: {},
     },
   };
@@ -31,6 +36,7 @@ describe('document editor', () => {
           id: '2',
           '@context': 'http://example.org/context',
           type: 'entity',
+          label: 'untitled entity',
           properties: {},
         },
       });
@@ -44,7 +50,7 @@ describe('document editor', () => {
       );
     });
 
-    test('it throws when default context already exists', () => {
+    test('it throws when default context already exists (2)', () => {
       const result: CaptureModel = {
         structure: {
           id: '1',
@@ -56,6 +62,7 @@ describe('document editor', () => {
           id: '2',
           '@context': { '@vocab': 'http://example.org/context/1' },
           type: 'entity',
+          label: 'untitled entity',
           properties: {},
         },
       };
@@ -79,6 +86,7 @@ describe('document editor', () => {
           id: '2',
           '@context': { '@vocab': 'http://example.org/context/1' },
           type: 'entity',
+          label: 'untitled entity',
           properties: {},
         },
       });
@@ -96,6 +104,7 @@ describe('document editor', () => {
           id: '2',
           '@context': { '@vocab': 'http://example.org/context/1' },
           type: 'entity',
+          label: 'untitled entity',
           properties: {},
         },
       };
@@ -111,6 +120,7 @@ describe('document editor', () => {
           id: '2',
           '@context': { '@vocab': 'http://example.org/context/1' },
           type: 'entity',
+          label: 'untitled entity',
           properties: {},
         },
       });
@@ -168,6 +178,7 @@ describe('document editor', () => {
           id: '2',
           '@context': 'http://example.org/context/1',
           type: 'entity',
+          label: 'untitled entity',
           properties: {},
         },
       };
@@ -197,6 +208,7 @@ describe('document editor', () => {
             c2: 'http://example.org/context/2',
           },
           type: 'entity',
+          label: 'untitled entity',
           properties: {},
         },
       };
@@ -219,6 +231,7 @@ describe('document editor', () => {
           id: '2',
           '@context': 'http://example.org/context/1',
           type: 'entity',
+          label: 'untitled entity',
           properties: {},
         },
       };
@@ -237,6 +250,7 @@ describe('document editor', () => {
         document: {
           id: '2',
           type: 'entity',
+          label: 'untitled entity',
           properties: {},
         },
       };
@@ -259,6 +273,7 @@ describe('document editor', () => {
             c2: 'http://example.org/context/2',
           },
           type: 'entity',
+          label: 'untitled entity',
           properties: {},
         },
       };
@@ -281,6 +296,7 @@ describe('document editor', () => {
             c2: 'http://example.org/context/2',
           },
           type: 'entity',
+          label: 'untitled entity',
           properties: {},
         },
       };
@@ -304,6 +320,7 @@ describe('document editor', () => {
             c1: 'http://example.org/context/1',
           },
           type: 'entity',
+          label: 'untitled entity',
           properties: {},
         },
       };
@@ -315,7 +332,13 @@ describe('document editor', () => {
     test('remove default context (string)', () => {
       const c1: CaptureModel = {
         structure: { id: '1', label: '', type: 'model', fields: [] },
-        document: { id: '2', '@context': 'http://example.org/context/2', type: 'entity', properties: {} },
+        document: {
+          id: '2',
+          '@context': 'http://example.org/context/2',
+          type: 'entity',
+          label: 'untitled entity',
+          properties: {},
+        },
       };
       expect(removeDefaultContext(c1).document['@context']).not.toBeDefined();
     });
@@ -323,7 +346,13 @@ describe('document editor', () => {
     test('remove default context (non-existent)', () => {
       const c1: CaptureModel = {
         structure: { id: '1', label: '', type: 'model', fields: [] },
-        document: { id: '2', '@context': { c2: 'http://example.org/context/2' }, type: 'entity', properties: {} },
+        document: {
+          id: '2',
+          '@context': { c2: 'http://example.org/context/2' },
+          type: 'entity',
+          label: 'untitled entity',
+          properties: {},
+        },
       };
       expect(removeDefaultContext(c1)).toEqual(c1);
     });
