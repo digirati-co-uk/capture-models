@@ -1,4 +1,4 @@
-import { isEntityList } from '@capture-models/editor';
+import { isEntityList } from './is-entity';
 import { CaptureModel } from '@capture-models/types';
 
 export type FlatDocs = { parent?: CaptureModel['document']; property?: string; documents: CaptureModel['document'][] };
