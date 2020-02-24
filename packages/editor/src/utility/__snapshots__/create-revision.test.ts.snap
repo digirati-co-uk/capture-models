@@ -38,7 +38,7 @@ Object {
                     "properties": Object {
                       "field-f": Array [
                         Object {
-                          "id": "53cdccf0-ef2b-432c-85dc-f9f6fb177297",
+                          "id": "23fb8e8b-6ae4-4503-b688-80116b5df127",
                           "label": "Third level text field",
                           "type": "text-field",
                           "value": "value for field",
@@ -223,7 +223,7 @@ Object {
                     "properties": Object {
                       "field-f": Array [
                         Object {
-                          "id": "53cdccf0-ef2b-432c-85dc-f9f6fb177297",
+                          "id": "23fb8e8b-6ae4-4503-b688-80116b5df127",
                           "label": "Third level text field",
                           "type": "text-field",
                           "value": "value for field",
@@ -403,7 +403,7 @@ Object {
                     "properties": Object {
                       "field-f": Array [
                         Object {
-                          "id": "53cdccf0-ef2b-432c-85dc-f9f6fb177297",
+                          "id": "23fb8e8b-6ae4-4503-b688-80116b5df127",
                           "label": "Third level text field",
                           "type": "text-field",
                           "value": "value for field",
