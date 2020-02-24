@@ -1,7 +1,7 @@
 import { EntityManager, EntityRepository } from 'typeorm';
 import { BaseField, CaptureModel as CaptureModelType, RevisionRequest } from '@capture-models/types';
 import { traverseDocument } from '@capture-models/editor/lib/utility/traverse-document';
-import { filterDocumentByRevision, expandModelFields } from '@capture-models/editor';
+import { filterDocumentByRevision, expandModelFields, validateRevision } from '@capture-models/editor';
 import { CaptureModel } from './entity/CaptureModel';
 import { Contributor } from './entity/Contributor';
 import { Field } from './entity/Field';
@@ -235,181 +235,71 @@ export class CaptureModelRepository {
       allowAnonymous?: boolean;
     } = {}
   ) {
-    const example = {
-      revision: {
-        id: 'bb5d55b1-6c38-4bb9-a6e6-ed236347671b',
-        structureId: 'fd847948-11bf-42ca-bfdd-cab85ea818f3',
-        fields: ['transcription'],
-      },
-      document: {
-        id: '47e8a9d8-76f8-422b-91af-b457d1c624a0',
-        type: 'entity',
-        label: 'Name of entity',
-        properties: {
-          transcription: [
-            {
-              id: '892f3abe-bbbe-4b1e-9167-a52ec76ea5c1',
-              type: 'text-field',
-              label: 'Transcription',
-              allowMultiple: true,
-              revision: 'bb5d55b1-6c38-4bb9-a6e6-ed236347671b',
-              value: 'Person C created this one',
-            },
-          ],
-        },
-      },
-      source: 'structure',
-    };
-
-    // We parse our document, the top level here is immutable.
-    // We need to, like the capture model, traverse this.
-    let document = req.document;
-
-    // If the source is `structure` we want to validate that the fields match
-    // and that there is a user associated with the change.
-    const source = req.source;
-    if (source === 'structure' && !allowCanonicalChanges) {
-      // We will re-apply the filter that was applied to the frontend.
-      // Even if this does not match the structure, it still _needs_ to be
-      // describe the fields correctly in order to be valid.
-      const filteredDocument = filterDocumentByRevision(req.document, req.revision);
-      if (!filteredDocument) {
-        throw new Error('Invalid revision');
-      }
-      document = filteredDocument;
-
-      // If the source is `structure` we want to make sure a user was associated. We add this to the revision.
-      // This will be added by the consuming service. (In addition to checking `allowCanonicalChanges`)
-      const author = req.author;
-      if (!allowAnonymous && !author) {
-        throw new Error('No user associated with change');
-      }
-
-      if (!req.revision.structureId) {
-        throw new Error('Revision requires structure ID, use { allowCanonicalChanges: true } to override');
-      }
-
-      if (!allowCustomStructure) {
-        // If the source is `structure` we also want to check the attached structureId and compare it against
-        // the fields loaded. Although these may drift over time, for new items they must match.
-        const structure = await this.manager
-          .createQueryBuilder()
-          .select(['c.id', 'c.fields'])
-          .from(Structure, 'c')
-          .where({ id: req.revision.structureId })
-          .getOne();
-
-        // Model Root field (new option - allowCustomModelRoot)
-        // Fork Values boolean
-        // Editable above root option.
-        // Prevent additions adjacent to root
-        // We need a test to detect and then test that each of these hold. With options to override.
-        // Then we need to traverse, from the structure root (can split doc with utility)
-        // And only save new fields from the model root – downwards. MAKE SURE THEY ARE CONNECTED
-        if (!structure) {
-          throw new Error('Invalid structureId in revision');
-        }
-
-        // Diff the keys.
-        const keysInStructure = new Set(...expandModelFields(structure.fields).map(f => f.join('.')));
-        const keysInRevision = new Set(...expandModelFields(req.revision.fields).map(f => f.join('.')));
-        if (
-          keysInRevision.size !== keysInStructure.size ||
-          [...keysInRevision.values()].reduce((fail: boolean, key) => keysInStructure.has(key) || fail, false)
-        ) {
-          throw new Error('Revision fields do not match structure, use { allowCustomStructure: true } to override');
-        }
-      }
+    if (!req.captureModelId) {
+      throw new Error('Capture model ID is required');
     }
 
-    // We will have:
-    // - an immutable section of the document, that we skip over
-    // - a mutable section of the document, with fields and documents with new IDs.
-    // - If a NEW document was created in the revision, then we need to make sure ALL fields are added (immutable)
-    // - When requesting a revision, we use the revision fields and root to filter them out, much like the normal editor.
-    //
-    // So to save a revision.
-    // Navigate to the root.
-    // Filter the root document(s) using the revision id _AND_ fields to ensure validity.
-    //
+    // We will need this anyway!
+    const captureModel = await this.getCaptureModel(req.captureModelId, { canonical: true });
 
-    // Alt.
-    //
-    // All we care about is fields.
-    // - Filter all of the fields from the model.
-    // - Keep traversing parents until we hit something immutable (if field is already in list, skip)
-    // - track new fields and documents along the way.
-    // - CONFIG OPTION - allow edit above root (like model)
+    // Validation for the request.
+    validateRevision(req, captureModel, {
+      allowAnonymous,
+      allowCanonicalChanges,
+      allowCustomStructure,
+    });
 
-    // Need:
-    // - List of new documents (inside out)
-    // - List of edited fields (and properties)
-    //
+    const fieldsToAdd: Array<{ field: BaseField; term: string; parent: CaptureModelType['document'] }> = [];
+    const docsToHydrate: Array<{
+      entity: CaptureModelType['document'];
+      term?: string;
+      parent?: CaptureModelType['document'];
+    }> = [];
 
-    // Chain for creating new document. (inside out)
-    // - fetch existing document
-    // - merge with revision document without saving <-- new hydrate-partial-doc
-    // - change any existing IDs, and mark them as immutable
-    // - create document
-    // - add properties
-    // - add values to property
-    // - add document as value to parent
-    //
-    // Chain for editing existing
-    // - fetch document property
-    // - add value to property, incl. selector
-    //
-    // Commit order:
-    // - Saving new contributors
-    // - Add new documents first
-    // - Then add edits
-    //
-
-
-    const fields: Field[] = [];
-    const documents: Document[] = [];
-    // First we need to flatten the document, plucking out the fields, and
-    // documents.
-    traverseDocument(document, {
-      visitEntity(entity: CaptureModelType['document'], key, parent) {
-        // We don't want the top level document.
-        if (parent) {
-          // Documents will instantiate their own `Property` instances.
-          documents.push(fromDocument(entity, false));
+    traverseDocument(req.document, {
+      visitField(field, term, parent) {
+        console.log(parent);
+        if (parent.immutable) {
+          fieldsToAdd.push({ field, term, parent });
         }
       },
-      visitField(field: BaseField, propKey, parent) {
-        // The field needs to know the `Property` identifier
-        const fieldToSave = fromField(field);
-        fieldToSave.parentId = `${parent.id}/${propKey}`;
-        fields.push(fieldToSave);
+      visitEntity(entity, term, parent) {
+        if (entity.immutable === false && parent && parent.immutable) {
+          docsToHydrate.push({ entity, term, parent });
+        }
       },
     });
 
-    // We can use the fields to map the properties.
-    // const fields = req.revision.fields;
+    console.log();
+    console.log('fieldsToAdd');
+    console.log(fieldsToAdd);
+    console.log();
+    console.log('docsToHydrate');
+    console.log(docsToHydrate);
 
-    // Using the fields above, we can extract the new values, ensuring that the revision ID is attached.
-    const props = req.document.properties;
+    // Docs
+    // - get parent ID, find in document (error if not found)
+    // - hydrate any missing fields on property (use mapping if that exists) @todo add more to revision request?
+    // - Create DB insertion instruction, reusing create capture model code @todo split this out
+    //
+    // Fields
+    // - Loop through, create DB instruction for each
+    //
+    // Commit order
+    // - Saving new contributors
+    // - Add new documents first
+    // - Then add edits
 
+    // Create new capture model, forking the entire thing. How does this change? Can this use hydrate at the root?
     if (createNewCaptureModel) {
       // @todo.
       throw new Error('Not yet implemented');
     }
 
+    // Allow overwriting existing fields?
     if (!allowOverwrite) {
       // @todo, we need to validate that the fields do not already exist in the DB.
     }
-
-    // Persisting.
-    // ModelRoot - this is the path at where all entities are immutable, after this
-    //   nesting level. If provided in the model, it will be used as an override. Default
-    //   is highest common entity in the tree that contains all fields (excluding entities)
-    //
-    // ReplicationRoot - this is highest common allowMultiple entity in the tree,
-    //   under and including the model root (excluding entity fields).
-
-    // Once we calculate the replication root, we should know where the model root is.
 
     // We can also do additional checks for `allowMultiple` fields too.
     // The first instance without a revision ID in the `Property` is considered canonical, so we fetch those to

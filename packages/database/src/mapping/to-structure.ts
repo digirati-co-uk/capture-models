@@ -23,7 +23,6 @@ export async function toStructure(structure: Structure, root = true): Promise<Ca
       forkValues: structure.forkValues,
       editableAboveRoot: structure.editableAboveRoot,
       preventAdditionsAdjacentToRoot: structure.preventAdditionsAdjacentToRoot,
-
     } as CaptureModel['structure'];
   }
 

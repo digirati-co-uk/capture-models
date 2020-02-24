@@ -1,14 +1,22 @@
-import { isEntityList } from '@capture-models/editor';
 import { CaptureModel } from '@capture-models/types';
+import copy from 'fast-copy';
+import { isEntityList } from './is-entity';
 import { forkDocument } from './create-revision-document';
 import { formPropertyValue } from './fork-field';
 
 export function hydratePartialDocument(
-  partialDocument: CaptureModel['document'],
+  inputPartialDocument: CaptureModel['document'],
   wholeDocument: CaptureModel['document'],
-  options: { keepValues?: boolean; markAsImmutable?: boolean } = {}
+  options: {
+    keepValues?: boolean;
+    markAsImmutable?: boolean;
+    clone?: boolean;
+    hydrateRoot?: boolean;
+  } = {}
 ): CaptureModel['document'] {
-  const { keepValues = false, markAsImmutable = false } = options;
+  const { keepValues = false, clone = false, markAsImmutable = false, hydrateRoot = true } = options;
+
+  const partialDocument = clone ? copy(inputPartialDocument) : inputPartialDocument;
 
   // Documents have properties.
   for (const term of Object.keys(wholeDocument.properties)) {
@@ -20,29 +28,34 @@ export function hydratePartialDocument(
         continue;
       }
       if (isEntityList(propertyValues)) {
-        // We need to fork the first entity.
-        const forkedDocument = forkDocument(propertyValues[0], {
-          removeDefaultValues: !keepValues,
-          removeValues: !keepValues,
-          // @todo set immutable here for document.
-        });
-        // Set on our new partial.
-        partialDocument.properties[term] = [
-          formPropertyValue(forkedDocument, {
-            clone: false,
-            // @todo set immutable here for field.
-          }),
-        ];
+        if (hydrateRoot) {
+          // We need to fork the first entity.
+          const forkedDocument = forkDocument(propertyValues[0], {
+            removeDefaultValues: !keepValues,
+            removeValues: !keepValues,
+            branchFromRoot: true,
+            // @todo set immutable here for document.
+          });
+          // Set on our new partial.
+          partialDocument.properties[term] = [
+            formPropertyValue(forkedDocument, {
+              clone: false,
+              // @todo set immutable here for field.
+            }),
+          ];
+        }
       } else {
-        const forkedField = propertyValues[0];
-        // We need to fork first value.
-        partialDocument.properties[term] = [
-          formPropertyValue(forkedField, {
-            forkValue: keepValues,
-            clone: true,
-            // @todo set immutable here for field.
-          }),
-        ];
+        if (hydrateRoot) {
+          const forkedField = propertyValues[0];
+          // We need to fork first value.
+          partialDocument.properties[term] = [
+            formPropertyValue(forkedField, {
+              forkValue: keepValues,
+              clone: true,
+              // @todo set immutable here for field.
+            }),
+          ];
+        }
       }
     } else {
       const wholeValues = wholeDocument.properties[term];
@@ -56,7 +69,7 @@ export function hydratePartialDocument(
       if (isEntityList(wholeValues) && isEntityList(partialValues)) {
         // recurse.
         partialDocument.properties[term] = partialValues.map(doc => {
-          return hydratePartialDocument(doc, wholeValues[0], options);
+          return hydratePartialDocument(doc, wholeValues[0], { ...options, hydrateRoot: true });
         });
       } else {
         // Do nothing, this is a value.

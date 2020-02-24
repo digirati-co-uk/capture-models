@@ -418,6 +418,33 @@
             ]
           ]
         ]
+      },
+      {
+        "id": "45e13064-887e-4dc2-aebf-4742f4beea29",
+        "label": "Edit model B - one field",
+        "description": "This should [???]",
+        "type": "model",
+        "modelRoot": [
+          "model-b"
+        ],
+        "fields": [
+          [
+            "model-b",
+            [
+              [
+                "model-c",
+                [
+                  [
+                    "model-d",
+                    [
+                      "field-f"
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
       }
     ],
     "description": "Contains single choice with single text field"
