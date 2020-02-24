@@ -3,6 +3,7 @@ import { BaseField, CaptureModel } from '@capture-models/types';
 import copy from 'fast-copy';
 import { REVISION_CLONE_MODE } from '../stores/revisions';
 import { filterDocumentGraph } from './filter-document-graph';
+import { formPropertyValue } from './fork-field';
 import { generateId } from './generate-id';
 import { isEntity } from './is-entity';
 import { splitDocumentByModelRoot } from './split-document-by-model-root';
@@ -26,6 +27,7 @@ import { traverseDocument } from './traverse-document';
 export function forkDocument<Fields extends string>(
   inputDoc: CaptureModel['document'],
   {
+    revisionId,
     modelRoot = [],
     modelMapping: inputModelMapping = {},
     removeValues = true,
@@ -34,6 +36,7 @@ export function forkDocument<Fields extends string>(
     editableAboveRoot = true,
     preventAdditionsAdjacentToRoot = true,
   }: {
+    revisionId?: string;
     modelMapping?: Partial<{ [key in Fields]: string }>;
     modelRoot?: Fields[];
     removeValues?: boolean;
@@ -90,7 +93,6 @@ export function forkDocument<Fields extends string>(
   }
 
   const [documentsToKeep, documentsToRemove] = filterDocumentGraph(immutableDocuments, modelMapping);
-
   // This is the glue between the top and bottom. If something has been removed in the top, we want it removed
   // from the bottom.
   for (const mutableDocument of mutableDocuments) {
@@ -157,32 +159,26 @@ export function forkDocument<Fields extends string>(
         parent.properties[key] = [];
         return;
       }
-
-      // Remove the value from the field if we need to.
-      if (!editValues && removeValues && (removeDefaultValues || field.revision)) {
-        field.value = copy(description.defaultValue);
+      // If we're editing, nothing to do.
+      if (editValues) {
+        return;
       }
+
       // If we're not editing, then we're copying. There's only so much we're allow to copy.
       // If the field is part of an entity that has already been copied, then it's a new field
       // and should be marked as one, without a revises.
       // If the field allows multiple (and not part of a new branch) then we can add a new instance
       // to the value.
-      if (!editValues && !field.immutable) {
-        // In this case, we've branched out.
-        if (actions.parentHasBranched(parent)) {
-          // Set id, don't set revises.
-          field.id = generateId();
-          // Make only one item.
-          parent.properties[key] = [field];
-        } else if (description.allowMultiple && field.allowMultiple) {
-          // If the parent has _NOT_ branched yet, set ID, no revises.
-          field.id = generateId();
-        } else {
-          //console.log(`Field marked with revises ${key} ${actions.parentHasBranched(parent) && '(branched)'}`);
-          // The field is marked as not allowing multiple values, so we are forking.
-          field.revises = field.id;
-          field.id = generateId();
-        }
+      formPropertyValue(field, {
+        revision: !field.immutable ? revisionId : undefined,
+        revisesFork:
+          !field.immutable && !actions.parentHasBranched(parent) && !(description.allowMultiple && field.allowMultiple),
+        forkValue: !(removeValues && (removeDefaultValues || field.revision)),
+        clone: false,
+      });
+
+      if (!field.immutable && actions.parentHasBranched(parent)) {
+        parent.properties[key] = [field];
       }
     },
     visitEntity(entity, key, parent) {
@@ -233,6 +229,9 @@ export function forkDocument<Fields extends string>(
           entity.revises = entity.id;
           entity.id = generateId();
         }
+        if (revisionId) {
+          entity.revision = revisionId;
+        }
         actions.branch(entity);
       }
     },
@@ -251,12 +250,14 @@ export function forkDocument<Fields extends string>(
 
 /**
  * Wrapper around fork document.
+ * @param revisionId
  * @param document
  * @param mode
  * @param modelRoot
  * @param modelMapping
  */
 export function createRevisionDocument(
+  revisionId: string,
   document: CaptureModel['document'],
   mode: REVISION_CLONE_MODE,
   modelRoot: string[] = [],
@@ -264,10 +265,10 @@ export function createRevisionDocument(
 ) {
   switch (mode) {
     case 'EDIT_ALL_VALUES':
-      return forkDocument(document, { modelRoot, modelMapping, editValues: true });
+      return forkDocument(document, { revisionId, modelRoot, modelMapping, editValues: true });
     case 'FORK_ALL_VALUES':
-      return forkDocument(document, { modelRoot, modelMapping, removeValues: false });
+      return forkDocument(document, { revisionId, modelRoot, modelMapping, removeValues: false });
     case 'FORK_TEMPLATE':
-      return forkDocument(document, { modelRoot, removeDefaultValues: true, removeValues: true });
+      return forkDocument(document, { revisionId, modelRoot, removeDefaultValues: true, removeValues: true });
   }
 }

@@ -216,20 +216,29 @@ describe('create revision', () => {
       // Only the model-h selected should be in the form (H1)
       // Capture model should be filtered, as per normal capture models.
       expect(
-        forkDocument(createFieldA.document, { modelRoot: createFieldA.modelRoot, removeDefaultValues: true })
+        forkDocument(createFieldA.document, {
+          modelRoot: createFieldA.modelRoot,
+          revisionId: 'REVISION-ID',
+          removeDefaultValues: true,
+        })
       ).toMatchSnapshot();
     });
 
     describe('Edit model a', () => {
       test('Fork template should fork at Model A.1 with nuked values throughout', () => {
         expect(
-          forkDocument(editModelA.document, { modelRoot: editModelA.modelRoot, removeDefaultValues: true })
+          forkDocument(editModelA.document, {
+            modelRoot: editModelA.modelRoot,
+            revisionId: 'REVISION-ID',
+            removeDefaultValues: true,
+          })
         ).toMatchSnapshot();
       });
       test('Fork values should create a new document with pre-filled fields and different ID', () => {
         expect(
           forkDocument(editModelA.document, {
             modelRoot: editModelA.modelRoot,
+            revisionId: 'REVISION-ID',
             removeValues: false,
           })
         ).toMatchSnapshot();
@@ -238,6 +247,7 @@ describe('create revision', () => {
         expect(
           forkDocument(editModelA.document, {
             modelRoot: editModelA.modelRoot,
+            revisionId: 'REVISION-ID',
             editValues: true,
           })
         ).toMatchSnapshot();
@@ -249,6 +259,7 @@ describe('create revision', () => {
         expect(
           forkDocument(editModelAWithRoot.document, {
             modelRoot: editModelAWithRoot.modelRoot,
+            revisionId: 'REVISION-ID',
             removeDefaultValues: true,
           })
         ).toMatchSnapshot();
@@ -258,6 +269,7 @@ describe('create revision', () => {
         expect(
           forkDocument(editModelAWithRoot.document, {
             modelRoot: editModelAWithRoot.modelRoot,
+            revisionId: 'REVISION-ID',
             removeValues: false,
           })
         ).toMatchSnapshot();
@@ -266,6 +278,7 @@ describe('create revision', () => {
         expect(
           forkDocument(editModelAWithRoot.document, {
             modelRoot: editModelAWithRoot.modelRoot,
+            revisionId: 'REVISION-ID',
             editValues: true,
           })
         ).toMatchSnapshot();
@@ -279,6 +292,7 @@ describe('create revision', () => {
         expect(
           forkDocument(fieldAboveRoot.document, {
             modelRoot: fieldAboveRoot.modelRoot,
+            revisionId: 'REVISION-ID',
           })
         ).toMatchSnapshot();
       });
@@ -289,6 +303,7 @@ describe('create revision', () => {
         expect(
           forkDocument(modelCNoModelRoot.document, {
             modelRoot: modelCNoModelRoot.modelRoot,
+            revisionId: 'REVISION-ID',
             removeDefaultValues: true,
           })
         ).toMatchSnapshot();
@@ -297,6 +312,7 @@ describe('create revision', () => {
         expect(
           forkDocument(modelCNoModelRoot.document, {
             modelRoot: modelCNoModelRoot.modelRoot,
+            revisionId: 'REVISION-ID',
             removeValues: false,
           })
         ).toMatchSnapshot();
@@ -305,6 +321,7 @@ describe('create revision', () => {
         expect(
           forkDocument(modelCNoModelRoot.document, {
             modelRoot: modelCNoModelRoot.modelRoot,
+            revisionId: 'REVISION-ID',
             editValues: true,
           })
         ).toMatchSnapshot();
@@ -316,6 +333,7 @@ describe('create revision', () => {
         expect(
           forkDocument(modelCNoModelRootDepth1.document, {
             modelRoot: modelCNoModelRootDepth1.modelRoot,
+            revisionId: 'REVISION-ID',
             removeDefaultValues: true,
           })
         ).toMatchSnapshot();
@@ -324,6 +342,7 @@ describe('create revision', () => {
         expect(
           forkDocument(modelCNoModelRootDepth1.document, {
             modelRoot: modelCNoModelRootDepth1.modelRoot,
+            revisionId: 'REVISION-ID',
             removeValues: false,
           })
         ).toMatchSnapshot();
@@ -332,6 +351,7 @@ describe('create revision', () => {
         expect(
           forkDocument(modelCNoModelRootDepth1.document, {
             modelRoot: modelCNoModelRootDepth1.modelRoot,
+            revisionId: 'REVISION-ID',
             editValues: true,
           })
         ).toMatchSnapshot();
@@ -343,6 +363,7 @@ describe('create revision', () => {
         expect(
           forkDocument(modelCNoModelRootDepth2.document, {
             modelRoot: modelCNoModelRootDepth2.modelRoot,
+            revisionId: 'REVISION-ID',
             removeDefaultValues: true,
           })
         ).toMatchSnapshot();
@@ -351,6 +372,7 @@ describe('create revision', () => {
         expect(
           forkDocument(modelCNoModelRootDepth2.document, {
             modelRoot: modelCNoModelRootDepth2.modelRoot,
+            revisionId: 'REVISION-ID',
             removeValues: false,
           })
         ).toMatchSnapshot();
@@ -359,6 +381,7 @@ describe('create revision', () => {
         expect(
           forkDocument(modelCNoModelRootDepth2.document, {
             modelRoot: modelCNoModelRootDepth2.modelRoot,
+            revisionId: 'REVISION-ID',
             editValues: true,
           })
         ).toMatchSnapshot();
@@ -370,6 +393,7 @@ describe('create revision', () => {
         expect(
           forkDocument(modelCNoModelRootDepth1FieldUnder.document, {
             modelRoot: modelCNoModelRootDepth1FieldUnder.modelRoot,
+            revisionId: 'REVISION-ID',
             removeDefaultValues: true,
           })
         ).toMatchSnapshot();
@@ -378,6 +402,7 @@ describe('create revision', () => {
         expect(
           forkDocument(modelCNoModelRootDepth1FieldUnder.document, {
             modelRoot: modelCNoModelRootDepth1FieldUnder.modelRoot,
+            revisionId: 'REVISION-ID',
             removeValues: false,
           })
         ).toMatchSnapshot();
@@ -386,6 +411,7 @@ describe('create revision', () => {
         expect(
           forkDocument(modelCNoModelRootDepth1FieldUnder.document, {
             modelRoot: modelCNoModelRootDepth1FieldUnder.modelRoot,
+            revisionId: 'REVISION-ID',
             editValues: true,
           })
         ).toMatchSnapshot();
@@ -397,6 +423,7 @@ describe('create revision', () => {
         expect(
           forkDocument(modelCNoModelRootDepth1FieldOver.document, {
             modelRoot: modelCNoModelRootDepth1FieldOver.modelRoot,
+            revisionId: 'REVISION-ID',
             removeDefaultValues: true,
           })
         ).toMatchSnapshot();
@@ -405,6 +432,7 @@ describe('create revision', () => {
         expect(
           forkDocument(modelCNoModelRootDepth1FieldOver.document, {
             modelRoot: modelCNoModelRootDepth1FieldOver.modelRoot,
+            revisionId: 'REVISION-ID',
             removeValues: false,
           })
         ).toMatchSnapshot();
@@ -413,6 +441,7 @@ describe('create revision', () => {
         expect(
           forkDocument(modelCNoModelRootDepth1FieldOver.document, {
             modelRoot: modelCNoModelRootDepth1FieldOver.modelRoot,
+            revisionId: 'REVISION-ID',
             editValues: true,
           })
         ).toMatchSnapshot();
@@ -424,6 +453,7 @@ describe('create revision', () => {
         expect(
           forkDocument(modelCNoModelRootDepth2FieldOver.document, {
             modelRoot: modelCNoModelRootDepth2FieldOver.modelRoot,
+            revisionId: 'REVISION-ID',
             removeDefaultValues: true,
           })
         ).toMatchSnapshot();
@@ -432,6 +462,7 @@ describe('create revision', () => {
         expect(
           forkDocument(modelCNoModelRootDepth2FieldOver.document, {
             modelRoot: modelCNoModelRootDepth2FieldOver.modelRoot,
+            revisionId: 'REVISION-ID',
             removeValues: false,
           })
         ).toMatchSnapshot();
@@ -440,6 +471,7 @@ describe('create revision', () => {
         expect(
           forkDocument(modelCNoModelRootDepth2FieldOver.document, {
             modelRoot: modelCNoModelRootDepth2FieldOver.modelRoot,
+            revisionId: 'REVISION-ID',
             editValues: true,
           })
         ).toMatchSnapshot();
@@ -451,6 +483,7 @@ describe('create revision', () => {
         expect(
           forkDocument(modelCNoModelRootDepth2FieldOver2x.document, {
             modelRoot: modelCNoModelRootDepth2FieldOver2x.modelRoot,
+            revisionId: 'REVISION-ID',
             removeDefaultValues: true,
           })
         ).toMatchSnapshot();
@@ -459,6 +492,7 @@ describe('create revision', () => {
         expect(
           forkDocument(modelCNoModelRootDepth2FieldOver2x.document, {
             modelRoot: modelCNoModelRootDepth2FieldOver2x.modelRoot,
+            revisionId: 'REVISION-ID',
             removeValues: false,
           })
         ).toMatchSnapshot();
@@ -467,6 +501,7 @@ describe('create revision', () => {
         expect(
           forkDocument(modelCNoModelRootDepth2FieldOver2x.document, {
             modelRoot: modelCNoModelRootDepth2FieldOver2x.modelRoot,
+            revisionId: 'REVISION-ID',
             editValues: true,
           })
         ).toMatchSnapshot();
@@ -480,6 +515,7 @@ describe('create revision', () => {
         expect(
           forkDocument(editModelBDepth1.document, {
             modelRoot: editModelBDepth1.modelRoot,
+            revisionId: 'REVISION-ID',
             removeDefaultValues: true,
           })
         ).toMatchSnapshot();
@@ -488,6 +524,7 @@ describe('create revision', () => {
         expect(
           forkDocument(editModelBDepth1.document, {
             modelRoot: editModelBDepth1.modelRoot,
+            revisionId: 'REVISION-ID',
             removeValues: false,
           })
         ).toMatchSnapshot();
@@ -496,6 +533,7 @@ describe('create revision', () => {
         expect(
           forkDocument(editModelBDepth1.document, {
             modelRoot: editModelBDepth1.modelRoot,
+            revisionId: 'REVISION-ID',
             editValues: true,
           })
         ).toMatchSnapshot();
@@ -507,6 +545,7 @@ describe('create revision', () => {
         expect(
           forkDocument(editModelBDepth2.document, {
             modelRoot: editModelBDepth2.modelRoot,
+            revisionId: 'REVISION-ID',
             removeDefaultValues: true,
           })
         ).toMatchSnapshot();
@@ -515,6 +554,7 @@ describe('create revision', () => {
         expect(
           forkDocument(editModelBDepth2.document, {
             modelRoot: editModelBDepth2.modelRoot,
+            revisionId: 'REVISION-ID',
             removeValues: false,
           })
         ).toMatchSnapshot();
@@ -523,6 +563,7 @@ describe('create revision', () => {
         expect(
           forkDocument(editModelBDepth2.document, {
             modelRoot: editModelBDepth2.modelRoot,
+            revisionId: 'REVISION-ID',
             editValues: true,
           })
         ).toMatchSnapshot();
@@ -534,6 +575,7 @@ describe('create revision', () => {
         expect(
           forkDocument(editModelBDepth3.document, {
             modelRoot: editModelBDepth3.modelRoot,
+            revisionId: 'REVISION-ID',
             removeDefaultValues: true,
           })
         ).toMatchSnapshot();
@@ -542,6 +584,7 @@ describe('create revision', () => {
         expect(
           forkDocument(editModelBDepth3.document, {
             modelRoot: editModelBDepth3.modelRoot,
+            revisionId: 'REVISION-ID',
             removeValues: false,
           })
         ).toMatchSnapshot();
@@ -550,6 +593,7 @@ describe('create revision', () => {
         expect(
           forkDocument(editModelBDepth3.document, {
             modelRoot: editModelBDepth3.modelRoot,
+            revisionId: 'REVISION-ID',
             editValues: true,
           })
         ).toMatchSnapshot();
@@ -565,6 +609,7 @@ describe('create revision', () => {
         expect(
           forkDocument(modelFDepth1.document, {
             modelRoot: modelFDepth1.modelRoot,
+            revisionId: 'REVISION-ID',
             removeDefaultValues: true,
           })
         ).toMatchSnapshot();
@@ -573,6 +618,7 @@ describe('create revision', () => {
         expect(
           forkDocument(modelFDepth1.document, {
             modelRoot: modelFDepth1.modelRoot,
+            revisionId: 'REVISION-ID',
             removeValues: false,
           })
         ).toMatchSnapshot();
@@ -581,6 +627,7 @@ describe('create revision', () => {
         expect(
           forkDocument(modelFDepth1.document, {
             modelRoot: modelFDepth1.modelRoot,
+            revisionId: 'REVISION-ID',
             editValues: true,
           })
         ).toMatchSnapshot();
@@ -592,6 +639,7 @@ describe('create revision', () => {
         expect(
           forkDocument(modelFDepth2.document, {
             modelRoot: modelFDepth2.modelRoot,
+            revisionId: 'REVISION-ID',
             removeDefaultValues: true,
             modelMapping: {
               'model-g': '1a7e07f0-f111-406e-972e-71976258a47f',
@@ -602,6 +650,7 @@ describe('create revision', () => {
       test('Fork values - should only contain ??? model', () => {
         const forkedValues = forkDocument(modelFDepth2.document, {
           modelRoot: modelFDepth2.modelRoot,
+          revisionId: 'REVISION-ID',
           removeValues: false,
           modelMapping: {
             'model-g': '1a7e07f0-f111-406e-972e-71976258a47f',
@@ -616,6 +665,7 @@ describe('create revision', () => {
         expect(
           forkDocument(modelFDepth2.document, {
             modelRoot: modelFDepth2.modelRoot,
+            revisionId: 'REVISION-ID',
             removeValues: false,
             modelMapping: {
               'model-g': '1a7e07f0-f111-406e-972e-71976258a47f',
@@ -627,6 +677,7 @@ describe('create revision', () => {
         expect(
           forkDocument(modelFDepth2.document, {
             modelRoot: modelFDepth2.modelRoot,
+            revisionId: 'REVISION-ID',
             editValues: true,
           })
         ).toMatchSnapshot();
@@ -639,6 +690,7 @@ describe('create revision', () => {
           expect(
             forkDocument(modelIDepth0.document, {
               modelRoot: modelIDepth0.modelRoot,
+              revisionId: 'REVISION-ID',
               removeDefaultValues: true,
             })
           ).toMatchSnapshot();
@@ -647,6 +699,7 @@ describe('create revision', () => {
           expect(
             forkDocument(modelIDepth0.document, {
               modelRoot: modelIDepth0.modelRoot,
+              revisionId: 'REVISION-ID',
               removeValues: false,
             })
           ).toMatchSnapshot();
@@ -655,6 +708,7 @@ describe('create revision', () => {
           expect(
             forkDocument(modelIDepth0.document, {
               modelRoot: modelIDepth0.modelRoot,
+              revisionId: 'REVISION-ID',
               editValues: true,
             })
           ).toMatchSnapshot();
@@ -665,6 +719,7 @@ describe('create revision', () => {
           expect(
             forkDocument(modelIDepth1.document, {
               modelRoot: modelIDepth1.modelRoot,
+              revisionId: 'REVISION-ID',
               removeDefaultValues: true,
             })
           ).toMatchSnapshot();
@@ -673,6 +728,7 @@ describe('create revision', () => {
           expect(
             forkDocument(modelIDepth1.document, {
               modelRoot: modelIDepth1.modelRoot,
+              revisionId: 'REVISION-ID',
               removeValues: false,
             })
           ).toMatchSnapshot();
@@ -681,6 +737,7 @@ describe('create revision', () => {
           expect(
             forkDocument(modelIDepth1.document, {
               modelRoot: modelIDepth1.modelRoot,
+              revisionId: 'REVISION-ID',
               editValues: true,
             })
           ).toMatchSnapshot();
@@ -691,6 +748,7 @@ describe('create revision', () => {
           expect(
             forkDocument(modelIDepth1.document, {
               modelRoot: modelIDepth1.modelRoot,
+              revisionId: 'REVISION-ID',
               removeDefaultValues: true,
               modelMapping: {
                 'model-i': '7de07c37-6157-4d63-8097-d2d4a78b778f',
@@ -702,6 +760,7 @@ describe('create revision', () => {
           expect(
             forkDocument(modelIDepth1.document, {
               modelRoot: modelIDepth1.modelRoot,
+              revisionId: 'REVISION-ID',
               removeValues: false,
               modelMapping: {
                 'model-i': '7de07c37-6157-4d63-809 7-d2d4a78b778f',
@@ -713,6 +772,7 @@ describe('create revision', () => {
           expect(
             forkDocument(modelIDepth1.document, {
               modelRoot: modelIDepth1.modelRoot,
+              revisionId: 'REVISION-ID',
               editValues: true,
               modelMapping: {
                 'model-i': '7de07c37-6157-4d63-8097-d2d4a78b778f',
@@ -726,6 +786,7 @@ describe('create revision', () => {
           expect(
             forkDocument(modelIDepth1.document, {
               modelRoot: modelIDepth1.modelRoot,
+              revisionId: 'REVISION-ID',
               removeDefaultValues: true,
               modelMapping: {
                 'model-h': 'aa6fe309-deef-4211-802c-dbc0f2ba16ed',
@@ -737,6 +798,7 @@ describe('create revision', () => {
           expect(
             forkDocument(modelIDepth1.document, {
               modelRoot: modelIDepth1.modelRoot,
+              revisionId: 'REVISION-ID',
               removeValues: false,
               modelMapping: {
                 'model-h': 'aa6fe309-deef-4211-802c-dbc0f2ba16ed',
@@ -748,6 +810,7 @@ describe('create revision', () => {
           expect(
             forkDocument(modelIDepth1.document, {
               modelRoot: modelIDepth1.modelRoot,
+              revisionId: 'REVISION-ID',
               editValues: true,
               modelMapping: {
                 'model-h': 'aa6fe309-deef-4211-802c-dbc0f2ba16ed',
@@ -761,6 +824,7 @@ describe('create revision', () => {
           expect(
             forkDocument(modelIDepth2.document, {
               modelRoot: modelIDepth2.modelRoot,
+              revisionId: 'REVISION-ID',
               removeDefaultValues: true,
               modelMapping: {
                 'model-h': 'aa6fe309-deef-4211-802c-dbc0f2ba16ed',
@@ -773,6 +837,7 @@ describe('create revision', () => {
           expect(
             forkDocument(modelIDepth2.document, {
               modelRoot: modelIDepth2.modelRoot,
+              revisionId: 'REVISION-ID',
               removeValues: false,
               modelMapping: {
                 'model-h': 'aa6fe309-deef-4211-802c-dbc0f2ba16ed',
@@ -785,6 +850,7 @@ describe('create revision', () => {
           expect(
             forkDocument(modelIDepth2.document, {
               modelRoot: modelIDepth2.modelRoot,
+              revisionId: 'REVISION-ID',
               editValues: true,
               modelMapping: {
                 'model-h': 'aa6fe309-deef-4211-802c-dbc0f2ba16ed',
@@ -799,6 +865,7 @@ describe('create revision', () => {
           expect(
             forkDocument(modelIDepth2.document, {
               modelRoot: modelIDepth2.modelRoot,
+              revisionId: 'REVISION-ID',
               removeDefaultValues: true,
               modelMapping: {
                 'model-h': 'aa6fe309-deef-4211-802c-dbc0f2ba16ed',
@@ -811,6 +878,7 @@ describe('create revision', () => {
           expect(
             forkDocument(modelIDepth2.document, {
               modelRoot: modelIDepth2.modelRoot,
+              revisionId: 'REVISION-ID',
               removeValues: false,
               modelMapping: {
                 'model-h': 'aa6fe309-deef-4211-802c-dbc0f2ba16ed',
@@ -823,6 +891,7 @@ describe('create revision', () => {
           expect(
             forkDocument(modelIDepth2.document, {
               modelRoot: modelIDepth2.modelRoot,
+              revisionId: 'REVISION-ID',
               editValues: true,
               modelMapping: {
                 'model-h': 'aa6fe309-deef-4211-802c-dbc0f2ba16ed',
