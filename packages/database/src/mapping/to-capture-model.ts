@@ -1,4 +1,4 @@
-import { CaptureModel as CaptureModelType } from '@capture-models/types';
+import { CaptureModel as CaptureModelType, Contributor as ContributorType } from '@capture-models/types';
 import { CaptureModel } from '../entity/CaptureModel';
 import { toContributor } from './to-contributor';
 import { toDocument } from './to-document';
@@ -25,7 +25,7 @@ export async function toCaptureModel({
         ? contributors.map(toContributor).reduce((mappedContributors, nextContributor) => {
             mappedContributors[nextContributor.id] = nextContributor;
             return mappedContributors;
-          }, {})
+          }, {} as { [id: string]: ContributorType })
         : undefined,
     integrity: integrity ? integrity : undefined,
   };

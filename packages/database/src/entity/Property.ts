@@ -13,7 +13,7 @@ export class Property {
   @ManyToOne(
     () => Document,
     doc => doc.properties,
-    { onDelete: 'CASCADE' }
+    { onDelete: 'CASCADE', cascade: true }
   )
   document?: Document;
 
@@ -26,7 +26,7 @@ export class Property {
   @Column({ nullable: true })
   rootDocumentId?: string;
 
-  @ManyToOne(() => Document, { nullable: true })
+  @ManyToOne(() => Document, { nullable: true, onDelete: 'CASCADE' })
   rootDocument?: Document;
 
   @OneToMany(

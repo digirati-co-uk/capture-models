@@ -1,8 +1,7 @@
 import { EntityManager, EntityRepository } from 'typeorm';
 import { BaseField, CaptureModel as CaptureModelType, RevisionRequest } from '@capture-models/types';
 import { traverseDocument } from '@capture-models/editor/lib/utility/traverse-document';
-import { filterDocumentByRevision } from '@capture-models/editor';
-import { expandModelFields } from '../../editor/src/core/structure-editor';
+import { filterDocumentByRevision, expandModelFields } from '@capture-models/editor';
 import { CaptureModel } from './entity/CaptureModel';
 import { Contributor } from './entity/Contributor';
 import { Field } from './entity/Field';
@@ -28,8 +27,15 @@ export class CaptureModelRepository {
    * @param id
    * @param canonical - Only load the canonical document, no revisions.
    */
-  async getCaptureModel(id: string, { canonical = false }: { canonical?: boolean } = {}): Promise<CaptureModelType> {
-    return toCaptureModel(await this.manager.findOne(CaptureModel, id));
+  async getCaptureModel(
+    id: string,
+    { canonical = false }: { canonical?: boolean } = {}
+  ): Promise<CaptureModelType & { id: string }> {
+    const model = await this.manager.findOne(CaptureModel, id);
+    if (!model) {
+      throw new Error(`Capture model: ${id} was not found`);
+    }
+    return (await toCaptureModel(model)) as any;
   }
 
   /**
@@ -83,21 +89,42 @@ export class CaptureModelRepository {
       // - fields, depends on revisions and document properties
       // - capture model, depends on everything.
 
-      const fields: Field[] = [];
-      const documents: Document[] = [];
+      // const fields: Field[] = [];
+      // const documents: Document[] = [];
+      const fieldsAndDocuments: (Field | Document | Property)[] = [];
+      const dbInserts: (Field | Document | Property)[][] = [];
+
+      // Root Documents
+      // Root Document properties
+      // Root document fields
+      // Root document documents
 
       // First we need to flatten the document, plucking out the fields, and documents.
-      traverseDocument(document, {
-        visitEntity(entity) {
-          // Documents will instantiate their own `Property` instances.
-          documents.push(fromDocument(entity, false));
-        },
-        visitField(field, propKey, parent) {
-          // The field needs to know the `Property` identifier
-          const fieldToSave = fromField(field);
-          fieldToSave.parentId = `${parent.id}/${propKey}`;
-          fields.push(fieldToSave);
-        },
+      traverseDocument<{ parentAdded?: boolean }>(document, {
+        beforeVisitEntity(entity, term, parent) {
+          const entityDoc = fromDocument(entity, false);
+          if (parent) {
+            entityDoc.parentId = `${parent.id}/${term}`;
+          }
+          dbInserts.push([entityDoc]);
+          dbInserts.push(
+            entityDoc.properties.map(prop => {
+              prop.rootDocumentId = document.id;
+              return prop;
+            })
+          );
+          const fieldInserts = [];
+          entityDoc.properties.forEach(prop => {
+            entity.properties[prop.term].forEach(field => {
+              if (field.type !== 'entity') {
+                const fieldToSave = fromField(field);
+                fieldToSave.parentId = `${entityDoc.id}/${prop.term}`;
+                fieldInserts.push(fieldToSave);
+              }
+            });
+          });
+          dbInserts.push(fieldInserts);
+        }
       });
 
       // Structure - no dependencies.
@@ -117,19 +144,32 @@ export class CaptureModelRepository {
       }
 
       // Document - depends on revisions.
-      await manager.save(Document, documents);
+      // @todo these are not being attached! (rootId and parentId)
+      for (const inserts of dbInserts) {
+        await manager.save(inserts);
+      }
+      // await manager.save(fieldsAndDocuments, { transaction: true });
 
       // Flatten all of the properties from the documents.
-      const properties = [];
-      for (const entity of documents) {
-        properties.push(...entity.properties);
-      }
+      // const properties = [];
+      // for (const entity of fieldsAndDocuments) {
+      //   if (entity instanceof Document) {
+      //     const entityProperties = entity.properties;
+      //     if (entityProperties) {
+      //       properties.push(...entityProperties);
+      //     }
+      //   }
+      // }
+
+      // Document
+      // Then property
+      // Then field
 
       // Property - depends on documents.
-      await manager.save(Property, properties);
+      // await manager.save(Property, properties);
 
       // Field - depends on revisions and properties
-      await manager.save(Field, fields);
+      // await manager.save(Field, fields);
 
       // Capture model - depends on everything.
       const captureModel = new CaptureModel();
@@ -162,12 +202,12 @@ export class CaptureModelRepository {
   async removeCaptureModel(id: string, version?: number) {
     const toRemove = await this.manager.findOne(CaptureModel, { id });
 
-    if (toRemove.version !== version) {
-      throw new Error('Version does not match');
-    }
-
     if (!toRemove) {
       throw new Error(`Capture model ${id} not found`);
+    }
+
+    if (typeof version !== 'undefined' && toRemove.version !== version) {
+      throw new Error('Version does not match');
     }
 
     const structureId = toRemove.structureId;
@@ -189,9 +229,13 @@ export class CaptureModelRepository {
     });
   }
 
-  getRevision(id: string) {}
+  getRevision(id: string) {
+    throw new Error('Not implemented yet');
+  }
 
-  searchRevisions() {}
+  searchRevisions() {
+    throw new Error('Not implemented yet');
+  }
 
   /**
    * Create revision
@@ -261,7 +305,11 @@ export class CaptureModelRepository {
       // We will re-apply the filter that was applied to the frontend.
       // Even if this does not match the structure, it still _needs_ to be
       // describe the fields correctly in order to be valid.
-      document = filterDocumentByRevision(req.document, req.revision);
+      const filteredDocument = filterDocumentByRevision(req.document, req.revision);
+      if (!filteredDocument) {
+        throw new Error('Invalid revision');
+      }
+      document = filteredDocument;
 
       // If the source is `structure` we want to make sure a user was associated. We add this to the revision.
       // This will be added by the consuming service. (In addition to checking `allowCanonicalChanges`)
@@ -291,13 +339,16 @@ export class CaptureModelRepository {
         // We need a test to detect and then test that each of these hold. With options to override.
         // Then we need to traverse, from the structure root (can split doc with utility)
         // And only save new fields from the model root – downwards. MAKE SURE THEY ARE CONNECTED
+        if (!structure) {
+          throw new Error('Invalid structureId in revision');
+        }
 
         // Diff the keys.
         const keysInStructure = new Set(...expandModelFields(structure.fields).map(f => f.join('.')));
         const keysInRevision = new Set(...expandModelFields(req.revision.fields).map(f => f.join('.')));
         if (
           keysInRevision.size !== keysInStructure.size ||
-          [...keysInRevision.values()].reduce((fail, key) => keysInStructure.has(key) || fail, false)
+          [...keysInRevision.values()].reduce((fail: boolean, key) => keysInStructure.has(key) || fail, false)
         ) {
           throw new Error('Revision fields do not match structure, use { allowCustomStructure: true } to override');
         }
@@ -378,7 +429,7 @@ export class CaptureModelRepository {
       allowDeletedFields = false,
     }: { allowAdditionalFields?: boolean; allowDeletedFields?: boolean } = {}
   ) {
-    // @todo
+    throw new Error('Not implemented');
   }
 
   /**
@@ -389,5 +440,6 @@ export class CaptureModelRepository {
   removeRevision(revisionId: string) {
     // Need some options here. Although this will be a reviewer-instantiated call, we want to make sure
     // that the revision has not already been accepted (or config for that) and that it is safe to remove.
+    throw new Error('Not implemented');
   }
 }

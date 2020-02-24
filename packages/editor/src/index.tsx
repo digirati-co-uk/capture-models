@@ -1,5 +1,3 @@
-import 'semantic-ui-css/semantic.min.css';
-
 // Components
 export * from './components/BackgroundSplash/BackgroundSplash';
 export * from './components/CaptureModelList/CaptureModelList';

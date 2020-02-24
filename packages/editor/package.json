@@ -53,7 +53,7 @@
     "@babel/plugin-syntax-jsx": "^7.8.3",
     "@babel/plugin-transform-modules-commonjs": "^7.8.3",
     "@fesk/babel-config": "1.4.0-pr.b6dc2fa3",
-    "@fesk/scripts": "1.4.0-pr.b6dc2fa3",
+    "@fesk/scripts": "1.4.0-pr.a95f698d",
     "@storybook/source-loader": "^5.3.13",
     "regenerator-runtime": "^0.13.3",
     "@storybook/core": "^5.3.13",
