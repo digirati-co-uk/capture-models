@@ -67,7 +67,7 @@ export type RevisionsModel = {
   createRevision: Action<
     RevisionsModel,
     // Either a structure id, fields (/w optional structure ID) and always an optional revises.
-    { revisionId: string; cloneMode: REVISION_CLONE_MODE }
+    { revisionId: string; cloneMode: REVISION_CLONE_MODE; modelMapping?: { [key: string]: string } }
   >;
   saveRevision: Action<RevisionsModel, { revisionId: string }>;
   selectRevision: Action<RevisionsModel, { revisionId: string }>;

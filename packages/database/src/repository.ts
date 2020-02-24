@@ -89,17 +89,7 @@ export class CaptureModelRepository {
       // - fields, depends on revisions and document properties
       // - capture model, depends on everything.
 
-      // const fields: Field[] = [];
-      // const documents: Document[] = [];
-      const fieldsAndDocuments: (Field | Document | Property)[] = [];
       const dbInserts: (Field | Document | Property)[][] = [];
-
-      // Root Documents
-      // Root Document properties
-      // Root document fields
-      // Root document documents
-
-      // First we need to flatten the document, plucking out the fields, and documents.
       traverseDocument<{ parentAdded?: boolean }>(document, {
         beforeVisitEntity(entity, term, parent) {
           const entityDoc = fromDocument(entity, false);
@@ -124,7 +114,7 @@ export class CaptureModelRepository {
             });
           });
           dbInserts.push(fieldInserts);
-        }
+        },
       });
 
       // Structure - no dependencies.
@@ -144,32 +134,9 @@ export class CaptureModelRepository {
       }
 
       // Document - depends on revisions.
-      // @todo these are not being attached! (rootId and parentId)
       for (const inserts of dbInserts) {
         await manager.save(inserts);
       }
-      // await manager.save(fieldsAndDocuments, { transaction: true });
-
-      // Flatten all of the properties from the documents.
-      // const properties = [];
-      // for (const entity of fieldsAndDocuments) {
-      //   if (entity instanceof Document) {
-      //     const entityProperties = entity.properties;
-      //     if (entityProperties) {
-      //       properties.push(...entityProperties);
-      //     }
-      //   }
-      // }
-
-      // Document
-      // Then property
-      // Then field
-
-      // Property - depends on documents.
-      // await manager.save(Property, properties);
-
-      // Field - depends on revisions and properties
-      // await manager.save(Field, fields);
 
       // Capture model - depends on everything.
       const captureModel = new CaptureModel();
@@ -354,6 +321,50 @@ export class CaptureModelRepository {
         }
       }
     }
+
+    // We will have:
+    // - an immutable section of the document, that we skip over
+    // - a mutable section of the document, with fields and documents with new IDs.
+    // - If a NEW document was created in the revision, then we need to make sure ALL fields are added (immutable)
+    // - When requesting a revision, we use the revision fields and root to filter them out, much like the normal editor.
+    //
+    // So to save a revision.
+    // Navigate to the root.
+    // Filter the root document(s) using the revision id _AND_ fields to ensure validity.
+    //
+
+    // Alt.
+    //
+    // All we care about is fields.
+    // - Filter all of the fields from the model.
+    // - Keep traversing parents until we hit something immutable (if field is already in list, skip)
+    // - track new fields and documents along the way.
+    // - CONFIG OPTION - allow edit above root (like model)
+
+    // Need:
+    // - List of new documents (inside out)
+    // - List of edited fields (and properties)
+    //
+
+    // Chain for creating new document. (inside out)
+    // - fetch existing document
+    // - merge with revision document without saving <-- new hydrate-partial-doc
+    // - change any existing IDs, and mark them as immutable
+    // - create document
+    // - add properties
+    // - add values to property
+    // - add document as value to parent
+    //
+    // Chain for editing existing
+    // - fetch document property
+    // - add value to property, incl. selector
+    //
+    // Commit order:
+    // - Saving new contributors
+    // - Add new documents first
+    // - Then add edits
+    //
+
 
     const fields: Field[] = [];
     const documents: Document[] = [];

@@ -102,7 +102,7 @@ export const revisionStore: RevisionsModel = {
 
   // This method assumes we have the latest capture model available, which may not
   // be the case. This needs to be more generic.
-  createRevision: action((state, { revisionId, cloneMode }) => {
+  createRevision: action<RevisionsModel>((state, { revisionId, cloneMode, modelMapping }) => {
     // Structure ID is the structure from the capture model, so if this exists we can set fields.
     if (!state.revisions[revisionId]) {
       // @todo error handling.
@@ -113,7 +113,13 @@ export const revisionStore: RevisionsModel = {
     // Structure ID if we need it.
     // state.revisions[revisionId].revision.structureId
     const newRevisionId = generateId(); // Do I need this here?
-    const newDocument = createRevisionDocument(original(documentToClone), cloneMode);
+    const newDocument = createRevisionDocument(
+      newRevisionId,
+      original(documentToClone),
+      cloneMode,
+      state.revisions[revisionId].modelRoot,
+      modelMapping
+    );
 
     // @todo split out into createRevision
     state.revisions[newRevisionId] = {
