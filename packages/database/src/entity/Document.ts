@@ -48,7 +48,7 @@ export class Document {
   @ManyToOne(
     () => Property,
     prop => prop.documentInstances,
-    { nullable: true }
+    { nullable: true, onDelete: 'CASCADE' }
   )
   parent?: Property;
 

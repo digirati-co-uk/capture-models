@@ -1,5 +1,5 @@
 import { ModelFields } from '@capture-models/types';
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { CaptureModel } from './CaptureModel';
 
 export enum StructureTypes {
@@ -42,6 +42,18 @@ export class Structure {
     default: StructureTypes.CHOICE,
   })
   type: 'choice' | 'model';
+
+  @Column('simple-array', { nullable: true })
+  modelRoot?: string[];
+
+  @Column('boolean', { nullable: true })
+  forkValues?: boolean;
+
+  @Column('boolean', { nullable: true })
+  editableAboveRoot?: boolean;
+
+  @Column('boolean', { nullable: true })
+  preventAdditionsAdjacentToRoot?: boolean;
 
   @OneToMany(
     () => Structure,

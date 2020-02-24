@@ -1,6 +1,7 @@
 const config = require('@fesk/scripts/webpack');
 
 config.output.chunkFilename = '[name].bundle.js';
+config.output.globalObject = "typeof self !== 'undefined' ? self : this";
 
 config.externals = config.externals ? config.externals : {};
 

@@ -13,7 +13,16 @@
       "outDir": "./lib",
       "emitDecoratorMetadata": true,
       "experimentalDecorators": true,
+      "noEmitOnError": false,
       "sourceMap": true,
-      "skipLibCheck": true
-   }
+      "skipLibCheck": true,
+      "paths": {
+         "@capture-models/editor": ["../editor/lib"]
+      }
+   },
+   "references": [
+      { "path": "../types" },
+      { "path": "../editor" },
+      { "path": "../plugin-api" }
+   ]
 }

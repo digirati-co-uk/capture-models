@@ -19,6 +19,11 @@ export async function toStructure(structure: Structure, root = true): Promise<Ca
     return {
       ...baseFields,
       fields: structure.fields,
+      modelRoot: structure.modelRoot,
+      forkValues: structure.forkValues,
+      editableAboveRoot: structure.editableAboveRoot,
+      preventAdditionsAdjacentToRoot: structure.preventAdditionsAdjacentToRoot,
+
     } as CaptureModel['structure'];
   }
 

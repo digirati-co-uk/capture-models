@@ -16,7 +16,7 @@ import { Structure } from './Structure';
 @Entity()
 export class CaptureModel {
   @PrimaryGeneratedColumn('uuid')
-  id?: string;
+  id: string;
 
   @Column()
   structureId: string;
@@ -40,7 +40,7 @@ export class CaptureModel {
   revisions?: Revision[];
 
   @Column('jsonb', { nullable: true })
-  target: Array<{
+  target?: Array<{
     id: string;
     type: string;
   }>;

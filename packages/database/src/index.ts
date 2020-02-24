@@ -92,9 +92,13 @@ createConnection({
 
     const repo = connection.getCustomRepository(CaptureModelRepository);
 
-    const modelFromType = require('../../../fixtures/01-basic/01-single-field.json');
+    const modelFromType = require('../../../fixtures/03-revisions/06-model-root.json');
 
     const model = await repo.saveCaptureModel(modelFromType);
+
+    if (!model.id) {
+      throw new Error();
+    }
 
     const newModel = await repo.getCaptureModel(model.id);
 
