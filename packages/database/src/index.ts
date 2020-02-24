@@ -1,4 +1,5 @@
 import 'reflect-metadata';
+import { captureModelToRevisionList, forkDocument } from '@capture-models/editor';
 import { join } from 'path';
 import { createConnection } from 'typeorm';
 import { CaptureModelRepository } from './repository';
@@ -88,9 +89,9 @@ createConnection({
     // await connection.manager.save(fullModel);
     //
 
-    await connection.synchronize(true);
-
     const repo = connection.getCustomRepository(CaptureModelRepository);
+
+    await connection.synchronize(true);
 
     const modelFromType = require('../../../fixtures/03-revisions/06-model-root.json');
 
@@ -103,6 +104,41 @@ createConnection({
     const newModel = await repo.getCaptureModel(model.id);
 
     console.log(JSON.stringify(newModel, null, 4));
+
+    const revList = captureModelToRevisionList(newModel, true);
+
+    // const rev1 = revList[11]; // @todo this one errors as invalid. (invalid root field)
+    // const rev1 = revList[12]; // @todo this one errors as invalid.
+    // const rev1 = revList[13]; // @todo this one errors as invalid.
+    // const rev1 = revList[20]; // @todo catch invalid revs.
+
+    const rev1 = revList[8]; // <-- fields and entities to add!
+
+    console.log(rev1);
+
+    try {
+      await repo.createRevision(
+        {
+          document: forkDocument(rev1.document, {
+            revisionId: '45e13054-887e-4dc2-aebf-4742f4beea29',
+            removeDefaultValues: true,
+            removeValues: true,
+            modelRoot: rev1.modelRoot,
+          }),
+          modelRoot: rev1.modelRoot,
+          captureModelId: newModel.id,
+          revision: {
+            structureId: rev1.revision.structureId,
+            fields: rev1.revision.fields,
+            id: '45e13054-887e-4dc2-aebf-4742f4beea29',
+          },
+          source: 'structure',
+        },
+        { allowAnonymous: true }
+      );
+    } catch (err) {
+      console.log(err);
+    }
 
     console.log(await repo.removeCaptureModel(newModel.id, 1));
 

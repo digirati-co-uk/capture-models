@@ -2,11 +2,15 @@ import { CaptureModel } from '@capture-models/types';
 
 export function traverseStructure(
   structure: CaptureModel['structure'],
-  onStructure: (structure: CaptureModel['structure'], path: string[]) => void,
+  onStructure: (structure: CaptureModel['structure'], path: string[]) => boolean | void,
   path: string[] = [structure.id]
 ) {
   if (structure.type === 'choice') {
-    structure.items.forEach(item => traverseStructure(item, onStructure, [...path, structure.id, item.id]));
+    for (const item of structure.items) {
+      if (traverseStructure(item, onStructure, [...path, structure.id, item.id]) === true) {
+        return;
+      }
+    }
   }
-  onStructure(structure, path);
+  return onStructure(structure, path);
 }

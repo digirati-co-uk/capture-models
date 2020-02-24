@@ -1,7 +1,7 @@
-import { isEntity } from '@capture-models/editor';
 import { pluginStore } from '@capture-models/plugin-api';
 import { BaseField, CaptureModel } from '@capture-models/types';
 import copy from 'fast-copy';
+import { isEntity } from './is-entity';
 import { generateId } from './generate-id';
 
 export function formPropertyValue<T extends BaseField | CaptureModel['document']>(

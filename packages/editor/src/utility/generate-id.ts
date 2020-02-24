@@ -1,5 +1,5 @@
-import nanoId from 'nanoid/non-secure';
+import { v4 } from 'uuid';
 
-export function generateId(size = 12) {
-  return nanoId(size);
+export function generateId() {
+  return v4();
 }

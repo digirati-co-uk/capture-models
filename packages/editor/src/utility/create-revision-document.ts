@@ -35,6 +35,7 @@ export function forkDocument<Fields extends string>(
     editValues = false,
     editableAboveRoot = true,
     preventAdditionsAdjacentToRoot = true,
+    branchFromRoot = false,
   }: {
     revisionId?: string;
     modelMapping?: Partial<{ [key in Fields]: string }>;
@@ -44,11 +45,16 @@ export function forkDocument<Fields extends string>(
     editValues?: boolean;
     editableAboveRoot?: boolean;
     preventAdditionsAdjacentToRoot?: boolean;
+    branchFromRoot?: boolean;
   }
 ) {
   // New document.
   const document = copy(inputDoc);
   const modelMapping: Partial<typeof inputModelMapping> = {};
+
+  if (modelRoot === null) {
+    modelRoot = [];
+  }
 
   // Filter out any items from the mapping that are not on the root.
   // Model mapping is used to filter the path to what you want to edit.
@@ -76,7 +82,6 @@ export function forkDocument<Fields extends string>(
         prop.forEach((field: BaseField | CaptureModel['document']) => {
           // These are all of the fields above the root.
           if (!isEntity(field) && !editableAboveRoot) {
-            field.immutable = true;
             field.allowMultiple = false;
           }
           if (isEntity(field)) {
@@ -182,6 +187,9 @@ export function forkDocument<Fields extends string>(
       }
     },
     visitEntity(entity, key, parent) {
+      if (branchFromRoot && !parent) {
+        actions.branch(entity);
+      }
       // If the parent has multiple values, and we're not editing and removing values (fork)
       if (parent && key && !actions.isParentFiltered(parent) && !editValues && removeValues) {
         // Then we want to make this the only entity, I think. This will already be pre-filtered if
@@ -225,14 +233,18 @@ export function forkDocument<Fields extends string>(
 
         if (entity.allowMultiple || hasParentDocumentBranched) {
           entity.id = generateId();
+          entity.immutable = false;
         } else {
           entity.revises = entity.id;
           entity.id = generateId();
+          entity.immutable = false;
         }
         if (revisionId) {
           entity.revision = revisionId;
         }
         actions.branch(entity);
+      } else {
+        entity.immutable = true;
       }
     },
   });
@@ -240,7 +252,6 @@ export function forkDocument<Fields extends string>(
   if (preventAdditionsAdjacentToRoot) {
     // Prevent the documents at the root from being added to.
     for (const doc of documentsToPreventFurtherAdditions) {
-      doc.immutable = true;
       doc.allowMultiple = false;
     }
   }
