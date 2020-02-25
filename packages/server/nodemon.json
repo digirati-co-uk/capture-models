@@ -2,5 +2,13 @@
   "watch": ["src"],
   "ext": "ts",
   "ignore": ["src/**/*.spec.ts"],
-  "exec": "ts-node ./src/index.ts"
+  "exec": "ts-node ./src/index.ts",
+  "env": {
+    "DATABASE_HOST": "localhost",
+    "DATABASE_NAME": "postgres",
+    "DATABASE_PORT": 5432,
+    "DATABASE_USER": "postgres",
+    "DATABASE_SCHEMA": "public",
+    "DATABASE_PASSWORD": "postgres"
+  }
 }
