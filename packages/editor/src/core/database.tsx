@@ -5,14 +5,30 @@ import React, { MutableRefObject, useEffect, useState } from 'react';
 // Add functions for creating capture models
 import { createContext } from '../utility/create-context';
 
+/**
+ * @internal
+ * @deprecated
+ **/
 type DatabaseContext = MutableRefObject<PouchDB.Database>;
+/**
+ * @internal
+ * @deprecated
+ **/
 type DatabaseProviderProps = {
   databaseName: string;
   databaseOptions?: PouchDB.Configuration.DatabaseConfiguration;
 };
 
+/**
+ * @internal
+ * @deprecated
+ **/
 const [useContext, InternalDatabaseProvider] = createContext<DatabaseContext>();
 
+/**
+ * @internal
+ * @deprecated
+ **/
 export function useDatabase() {
   const db = useContext();
 
@@ -33,12 +49,17 @@ export function useDatabase() {
   return db.current;
 }
 
+/**
+ * @internal
+ * @deprecated
+ **/
 export function useAllDocs<T>() {
   const db = useDatabase();
   const [docs, setDocs] = useState<Array<PouchDB.Core.ExistingDocument<T & PouchDB.Core.AllDocsMeta>>>([]);
 
   useEffect(() => {
     const ids: string[] = [];
+    // eslint-disable-next-line @typescript-eslint/camelcase
     db.allDocs<T>({ include_docs: true }).then(({ rows }) => {
       setDocs(
         rows.map(r => r.doc).filter(r => r !== undefined) as Array<
@@ -51,6 +72,7 @@ export function useAllDocs<T>() {
     const changes = db
       .changes({
         live: true,
+        // eslint-disable-next-line @typescript-eslint/camelcase
         include_docs: true,
         since: 'now',
       })
@@ -81,6 +103,10 @@ export function useAllDocs<T>() {
   return docs;
 }
 
+/**
+ * @internal
+ * @deprecated
+ **/
 export const DatabaseProvider: React.FC<DatabaseProviderProps> = ({ databaseName, databaseOptions, children }) => {
   const db = React.useRef<PouchDB.Database>();
   const [ready, setReady] = useState(false);

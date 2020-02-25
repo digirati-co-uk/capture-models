@@ -1,27 +1,24 @@
-import { EntityManager, EntityRepository } from 'typeorm';
-import { BaseField, CaptureModel as CaptureModelType, RevisionRequest } from '@capture-models/types';
+import { Brackets, EntityManager, EntityRepository, In, IsNull } from 'typeorm';
+import { BaseField, CaptureModel as CaptureModelType, RevisionRequest, StatusTypes } from '@capture-models/types';
 import { traverseDocument } from '@capture-models/editor/lib/utility/traverse-document';
-import {
-  filterDocumentByRevision,
-  hydratePartialDocument,
-  expandModelFields,
-  validateRevision,
-} from '@capture-models/editor';
-import { isEntityList } from '../../editor/src/utility/is-entity';
+import { hydratePartialDocument, validateRevision, createRevisionRequest, isEntityList } from '@capture-models/editor';
 import { CaptureModel } from './entity/CaptureModel';
 import { Contributor } from './entity/Contributor';
 import { Field } from './entity/Field';
 import { Document } from './entity/Document';
 import { Property } from './entity/Property';
 import { Revision } from './entity/Revision';
+import { RevisionAuthors } from './entity/RevisionAuthors';
+import { SelectorInstance } from './entity/SelectorInstance';
 import { Structure } from './entity/Structure';
 import { fromContributor } from './mapping/from-contributor';
 import { fromDocument } from './mapping/from-document';
 import { fromField } from './mapping/from-field';
 import { fromRevision } from './mapping/from-revision';
+import { fromRevisionRequest } from './mapping/from-revision-request';
 import { fromStructure } from './mapping/from-structure';
 import { toCaptureModel } from './mapping/to-capture-model';
-import { toField } from './mapping/to-field';
+import { toDocument } from './mapping/to-document';
 import { toRevision } from './mapping/to-revision';
 import { documentToInserts } from './utility/document-to-inserts';
 
@@ -40,11 +37,88 @@ export class CaptureModelRepository {
     id: string,
     { canonical = false }: { canonical?: boolean } = {}
   ): Promise<CaptureModelType & { id: string }> {
+    if (canonical) {
+      // @todo This will return a filtered capture model, bringing back only approved
+      //   documents and fields. (field.revision.accepted === 'accepted' OR no revision)
+      return this.getFilteredCaptureModel(id, {
+        includeCanonical: true,
+      });
+    }
+
     const model = await this.manager.findOne(CaptureModel, id);
     if (!model) {
       throw new Error(`Capture model: ${id} was not found`);
     }
     return (await toCaptureModel(model)) as any;
+  }
+
+  async getFilteredCaptureModel(
+    id: string,
+    {
+      includeCanonical,
+      revisionStatus,
+      revisionId,
+      userId,
+    }: { includeCanonical?: boolean; revisionStatus?: StatusTypes; revisionId?: string; userId?: string } = {}
+  ): Promise<CaptureModelType & { id: string }> {
+    const builder = await this.manager
+      .createQueryBuilder()
+      .select('model')
+      .from(CaptureModel, 'model')
+      .leftJoinAndSelect('model.document', 'doc')
+      .leftJoinAndSelect('model.structure', 'structure')
+      .leftJoinAndSelect('model.revisions', 'revision')
+      .leftJoinAndSelect('doc.selector', 'selector')
+      .leftJoinAndSelect('doc.nestedProperties', 'property')
+      .leftJoinAndSelect('property.fieldInstances', 'fi')
+      .leftJoinAndSelect('property.documentInstances', 'di')
+      .leftJoinAndSelect('di.selector', 'dis')
+      .leftJoinAndSelect('fi.selector', 'fis')
+      .where('doc.captureModelId = :id', { id });
+
+    if (revisionStatus || includeCanonical) {
+      if (['draft', 'submitted', 'accepted'].indexOf(revisionStatus.toLowerCase()) === -1) {
+        throw new Error(
+          `Invalid revision status ${revisionStatus}, should be one of ['draft', 'submitted', 'accepted']`
+        );
+      }
+      builder.andWhere(
+        new Brackets(qb =>
+          qb
+            // Add the revision id.
+            .where('di.status = :status', { status: revisionStatus.toLowerCase() })
+            .orWhere('fi.status = :status', { status: revisionStatus.toLowerCase() })
+        )
+      );
+      if (includeCanonical) {
+        // @todo this will include canonical items
+        //    (field.revision.accepted === status OR no revision)
+        throw new Error('Not yet implemented');
+      }
+    }
+
+    if (userId) {
+      // @todo This will
+      //   - filter contributors.
+      //   - filter revisions based on contributions
+      //   - optionally, with revision ID filter those down further.
+      // di.revisionId IN (selector revision where revision.author = author)
+      // fi.revisionId IN (selector revision where revision.author = author)
+      throw new Error('Not yet implemented');
+    }
+
+    if (revisionId) {
+      builder.andWhere(
+        new Brackets(qb =>
+          qb
+            // Add the revision id.
+            .where('di.revisionId = :rid', { rid: revisionId })
+            .orWhere('fi.revisionId = :rid', { rid: revisionId })
+        )
+      );
+    }
+
+    return (await toCaptureModel(await builder.getOne())) as any;
   }
 
   /**
@@ -179,8 +253,20 @@ export class CaptureModelRepository {
     });
   }
 
-  getRevision(id: string) {
-    throw new Error('Not implemented yet');
+  async getRevision(id: string): Promise<RevisionRequest> {
+    const model = await this.manager.findOne(Revision, id);
+    if (!model) {
+      throw new Error(`Revision: ${id} was not found`);
+    }
+    const revision = toRevision(model);
+    const fullModel = await this.getFilteredCaptureModel(model.captureModelId, { revisionId: id });
+
+    return {
+      captureModelId: model.captureModelId,
+      source: model.source,
+      document: fullModel.document,
+      revision,
+    };
   }
 
   searchRevisions() {
@@ -222,8 +308,10 @@ export class CaptureModelRepository {
       throw new Error('Capture model ID is required');
     }
 
-    // We will need this anyway!
-    const captureModel = await this.getCaptureModel(req.captureModelId, { canonical: true });
+    // @todo only return the canonical model.
+    const captureModel = await this.getCaptureModel(req.captureModelId, {
+      /*canonical: true*/
+    });
 
     // Validation for the request.
     validateRevision(req, captureModel, {
@@ -241,7 +329,6 @@ export class CaptureModelRepository {
 
     traverseDocument(req.document, {
       visitField(field, term, parent) {
-        console.log(parent);
         if (parent.immutable) {
           fieldsToAdd.push({ field, term, parent });
         }
@@ -307,8 +394,9 @@ export class CaptureModelRepository {
     }
     dbInserts.push(fieldInserts);
 
-    const revision = fromRevision(req.revision);
-    const savedRevision = await this.manager.transaction(async manager => {
+    const revision = fromRevisionRequest(req);
+    // Save the revision.
+    await this.manager.transaction(async manager => {
       const rev = await manager.save(revision);
       for (const insert of dbInserts) {
         // @todo change this to insert() and expand list of inserts to other entities.
@@ -318,21 +406,7 @@ export class CaptureModelRepository {
       return rev;
     });
 
-    // @todo optimised this so we're only fetching the fields we need.
-    const finalModel = await this.getCaptureModel(captureModel.id);
-
-    const mappedRevision = toRevision(savedRevision);
-    const revisionRequest: RevisionRequest = {
-      revision: mappedRevision,
-      document: filterDocumentByRevision(finalModel.document, mappedRevision),
-      source: req.source,
-      author: req.author,
-      captureModelId: captureModel.id,
-      modelRoot: req.modelRoot,
-      target: req.target,
-    };
-
-    return revisionRequest;
+    return this.getFilteredCaptureModel(captureModel.id, { revisionId: revision.id });
   }
 
   /**
@@ -342,13 +416,14 @@ export class CaptureModelRepository {
    * @param allowAdditionalFields
    * @param allowDeletedFields
    */
-  updateRevision(
+  async updateRevision(
     req: RevisionRequest,
     {
       allowAdditionalFields = false,
       allowDeletedFields = false,
     }: { allowAdditionalFields?: boolean; allowDeletedFields?: boolean } = {}
   ) {
+    throw new Error('Not yet implemented');
     // Get capture model
     // Take revision
     // Get mapping of old fields (in revision)
@@ -366,9 +441,9 @@ export class CaptureModelRepository {
    *
    * @param revisionId
    */
-  removeRevision(revisionId: string) {
+  async removeRevision(revisionId: string) {
     // Need some options here. Although this will be a reviewer-instantiated call, we want to make sure
     // that the revision has not already been accepted (or config for that) and that it is safe to remove.
-    throw new Error('Not implemented');
+    throw new Error('Not yet implemented');
   }
 }

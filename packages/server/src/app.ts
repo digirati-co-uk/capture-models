@@ -3,11 +3,7 @@ import Koa from 'koa';
 import json from 'koa-json';
 import Router from '@koa/router';
 import logger from 'koa-logger';
-// import { StoredCaptureModel } from '@capture-model/editor';
-
-type StoredCaptureModel = any;
-
-import { couch } from './couch';
+import { CaptureModelDatabase } from '@capture-models/database';
 
 const app = new Koa();
 const router = new Router();
@@ -37,84 +33,94 @@ type ConfigResponse<T> = {
   requested_service: string;
   keys_searched: string[];
 };
-// Key = [ site, ...scope, resource ];
 
-// Create functions to filter capture models.
+async function main() {
+  const database = await CaptureModelDatabase.create({
+    host: 'localhost',
+    port: 5432,
+    name: 'default',
+    username: 'postgres',
+    database: 'postgres',
+    schema: 'public',
+    synchronize: true,
+    logging: false,
+  });
 
-// Getting list of models.
-router.get('/models', async ctx => {
-  const db = await couch.db.use<StoredCaptureModel>('capture-models');
+  // Sync on start.
+  await database.synchronize();
 
-  const models = await db.list();
+  // Key = [ site, ...scope, resource ];
 
-  ctx.body = {
-    models: await Promise.all(
-      models.rows.map(async r => {
-        const { _id, _rev, ...model } = await db.get(r.id, { rev: r.value ? r.value.rev : undefined });
-        return {
-          id: `${ctx.request.origin}${router.url('model', { id: _id })}`,
-          ...model,
-        };
-      })
-    ),
-  };
-});
+  // Create functions to filter capture models.
 
-// Getting model directly.
-router.get('model', '/models/:id', async ctx => {
-  const db = await couch.db.use<StoredCaptureModel>('capture-models');
-  try {
-    const { _id, _rev, ...model } = await db.get(ctx.params.id);
+  // Getting list of models.
+  router.get('/models', async ctx => {
+    const models = await database.api.getAllCaptureModels();
+
     ctx.body = {
-      id: `${ctx.request.origin}${router.url('model', { id: _id })}`,
-      ...model,
+      models,
     };
-  } catch (err) {
-    ctx.status = 404;
-    return;
+  });
+
+  // Getting model directly.
+  router.get('model', '/models/:id', async ctx => {
+    try {
+      ctx.body = await database.api.getCaptureModel(ctx.params.id);
+    } catch (err) {
+      console.log('Error while fetching model', err);
+      ctx.status = 404;
+      return;
+    }
+  });
+
+  // Ping endpoint.
+  router.get('/', ctx => {
+    ctx.body = { page: 'index' };
+  });
+
+  // Resource endpoint, with all the main logic.
+  router.get('resource', ctx => {
+    ctx.body = { page: 'resource' };
+  });
+
+  //
+  // // These might be put into functions and used directly inside of the `router` calls
+  // // since not every endpoint may return this.
+  // app.use(ctx => {
+  //   // Where can the JWT live?
+  //   // - Cookie
+  //   // - Auth as a Bearer token
+  //   //
+  //   // Where does the other parts live?
+  //   // - Resource
+  //   // - Site
+  //   // - Scope
+  // });
+  //
+  // app.use(ctx => {
+  //   // Building up a config query
+  //   // - request: [ site, ...scope, resource ]
+  //   // - service: capture-model-service
+  //   // - user: user-id
+  // });
+  //
+  // // Post processing
+  // app.use(ctx => {
+  //   // req.revision filtering
+  //   // user filtering
+  //   // user + revision validation
+  // });
+
+  app.use(json({ pretty: process.env.NODE_ENV !== 'production' }));
+  app.use(logger());
+  app.use(router.routes()).use(router.allowedMethods());
+
+  if (process.env.NODE_ENV !== 'production') {
+    console.log('Starting on http://localhost:3000');
   }
+  app.listen(3000);
+}
+
+main().catch(err => {
+  throw err;
 });
-
-// Ping endpoint.
-router.get('/', ctx => {
-  ctx.body = { page: 'index' };
-});
-
-// Resource endpoint, with all the main logic.
-router.get('resource', ctx => {
-  ctx.body = { page: 'resource' };
-});
-
-//
-// // These might be put into functions and used directly inside of the `router` calls
-// // since not every endpoint may return this.
-// app.use(ctx => {
-//   // Where can the JWT live?
-//   // - Cookie
-//   // - Auth as a Bearer token
-//   //
-//   // Where does the other parts live?
-//   // - Resource
-//   // - Site
-//   // - Scope
-// });
-//
-// app.use(ctx => {
-//   // Building up a config query
-//   // - request: [ site, ...scope, resource ]
-//   // - service: capture-model-service
-//   // - user: user-id
-// });
-//
-// // Post processing
-// app.use(ctx => {
-//   // req.revision filtering
-//   // user filtering
-//   // user + revision validation
-// });
-
-app.use(json({ pretty: process.env.NODE_ENV !== 'production' }));
-app.use(logger());
-app.use(router.routes()).use(router.allowedMethods());
-
-app.listen(3000);

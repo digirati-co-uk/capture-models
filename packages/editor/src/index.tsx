@@ -74,6 +74,7 @@ export * from './utility/create-document';
 export * from './utility/create-field';
 export * from './utility/create-model';
 export * from './utility/create-revision-document';
+export * from './utility/create-revision-request';
 export * from './utility/fetch-capture-model';
 export * from './utility/filter-capture-model';
 export * from './utility/filter-document-by-revision';

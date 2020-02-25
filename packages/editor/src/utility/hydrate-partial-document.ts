@@ -8,13 +8,14 @@ export function hydratePartialDocument(
   inputPartialDocument: CaptureModel['document'],
   wholeDocument: CaptureModel['document'],
   options: {
+    revisionId?: string;
     keepValues?: boolean;
     markAsImmutable?: boolean;
     clone?: boolean;
     hydrateRoot?: boolean;
   } = {}
 ): CaptureModel['document'] {
-  const { keepValues = false, clone = false, markAsImmutable = false, hydrateRoot = true } = options;
+  const { revisionId, keepValues = false, clone = false, markAsImmutable = false, hydrateRoot = true } = options;
 
   const partialDocument = clone ? copy(inputPartialDocument) : inputPartialDocument;
 
@@ -31,6 +32,7 @@ export function hydratePartialDocument(
         if (hydrateRoot) {
           // We need to fork the first entity.
           const forkedDocument = forkDocument(propertyValues[0], {
+            revisionId,
             removeDefaultValues: !keepValues,
             removeValues: !keepValues,
             branchFromRoot: true,
@@ -39,6 +41,7 @@ export function hydratePartialDocument(
           // Set on our new partial.
           partialDocument.properties[term] = [
             formPropertyValue(forkedDocument, {
+              revision: revisionId,
               clone: false,
               // @todo set immutable here for field.
             }),

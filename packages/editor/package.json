@@ -17,7 +17,7 @@
     "build-storybook": "build-storybook",
     "build-types": "tsc -p ./ --emitDeclarationOnly",
     "build-ts": "tsc -p ./",
-    "build:prod": "NODE_ENV=production fesk-build --umd && tsc -p ./ --emitDeclarationOnly && build-storybook"
+    "build:prod": "NODE_ENV=production fesk-build --umd && tsc -p ./ --emitDeclarationOnly && cp ./src/utility/invalid-babel-types.d.ts ./lib/utility/invalid-babel-types.d.ts && build-storybook"
   },
   "dependencies": {
     "@blueprintjs/core": "^3.22.1",
