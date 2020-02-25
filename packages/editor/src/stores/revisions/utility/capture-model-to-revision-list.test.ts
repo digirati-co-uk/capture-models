@@ -16,7 +16,7 @@ describe('capture model to revision list', () => {
     expect(captureModelToRevisionList(single01 as CaptureModel)).toMatchInlineSnapshot(`
       Array [
         Object {
-          "captureModelId": undefined,
+          "captureModelId": "b329e009-1c8a-4bed-bfde-c2a587a22f97",
           "document": Object {
             "description": "",
             "id": "3353dc03-9f35-49e7-9b81-4090fa533c64",
@@ -52,7 +52,7 @@ describe('capture model to revision list', () => {
     expect(captureModelToRevisionList(single02 as CaptureModel)).toMatchInlineSnapshot(`
       Array [
         Object {
-          "captureModelId": undefined,
+          "captureModelId": "93d09b85-9332-4b71-8e27-1294c8a963f3",
           "document": Object {
             "description": "",
             "id": "b3f53013-23cc-45db-825a-12500bf3c20e",
@@ -80,7 +80,7 @@ describe('capture model to revision list', () => {
           "source": "unknown",
         },
         Object {
-          "captureModelId": undefined,
+          "captureModelId": "93d09b85-9332-4b71-8e27-1294c8a963f3",
           "document": Object {
             "description": "",
             "id": "b3f53013-23cc-45db-825a-12500bf3c20e",
@@ -115,7 +115,7 @@ describe('capture model to revision list', () => {
     expect(captureModelToRevisionList(single03 as CaptureModel)).toMatchInlineSnapshot(`
       Array [
         Object {
-          "captureModelId": undefined,
+          "captureModelId": "2cc4131d-4f8d-4ceb-b140-48cd513b5e4f",
           "document": Object {
             "description": "",
             "id": "a8d5ff43-adb2-456a-a615-3d24fbfa05f7",
@@ -166,7 +166,7 @@ describe('capture model to revision list', () => {
     expect(captureModelToRevisionList(single04 as CaptureModel)).toMatchInlineSnapshot(`
       Array [
         Object {
-          "captureModelId": undefined,
+          "captureModelId": "737150d3-2c72-4eeb-9fd4-42ad085cdf7f",
           "document": Object {
             "id": "279e8fb2-13c3-43cc-aff2-2b41d9025828",
             "label": "Name of entity",
@@ -193,7 +193,7 @@ describe('capture model to revision list', () => {
           "source": "unknown",
         },
         Object {
-          "captureModelId": undefined,
+          "captureModelId": "737150d3-2c72-4eeb-9fd4-42ad085cdf7f",
           "document": Object {
             "id": "279e8fb2-13c3-43cc-aff2-2b41d9025828",
             "label": "Name of entity",
@@ -227,7 +227,7 @@ describe('capture model to revision list', () => {
     expect(captureModelToRevisionList(single05 as CaptureModel)).toMatchInlineSnapshot(`
       Array [
         Object {
-          "captureModelId": undefined,
+          "captureModelId": "143d9c4a-5d4e-4ca2-89f3-dc4bd7b45e3e",
           "document": Object {
             "id": "47e8a9d8-76f8-422b-91af-b457d1c624a0",
             "label": "Name of entity",
@@ -256,7 +256,7 @@ describe('capture model to revision list', () => {
           "source": "structure",
         },
         Object {
-          "captureModelId": undefined,
+          "captureModelId": "143d9c4a-5d4e-4ca2-89f3-dc4bd7b45e3e",
           "document": Object {
             "id": "47e8a9d8-76f8-422b-91af-b457d1c624a0",
             "label": "Name of entity",
@@ -285,7 +285,7 @@ describe('capture model to revision list', () => {
           "source": "structure",
         },
         Object {
-          "captureModelId": undefined,
+          "captureModelId": "143d9c4a-5d4e-4ca2-89f3-dc4bd7b45e3e",
           "document": Object {
             "id": "47e8a9d8-76f8-422b-91af-b457d1c624a0",
             "label": "Name of entity",
