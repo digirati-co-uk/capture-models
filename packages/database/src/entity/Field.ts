@@ -49,7 +49,7 @@ export class Field {
   @Column('jsonb')
   additionalProperties: any;
 
-  @Column('jsonb')
+  @Column('jsonb', { nullable: true })
   value: any;
 
   @Column('text', { nullable: true })
