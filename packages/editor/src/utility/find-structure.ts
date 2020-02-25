@@ -1,5 +1,5 @@
-import { traverseStructure } from '@capture-models/editor';
 import { CaptureModel } from '@capture-models/types';
+import { traverseStructure } from './traverse-structure';
 
 export function findStructure(
   captureModel: CaptureModel | CaptureModel['structure'],
