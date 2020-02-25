@@ -1,9 +1,30 @@
-
 {
-  "extends": "../../tsconfig.json",
-  "include": ["src/**/*"],
   "compilerOptions": {
-    "rootDir": "src",
-    "declarationDir": "./dist/@types"
-  }
+    "baseUrl": "src",
+    "lib": [
+      "es5",
+      "es6"
+    ],
+    "target": "es2018",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "module": "commonjs",
+    "declaration": true,
+    "moduleResolution": "node",
+    "outDir": "./lib",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "noEmitOnError": false,
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "paths": {
+      "@capture-models/editor": ["../editor/lib"],
+      "@capture-models/database": ["../database/lib"]
+    }
+  },
+  "references": [
+    { "path": "../types" },
+    { "path": "../editor" },
+    { "path": "../database" }
+  ]
 }

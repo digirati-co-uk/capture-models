@@ -22,6 +22,7 @@ export type Revision = {
   status?: StatusTypes;
   structureId?: string;
   workflowId?: string;
+  source?: 'structure' | 'canonical' | 'unknown';
   authors?: string[];
   fields: ModelFields;
   approved?: boolean;

@@ -11,6 +11,7 @@ export function fromRevision({
   authors,
   revises,
   status,
+  source,
   workflowId,
 }: RevisionType): Revision {
   const revision = new Revision();
@@ -20,6 +21,7 @@ export function fromRevision({
   revision.approved = approved;
   revision.structureId = structureId;
   revision.fields = fields;
+  revision.source = source;
   revision.authors = authors
     ? authors.map(author => {
         const ra = new RevisionAuthors();

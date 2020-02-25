@@ -1,3 +1,4 @@
+import { filterDocumentByRevision } from '@capture-models/editor';
 import { CaptureModel, Revision, RevisionRequest } from '@capture-models/types';
 import { filterCaptureModel } from './filter-capture-model';
 import { expandModelFields } from '../core/structure-editor';
@@ -39,12 +40,7 @@ export function createRevisionRequest(
   revision: Revision,
   inputDocument?: CaptureModel['document']
 ): RevisionRequest {
-  const flatFields = expandModelFields(revision.fields);
-  const document = inputDocument
-    ? inputDocument
-    : filterCaptureModel(revision.id, captureModel.document, flatFields, field => {
-        return field.revision ? field.revision === revision.id : false;
-      });
+  const document = inputDocument ? inputDocument : filterDocumentByRevision(captureModel.document, revision);
 
   if (!document) {
     throw new Error(`Invalid revision ${revision.id} has no document`);
