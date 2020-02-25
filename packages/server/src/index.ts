@@ -8,6 +8,10 @@ async function main() {
   const app = await createApp(db, router);
 
   app.listen(port);
+
+  if (process.env.NODE_ENV !== 'production') {
+    console.log(`Server ready at: http://localhost:3000`);
+  }
 }
 
 main().catch(err => {

@@ -67,6 +67,7 @@ export class CaptureModelRepository {
       .from(CaptureModel, 'model')
       .leftJoinAndSelect('model.document', 'doc')
       .leftJoinAndSelect('model.structure', 'structure')
+      .leftJoinAndSelect('structure.flatItems', 'structureFlatItem')
       .leftJoinAndSelect('model.revisions', 'revision')
       .leftJoinAndSelect('doc.selector', 'selector')
       .leftJoinAndSelect('doc.nestedProperties', 'property')
