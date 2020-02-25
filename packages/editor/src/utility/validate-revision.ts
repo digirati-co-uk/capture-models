@@ -16,10 +16,6 @@ export function validateRevision(
     allowAnonymous?: boolean;
   } = {}
 ) {
-  // We parse our document, the top level here is immutable.
-  // We need to, like the capture model, traverse this.
-  let document = req.document;
-
   // If the source is `structure` we want to validate that the fields match
   // and that there is a user associated with the change.
   const source = req.source;
@@ -31,7 +27,6 @@ export function validateRevision(
     if (!filteredDocument) {
       throw new Error('Invalid revision');
     }
-    document = filteredDocument;
 
     // If the source is `structure` we want to make sure a user was associated. We add this to the revision.
     // This will be added by the consuming service. (In addition to checking `allowCanonicalChanges`)
@@ -63,13 +58,6 @@ export function validateRevision(
       // Diff the keys.
       const keysInStructure = new Set(expandModelFields(structure.fields).map(f => f.join('.')));
       const keysInRevision = new Set(expandModelFields(req.revision.fields).map(f => f.join('.')));
-      console.log();
-      console.log();
-      console.log(expandModelFields(structure.fields).map(f => f.join('.')));
-      console.log();
-      console.log(expandModelFields(req.revision.fields).map(f => f.join('.')));
-      console.log();
-      console.log();
 
       if (keysInRevision.size !== keysInStructure.size) {
         throw new Error('Revision fields do not match structure, use { allowCustomStructure: true } to override');
@@ -77,7 +65,9 @@ export function validateRevision(
 
       for (const key of keysInRevision) {
         if (!keysInStructure.has(key)) {
-          throw new Error(`Revision fields do not match structure, missing ${key}, use { allowCustomStructure: true } to override`);
+          throw new Error(
+            `Revision fields do not match structure, missing ${key}, use { allowCustomStructure: true } to override`
+          );
         }
       }
     }
