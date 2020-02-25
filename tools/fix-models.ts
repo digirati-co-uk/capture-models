@@ -102,6 +102,10 @@ for (const folder of dir) {
       });
     }
 
+    if (!json.id) {
+      json.id = v4();
+    }
+
     writeFileSync(path.join(__dirname, '..', 'fixtures', folder, jsonName), JSON.stringify(json, null, 2));
   }
 }

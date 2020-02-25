@@ -19,6 +19,6 @@ export function toRevision({
     fields,
     status,
     revises: revisesId,
-    authors: authors.map(author => author.contributorId),
+    authors: (authors || []).map(author => author.contributorId),
   };
 }

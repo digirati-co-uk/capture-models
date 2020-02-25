@@ -117,7 +117,7 @@ createConnection({
     console.log(rev1);
 
     try {
-      await repo.createRevision(
+      const newRevDoc = await repo.createRevision(
         {
           document: forkDocument(rev1.document, {
             revisionId: '45e13054-887e-4dc2-aebf-4742f4beea29',
@@ -136,11 +136,19 @@ createConnection({
         },
         { allowAnonymous: true }
       );
+
+      console.log(JSON.stringify(newRevDoc, null, 2));
+
     } catch (err) {
       console.log(err);
     }
 
-    console.log(await repo.removeCaptureModel(newModel.id, 1));
+
+    // const newModelWithRevision = await repo.getCaptureModel(model.id);
+    //
+    // console.log(JSON.stringify(newModelWithRevision, null, 4));
+
+    // console.log(await repo.removeCaptureModel(newModel.id, 1));
 
     process.exit();
 

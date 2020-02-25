@@ -56,6 +56,12 @@ export class Field {
   valueString?: any;
 
   @Column({ nullable: true })
+  revisesId?: string;
+
+  @ManyToOne(() => Field, { nullable: true, onDelete: 'CASCADE' })
+  revises?: Field;
+
+  @Column({ nullable: true })
   revisionId?: string;
 
   @ManyToOne(

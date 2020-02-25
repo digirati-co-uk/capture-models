@@ -10,6 +10,7 @@ export function fromField({
   label,
   revision,
   type,
+  revises,
   value,
   ...additional
 }: BaseField): Field {
@@ -29,6 +30,10 @@ export function fromField({
 
   if (revision) {
     field.revisionId = revision;
+  }
+
+  if (revises) {
+    field.revisesId = revises;
   }
 
   // @todo valueString value from plugin.

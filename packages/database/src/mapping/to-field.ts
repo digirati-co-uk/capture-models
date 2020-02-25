@@ -10,6 +10,7 @@ export function toField({
   selector,
   additionalProperties,
   id,
+  revisesId,
   label,
   value,
 }: Field): BaseField {
@@ -18,6 +19,7 @@ export function toField({
     type,
     label,
     value,
+    revises: revisesId ? revisesId : undefined,
     description: description ? description : undefined,
     allowMultiple: allowMultiple ? allowMultiple : undefined,
     selector: selector ? toSelector(selector) : undefined,

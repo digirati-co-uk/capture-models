@@ -28,7 +28,7 @@ describe('Revision store', () => {
 
       expect(store.getState().currentRevision).toMatchInlineSnapshot(`
         Object {
-          "captureModelId": undefined,
+          "captureModelId": "b329e009-1c8a-4bed-bfde-c2a587a22f97",
           "document": Object {
             "description": "",
             "id": "3353dc03-9f35-49e7-9b81-4090fa533c64",

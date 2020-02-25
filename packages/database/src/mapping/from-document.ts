@@ -49,5 +49,9 @@ export function fromDocument(input: CaptureModel['document'], instances = true):
     document.revisionId = input.revision;
   }
 
+  if (input.revises) {
+    document.revisesId = input.revises;
+  }
+
   return document;
 }
