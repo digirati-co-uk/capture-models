@@ -1,4 +1,4 @@
-import { filterDocumentByRevision } from '@capture-models/editor';
+import { filterDocumentByRevision } from './filter-document-by-revision';
 import { CaptureModel, Revision, RevisionRequest } from '@capture-models/types';
 import { filterCaptureModel } from './filter-capture-model';
 import { expandModelFields } from '../core/structure-editor';
