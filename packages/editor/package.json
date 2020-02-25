@@ -11,7 +11,7 @@
   "typings": "lib/index.d.ts",
   "author": "Stephen Fraser <stephen.fraser@digirati.com>",
   "scripts": {
-    "build": "fesk-build --umd --cjs && tsc -p ./ --emitDeclarationOnly",
+    "build": "fesk-build --umd --cjs && tsc -p ./ --emitDeclarationOnly && cp ./src/utility/invalid-babel-types.d.ts ./lib/utility/invalid-babel-types.d.ts",
     "start": "fesk-start --cjs --umd --noServer",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
