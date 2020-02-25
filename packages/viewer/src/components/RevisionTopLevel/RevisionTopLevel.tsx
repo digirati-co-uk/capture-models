@@ -6,8 +6,6 @@ export const RevisionTopLevel: React.FC = () => {
   const current = Revisions.useStoreState(s => s.currentRevision);
   if (!current) return null;
 
-  console.log({ current });
-
   return (
     <>
       <VerboseEntityPage
