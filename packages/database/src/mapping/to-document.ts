@@ -14,6 +14,7 @@ export async function toDocument(doc: Document, parentRootProperties?: Property[
     nestedProperties: rootNestedProperties,
     label,
     revisionId,
+    revisesId,
   } = doc;
 
   const returnDocument: CaptureModel['document'] = {
@@ -24,6 +25,7 @@ export async function toDocument(doc: Document, parentRootProperties?: Property[
     allowMultiple: allowMultiple ? allowMultiple : undefined,
     labelledBy: labelledBy ? labelledBy : undefined,
     revision: revisionId ? revisionId : undefined,
+    revises: revisesId ? revisesId : undefined,
     properties: {},
   };
 

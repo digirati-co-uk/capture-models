@@ -1,7 +1,13 @@
 import { EntityManager, EntityRepository } from 'typeorm';
 import { BaseField, CaptureModel as CaptureModelType, RevisionRequest } from '@capture-models/types';
 import { traverseDocument } from '@capture-models/editor/lib/utility/traverse-document';
-import { filterDocumentByRevision, expandModelFields, validateRevision } from '@capture-models/editor';
+import {
+  filterDocumentByRevision,
+  hydratePartialDocument,
+  expandModelFields,
+  validateRevision,
+} from '@capture-models/editor';
+import { isEntityList } from '../../editor/src/utility/is-entity';
 import { CaptureModel } from './entity/CaptureModel';
 import { Contributor } from './entity/Contributor';
 import { Field } from './entity/Field';
@@ -15,6 +21,9 @@ import { fromField } from './mapping/from-field';
 import { fromRevision } from './mapping/from-revision';
 import { fromStructure } from './mapping/from-structure';
 import { toCaptureModel } from './mapping/to-capture-model';
+import { toField } from './mapping/to-field';
+import { toRevision } from './mapping/to-revision';
+import { documentToInserts } from './utility/document-to-inserts';
 
 @EntityRepository()
 export class CaptureModelRepository {
@@ -89,34 +98,6 @@ export class CaptureModelRepository {
       // - fields, depends on revisions and document properties
       // - capture model, depends on everything.
 
-      const dbInserts: (Field | Document | Property)[][] = [];
-      traverseDocument<{ parentAdded?: boolean }>(document, {
-        beforeVisitEntity(entity, term, parent) {
-          const entityDoc = fromDocument(entity, false);
-          if (parent) {
-            entityDoc.parentId = `${parent.id}/${term}`;
-          }
-          dbInserts.push([entityDoc]);
-          dbInserts.push(
-            entityDoc.properties.map(prop => {
-              prop.rootDocumentId = document.id;
-              return prop;
-            })
-          );
-          const fieldInserts = [];
-          entityDoc.properties.forEach(prop => {
-            entity.properties[prop.term].forEach(field => {
-              if (field.type !== 'entity') {
-                const fieldToSave = fromField(field);
-                fieldToSave.parentId = `${entityDoc.id}/${prop.term}`;
-                fieldInserts.push(fieldToSave);
-              }
-            });
-          });
-          dbInserts.push(fieldInserts);
-        },
-      });
-
       // Structure - no dependencies.
       const mappedStructure = fromStructure(structure);
       await manager.save(Structure, mappedStructure);
@@ -133,7 +114,9 @@ export class CaptureModelRepository {
         await manager.save(Revision, mappedRevisions);
       }
 
-      // Document - depends on revisions.
+      // Document - depends on revisions and itself.
+      // Split the document into a list of inserts, in the correct order for saving.
+      const dbInserts = documentToInserts(document);
       for (const inserts of dbInserts) {
         await manager.save(inserts);
       }
@@ -270,50 +253,86 @@ export class CaptureModelRepository {
       },
     });
 
-    console.log();
-    console.log('fieldsToAdd');
-    console.log(fieldsToAdd);
-    console.log();
-    console.log('docsToHydrate');
-    console.log(docsToHydrate);
+    const entityMap: { [id: string]: CaptureModelType['document'] } = {};
+    traverseDocument(captureModel.document, {
+      visitEntity(entity) {
+        entityMap[entity.id] = entity;
+      },
+    });
 
-    // Docs
-    // - get parent ID, find in document (error if not found)
-    // - hydrate any missing fields on property (use mapping if that exists) @todo add more to revision request?
-    // - Create DB insertion instruction, reusing create capture model code @todo split this out
-    //
-    // Fields
-    // - Loop through, create DB instruction for each
-    //
-    // Commit order
-    // - Saving new contributors
-    // - Add new documents first
-    // - Then add edits
-
-    // Create new capture model, forking the entire thing. How does this change? Can this use hydrate at the root?
     if (createNewCaptureModel) {
-      // @todo.
+      // @todo Create new capture model, forking the entire thing. How does this change? Can this use hydrate at the root?
       throw new Error('Not yet implemented');
     }
 
-    // Allow overwriting existing fields?
-    if (!allowOverwrite) {
+    if (allowOverwrite) {
       // @todo, we need to validate that the fields do not already exist in the DB.
+      throw new Error('Not yet implemented');
     }
 
-    // We can also do additional checks for `allowMultiple` fields too.
-    // The first instance without a revision ID in the `Property` is considered canonical, so we fetch those to
-    // verify. In an efficient way.
-    // We might have to create a new capture model
-    // - shared structure
-    // - new document
-    // - fresh list of contributors
-    // - target from previous, unless in request.
-    // - canonical document structure from old model
-    // - new additions applied
-    // We DONT want to upsert this endpoint, so INSERT only with fail.
-    // For saving an existing revision, that will be another function.
-    // Updating will have some modes: noAdditionalFields, noDeletedFields
+    const dbInserts: (Field | Document | Property)[][] = [];
+    for (const doc of docsToHydrate) {
+      const parent = entityMap[doc.parent.id];
+      if (!parent) {
+        throw new Error(`Immutable item ${doc.parent.id} was not found in capture model`);
+      }
+      const term = parent.properties[doc.term];
+      if (!term) {
+        throw new Error(`Term ${doc.term} was not found on capture model document ${doc.parent.id}`);
+      }
+      if (!isEntityList(term)) {
+        throw new Error(`Term ${doc.term} is not a list of documents`);
+      }
+      // @todo for editing, we'll need to add a check to see if the entity is already in this map and merge those.
+      //   in this case, hydrate _will_ keep the values. This will allow 2 revisions to target the same document
+      //   but not the same fields. If the same field is edited, then FOR NOW this will replace the revision ID in
+      //   that field with this one, making it impossible to edit. Need support for multiple revisions on fields to
+      //   support this case.
+      const docToClone = term[0];
+
+      // This will add any missing fields from the revision.
+      const fullDocument = hydratePartialDocument(doc.entity, docToClone);
+
+      dbInserts.push(
+        ...documentToInserts(fullDocument, { id: doc.parent.id, term: doc.term }, captureModel.document.id)
+      );
+    }
+
+    const fieldInserts: Field[] = [];
+    for (const field of fieldsToAdd) {
+      // In this case, the property will already exist. So we just need to add a field.
+      const fieldObj = fromField(field.field);
+      fieldObj.parentId = `${field.parent.id}/${field.term}`;
+      fieldInserts.push(fieldObj);
+    }
+    dbInserts.push(fieldInserts);
+
+    const revision = fromRevision(req.revision);
+    const savedRevision = await this.manager.transaction(async manager => {
+      const rev = await manager.save(revision);
+      for (const insert of dbInserts) {
+        // @todo change this to insert() and expand list of inserts to other entities.
+        //   This will avoid updates and allow the whole list to be inserted flat.
+        await manager.save(insert);
+      }
+      return rev;
+    });
+
+    // @todo optimised this so we're only fetching the fields we need.
+    const finalModel = await this.getCaptureModel(captureModel.id);
+
+    const mappedRevision = toRevision(savedRevision);
+    const revisionRequest: RevisionRequest = {
+      revision: mappedRevision,
+      document: filterDocumentByRevision(finalModel.document, mappedRevision),
+      source: req.source,
+      author: req.author,
+      captureModelId: captureModel.id,
+      modelRoot: req.modelRoot,
+      target: req.target,
+    };
+
+    return revisionRequest;
   }
 
   /**
@@ -330,7 +349,16 @@ export class CaptureModelRepository {
       allowDeletedFields = false,
     }: { allowAdditionalFields?: boolean; allowDeletedFields?: boolean } = {}
   ) {
-    throw new Error('Not implemented');
+    // Get capture model
+    // Take revision
+    // Get mapping of old fields (in revision)
+    // Get mapping of old entities (in revision)
+    // Traverse revision and make lists
+    // - field changes
+    // - new fields
+    // - new documents
+    // - deleted fields
+    // Check configuration, apply changes.
   }
 
   /**

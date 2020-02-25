@@ -20,6 +20,12 @@ export class Document {
   label: string;
 
   @Column({ nullable: true })
+  revisesId?: string;
+
+  @ManyToOne(() => Document, { onDelete: 'CASCADE', nullable: true })
+  revises?: Document;
+
+  @Column({ nullable: true })
   revisionId?: string;
 
   @ManyToOne(() => Revision, { onDelete: 'CASCADE', nullable: true })
