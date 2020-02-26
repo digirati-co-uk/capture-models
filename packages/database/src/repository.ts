@@ -148,48 +148,52 @@ export class CaptureModelRepository {
       // - document properties, depends on documents
       // - fields, depends on revisions and document properties
       // - capture model, depends on everything.
+      try {
+        // Structure - no dependencies.
+        const mappedStructure = fromStructure(structure);
+        await manager.save(Structure, mappedStructure);
 
-      // Structure - no dependencies.
-      const mappedStructure = fromStructure(structure);
-      await manager.save(Structure, mappedStructure);
+        // Contributors - no dependencies.
+        const mappedContributors = Object.values(contributors || {}).map(fromContributor);
+        if (contributors) {
+          await manager.save(Contributor, mappedContributors);
+        }
 
-      // Contributors - no dependencies.
-      const mappedContributors = Object.values(contributors || {}).map(fromContributor);
-      if (contributors) {
-        await manager.save(Contributor, mappedContributors);
+        // Revision - depends on Contributors & Structures
+        const mappedRevisions = (revisions || []).map(fromRevision);
+        if (revisions) {
+          await manager.save(Revision, mappedRevisions);
+        }
+
+        // Document - depends on revisions and itself.
+        // Split the document into a list of inserts, in the correct order for saving.
+        const dbInserts = documentToInserts(document);
+        for (const inserts of dbInserts) {
+          await manager.save(inserts);
+        }
+
+        // Capture model - depends on everything.
+        const captureModel = new CaptureModel();
+        // Set some basic fields.
+        captureModel.id = id;
+        captureModel.integrity = integrity;
+        captureModel.target = target;
+        captureModel.document = fromDocument(document, false); // technically document[0]
+        captureModel.structure = mappedStructure;
+        if (revisions) {
+          captureModel.revisions = mappedRevisions;
+        }
+        if (contributors) {
+          captureModel.contributors = mappedContributors;
+        }
+
+        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+        // @ts-ignore
+        return await manager.save(CaptureModel, captureModel);
+      } catch (err) {
+        console.log(err);
+        throw err;
       }
-
-      // Revision - depends on Contributors & Structures
-      const mappedRevisions = (revisions || []).map(fromRevision);
-      if (revisions) {
-        await manager.save(Revision, mappedRevisions);
-      }
-
-      // Document - depends on revisions and itself.
-      // Split the document into a list of inserts, in the correct order for saving.
-      const dbInserts = documentToInserts(document);
-      for (const inserts of dbInserts) {
-        await manager.save(inserts);
-      }
-
-      // Capture model - depends on everything.
-      const captureModel = new CaptureModel();
-      // Set some basic fields.
-      captureModel.id = id;
-      captureModel.integrity = integrity;
-      captureModel.target = target;
-      captureModel.document = fromDocument(document, false); // technically document[0]
-      captureModel.structure = mappedStructure;
-      if (revisions) {
-        captureModel.revisions = mappedRevisions;
-      }
-      if (contributors) {
-        captureModel.contributors = mappedContributors;
-      }
-
-      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-      // @ts-ignore
-      return await manager.save(CaptureModel, captureModel);
     });
   }
 

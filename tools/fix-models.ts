@@ -26,6 +26,9 @@ for (const folder of dir) {
 
     const idMap: { [id: string]: string } = {};
     const getId = (id: string) => {
+      if (!id) {
+        return v4();
+      }
       if (id.match(reg)) {
         return id;
       }
@@ -39,6 +42,8 @@ for (const folder of dir) {
       visitField(field) {
         if (field.id) {
           field.id = getId(field.id);
+        } else {
+          field.id = v4();
         }
         if (field.revision) {
           field.revision = getId(field.revision);
@@ -47,6 +52,8 @@ for (const folder of dir) {
       visitEntity(entity) {
         if (entity.id) {
           entity.id = getId(entity.id);
+        } else {
+          entity.id = v4();
         }
         if (!entity.label) {
           entity.label = 'Untitled entity';
@@ -102,7 +109,9 @@ for (const folder of dir) {
       });
     }
 
-    if (!json.id) {
+    if (json.id) {
+      json.id = getId(json.id);
+    } else {
       json.id = v4();
     }
 

@@ -1,1 +1,16 @@
-{}
+{
+  "structure": {
+    "id": "cc79236d-2778-4354-8b18-389d9afcf18e",
+    "type": "choice",
+    "label": "TODO - Tabs",
+    "items": []
+  },
+  "document": {
+    "id": "3dfcc87d-38c7-44c4-8601-913b5375a547",
+    "type": "entity",
+    "label": "TODO",
+    "labelledBy": "label",
+    "properties": {}
+  },
+  "id": "7572d644-2641-497d-9b9d-ae008c3260fe"
+}

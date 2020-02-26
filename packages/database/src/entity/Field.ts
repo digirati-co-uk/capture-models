@@ -33,7 +33,7 @@ export class Field {
   @Column({ nullable: true })
   selectorId?: string;
 
-  @OneToOne(() => SelectorInstance, { onDelete: 'CASCADE', eager: true, nullable: true })
+  @OneToOne(() => SelectorInstance, { onDelete: 'CASCADE', cascade: true, eager: true, nullable: true })
   @JoinColumn()
   selector?: SelectorInstance;
 

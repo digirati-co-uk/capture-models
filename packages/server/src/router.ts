@@ -8,6 +8,10 @@ import { readdirSync } from 'fs';
 const testFixture: RouteMiddleware<{ name: string; file: string }> = async (ctx, next) => {
   try {
     const model = require(`../../../fixtures/${ctx.params.name}/${ctx.params.file}.json`);
+    if (Object.keys(model).length === 0) {
+      ctx.res.statusCode = 404;
+      return;
+    }
     await ctx.db.api.saveCaptureModel(model);
 
     return ctx.redirect(ctx.routes.url('capture-model', { id: model.id }));

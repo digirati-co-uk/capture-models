@@ -11,7 +11,7 @@ export class SelectorInstance {
   @Column('text')
   type: string;
 
-  @Column('jsonb')
+  @Column('jsonb', { nullable: true })
   state: any;
 
   @Column('jsonb')
