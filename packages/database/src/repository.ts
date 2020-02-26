@@ -58,6 +58,10 @@ export class CaptureModelRepository {
       .leftJoinAndSelect('fi.selector', 'fis')
       .where('doc.captureModelId = :id', { id });
 
+    if (includeCanonical && !revisionStatus) {
+      revisionStatus = 'accepted';
+    }
+
     if (revisionStatus || includeCanonical) {
       if (['draft', 'submitted', 'accepted'].indexOf(revisionStatus.toLowerCase()) === -1) {
         throw new Error(
@@ -75,7 +79,7 @@ export class CaptureModelRepository {
       if (includeCanonical) {
         // @todo this will include canonical items
         //    (field.revision.accepted === status OR no revision)
-        throw new Error('Not yet implemented');
+        throw new Error('Not yet implemented [include canonical]');
       }
     }
 
@@ -86,7 +90,7 @@ export class CaptureModelRepository {
       //   - optionally, with revision ID filter those down further.
       // di.revisionId IN (selector revision where revision.author = author)
       // fi.revisionId IN (selector revision where revision.author = author)
-      throw new Error('Not yet implemented');
+      throw new Error('Not yet implemented [user id]');
     }
 
     if (revisionId) {
@@ -366,12 +370,12 @@ export class CaptureModelRepository {
 
     if (createNewCaptureModel) {
       // @todo Create new capture model, forking the entire thing. How does this change? Can this use hydrate at the root?
-      throw new Error('Not yet implemented');
+      throw new Error('Not yet implemented [create new capture model]');
     }
 
     if (allowOverwrite) {
       // @todo, we need to validate that the fields do not already exist in the DB.
-      throw new Error('Not yet implemented');
+      throw new Error('Not yet implemented [allow overwrite]');
     }
 
     // Everything we need to add into the database.
@@ -557,7 +561,9 @@ export class CaptureModelRepository {
     { includeRevisions, includeStructures }: { includeRevisions?: boolean; includeStructures?: boolean } = {}
   ) {
     if (includeStructures) {
-      const captureModel = await this.getCaptureModel(captureModelId, { includeCanonical: true });
+      const captureModel = await this.getCaptureModel(captureModelId, {
+        includeCanonical: false /* @todo change to true */,
+      });
       const foundStructure = findStructure(captureModel, revisionId);
       if (foundStructure) {
         return createRevisionRequestFromStructure(captureModel, foundStructure);
@@ -591,7 +597,7 @@ export class CaptureModelRepository {
     }
 
     if (!allowRemoveCanonical) {
-      throw new Error('Not yet implemented');
+      throw new Error('Not yet implemented [allow remove canonical]');
     }
   }
 }

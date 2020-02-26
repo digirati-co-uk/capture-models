@@ -1,3 +1,4 @@
+import { assets } from './middleware/assets';
 import { choiceRevisionApi } from './routes/api/choice-revision';
 import { createCaptureModelApi } from './routes/api/create-capture-model';
 import { createRevisionApi } from './routes/api/create-revision';
@@ -14,6 +15,7 @@ import { indexPage } from './routes/view';
 export const router = new TypedRouter({
   // Page routes.
   'index-page': [TypedRouter.GET, '/', indexPage],
+  assets: [TypedRouter.GET, '/assets/main.js', assets],
 
   // API Routes.
   'capture-model': [TypedRouter.GET, '/api/model/:id', captureModelApi],

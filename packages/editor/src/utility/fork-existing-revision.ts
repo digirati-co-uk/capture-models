@@ -27,6 +27,20 @@ export function forkExistingRevision(
     modelRoot ? modelRoot : baseRevision.modelRoot,
     modelMapping
   );
+
+  if (!newDocument) {
+    throw new Error('Invalid capture model');
+  }
+
+  // Set our new id.
+  baseRevision.revision.id = newRevisionId;
+
   // Add new revision request
-  return createRevisionRequest(baseRevision.captureModelId as string, baseRevision.revision, newDocument);
+  const revisionRequest = createRevisionRequest(
+    baseRevision.captureModelId as string,
+    baseRevision.revision,
+    newDocument
+  );
+  revisionRequest.revision.id = newRevisionId;
+  return revisionRequest;
 }
