@@ -16,6 +16,9 @@ export function documentToInserts(
     beforeVisitEntity(entity, term, parent) {
       const entityDoc = fromDocument(entity, false);
       if (parent) {
+        if (!parent.id) {
+          throw new Error(`No id on parent entity ${JSON.stringify(parent)}`);
+        }
         entityDoc.parentId = `${parent.id}/${term}`;
       } else if (parentDocument) {
         entityDoc.parentId = `${parentDocument.id}/${parentDocument.term}`;
