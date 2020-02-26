@@ -10,5 +10,4 @@ export const updateRevisionApi: RouteMiddleware<{ id: string }, RevisionRequest>
 
   context.response.body = await context.db.api.updateRevision(revisionRequest, { allowDeletedFields: true });
   context.status = 200;
-
 };

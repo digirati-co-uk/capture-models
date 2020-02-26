@@ -15,6 +15,6 @@ export const createRevisionApi: RouteMiddleware<{ captureModelId: string }, Revi
   }
 
   context.response.body = await context.db.api.createRevision(revisionRequest, {
-    allowAnonymous: true
+    allowAnonymous: true,
   });
 };
