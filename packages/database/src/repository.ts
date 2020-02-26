@@ -1,12 +1,7 @@
 import { Brackets, EntityManager, EntityRepository } from 'typeorm';
 import { BaseField, CaptureModel as CaptureModelType, RevisionRequest, StatusTypes } from '@capture-models/types';
 import { traverseDocument } from '@capture-models/editor/lib/utility/traverse-document';
-import {
-  hydratePartialDocument,
-  validateRevision,
-  isEntityList,
-  filterDocumentByRevision,
-} from '@capture-models/editor';
+import { validateRevision, filterDocumentByRevision } from '@capture-models/editor';
 import { CaptureModel } from './entity/CaptureModel';
 import { Contributor } from './entity/Contributor';
 import { Field } from './entity/Field';
@@ -375,7 +370,7 @@ export class CaptureModelRepository {
     // Everything we need to add into the database.
     const dbInserts: (Field | Document | Property)[][] = [
       // Map the documents, adding missing fields if required.
-      ...partialDocumentsToInserts(docsToHydrate, entityMap),
+      ...partialDocumentsToInserts(docsToHydrate, entityMap, captureModel.document.id),
       // Map the fields
       fieldsToInserts(fieldsToAdd),
     ];
@@ -494,7 +489,7 @@ export class CaptureModelRepository {
     // Everything we need to add into the database.
     const dbInserts: (Field | Document | Property)[][] = [
       // Map the documents, adding missing fields if required.
-      ...partialDocumentsToInserts(docsToHydrate, entityMap),
+      ...partialDocumentsToInserts(docsToHydrate, entityMap, captureModel.document.id),
       // Map the fields
       fieldsToInserts(fieldsToAdd),
     ];
@@ -516,17 +511,6 @@ export class CaptureModelRepository {
         await manager.remove(dbRemovals);
       }
     });
-
-    // Get capture model
-    // Take revision
-    // Get mapping of old fields (in revision)
-    // Get mapping of old entities (in revision)
-    // Traverse revision and make lists
-    // - field changes
-    // - new fields
-    // - new documents
-    // - deleted fields
-    // Check configuration, apply changes.
 
     return this.getRevision(req.revision.id);
   }
