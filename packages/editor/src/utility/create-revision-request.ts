@@ -36,18 +36,24 @@ export function createRevisionRequestFromStructure(
 }
 
 export function createRevisionRequest(
-  captureModel: CaptureModel,
+  captureModel: CaptureModel | string,
   revision: Revision,
   inputDocument?: CaptureModel['document']
 ): RevisionRequest {
-  const document = inputDocument ? inputDocument : filterDocumentByRevision(captureModel.document, revision);
+  if (typeof captureModel === 'string' && !inputDocument) {
+    throw new Error('Invalid call');
+  }
+
+  const captureModelId = typeof captureModel === 'string' ? captureModel : captureModel.id;
+
+  const document = inputDocument ? inputDocument : filterDocumentByRevision((captureModel as any).document, revision);
 
   if (!document) {
     throw new Error(`Invalid revision ${revision.id} has no document`);
   }
 
   return {
-    captureModelId: captureModel.id,
+    captureModelId,
     revision,
     document,
     source: revision.structureId ? 'structure' : 'unknown',

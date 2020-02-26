@@ -1,7 +1,14 @@
 import { Brackets, EntityManager, EntityRepository } from 'typeorm';
 import { BaseField, CaptureModel as CaptureModelType, RevisionRequest, StatusTypes } from '@capture-models/types';
 import { traverseDocument } from '@capture-models/editor/lib/utility/traverse-document';
-import { validateRevision, filterDocumentByRevision } from '@capture-models/editor';
+import {
+  validateRevision,
+  filterDocumentByRevision,
+  findStructure,
+  createRevisionRequestFromStructure,
+  forkExistingRevision,
+  REVISION_CLONE_MODE,
+} from '@capture-models/editor';
 import { CaptureModel } from './entity/CaptureModel';
 import { Contributor } from './entity/Contributor';
 import { Field } from './entity/Field';
@@ -513,6 +520,59 @@ export class CaptureModelRepository {
     });
 
     return this.getRevision(req.revision.id);
+  }
+
+  async forkRevision(
+    captureModelId: string,
+    revisionId: string,
+    {
+      includeRevisions,
+      includeStructures,
+      cloneMode = 'FORK_TEMPLATE',
+      modelMapping = {},
+      modelRoot = [],
+    }: {
+      includeRevisions?: boolean;
+      includeStructures?: boolean;
+      cloneMode?: REVISION_CLONE_MODE;
+      modelMapping?: any;
+      modelRoot?: [];
+    } = {}
+  ) {
+    const baseRevision = await this.getRevisionTemplate(captureModelId, revisionId, {
+      includeRevisions,
+      includeStructures,
+    });
+
+    return forkExistingRevision(baseRevision, {
+      cloneMode,
+      modelMapping,
+      modelRoot,
+    });
+  }
+
+  async getRevisionTemplate(
+    captureModelId: string,
+    revisionId: string,
+    { includeRevisions, includeStructures }: { includeRevisions?: boolean; includeStructures?: boolean } = {}
+  ) {
+    if (includeStructures) {
+      const captureModel = await this.getCaptureModel(captureModelId, { includeCanonical: true });
+      const foundStructure = findStructure(captureModel, revisionId);
+      if (foundStructure) {
+        return createRevisionRequestFromStructure(captureModel, foundStructure);
+      } // fallthrough to check revisions.
+    }
+
+    if (includeRevisions) {
+      const revision = await this.getRevision(revisionId);
+      if (revision.captureModelId === captureModelId) {
+        throw new Error('Revision does not exist on capture model');
+      }
+      return revision;
+    }
+
+    throw new Error('Revision does not exist on capture model');
   }
 
   /**

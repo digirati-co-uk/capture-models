@@ -24,7 +24,7 @@ export const FieldEditor: React.FC<{
     throw new Error('Plugin does not exist');
   }
 
-  const editor = React.createElement(field.Editor, props);
+  const editor = React.createElement(field.Editor, props as any);
 
   return (
     <React.Suspense fallback="loading...">

@@ -58,11 +58,11 @@ export * from './stores/revisions/utility/get-revision-field-from-path';
 export * from './stores/revisions/utility/revision-filter';
 
 export * from './stores/document/document-store';
-export * from './stores/document/document-model.d';
+export * from './stores/document/document-model';
 export * from './stores/selectors/selector-hooks';
-export * from './stores/selectors/selector-model.d';
+export * from './stores/selectors/selector-model';
 export * from './stores/selectors/selector-store';
-export * from './stores/structure/structure-model.d';
+export * from './stores/structure/structure-model';
 export * from './stores/structure/use-focused-structure-editor';
 export * from './stores/structure/structure-store';
 
@@ -82,6 +82,7 @@ export * from './utility/filter-document-graph';
 export * from './utility/find-structure';
 export * from './utility/flatten-structures';
 export * from './utility/fork-field';
+export * from './utility/fork-existing-revision';
 export * from './utility/generate-id';
 export * from './utility/hydrate-partial-document';
 export * from './utility/is-entity';

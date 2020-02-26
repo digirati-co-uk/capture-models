@@ -1,7 +1,6 @@
 import { pluginStore } from '@capture-models/plugin-api';
 import { BaseField, CaptureModel } from '@capture-models/types';
 import copy from 'fast-copy';
-import { REVISION_CLONE_MODE } from '../stores/revisions';
 import { filterDocumentGraph } from './filter-document-graph';
 import { formPropertyValue } from './fork-field';
 import { generateId } from './generate-id';
@@ -270,7 +269,7 @@ export function forkDocument<Fields extends string>(
 export function createRevisionDocument(
   revisionId: string,
   document: CaptureModel['document'],
-  mode: REVISION_CLONE_MODE,
+  mode: any,
   modelRoot: string[] = [],
   modelMapping: Partial<{ [key: string]: string }> = {}
 ) {
@@ -282,4 +281,5 @@ export function createRevisionDocument(
     case 'FORK_TEMPLATE':
       return forkDocument(document, { revisionId, modelRoot, removeDefaultValues: true, removeValues: true });
   }
+  throw new Error();
 }
