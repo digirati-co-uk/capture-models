@@ -20,7 +20,6 @@
     "node_modules",
     "dist",
     "lib",
-    "**/*.stories.tsx",
-    "**/*.test.ts"
+    "**/*.stories.tsx"
   ]
 }

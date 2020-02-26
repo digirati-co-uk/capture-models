@@ -1,13 +1,22 @@
 import Router from '@koa/router';
+import koaBody from 'koa-body';
+import { requestBody } from '../middleware/requestBody';
+
 import { RouteMiddleware } from '../types';
 
-export type RouteWithParams<Props> = [string, string, RouteMiddleware<Props>];
+export type RouteWithParams<Props, Body = any> = [string, string, RouteMiddleware<Props, Body>];
 
 export type GetRoute<
   Routes extends { [key in RouteName]: Value },
   RouteName extends string,
   Value = any
 > = Routes[RouteName] extends RouteWithParams<infer T> ? T : never;
+
+export type GetBody<
+  Routes extends { [key in RouteName]: Value },
+  RouteName extends string,
+  Value = any
+> = Routes[RouteName] extends RouteWithParams<any, infer T> ? T : never;
 
 export class TypedRouter<
   Routes extends string,
@@ -24,7 +33,17 @@ export class TypedRouter<
     const routeNames = Object.keys(routes);
     for (const route of routeNames) {
       const [method, path, func] = routes[route];
-      this.router[method](route, path, func);
+
+      switch (method) {
+        case TypedRouter.PUT:
+        case TypedRouter.POST:
+          this.router[method](route, path, koaBody(), requestBody, func);
+          break;
+        case TypedRouter.GET:
+        case TypedRouter.DELETE:
+          this.router[method](route, path, func);
+          break;
+      }
     }
   }
 

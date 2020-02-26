@@ -1,50 +1,30 @@
-import * as path from 'path';
-import { captureModelApi } from './routes/api/capture-model';
-import { indexPage } from './routes/view';
-import { RouteMiddleware } from './types';
+import { choiceRevisionApi } from './routes/api/choice-revision';
+import { createCaptureModelApi } from './routes/api/create-capture-model';
+import { createRevisionApi } from './routes/api/create-revision';
+import { deleteCaptureModelApi } from './routes/api/delete-capture-model';
+import { deleteRevisionApi } from './routes/api/delete-revision';
+import { updateRevisionApi } from './routes/api/update-revision';
 import { TypedRouter } from './utility/typed-router';
-import { readdirSync } from 'fs';
-
-const testFixture: RouteMiddleware<{ name: string; file: string }> = async (ctx, next) => {
-  try {
-    const model = require(`../../../fixtures/${ctx.params.name}/${ctx.params.file}.json`);
-    if (Object.keys(model).length === 0) {
-      ctx.res.statusCode = 404;
-      return;
-    }
-    await ctx.db.api.saveCaptureModel(model);
-
-    return ctx.redirect(ctx.routes.url('capture-model', { id: model.id }));
-  } catch (err) {
-    ctx.res.statusCode = 404;
-  }
-};
-
-const fixtures: RouteMiddleware = async ctx => {
-  ctx.headers['Content-Type'] = 'text/html';
-  ctx.body = `
-    <h1>Fixtures</h1>
-    ${readdirSync(path.join(__dirname, '../../../fixtures'))
-      .map(name =>
-        name === 'simple.json'
-          ? ''
-          : `<h3>${name}</h3>
-           <ul>
-           ${readdirSync(path.join(__dirname, `../../../fixtures/${name}`))
-             .map(
-               file =>
-                 `<li><a href="${ctx.routes.url('test-fixture', { name, file: file.slice(0, -5) })}">${file}</a></li>`
-             )
-             .join('')}
-           </ul>`
-      )
-      .join('')}
-  `;
-};
+import { captureModelApi } from './routes/api/capture-model';
+import { revisionApi } from './routes/api/revision';
+import { fixtures, testFixture } from './routes/fixtures';
+import { indexPage } from './routes/view';
 
 export const router = new TypedRouter({
+  // Page routes.
   'index-page': [TypedRouter.GET, '/', indexPage],
-  'capture-model': [TypedRouter.GET, '/capture-model/:id', captureModelApi],
+
+  // API Routes.
+  'capture-model': [TypedRouter.GET, '/api/model/:id', captureModelApi],
+  'create-capture-model': [TypedRouter.POST, '/api/model', createCaptureModelApi],
+  'delete-capture-model': [TypedRouter.DELETE, '/api/model/:id', deleteCaptureModelApi],
+  'create-revision': [TypedRouter.POST, '/api/model/:captureModelId/revision', createRevisionApi],
+  'choice-revision': [TypedRouter.GET, '/api/model/:captureModelId/structure/:structureId', choiceRevisionApi],
+  'update-revision': [TypedRouter.PUT, '/api/revision/:id', updateRevisionApi],
+  'delete-revision': [TypedRouter.DELETE, '/api/revision/:id', deleteRevisionApi],
+  revision: [TypedRouter.GET, '/api/revision/:id', revisionApi],
+
+  // Fixture routes.
   'test-fixture': [TypedRouter.GET, '/test-fixture/:name/:file', testFixture],
   fixtures: [TypedRouter.GET, '/fixtures', fixtures],
 });

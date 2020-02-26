@@ -30,7 +30,7 @@ export async function toDocument(doc: Document, parentRootProperties?: Property[
   };
 
   const nestedProperties = parentRootProperties ? parentRootProperties : rootNestedProperties;
-  const flatProperties = nestedProperties.filter(prop => prop.documentId === id);
+  const flatProperties = (nestedProperties || []).filter(prop => prop.documentId === id);
   for (const prop of flatProperties || []) {
     if (prop.type !== 'entity-list') {
       // Field list.
