@@ -26,9 +26,8 @@
       "uuid": "^3.4.0"
    },
    "scripts": {
-      "start": "ts-node src/testing.ts",
       "build": "tsc -p .",
-      "watch": "tsc -p . --watch",
+      "start": "tsc -p . --watch",
       "typeorm": "ts-node ../../node_modules/typeorm/cli.js"
    }
 }

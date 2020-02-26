@@ -35,6 +35,18 @@ export function createRevisionRequestFromStructure(
   };
 }
 
+export function createRevisionRequest(captureModel: CaptureModel, revision: Revision): RevisionRequest;
+export function createRevisionRequest(
+  captureModel: CaptureModel,
+  revision: Revision,
+  inputDocument: CaptureModel['document']
+): RevisionRequest;
+export function createRevisionRequest(
+  captureModel: string,
+  revision: Revision,
+  inputDocument: CaptureModel['document']
+): RevisionRequest;
+/** @internal */
 export function createRevisionRequest(
   captureModel: CaptureModel | string,
   revision: Revision,
