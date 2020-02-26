@@ -1,6 +1,5 @@
-import { BaseSelector, CaptureModel, RevisionRequest, SelectorTypes } from '@capture-models/types';
+import { BaseSelector, CaptureModel, RevisionRequest } from '@capture-models/types';
 import { Action, Computed, Thunk } from 'easy-peasy';
-import { RevisionItem } from './utility/capture-model-to-revision-list';
 import { SelectorModel } from '../selectors/selector-model';
 
 /**
@@ -52,7 +51,7 @@ import { SelectorModel } from '../selectors/selector-model';
  */
 export type RevisionsModel = {
   revisions: {
-    [key: string]: RevisionItem;
+    [key: string]: RevisionRequest;
   };
 
   // The revision.

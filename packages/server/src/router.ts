@@ -3,6 +3,7 @@ import { createCaptureModelApi } from './routes/api/create-capture-model';
 import { createRevisionApi } from './routes/api/create-revision';
 import { deleteCaptureModelApi } from './routes/api/delete-capture-model';
 import { deleteRevisionApi } from './routes/api/delete-revision';
+import { forkRevisionApi } from './routes/api/fork-revision';
 import { updateRevisionApi } from './routes/api/update-revision';
 import { TypedRouter } from './utility/typed-router';
 import { captureModelApi } from './routes/api/capture-model';
@@ -20,6 +21,7 @@ export const router = new TypedRouter({
   'delete-capture-model': [TypedRouter.DELETE, '/api/model/:id', deleteCaptureModelApi],
   'create-revision': [TypedRouter.POST, '/api/model/:captureModelId/revision', createRevisionApi],
   'choice-revision': [TypedRouter.GET, '/api/model/:captureModelId/structure/:structureId', choiceRevisionApi],
+  'fork-revision': [TypedRouter.GET, '/api/model/:captureModelId/fork/:revisionId', forkRevisionApi],
   'update-revision': [TypedRouter.PUT, '/api/revision/:id', updateRevisionApi],
   'delete-revision': [TypedRouter.DELETE, '/api/revision/:id', deleteRevisionApi],
   revision: [TypedRouter.GET, '/api/revision/:id', revisionApi],

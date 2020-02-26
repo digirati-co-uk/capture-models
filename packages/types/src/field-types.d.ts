@@ -26,7 +26,7 @@ export type FieldSpecification<Props extends BaseField = BaseField> = {
   defaultProps: Partial<Props>;
   Component: FC<Props & InjectedFieldProps<Props['value']>>;
   TextPreview: FC<Props>;
-  Editor: FC<Required<Omit<Props, 'value', 'selector'>> & Pick<Props, 'selector'>>;
+  Editor: FC<Required<Omit<Props, 'value' | 'selector'>> & Pick<Props, 'selector'>>;
 };
 
 export type NestedField<Doc extends CaptureModel['document']> = Array<

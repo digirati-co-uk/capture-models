@@ -7,7 +7,7 @@ import {
   useStoreState,
 } from './revisions-provider';
 
-export * from './revisions-model.d';
+export * from './revisions-model';
 
 export const Revisions = {
   Provider: RevisionProvider,

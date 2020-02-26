@@ -2,7 +2,7 @@ import { CaptureModel } from '@capture-models/types';
 import { createContextStore } from 'easy-peasy';
 import React, { useEffect } from 'react';
 import { revisionStore } from './revisions-store';
-import { RevisionsModel } from './revisions-model.d';
+import { RevisionsModel } from './revisions-model';
 
 export const {
   Provider,

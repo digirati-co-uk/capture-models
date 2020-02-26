@@ -44,7 +44,7 @@ export type SelectorTypes<Type extends SelectorTypeMap = SelectorTypeMap> = MapV
 export type SelectorTypeProps<T extends { state: State }, State = T['state']> = T & InjectedSelectorProps<T['state']>;
 export type SelectorComponent<T extends { state: State }, State = T['state']> = FC<SelectorTypeProps<T, State>>;
 
-export type SelectorSpecification<Props extends BaseSelector = BaseSelector, CT = string> = {
+export type SelectorSpecification<Props extends BaseSelector = BaseSelector, CT extends string = string> = {
   label: string;
   type: Props['type'];
   description: string;

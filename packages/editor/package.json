@@ -11,13 +11,13 @@
   "typings": "lib/index.d.ts",
   "author": "Stephen Fraser <stephen.fraser@digirati.com>",
   "scripts": {
-    "build": "fesk-build --umd --cjs && tsc -p ./ --emitDeclarationOnly && cp ./src/utility/invalid-babel-types.d.ts ./lib/utility/invalid-babel-types.d.ts",
+    "build": "fesk-build --umd --cjs && cp ./src/utility/invalid-babel-types.d.ts ./lib/utility/invalid-babel-types.d.ts && tsc -p ./ --emitDeclarationOnly",
     "start": "fesk-start --cjs --umd --noServer",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "build-types": "tsc -p ./ --emitDeclarationOnly",
     "build-ts": "tsc -p ./",
-    "build:prod": "NODE_ENV=production fesk-build --umd && tsc -p ./ --emitDeclarationOnly && cp ./src/utility/invalid-babel-types.d.ts ./lib/utility/invalid-babel-types.d.ts && build-storybook"
+    "build:prod": "NODE_ENV=production fesk-build --umd && cp ./src/utility/invalid-babel-types.d.ts ./lib/utility/invalid-babel-types.d.ts && tsc -p ./ --emitDeclarationOnly && build-storybook"
   },
   "dependencies": {
     "@blueprintjs/core": "^3.22.1",

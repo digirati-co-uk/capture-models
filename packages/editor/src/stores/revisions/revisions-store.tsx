@@ -1,9 +1,9 @@
-
 import { CaptureModel, BaseField, BaseSelector } from '@capture-models/types';
 import { action, computed, createStore, thunk } from 'easy-peasy';
 import { original } from 'immer';
 import { pluginStore } from '@capture-models/plugin-api';
 import { createRevisionDocument } from '../../utility/create-revision-document';
+import { createRevisionRequest } from '../../utility/create-revision-request';
 import { generateId } from '../../utility/generate-id';
 import { RevisionsModel } from './revisions-model';
 import { captureModelToRevisionList } from './utility/capture-model-to-revision-list';
@@ -104,48 +104,35 @@ export const revisionStore: RevisionsModel = {
   // This method assumes we have the latest capture model available, which may not
   // be the case. This needs to be more generic.
   createRevision: action<RevisionsModel>((state, { revisionId, cloneMode, modelMapping }) => {
+    const baseRevision = state.revisions[revisionId];
     // Structure ID is the structure from the capture model, so if this exists we can set fields.
-    if (!state.revisions[revisionId]) {
+    if (!baseRevision) {
       // @todo error handling.
       return;
     }
-    const documentToClone = state.revisions[revisionId].document;
 
-    // Structure ID if we need it.
-    // state.revisions[revisionId].revision.structureId
-    const newRevisionId = generateId(); // Do I need this here?
+    // Document
+    const documentToClone = baseRevision.document;
+    // New id
+    const newRevisionId = generateId();
+    // Create document
     const newDocument = createRevisionDocument(
       newRevisionId,
-      original(documentToClone),
+      original(documentToClone) as CaptureModel['document'],
       cloneMode,
-      state.revisions[revisionId].modelRoot,
+      baseRevision.modelRoot,
       modelMapping
     );
-
-    // @todo split out into createRevision
-    state.revisions[newRevisionId] = {
-      revision: {
-        id: newRevisionId,
-        label: state.revisions[revisionId].revision.label,
-        fields: state.revisions[revisionId].revision.fields,
-        structureId: state.revisions[revisionId].revision.structureId,
-        revises: state.revisions[revisionId].revision.id, // This might be a structure id.
-        approved: false, // for now.
-      },
-      document: newDocument,
-    };
-
+    // Add new revision request
+    state.revisions[newRevisionId] = createRevisionRequest(
+      baseRevision.captureModelId as string,
+      baseRevision.revision,
+      newDocument
+    );
+    // Save it to state.
     state.currentRevisionId = newRevisionId;
     state.selector = createSelectorStore(newDocument);
     state.unsavedRevisionIds.push(newRevisionId);
-
-    // => Verification
-    // - Does this work with single values (allowMultiple=false) where users can edit the field directly?
-    // - Does this work with single values (allowMultiple=false) where users can revise the field
-    // - Does this work with adding a new item to a list (allowMultiple=true)
-    // - Does this work with amending an item on a list (allowMultiple=true)
-    // - Does this work with a mix of the above (single transcription, multiple comments)
-    // - Does this work with a mix of the above, but editing revision
   }),
 
   // @todo Not sure what this will do yet, might be a thunk.
