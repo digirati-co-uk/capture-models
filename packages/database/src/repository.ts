@@ -93,6 +93,7 @@ export class CaptureModelRepository {
     try {
       return (await toCaptureModel(await builder.getOne())) as any;
     } catch (err) {
+      console.log(err);
       throw new Error(`Capture model ${id} not found`);
     }
   }
