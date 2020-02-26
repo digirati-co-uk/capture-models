@@ -29,6 +29,10 @@ export class CaptureModelDatabase {
     this.api = connection.getCustomRepository(CaptureModelRepository);
   }
 
+  async drop() {
+    await this.connection.dropDatabase();
+  }
+
   static async create({ cli, ...config }: ConnectionOptions): Promise<CaptureModelDatabase> {
     const connection = await createConnection({
       type: 'postgres',
