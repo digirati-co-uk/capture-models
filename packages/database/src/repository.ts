@@ -1,15 +1,13 @@
-import { Brackets, EntityManager, EntityRepository, In, IsNull } from 'typeorm';
+import { Brackets, EntityManager, EntityRepository } from 'typeorm';
 import { BaseField, CaptureModel as CaptureModelType, RevisionRequest, StatusTypes } from '@capture-models/types';
 import { traverseDocument } from '@capture-models/editor/lib/utility/traverse-document';
-import { hydratePartialDocument, validateRevision, createRevisionRequest, isEntityList } from '@capture-models/editor';
+import { hydratePartialDocument, validateRevision, isEntityList } from '@capture-models/editor';
 import { CaptureModel } from './entity/CaptureModel';
 import { Contributor } from './entity/Contributor';
 import { Field } from './entity/Field';
 import { Document } from './entity/Document';
 import { Property } from './entity/Property';
 import { Revision } from './entity/Revision';
-import { RevisionAuthors } from './entity/RevisionAuthors';
-import { SelectorInstance } from './entity/SelectorInstance';
 import { Structure } from './entity/Structure';
 import { fromContributor } from './mapping/from-contributor';
 import { fromDocument } from './mapping/from-document';
@@ -18,7 +16,6 @@ import { fromRevision } from './mapping/from-revision';
 import { fromRevisionRequest } from './mapping/from-revision-request';
 import { fromStructure } from './mapping/from-structure';
 import { toCaptureModel } from './mapping/to-capture-model';
-import { toDocument } from './mapping/to-document';
 import { toRevision } from './mapping/to-revision';
 import { documentToInserts } from './utility/document-to-inserts';
 
@@ -26,33 +23,7 @@ import { documentToInserts } from './utility/document-to-inserts';
 export class CaptureModelRepository {
   constructor(private manager: EntityManager) {}
 
-  /**
-   * Get capture model
-   * Returns a capture model when given an ID.
-   *
-   * @param id
-   * @param canonical - Only load the canonical document, no revisions.
-   */
   async getCaptureModel(
-    id: string,
-    { canonical = false }: { canonical?: boolean } = {}
-  ): Promise<CaptureModelType & { id: string }> {
-    if (canonical) {
-      // @todo This will return a filtered capture model, bringing back only approved
-      //   documents and fields. (field.revision.accepted === 'accepted' OR no revision)
-      return this.getFilteredCaptureModel(id, {
-        includeCanonical: true,
-      });
-    }
-
-    const model = await this.manager.findOne(CaptureModel, id);
-    if (!model) {
-      throw new Error(`Capture model: ${id} was not found`);
-    }
-    return (await toCaptureModel(model)) as any;
-  }
-
-  async getFilteredCaptureModel(
     id: string,
     {
       includeCanonical,
@@ -119,7 +90,11 @@ export class CaptureModelRepository {
       );
     }
 
-    return (await toCaptureModel(await builder.getOne())) as any;
+    try {
+      return (await toCaptureModel(await builder.getOne())) as any;
+    } catch (err) {
+      throw new Error(`Capture model ${id} not found`);
+    }
   }
 
   /**
@@ -260,7 +235,7 @@ export class CaptureModelRepository {
       throw new Error(`Revision: ${id} was not found`);
     }
     const revision = toRevision(model);
-    const fullModel = await this.getFilteredCaptureModel(model.captureModelId, { revisionId: id });
+    const fullModel = await this.getCaptureModel(model.captureModelId, { revisionId: id });
 
     return {
       captureModelId: model.captureModelId,
@@ -407,7 +382,7 @@ export class CaptureModelRepository {
       return rev;
     });
 
-    return this.getFilteredCaptureModel(captureModel.id, { revisionId: revision.id });
+    return this.getCaptureModel(captureModel.id, { revisionId: revision.id });
   }
 
   /**
