@@ -11,7 +11,6 @@ export function fromStructure(input: CaptureModel['structure'], rootChoice?: Str
   structure.order = 0;
   structure.description = input.description;
   structure.type = input.type;
-  structure.flatItems = Promise.resolve([]);
 
   // This is passed in so that it can be propagated through the tree.
   if (rootChoice) {
