@@ -1,7 +1,12 @@
 import { Brackets, EntityManager, EntityRepository } from 'typeorm';
 import { BaseField, CaptureModel as CaptureModelType, RevisionRequest, StatusTypes } from '@capture-models/types';
 import { traverseDocument } from '@capture-models/editor/lib/utility/traverse-document';
-import { hydratePartialDocument, validateRevision, isEntityList } from '@capture-models/editor';
+import {
+  hydratePartialDocument,
+  validateRevision,
+  isEntityList,
+  filterDocumentByRevision,
+} from '@capture-models/editor';
 import { CaptureModel } from './entity/CaptureModel';
 import { Contributor } from './entity/Contributor';
 import { Field } from './entity/Field';
@@ -18,6 +23,9 @@ import { fromStructure } from './mapping/from-structure';
 import { toCaptureModel } from './mapping/to-capture-model';
 import { toRevision } from './mapping/to-revision';
 import { documentToInserts } from './utility/document-to-inserts';
+import * as deepEqual from 'fast-deep-equal';
+import { fieldsToInserts } from './utility/fields-to-inserts';
+import { partialDocumentsToInserts } from './utility/partial-documents-to-inserts';
 
 @EntityRepository()
 export class CaptureModelRepository {
@@ -90,12 +98,13 @@ export class CaptureModelRepository {
       );
     }
 
-    try {
-      return (await toCaptureModel(await builder.getOne())) as any;
-    } catch (err) {
-      console.log(err);
+    const captureModel = await builder.getOne();
+
+    if (!captureModel) {
       throw new Error(`Capture model ${id} not found`);
     }
+
+    return (await toCaptureModel(captureModel)) as any;
   }
 
   /**
@@ -139,7 +148,7 @@ export class CaptureModelRepository {
     target,
   }: CaptureModelType) {
     // @todo validation of capture model.
-    return this.manager.transaction(async manager => {
+    const newModel = await this.manager.transaction(async manager => {
       // The order of operations is as follows:
       // - the structure, depends on nothing
       // - contributors, depends on nothing
@@ -151,6 +160,8 @@ export class CaptureModelRepository {
       try {
         // Structure - no dependencies.
         const mappedStructure = fromStructure(structure);
+        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+        // @ts-ignore
         await manager.save(Structure, mappedStructure);
 
         // Contributors - no dependencies.
@@ -195,6 +206,8 @@ export class CaptureModelRepository {
         throw err;
       }
     });
+
+    return this.getCaptureModel(newModel.id);
   }
 
   /**
@@ -254,6 +267,27 @@ export class CaptureModelRepository {
     throw new Error('Not implemented yet');
   }
 
+  async revisionExists(id: string) {
+    const count = await this.manager
+      .createQueryBuilder()
+      .select('r.id')
+      .from(Revision, 'r')
+      .where({ id })
+      .getCount();
+
+    return count !== 0;
+  }
+
+  async captureModelExists(id: string) {
+    const count = await this.manager
+      .createQueryBuilder()
+      .select('c.id')
+      .from(CaptureModel, 'c')
+      .where({ id })
+      .getCount();
+
+    return count !== 0;
+  }
   /**
    * Create revision
    *
@@ -338,42 +372,13 @@ export class CaptureModelRepository {
       throw new Error('Not yet implemented');
     }
 
-    const dbInserts: (Field | Document | Property)[][] = [];
-    for (const doc of docsToHydrate) {
-      const parent = entityMap[doc.parent.id];
-      if (!parent) {
-        throw new Error(`Immutable item ${doc.parent.id} was not found in capture model`);
-      }
-      const term = parent.properties[doc.term];
-      if (!term) {
-        throw new Error(`Term ${doc.term} was not found on capture model document ${doc.parent.id}`);
-      }
-      if (!isEntityList(term)) {
-        throw new Error(`Term ${doc.term} is not a list of documents`);
-      }
-      // @todo for editing, we'll need to add a check to see if the entity is already in this map and merge those.
-      //   in this case, hydrate _will_ keep the values. This will allow 2 revisions to target the same document
-      //   but not the same fields. If the same field is edited, then FOR NOW this will replace the revision ID in
-      //   that field with this one, making it impossible to edit. Need support for multiple revisions on fields to
-      //   support this case.
-      const docToClone = term[0];
-
-      // This will add any missing fields from the revision.
-      const fullDocument = hydratePartialDocument(doc.entity, docToClone);
-
-      dbInserts.push(
-        ...documentToInserts(fullDocument, { id: doc.parent.id, term: doc.term }, captureModel.document.id)
-      );
-    }
-
-    const fieldInserts: Field[] = [];
-    for (const field of fieldsToAdd) {
-      // In this case, the property will already exist. So we just need to add a field.
-      const fieldObj = fromField(field.field);
-      fieldObj.parentId = `${field.parent.id}/${field.term}`;
-      fieldInserts.push(fieldObj);
-    }
-    dbInserts.push(fieldInserts);
+    // Everything we need to add into the database.
+    const dbInserts: (Field | Document | Property)[][] = [
+      // Map the documents, adding missing fields if required.
+      ...partialDocumentsToInserts(docsToHydrate, entityMap),
+      // Map the fields
+      fieldsToInserts(fieldsToAdd),
+    ];
 
     const revision = fromRevisionRequest(req);
     // Save the revision.
@@ -387,7 +392,7 @@ export class CaptureModelRepository {
       return rev;
     });
 
-    return this.getCaptureModel(captureModel.id, { revisionId: revision.id });
+    return this.getRevision(req.revision.id);
   }
 
   /**
@@ -404,7 +409,114 @@ export class CaptureModelRepository {
       allowDeletedFields = false,
     }: { allowAdditionalFields?: boolean; allowDeletedFields?: boolean } = {}
   ) {
-    throw new Error('Not yet implemented');
+    const storedRevision = await this.getRevision(req.revision.id);
+    const captureModel = await this.getCaptureModel(req.captureModelId);
+
+    // Filter the new document with the stored revision (to be sure.)
+    const newFilteredDocument = filterDocumentByRevision(req.document, storedRevision.revision);
+    if (!newFilteredDocument) {
+      throw new Error('Invalid revision');
+    }
+
+    const entityIds = [];
+    const fieldIds = [];
+    const selectorIds = [];
+    const fieldMap = {};
+    const selectorMap = {};
+
+    // Extract old document values.
+    traverseDocument(storedRevision.document, {
+      visitField(field) {
+        fieldIds.push(field.id);
+        fieldMap[field.id] = field;
+        if (field.selector) {
+          selectorIds.push(field.selector.id);
+          selectorMap[field.selector.id] = field.selector;
+        }
+      },
+      visitEntity(entity) {
+        entityIds.push(entity.id);
+        if (entity.selector) {
+          selectorIds.push(entity.selector.id);
+          selectorMap[entity.selector.id] = entity.selector.state;
+        }
+      },
+    });
+
+    const fieldsToAdd: Array<{ field: BaseField; term: string; parent: CaptureModelType['document'] }> = [];
+    const docsToHydrate: Array<{
+      entity: CaptureModelType['document'];
+      term?: string;
+      parent?: CaptureModelType['document'];
+    }> = [];
+
+    // Apply new document changes.
+    // @todo find entities that have been deleted (and option to allow deletions)
+    traverseDocument(req.document, {
+      visitField(field, term, parent) {
+        if (fieldIds.indexOf(field.id) === -1) {
+          if (!parent.immutable) {
+            // This does need to be created, but will be created when creating document.
+            return;
+          }
+          // Create.
+          fieldsToAdd.push({ field, term, parent });
+          return;
+        }
+        fieldIds.splice(fieldIds.indexOf(field.id), 1);
+
+        if (!deepEqual(fieldMap[field.id].value, field.value)) {
+          // UPDATE @todo treating this the same as creation.
+          fieldsToAdd.push({ field, term, parent });
+          return;
+        }
+      },
+      visitEntity(entity, term, parent) {
+        if (entity.immutable === false && parent && parent.immutable && entityIds.indexOf(entity.id) === -1) {
+          docsToHydrate.push({ entity, term, parent });
+          return;
+        }
+        entityIds.splice(fieldIds.indexOf(entity.id), 1);
+      },
+    });
+
+    if (allowDeletedFields === false && (fieldIds.length || entityIds.length)) {
+      throw new Error('Cannot remove fields');
+    }
+
+    const entityMap: { [id: string]: CaptureModelType['document'] } = {};
+    traverseDocument(captureModel.document, {
+      visitEntity(entity) {
+        entityMap[entity.id] = entity;
+      },
+    });
+
+    // Everything we need to add into the database.
+    const dbInserts: (Field | Document | Property)[][] = [
+      // Map the documents, adding missing fields if required.
+      ...partialDocumentsToInserts(docsToHydrate, entityMap),
+      // Map the fields
+      fieldsToInserts(fieldsToAdd),
+    ];
+
+    const dbRemovals: (Field | Document)[] = [
+      ...fieldIds.map(id => fromField(fieldMap[id])),
+      ...entityIds.map(id => fromDocument(entityMap[id]), false),
+    ];
+
+    // Save the revision.
+    await this.manager.transaction(async manager => {
+      for (const insert of dbInserts) {
+        // @todo change this to insert() and expand list of inserts to other entities.
+        //   This will avoid updates and allow the whole list to be inserted flat.
+        await manager.save(insert);
+      }
+      // Double check.
+      if (allowDeletedFields && dbRemovals.length) {
+        await manager.remove(dbRemovals);
+      }
+    });
+
     // Get capture model
     // Take revision
     // Get mapping of old fields (in revision)
@@ -415,16 +527,27 @@ export class CaptureModelRepository {
     // - new documents
     // - deleted fields
     // Check configuration, apply changes.
+
+    return this.getRevision(req.revision.id);
   }
 
   /**
    * Remove a revision
    *
    * @param revisionId
+   * @param allowRemoveCanonical
    */
-  async removeRevision(revisionId: string) {
+  async removeRevision(revisionId: string, { allowRemoveCanonical = false }: { allowRemoveCanonical?: boolean } = {}) {
     // Need some options here. Although this will be a reviewer-instantiated call, we want to make sure
     // that the revision has not already been accepted (or config for that) and that it is safe to remove.
-    throw new Error('Not yet implemented');
+    const revision = await this.getRevision(revisionId);
+
+    if (allowRemoveCanonical) {
+      await this.manager.remove(fromRevision(revision.revision), { transaction: true });
+    }
+
+    if (!allowRemoveCanonical) {
+      throw new Error('Not yet implemented');
+    }
   }
 }

@@ -16,7 +16,10 @@ export interface ApplicationContext {
   routes: typeof router;
 }
 
-export type RouteMiddleware<Params = any> = Koa.Middleware<
+export type RouteMiddleware<Params = any, Body = any> = Koa.Middleware<
   ApplicationState,
-  ApplicationContext & Omit<RouterParamContext<ApplicationState, ApplicationContext>, 'params'> & { params: Params }
+  ApplicationContext &
+    Omit<RouterParamContext<ApplicationState, ApplicationContext>, 'params'> & { params: Params } & {
+      requestBody: Body;
+    }
 >;

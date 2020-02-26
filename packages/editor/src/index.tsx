@@ -79,6 +79,7 @@ export * from './utility/fetch-capture-model';
 export * from './utility/filter-capture-model';
 export * from './utility/filter-document-by-revision';
 export * from './utility/filter-document-graph';
+export * from './utility/find-structure';
 export * from './utility/flatten-structures';
 export * from './utility/fork-field';
 export * from './utility/generate-id';
