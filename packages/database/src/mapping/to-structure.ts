@@ -32,10 +32,12 @@ export async function toStructure(structure: Structure, root = true): Promise<Ca
     const resolvedFlatFields = await structure.flatItems;
     const fieldHashTable: { [key: string]: Structure } = Object.create(null);
     const rootFields: Structure[] = [];
+
     // Throw the fields in a hash map
     for (let i = 0; i < resolvedFlatFields.length; i++) {
       fieldHashTable[resolvedFlatFields[i].id] = resolvedFlatFields[i];
     }
+
     // Go back through the hash map to build the tree
     for (let i = 0; i < resolvedFlatFields.length; i++) {
       const singleStructure = fieldHashTable[resolvedFlatFields[i].id];
@@ -44,6 +46,7 @@ export async function toStructure(structure: Structure, root = true): Promise<Ca
         if (parentId === structure.id) {
           rootFields[singleStructure.order] = singleStructure;
         } else {
+          fieldHashTable[parentId].items = fieldHashTable[parentId].items ? fieldHashTable[parentId].items : [];
           fieldHashTable[parentId].items[singleStructure.order] = singleStructure;
         }
       }
