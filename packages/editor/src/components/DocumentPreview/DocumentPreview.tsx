@@ -1,7 +1,7 @@
 import React, { ComponentClass, FunctionComponent } from 'react';
 import { BaseField, CaptureModel } from '@capture-models/types';
 import { FieldPreview } from '../FieldPreview/FieldPreview';
-import { isEntity } from '../../utility/is-entity';
+import { isEntity } from '@capture-models/helpers';
 
 export const DocumentPreview: React.FC<{
   entity: CaptureModel['document'] | BaseField;

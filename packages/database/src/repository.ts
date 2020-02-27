@@ -1,14 +1,13 @@
 import { Brackets, EntityManager, EntityRepository } from 'typeorm';
 import { BaseField, CaptureModel as CaptureModelType, RevisionRequest, StatusTypes } from '@capture-models/types';
-import { traverseDocument } from '@capture-models/editor/lib/utility/traverse-document';
 import {
+  traverseDocument,
   validateRevision,
   filterDocumentByRevision,
   findStructure,
   createRevisionRequestFromStructure,
   forkExistingRevision,
-  REVISION_CLONE_MODE,
-} from '@capture-models/editor';
+} from '@capture-models/helpers';
 import { CaptureModel } from './entity/CaptureModel';
 import { Contributor } from './entity/Contributor';
 import { Field } from './entity/Field';
@@ -538,7 +537,7 @@ export class CaptureModelRepository {
     }: {
       includeRevisions?: boolean;
       includeStructures?: boolean;
-      cloneMode?: REVISION_CLONE_MODE;
+      cloneMode?: string; // @todo REVISION_CLONE_MODE has inter-dependency issues
       modelMapping?: any;
       modelRoot?: [];
     } = {}

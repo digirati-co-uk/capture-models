@@ -3,10 +3,10 @@
  */
 
 import { CaptureModel } from '@capture-models/types';
-import { captureModelToRevisionList } from '../stores/revisions/utility/capture-model-to-revision-list';
+import { captureModelToRevisionList } from '../../editor/lib/stores/revisions/utility/capture-model-to-revision-list';
 import { hydratePartialDocument } from './hydrate-partial-document';
 // Need this for the plugin store.
-import '../input-types/TextField';
+import '../../editor/lib/input-types/TextField';
 
 jest.mock('./generate-id');
 const { generateId } = require('./generate-id');
@@ -16,7 +16,7 @@ const GENERATED_ID = '[--------GENERATED-ID--------]';
 generateId.mockImplementation(() => GENERATED_ID);
 
 describe('hydratePartialDocument', () => {
-  const captureModel: CaptureModel = require('../../../../fixtures/03-revisions/06-model-root.json');
+  const captureModel: CaptureModel = require('../../../fixtures/03-revisions/06-model-root.json');
   const [
     createFieldA,
     editModelA,

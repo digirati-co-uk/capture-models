@@ -2,7 +2,7 @@ import { filterCaptureModel } from './filter-capture-model';
 import { CaptureModel } from '@capture-models/types';
 
 describe('filterCaptureModel', () => {
-  const personModel: CaptureModel = require('../../../../fixtures/02-nesting/05-nested-model-multiple.json');
+  const personModel: CaptureModel = require('../../../fixtures/02-nesting/05-nested-model-multiple.json');
   test('non-filter entity maintains structure', () => {
     const filtered = filterCaptureModel(
       'something',

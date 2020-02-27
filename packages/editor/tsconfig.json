@@ -14,9 +14,12 @@
   // Dependencies must be declared in references.
   "references": [
     { "path": "../types" },
-    { "path": "../plugin-api" }
+    { "path": "../plugin-api" },
+    { "path": "../helpers" }
   ],
   "exclude": [
+    "src/stores/revisions/utility",
+    "src/utility",
     "node_modules",
     "dist",
     "lib",

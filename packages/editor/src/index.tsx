@@ -53,9 +53,6 @@ export * from './hooks/useChoiceRevisions';
 
 // Stores
 export * from './stores/revisions';
-export * from './stores/revisions/utility/capture-model-to-revision-list';
-export * from './stores/revisions/utility/get-revision-field-from-path';
-export * from './stores/revisions/utility/revision-filter';
 
 export * from './stores/document/document-store';
 export * from './stores/document/document-model';
@@ -65,33 +62,6 @@ export * from './stores/selectors/selector-store';
 export * from './stores/structure/structure-model';
 export * from './stores/structure/use-focused-structure-editor';
 export * from './stores/structure/structure-store';
-
-// Utility.
-export * from './utility/copy-original';
-export * from './utility/create-choice';
-export * from './utility/create-context';
-export * from './utility/create-document';
-export * from './utility/create-field';
-export * from './utility/create-model';
-export * from './utility/create-revision-document';
-export * from './utility/create-revision-request';
-export * from './utility/fetch-capture-model';
-export * from './utility/filter-capture-model';
-export * from './utility/filter-document-by-revision';
-export * from './utility/filter-document-graph';
-export * from './utility/find-structure';
-export * from './utility/flatten-structures';
-export * from './utility/fork-field';
-export * from './utility/fork-existing-revision';
-export * from './utility/generate-id';
-export * from './utility/hydrate-partial-document';
-export * from './utility/is-entity';
-export * from './utility/item-from-index';
-export * from './utility/resolve-subtree';
-export * from './utility/split-document-by-model-root';
-export * from './utility/traverse-document';
-export * from './utility/traverse-structure';
-export * from './utility/validate-revision';
 
 // Theme
 export { defaultTheme } from './themes';

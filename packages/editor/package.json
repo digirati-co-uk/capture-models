@@ -11,17 +11,18 @@
   "typings": "lib/index.d.ts",
   "author": "Stephen Fraser <stephen.fraser@digirati.com>",
   "scripts": {
-    "build": "fesk-build --umd --cjs && cp ./src/utility/invalid-babel-types.d.ts ./lib/utility/invalid-babel-types.d.ts && tsc -p ./ --emitDeclarationOnly",
+    "build": "fesk-build --umd --cjs && tsc -p ./ --emitDeclarationOnly",
     "start": "fesk-start --cjs --umd --noServer",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "build-types": "tsc -p ./ --emitDeclarationOnly",
     "build-ts": "tsc -p ./",
-    "build:prod": "NODE_ENV=production fesk-build --umd && cp ./src/utility/invalid-babel-types.d.ts ./lib/utility/invalid-babel-types.d.ts && tsc -p ./ --emitDeclarationOnly && build-storybook"
+    "build:prod": "NODE_ENV=production fesk-build --umd && tsc -p ./ --emitDeclarationOnly && build-storybook"
   },
   "dependencies": {
     "@blueprintjs/core": "^3.22.1",
     "@canvas-panel/core": "^0.2.0",
+    "@capture-models/helpers": "1.0.0",
     "@capture-models/plugin-api": "1.0.0",
     "@capture-models/types": "1.0.0",
     "@storybook/react": "^5.3.13",

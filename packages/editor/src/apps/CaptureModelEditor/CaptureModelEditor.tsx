@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, Route, RouteComponentProps, Switch, useHistory, useLocation, withRouter } from 'react-router-dom';
 import { Card, Grid, Header, Menu, Segment, Tab } from 'semantic-ui-react';
+import { createChoice, createDocument } from '@capture-models/helpers';
 import { useDebouncedCallback } from 'use-debounce';
 import { CaptureModelList } from '../../components/CaptureModelList/CaptureModelList';
 import { DocumentEditor } from '../../components/DocumentEditor/DocumentEditor';
@@ -11,8 +12,6 @@ import { useAllDocs, useDatabase } from '../../core/database';
 import { DocumentStore } from '../../stores/document/document-store';
 import { StructureStore } from '../../stores/structure/structure-store';
 import { useFocusedStructureEditor } from '../../stores/structure/use-focused-structure-editor';
-import { createChoice } from '../../utility/create-choice';
-import { createDocument } from '../../utility/create-document';
 import { useNavigation } from '../../hooks/useNavigation';
 import { ThemeProvider } from 'styled-components';
 import { defaultTheme } from '../../themes';

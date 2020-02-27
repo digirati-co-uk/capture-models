@@ -2,14 +2,16 @@ import { CaptureModel, BaseField, BaseSelector } from '@capture-models/types';
 import { action, computed, createStore, thunk } from 'easy-peasy';
 import { original } from 'immer';
 import { pluginStore } from '@capture-models/plugin-api';
-import { createRevisionDocument } from '../../utility/create-revision-document';
-import { createRevisionRequest } from '../../utility/create-revision-request';
-import { generateId } from '../../utility/generate-id';
 import { RevisionsModel } from './revisions-model';
-import { captureModelToRevisionList } from './utility/capture-model-to-revision-list';
 import { createSelectorStore } from '../selectors/selector-store';
-import { getRevisionFieldFromPath } from './utility/get-revision-field-from-path';
-import { copyOriginal } from '../../utility/copy-original';
+import {
+  copyOriginal,
+  createRevisionDocument,
+  generateId,
+  createRevisionRequest,
+  captureModelToRevisionList,
+  getRevisionFieldFromPath,
+} from '@capture-models/helpers';
 
 export const revisionStore: RevisionsModel = {
   // Can we safely assume the structure won't change in this store? - I think so.

@@ -1,7 +1,7 @@
 import { CaptureModel } from '@capture-models/types';
 import React, { useState } from 'react';
 import { useAsyncEffect } from 'use-async-effect';
-import { fetchCaptureModel } from '../utility/fetch-capture-model';
+import { fetchCaptureModel } from '@capture-models/helpers';
 import { CaptureModelProvider } from './capture-model-provider';
 
 export const RemoteCaptureModelProvider: React.FC<{

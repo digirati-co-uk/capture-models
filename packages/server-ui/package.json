@@ -19,6 +19,7 @@
   "dependencies": {
     "@capture-models/editor": "1.0.0",
     "@capture-models/plugin-api": "1.0.0",
+    "@capture-models/helpers": "1.0.0",
     "@capture-models/types": "1.0.0",
     "@layouts/core": "^0.1.2",
     "react": "^16.12.0",

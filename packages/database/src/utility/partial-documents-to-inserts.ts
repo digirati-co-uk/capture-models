@@ -1,4 +1,4 @@
-import { hydratePartialDocument, isEntityList } from '@capture-models/editor';
+import { hydratePartialDocument, isEntityList } from '@capture-models/helpers';
 import { CaptureModel as CaptureModelType } from '@capture-models/types';
 import { documentToInserts } from './document-to-inserts';
 

@@ -1,7 +1,7 @@
 import { filterDocumentByRevision } from './filter-document-by-revision';
 import { CaptureModel, Revision, RevisionRequest } from '@capture-models/types';
 import { filterCaptureModel } from './filter-capture-model';
-import { expandModelFields } from '../core/structure-editor';
+import { expandModelFields } from './expand-model-fields';
 
 export function createRevisionRequestFromStructure(
   captureModel: CaptureModel,
