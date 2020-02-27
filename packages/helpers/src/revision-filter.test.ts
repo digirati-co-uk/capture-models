@@ -1,8 +1,8 @@
-import single01 from '../../../../../../fixtures/03-revisions/01-single-field-with-revision.json';
-import single02 from '../../../../../../fixtures/03-revisions/02-single-field-with-multiple-revisions.json';
-import single03 from '../../../../../../fixtures/03-revisions/03-nested-revision.json';
-import single04 from '../../../../../../fixtures/03-revisions/04-dual-transcription.json';
-import single05 from '../../../../../../fixtures/03-revisions/05-allow-multiple-transcriptions.json';
+import single01 from '../../../fixtures/03-revisions/01-single-field-with-revision.json';
+import single02 from '../../../fixtures/03-revisions/02-single-field-with-multiple-revisions.json';
+import single03 from '../../../fixtures/03-revisions/03-nested-revision.json';
+import single04 from '../../../fixtures/03-revisions/04-dual-transcription.json';
+import single05 from '../../../fixtures/03-revisions/05-allow-multiple-transcriptions.json';
 import { CaptureModel } from '@capture-models/types';
 import { revisionFilter } from './revision-filter';
 
