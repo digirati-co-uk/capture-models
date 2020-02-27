@@ -13,12 +13,14 @@ export async function toCaptureModel({
   contributors,
   integrity,
   id,
+  derivedFromId,
 }: CaptureModel): Promise<CaptureModelType> {
   return {
     id,
     structure: await toStructure(structure),
     document: await toDocument(document),
     target,
+    derivedFrom: derivedFromId ? derivedFromId : undefined,
     revisions: revisions && revisions.length ? revisions.map(toRevision) : undefined,
     contributors:
       contributors && contributors.length

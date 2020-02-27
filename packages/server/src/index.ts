@@ -3,6 +3,8 @@ import { createApp } from './app';
 import { config, port } from './config';
 import { router } from './router';
 
+import '@capture-models/editor/lib/input-types/TextField';
+
 async function main() {
   const db = await CaptureModelDatabase.create(config);
   const app = await createApp(db, router);

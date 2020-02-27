@@ -14,6 +14,7 @@ import { Field } from './entity/Field';
 import { Document } from './entity/Document';
 import { Property } from './entity/Property';
 import { Revision } from './entity/Revision';
+import { RevisionAuthors } from './entity/RevisionAuthors';
 import { Structure } from './entity/Structure';
 import { fromContributor } from './mapping/from-contributor';
 import { fromDocument } from './mapping/from-document';
@@ -134,6 +135,27 @@ export class CaptureModelRepository {
 
     // eslint-disable-next-line @typescript-eslint/camelcase
     return result.map(({ capture_model_id, structure_label }) => ({ id: capture_model_id, label: structure_label }));
+  }
+
+  /**
+   * Get all revisions
+   *
+   * Returns a page of revisions.
+   *
+   * @param page The page requested
+   * @param pageSize The number of results
+   */
+  async getAllRevisions(page = 0, pageSize = 20) {
+    const result: Array<{ revision_label: string; revision_id: string }> = await this.manager
+      .createQueryBuilder()
+      .select(['revision.id', 'revision.label'])
+      .from(Revision, 'revision')
+      .take(pageSize)
+      .skip(page * pageSize)
+      .getRawMany();
+
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    return result.map(r => ({ id: r.revision_id, label: r.revision_label }));
   }
 
   /**

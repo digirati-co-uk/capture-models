@@ -21,14 +21,23 @@ export const assets = (): RouteMiddleware<{ assetName: string; folder: string }>
         context.body = readFileSync(require.resolve('@capture-models/server-ui'));
         return;
       }
+      if (assetName === 'server-ui.js.map') {
+        context.headers['Content-Type'] = 'application/javascript';
+        context.body = readFileSync(
+          require.resolve('@capture-models/server-ui/dist/umd/@capture-models/server-ui.js.map')
+        );
+        return;
+      }
+      const asset = context.request.path;
+      const isValid =
+        assetList.indexOf(asset) !== -1 || (asset.endsWith('.map') && assetList.indexOf(asset.slice(0, -4)) !== -1);
 
-      if (assetList.indexOf(context.request.path) === -1) {
+      if (!isValid) {
         context.status = 404;
         return;
       }
 
       const fileName = require.resolve(`@capture-models/server-ui/dist/umd/${assetName}`);
-      console.log(`Resource: ${fileName}`);
       if (existsSync(fileName)) {
         context.headers['Content-Type'] = 'application/javascript';
         context.body = readFileSync(fileName);

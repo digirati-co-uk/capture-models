@@ -12,6 +12,7 @@ export function fromCaptureModel({
   contributors,
   integrity,
   target,
+  derivedFrom,
 }: CaptureModelType): CaptureModel {
   const model = new CaptureModel();
 
@@ -25,6 +26,7 @@ export function fromCaptureModel({
     document: linkedDocument,
     revisions: revisions ? revisions.map(fromRevision) : undefined,
     integrity,
+    derivedFromId: derivedFrom ? derivedFrom : undefined,
     contributors: contributors ? Object.values(contributors) : undefined,
   });
 }

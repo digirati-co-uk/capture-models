@@ -55,6 +55,12 @@ export class CaptureModel {
   // )
   contributors?: Contributor[];
 
+  @Column({ nullable: true })
+  derivedFromId?: string;
+
+  @ManyToOne(() => CaptureModel, { nullable: true })
+  derivedFrom?: CaptureModel;
+
   @VersionColumn()
   version?: number;
 }

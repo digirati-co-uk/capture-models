@@ -1,21 +1,18 @@
 import { CardButton, Heading, Revisions, RoundedCard } from '@capture-models/editor';
 import { CanvasPanel } from '@capture-models/editor/lib/content-types/CanvasPanel/CanvasPanel';
 import { useContentType } from '@capture-models/plugin-api';
-import { Routes, Route, Link } from 'react-router-dom';
+import { Switch, Route, Link } from 'react-router-dom';
 import { CaptureModel } from '@capture-models/types';
 import { ContentLayout, RootLayout } from '@layouts/core';
 import React, { Suspense, useState } from 'react';
 import { RevisionNavigation } from './components/RevisionNavigation/RevisionNavigation';
+import { CaptureModelEditor } from './RootEditor';
 import { getExampleContent } from './utility/get-example-content';
 import { getExampleModels } from './utility/get-example-models';
+import { useApiModel, useApiModels, useRevisionList } from './utility/useModels';
 
-const examples = getExampleModels();
+// const examples = getExampleModels();
 const content = getExampleContent();
-
-declare module 'react-router-dom' {
-  // eslint-disable-next-line no-shadow
-  export const Routes: any;
-}
 
 // Routes:
 // /browse/{id[]}
@@ -37,6 +34,7 @@ const Root: React.FC<any> = ({
   setSelectedContent,
   backHome,
 }) => {
+  const models = useApiModels();
   const contentComponent = useContentType(selectedCaptureModel ? selectedCaptureModel.target : undefined);
 
   // useEffect(() => {
@@ -57,26 +55,24 @@ const Root: React.FC<any> = ({
               )
             ) : (
               <div style={{ padding: '40px 20px', background: '#d0cce2', height: '100%', overflowY: 'auto' }}>
-                {examples.map((example, key) => (
+                {models.map((example, key) => (
                   <RoundedCard key={key}>
-                    <Heading size="small">
-                      {example.structure.label} ({key})
-                    </Heading>
-                    <p>{example.structure.description}</p>
-                    {example.target ? (
-                      <p style={{ fontSize: 11, color: '#999' }}>
-                        {example.target.map((t, k) => {
-                          return (
-                            <>
-                              <span key={k}>{t.id}</span>
-                              <br />
-                            </>
-                          );
-                        })}
-                      </p>
-                    ) : null}
-                    <CardButton inline size="medium" onClick={() => setSelectedCaptureModel(example)}>
-                      Choose model {!selectedContent && example.target && 'and content'}
+                    <Heading size="small">{example.label}</Heading>
+                    {/*<p>{example.structure.description}</p>*/}
+                    {/*{example.target ? (*/}
+                    {/*  <p style={{ fontSize: 11, color: '#999' }}>*/}
+                    {/*    {example.target.map((t, k) => {*/}
+                    {/*      return (*/}
+                    {/*        <>*/}
+                    {/*          <span key={k}>{t.id}</span>*/}
+                    {/*          <br />*/}
+                    {/*        </>*/}
+                    {/*      );*/}
+                    {/*    })}*/}
+                    {/*  </p>*/}
+                    {/*) : null}*/}
+                    <CardButton inline size="medium" onClick={() => setSelectedCaptureModel(example.id)}>
+                      Choose model {!selectedContent && 'and content'}
                     </CardButton>
                   </RoundedCard>
                 ))}
@@ -124,35 +120,55 @@ const Root: React.FC<any> = ({
   );
 };
 
-export const RootExamples: React.FC = () => {
-  const [selectedContent, setSelectedContent] = useState<{ label: string; manifest: string; thumbnail?: string }>();
-  const [selectedCaptureModel, setSelectedCaptureModel] = useState<CaptureModel>();
+const RevisionPlaceholder: React.FC = () => {
+  const revisions = useRevisionList();
 
   return (
-    <Revisions.Provider captureModel={selectedCaptureModel}>
+    <div>
+      <ul>
+        {revisions.map((revision, idx) => {
+          return <li>{revision.label}</li>;
+        })}
+      </ul>
+    </div>
+  );
+};
+
+export const RootExamples: React.FC = () => {
+  const [selectedContent, setSelectedContent] = useState<{ label: string; manifest: string; thumbnail?: string }>();
+  const [selectedCaptureModelId, setSelectedCaptureModelId] = useState<string>();
+  const captureModel = useApiModel(selectedCaptureModelId);
+
+  return (
+    <Revisions.Provider captureModel={captureModel}>
       <h1>Home</h1>
       <nav>
-        <Link to="/">Home</Link> | <Link to="about">About</Link> | <Link to="viewer">Viewer</Link>
+        <Link to="/">Home</Link> | <a href="/fixtures">Fixtures</a> | <Link to="/revisions">Revisions</Link> |{' '}
+        <Link to="/viewer">Viewer</Link> | <Link to="/editor">Editor</Link>
       </nav>
-      <Routes>
-        <Route path="/" element={<>Home</>} />
-        <Route path="about" element={<>About</>} />
-        <Route
-          path="viewer"
-          element={
-            <Root
-              backHome={() => {
-                setSelectedContent(undefined);
-                setSelectedCaptureModel(undefined);
-              }}
-              selectedCaptureModel={selectedCaptureModel}
-              setSelectedCaptureModel={setSelectedCaptureModel}
-              selectedContent={selectedContent}
-              setSelectedContent={setSelectedContent}
-            />
-          }
-        />
-      </Routes>
+      <Switch>
+        <Route path="/" exact>
+          <>Home</>
+        </Route>
+        <Route path="/revisions">
+          <RevisionPlaceholder />
+        </Route>
+        <Route path="/viewer" exact>
+          <Root
+            backHome={() => {
+              setSelectedContent(undefined);
+              setSelectedCaptureModelId(undefined);
+            }}
+            selectedCaptureModel={captureModel}
+            setSelectedCaptureModel={setSelectedCaptureModelId}
+            selectedContent={selectedContent}
+            setSelectedContent={setSelectedContent}
+          />
+        </Route>
+        <Route path="/editor*">
+          <CaptureModelEditor />
+        </Route>
+      </Switch>
     </Revisions.Provider>
   );
 };

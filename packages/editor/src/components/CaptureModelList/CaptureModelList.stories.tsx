@@ -14,8 +14,10 @@ const withDatabase = (Component: React.FC): React.FC => () => (
 );
 
 export const Simple: React.FC = withDatabase(() => {
-  const db = useDatabase();
-  const models = useAllDocs<CaptureModel>();
+  const models = [
+    { label: 'Model A', id: '1' },
+    { label: 'Model B', id: '2' },
+  ];
 
   return (
     <Card fluid style={{ margin: 40 }}>
@@ -23,19 +25,9 @@ export const Simple: React.FC = withDatabase(() => {
         <CaptureModelList
           captureModels={models}
           onClick={e => console.log('onclick', e)}
-          onDelete={e => db.remove({ _id: e._id as string, _rev: e._rev as string })}
+          onDelete={e => console.log('remove', e)}
         />
       </Card.Content>
-      <button
-        onClick={() => {
-          db.post<CaptureModel>({
-            structure: createChoice(),
-            document: createDocument(),
-          });
-        }}
-      >
-        Add model
-      </button>
     </Card>
   );
 });
