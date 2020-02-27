@@ -1,10 +1,6 @@
 import { CaptureModel, BaseField } from '@capture-models/types';
 import { action, computed, createContextStore, thunk, thunkOn } from 'easy-peasy';
-
-import { createDocument } from '../../utility/create-document';
-import { createField } from '../../utility/create-field';
-import { isEntity } from '../../utility/is-entity';
-import { resolveSubtree } from '../../utility/resolve-subtree';
+import { createDocument, createField, isEntity, resolveSubtree } from '@capture-models/helpers';
 import { DocumentModel } from './document-model';
 
 export const DocumentStore = createContextStore<

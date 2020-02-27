@@ -1,6 +1,7 @@
-import { FieldHeaderComponent, isEntityList, RoundedCard } from '@capture-models/editor';
-import { BaseField, CaptureModel } from '@capture-models/types';
 import React from 'react';
+import { FieldHeaderComponent, RoundedCard } from '@capture-models/editor';
+import { BaseField, CaptureModel } from '@capture-models/types';
+import { isEntityList } from '@capture-models/helpers/lib/is-entity';
 import { EntityInstanceList } from '../EntityInstanceList/EntityInstanceList';
 import { FieldInstanceList } from '../FieldInstanceList/FieldInstanceList';
 

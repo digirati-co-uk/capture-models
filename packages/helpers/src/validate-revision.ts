@@ -1,5 +1,5 @@
-import { expandModelFields } from '../core/structure-editor';
 import { CaptureModel, RevisionRequest } from '@capture-models/types';
+import { expandModelFields } from './expand-model-fields';
 import { findStructure } from './find-structure';
 import { filterDocumentByRevision } from './filter-document-by-revision';
 

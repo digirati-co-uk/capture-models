@@ -1,6 +1,6 @@
 import { ITreeNode } from '@blueprintjs/core';
 import { CaptureModel, ModelFields, NestedModelFields } from '@capture-models/types';
-import { isEntity } from '../utility/is-entity';
+import { isEntity } from '@capture-models/helpers';
 
 type FlatStructureDefinition =
   | {

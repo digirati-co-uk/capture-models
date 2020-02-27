@@ -3,11 +3,11 @@
  */
 
 import { CaptureModel } from '@capture-models/types';
-import { captureModelToRevisionList } from '../stores/revisions/utility/capture-model-to-revision-list';
+import { captureModelToRevisionList } from './capture-model-to-revision-list';
 import { forkDocument } from './create-revision-document';
 import { filterDocumentGraph } from './filter-document-graph';
 import { splitDocumentByModelRoot } from './split-document-by-model-root';
-import '../input-types/TextField';
+import '../../editor/lib/input-types/TextField';
 
 jest.mock('./generate-id');
 const { generateId } = require('./generate-id');
@@ -15,7 +15,7 @@ const { generateId } = require('./generate-id');
 generateId.mockImplementation(() => '[--------GENERATED-ID--------]');
 
 describe('create revision', () => {
-  const captureModel: CaptureModel = require('../../../../fixtures/03-revisions/06-model-root.json');
+  const captureModel: CaptureModel = require('../../../fixtures/03-revisions/06-model-root.json');
   const [
     createFieldA,
     editModelA,

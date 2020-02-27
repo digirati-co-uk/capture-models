@@ -1,8 +1,7 @@
 import React from 'react';
 import { Card } from 'semantic-ui-react';
 import { DatabaseProvider, useAllDocs, useDatabase } from '../../core/database';
-import { createChoice } from '../../utility/create-choice';
-import { createDocument } from '../../utility/create-document';
+import { createChoice, createDocument } from '@capture-models/helpers';
 import { CaptureModelList } from './CaptureModelList';
 import { CaptureModel } from '@capture-models/types';
 

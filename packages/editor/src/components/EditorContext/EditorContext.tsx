@@ -1,7 +1,7 @@
 import React from 'react';
+import { createContext } from '@capture-models/helpers';
 import { DocumentStore } from '../../stores/document/document-store';
 import { StructureStore } from '../../stores/structure/structure-store';
-import { createContext } from '../../utility/create-context';
 import { CaptureModel } from '@capture-models/types';
 
 export const [useCaptureModel, CaptureModelProvider] = createContext<CaptureModel>();

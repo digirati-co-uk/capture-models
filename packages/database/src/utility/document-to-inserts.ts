@@ -1,4 +1,4 @@
-import { traverseDocument } from '@capture-models/editor/lib/utility/traverse-document';
+import { traverseDocument } from '@capture-models/helpers';
 import { CaptureModel as CaptureModelType } from '@capture-models/types';
 import { Document } from '../entity/Document';
 import { Field } from '../entity/Field';

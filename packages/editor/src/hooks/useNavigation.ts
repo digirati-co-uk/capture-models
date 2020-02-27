@@ -1,6 +1,6 @@
 import { CaptureModel } from '@capture-models/types';
 import { useCallback, useMemo, useState } from 'react';
-import { traverseStructure } from '../utility/traverse-structure';
+import { traverseStructure } from '@capture-models/helpers';
 
 type FlatNavigationMap = {
   id: string;

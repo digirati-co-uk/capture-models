@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { createChoice } from '../../utility/create-choice';
+import { createChoice } from '@capture-models/helpers';
 import { StructureMetadataEditor } from './StructureMetadataEditor';
 import { CaptureModel } from '@capture-models/types';
 

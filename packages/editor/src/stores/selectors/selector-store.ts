@@ -1,6 +1,6 @@
 import { CaptureModel, BaseSelector } from '@capture-models/types';
 import { SelectorModel } from './selector-model';
-import { traverseDocument } from '../../utility/traverse-document';
+import { traverseDocument } from '@capture-models/helpers';
 
 export function createSelectorStore(document?: CaptureModel['document']): SelectorModel {
   // @todo create revisionSelectorMap with a path that can be used.

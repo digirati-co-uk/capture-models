@@ -1,9 +1,8 @@
 import { ITreeNode } from '@blueprintjs/core';
 import { CaptureModel, StructureType } from '@capture-models/types';
+import { createChoice, itemFromIndex } from '@capture-models/helpers';
 import { action, computed, createContextStore, thunkOn } from 'easy-peasy';
 import { structureToTree } from '../../core/structure-editor';
-import { createChoice } from '../../utility/create-choice';
-import { itemFromIndex } from '../../utility/item-from-index';
 import { StructureModel } from './structure-model';
 
 export const StructureStore = createContextStore<

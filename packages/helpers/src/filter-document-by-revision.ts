@@ -1,6 +1,6 @@
 import { CaptureModel, Revision } from '@capture-models/types';
 import { filterCaptureModel } from './filter-capture-model';
-import { expandModelFields } from '../core/structure-editor';
+import { expandModelFields } from './expand-model-fields';
 
 export function filterDocumentByRevision(
   document: CaptureModel['document'],

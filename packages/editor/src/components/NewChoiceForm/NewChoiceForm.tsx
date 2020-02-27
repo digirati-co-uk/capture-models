@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Form as StyledForm } from 'semantic-ui-react';
-import { createChoice } from '../../utility/create-choice';
+import { createChoice } from '@capture-models/helpers';
 import { StructureType } from '@capture-models/types';
 
 type Props = {

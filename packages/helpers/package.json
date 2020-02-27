@@ -11,18 +11,26 @@
     "directory": "packages/helpers"
   },
   "scripts": {
-    "build": "fesk-build --cjs --umd && tsc -p ./ --emitDeclarationOnly",
+    "build": "fesk-build --cjs --umd && cp ./src/invalid-babel-types.d.ts ./lib/invalid-babel-types.d.ts && tsc -p ./ --emitDeclarationOnly",
     "start": "fesk-start --cjs --umd --noServer",
     "build-types": "tsc -p ./ --emitDeclarationOnly",
     "build:prod": "NODE_ENV=production fesk-build --umd --cjs && tsc -p ./ --emitDeclarationOnly"
   },
   "dependencies": {
-    "@capture-models/types": "1.0.0"
+    "@capture-models/types": "1.0.0",
+    "@capture-models/plugin-api": "1.0.0",
+    "fast-copy": "^2.0.4",
+    "react": "^16.10.2",
+    "immer": "^4.0.1",
+    "uuid": "^3.4.0"
   },
   "fesk": {
     "typescript": true
   },
   "devDependencies": {
-    "@fesk/scripts": "1.4.0-pr.a95f698d"
+    "@fesk/scripts": "1.4.0-pr.a95f698d",
+    "@types/jest": "^25.1.2",
+    "@types/react": "^16.9.9",
+    "@types/uuid": "^3.4.7"
   }
 }

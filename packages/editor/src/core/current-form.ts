@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import produce, { Draft, original } from 'immer';
-import { isEntity, isEntityList } from '../utility/is-entity';
+import { isEntity, isEntityList } from '@capture-models/helpers';
 import { useContext } from './context';
 import {
   CaptureModel,

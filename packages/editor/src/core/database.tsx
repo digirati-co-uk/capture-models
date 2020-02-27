@@ -1,9 +1,7 @@
 // Create context for PouchDB
 import PouchDB from 'pouchdb';
 import React, { MutableRefObject, useEffect, useState } from 'react';
-// Add hook for using Capture model list
-// Add functions for creating capture models
-import { createContext } from '../utility/create-context';
+import { createContext } from '@capture-models/helpers';
 
 /**
  * @internal
