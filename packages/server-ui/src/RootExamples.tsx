@@ -1,15 +1,21 @@
 import { CardButton, Heading, Revisions, RoundedCard } from '@capture-models/editor';
 import { CanvasPanel } from '@capture-models/editor/lib/content-types/CanvasPanel/CanvasPanel';
 import { useContentType } from '@capture-models/plugin-api';
+import { Routes, Route, Link } from 'react-router-dom';
 import { CaptureModel } from '@capture-models/types';
 import { ContentLayout, RootLayout } from '@layouts/core';
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import { RevisionNavigation } from './components/RevisionNavigation/RevisionNavigation';
 import { getExampleContent } from './utility/get-example-content';
 import { getExampleModels } from './utility/get-example-models';
 
 const examples = getExampleModels();
 const content = getExampleContent();
+
+declare module 'react-router-dom' {
+  // eslint-disable-next-line no-shadow
+  export const Routes: any;
+}
 
 // Routes:
 // /browse/{id[]}
@@ -53,7 +59,9 @@ const Root: React.FC<any> = ({
               <div style={{ padding: '40px 20px', background: '#d0cce2', height: '100%', overflowY: 'auto' }}>
                 {examples.map((example, key) => (
                   <RoundedCard key={key}>
-                    <Heading size="small">{example.structure.label} ({key})</Heading>
+                    <Heading size="small">
+                      {example.structure.label} ({key})
+                    </Heading>
                     <p>{example.structure.description}</p>
                     {example.target ? (
                       <p style={{ fontSize: 11, color: '#999' }}>
@@ -122,16 +130,29 @@ export const RootExamples: React.FC = () => {
 
   return (
     <Revisions.Provider captureModel={selectedCaptureModel}>
-      <Root
-        backHome={() => {
-          setSelectedContent(undefined);
-          setSelectedCaptureModel(undefined);
-        }}
-        selectedCaptureModel={selectedCaptureModel}
-        setSelectedCaptureModel={setSelectedCaptureModel}
-        selectedContent={selectedContent}
-        setSelectedContent={setSelectedContent}
-      />
+      <h1>Home</h1>
+      <nav>
+        <Link to="/">Home</Link> | <Link to="about">About</Link> | <Link to="viewer">Viewer</Link>
+      </nav>
+      <Routes>
+        <Route path="/" element={<>Home</>} />
+        <Route path="about" element={<>About</>} />
+        <Route
+          path="viewer"
+          element={
+            <Root
+              backHome={() => {
+                setSelectedContent(undefined);
+                setSelectedCaptureModel(undefined);
+              }}
+              selectedCaptureModel={selectedCaptureModel}
+              setSelectedCaptureModel={setSelectedCaptureModel}
+              selectedContent={selectedContent}
+              setSelectedContent={setSelectedContent}
+            />
+          }
+        />
+      </Routes>
     </Revisions.Provider>
   );
 };

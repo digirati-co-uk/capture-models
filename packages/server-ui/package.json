@@ -23,7 +23,10 @@
     "@capture-models/types": "1.0.0",
     "@layouts/core": "^0.1.2",
     "react": "^16.12.0",
-    "react-dom": "^16.12.0"
+    "react-dom": "^16.12.0",
+    "react-router": "5.1.2",
+    "react-router-dom": "5.1.2",
+    "history": "^5.0.0-beta.5"
   },
   "peerDependencies": {
     "styled-components": "^5.0.1"
@@ -35,6 +38,8 @@
     "styled-components": "^5.0.1",
     "@fesk/scripts": "1.4.0-pr.a95f698d",
     "@types/react": "^16.9.19",
-    "@types/react-dom": "^16.9.5"
+    "@types/react-dom": "^16.9.5",
+    "@types/react-router": "^5.1.4",
+    "@types/react-router-dom": "^5.1.3"
   }
 }

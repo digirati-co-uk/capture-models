@@ -18,13 +18,11 @@
     "sourceMap": true,
     "skipLibCheck": true,
     "paths": {
-      "@capture-models/editor": ["../editor/lib"],
       "@capture-models/database": ["../database/lib"]
     }
   },
   "references": [
     { "path": "../types" },
-    { "path": "../editor" },
     { "path": "../database" }
   ]
 }

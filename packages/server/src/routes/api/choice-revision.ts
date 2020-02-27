@@ -1,4 +1,4 @@
-import { createRevisionRequestFromStructure, findStructure } from '@capture-models/editor';
+import { createRevisionRequestFromStructure, findStructure } from '@capture-models/helpers';
 import { RouteMiddleware } from '../../types';
 
 export const choiceRevisionApi: RouteMiddleware<{ captureModelId: string; structureId: string }> = async context => {
