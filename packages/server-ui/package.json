@@ -1,18 +1,18 @@
 {
-  "name": "@capture-models/viewer",
+  "name": "@capture-models/server-ui",
   "version": "1.0.0",
   "license": "MIT",
-  "main": "dist/umd/@capture-models/viewer.js",
+  "main": "dist/umd/@capture-models/server-ui.js",
   "module": "lib/index.js",
   "typings": "lib/index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/digirati-co-uk/capture-models.git",
-    "directory": "packages/viewer"
+    "directory": "packages/server-ui"
   },
   "scripts": {
     "build": "fesk-build --cjs --umd && tsc -p ./ --emitDeclarationOnly",
-    "start": "fesk-start",
+    "start": "fesk-start --umd",
     "build-types": "tsc -p ./ --emitDeclarationOnly",
     "build:prod": "NODE_ENV=production fesk-build --cjs --umd && tsc -p ./ --emitDeclarationOnly"
   },

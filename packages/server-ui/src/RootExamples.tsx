@@ -33,9 +33,9 @@ const Root: React.FC<any> = ({
 }) => {
   const contentComponent = useContentType(selectedCaptureModel ? selectedCaptureModel.target : undefined);
 
-  useEffect(() => {
-    setSelectedCaptureModel(examples[16]);
-  })
+  // useEffect(() => {
+  //   setSelectedCaptureModel(examples[16]);
+  // })
 
   return (
     <RootLayout>

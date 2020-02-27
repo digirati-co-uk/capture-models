@@ -49,6 +49,7 @@
     { "path": "packages/types" },
     { "path": "packages/editor" },
     { "path": "packages/server" },
+    { "path": "packages/server-ui" },
     { "path": "packages/plugin-api" }
   ],
   "exclude": [

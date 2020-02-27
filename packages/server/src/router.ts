@@ -1,4 +1,5 @@
 import { assets } from './middleware/assets';
+import { captureModelListApi } from './routes/api/caputre-model-list';
 import { choiceRevisionApi } from './routes/api/choice-revision';
 import { createCaptureModelApi } from './routes/api/create-capture-model';
 import { createRevisionApi } from './routes/api/create-revision';
@@ -15,9 +16,10 @@ import { indexPage } from './routes/view';
 export const router = new TypedRouter({
   // Page routes.
   'index-page': [TypedRouter.GET, '/', indexPage],
-  assets: [TypedRouter.GET, '/assets/main.js', assets],
+  assets: [TypedRouter.GET, '/assets/:folder/:assetName', assets()],
 
   // API Routes.
+  'list-capture-models': [TypedRouter.GET, '/api/model', captureModelListApi],
   'capture-model': [TypedRouter.GET, '/api/model/:id', captureModelApi],
   'create-capture-model': [TypedRouter.POST, '/api/model', createCaptureModelApi],
   'delete-capture-model': [TypedRouter.DELETE, '/api/model/:id', deleteCaptureModelApi],
@@ -31,4 +33,7 @@ export const router = new TypedRouter({
   // Fixture routes.
   'test-fixture': [TypedRouter.GET, '/test-fixture/:name/:file', testFixture],
   fixtures: [TypedRouter.GET, '/fixtures', fixtures],
+
+  // Fallback.
+  fallback: [TypedRouter.GET, '/:path', indexPage],
 });

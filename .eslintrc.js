@@ -21,7 +21,7 @@ module.exports = {
       '@capture-models/plugin-api',
       '@capture-models/server',
       '@capture-models/types',
-      '@capture-models/viewer',
+      '@capture-models/server-ui',
     ],
     "react": {
       "version": "detect",
