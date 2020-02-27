@@ -1,21 +1,20 @@
 import React from 'react';
 import { List } from 'semantic-ui-react';
-import { StoredCaptureModel } from '@capture-models/types';
 
 type Props = {
-  captureModels: StoredCaptureModel[];
-  onDelete: (model: StoredCaptureModel) => void;
-  onClick: (model: StoredCaptureModel) => void;
+  captureModels: Array<{ id: string; label: string }>;
+  onDelete: (model: string) => void;
+  onClick: (model: string) => void;
 };
 
 export const CaptureModelList: React.FC<Props> = ({ captureModels, onClick, onDelete }) => {
   return (
     <List>
       {captureModels.map(model => (
-        <List.Item>
-          <List.Header>{model.structure.label}</List.Header>
+        <List.Item key={model.id}>
+          <List.Header>{model.label}</List.Header>
           <List.Description>
-            <a onClick={() => onClick(model)}>Edit</a> • <a onClick={() => onDelete(model)}>Delete</a>
+            <a onClick={() => onClick(model.id)}>Edit</a> • <a onClick={() => onDelete(model.id)}>Delete</a>
           </List.Description>
         </List.Item>
       ))}

@@ -6,6 +6,7 @@ import { createRevisionApi } from './routes/api/create-revision';
 import { deleteCaptureModelApi } from './routes/api/delete-capture-model';
 import { deleteRevisionApi } from './routes/api/delete-revision';
 import { forkRevisionApi } from './routes/api/fork-revision';
+import { revisionListApi } from './routes/api/revision-list';
 import { updateRevisionApi } from './routes/api/update-revision';
 import { TypedRouter } from './utility/typed-router';
 import { captureModelApi } from './routes/api/capture-model';
@@ -29,11 +30,13 @@ export const router = new TypedRouter({
   'update-revision': [TypedRouter.PUT, '/api/revision/:id', updateRevisionApi],
   'delete-revision': [TypedRouter.DELETE, '/api/revision/:id', deleteRevisionApi],
   revision: [TypedRouter.GET, '/api/revision/:id', revisionApi],
+  'revision-list': [TypedRouter.GET, '/api/revision', revisionListApi],
 
   // Fixture routes.
   'test-fixture': [TypedRouter.GET, '/test-fixture/:name/:file', testFixture],
   fixtures: [TypedRouter.GET, '/fixtures', fixtures],
 
   // Fallback.
-  fallback: [TypedRouter.GET, '/:path', indexPage],
+  'fallback-root': [TypedRouter.GET, '/:path', indexPage],
+  'fallback-editor': [TypedRouter.GET, '/editor/:id', indexPage],
 });

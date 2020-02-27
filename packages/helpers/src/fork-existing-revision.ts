@@ -19,6 +19,7 @@ export function forkExistingRevision(
   const documentToClone = baseRevision.document;
   // New id
   const newRevisionId = generateId();
+  console.log(documentToClone.properties)
   // Create document
   const newDocument = createRevisionDocument(
     newRevisionId,
