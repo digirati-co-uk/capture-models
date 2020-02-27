@@ -10,7 +10,6 @@
   "dependencies": {
     "@capture-models/database": "1.0.0",
     "@capture-models/types": "1.0.0",
-    "@capture-models/editor": "1.0.0",
     "@capture-models/server-ui": "1.0.0",
     "koa": "^2.11.0",
     "koa-json": "^2.0.2",
