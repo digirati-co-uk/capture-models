@@ -3,7 +3,7 @@
  */
 
 import { CaptureModel } from '@capture-models/types';
-import { captureModelToRevisionList } from '../../editor/lib/stores/revisions/utility/capture-model-to-revision-list';
+import { captureModelToRevisionList } from './capture-model-to-revision-list';
 import { hydratePartialDocument } from './hydrate-partial-document';
 // Need this for the plugin store.
 import '../../editor/lib/input-types/TextField';
