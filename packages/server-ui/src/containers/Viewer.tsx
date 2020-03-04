@@ -11,6 +11,13 @@ import { useApiModels } from '../utility/useModels';
 
 const content = getExampleContent();
 
+// @todo
+//  - Mock config API
+//  - Choosen IIIF content + Capture model
+//  - Mock what Omeka does when creating capture model that does not exist. (admin JWT will work on FE)
+//  - Show page with fresh capture model from template
+//  - Allow saving of revisions, as normal
+//  - Start UI refinements
 export const Viewer: React.FC<any> = ({
   selectedCaptureModel,
   setSelectedCaptureModel,
@@ -20,7 +27,6 @@ export const Viewer: React.FC<any> = ({
 }) => {
   const models = useApiModels();
   const contentComponent = useContentType(selectedCaptureModel ? selectedCaptureModel.target : undefined);
-  const currentId = Revisions.useStoreState(s => s.currentRevisionId);
   const deselect = Revisions.useStoreActions(a => a.deselectRevision);
   const persistRevision = Revisions.useStoreActions(a => a.persistRevision);
 
@@ -48,19 +54,6 @@ export const Viewer: React.FC<any> = ({
                 {models.map((example, key) => (
                   <RoundedCard key={key}>
                     <Heading size="small">{example.label}</Heading>
-                    {/*<p>{example.structure.description}</p>*/}
-                    {/*{example.target ? (*/}
-                    {/*  <p style={{ fontSize: 11, color: '#999' }}>*/}
-                    {/*    {example.target.map((t, k) => {*/}
-                    {/*      return (*/}
-                    {/*        <>*/}
-                    {/*          <span key={k}>{t.id}</span>*/}
-                    {/*          <br />*/}
-                    {/*        </>*/}
-                    {/*      );*/}
-                    {/*    })}*/}
-                    {/*  </p>*/}
-                    {/*) : null}*/}
                     <CardButton inline size="medium" onClick={() => setSelectedCaptureModel(example.id)}>
                       Choose model {!selectedContent && 'and content'}
                     </CardButton>
