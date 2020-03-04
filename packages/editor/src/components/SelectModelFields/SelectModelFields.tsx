@@ -1,4 +1,4 @@
-import { Classes, ITreeNode, Tag, Tree } from '@blueprintjs/core';
+import { Classes, ITreeNode, Label, Tag, Tree } from '@blueprintjs/core';
 import produce, { Draft } from 'immer';
 import React, { useState } from 'react';
 import { CaptureModel } from '@capture-models/types';
@@ -25,7 +25,7 @@ export const SelectModelFields: React.FC<Props> = ({ document, selected = [], on
             icon: 'layers',
             label: prop.label,
             nodeData: [...keyAcc, key],
-            secondaryLabel: <Tag intent="warning">entity</Tag>,
+            secondaryLabel: <Label color="yellow">entity</Label>,
             childNodes: processDoc(prop as CaptureModel['document'], [...keyAcc, key]),
           };
         }
@@ -33,7 +33,7 @@ export const SelectModelFields: React.FC<Props> = ({ document, selected = [], on
           id: key,
           icon: 'cube',
           label: prop.label,
-          secondaryLabel: <Tag intent="primary">{prop.type}</Tag>,
+          secondaryLabel: <Label color="blue">{prop.type}</Label>,
           disabled: idx.indexOf([...keyAcc, key].join('--HASH--')) !== -1,
           nodeData: [...keyAcc, key],
         };

@@ -2,7 +2,6 @@ import copy from 'fast-copy';
 import React, { useContext, useEffect } from 'react';
 import { Button, Card, Dropdown, Form as StyledForm, Grid, Icon, Label, List } from 'semantic-ui-react';
 import { PluginContext } from '@capture-models/plugin-api';
-import { DropdownItemProps } from 'semantic-ui-react/dist/commonjs/modules/Dropdown/DropdownItem';
 import { useMiniRouter } from '../../hooks/useMiniRouter';
 import { ChooseSelectorButton } from '../ChooseSelectorButton/ChooseSelectorButton';
 import { NewDocumentForm } from '../NewDocumentForm/NewDocumentForm';

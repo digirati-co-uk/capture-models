@@ -1,5 +1,5 @@
 import React from 'react';
-import { List } from 'semantic-ui-react';
+import { List, Card } from 'semantic-ui-react';
 
 type Props = {
   captureModels: Array<{ id: string; label: string }>;
@@ -9,15 +9,17 @@ type Props = {
 
 export const CaptureModelList: React.FC<Props> = ({ captureModels, onClick, onDelete }) => {
   return (
-    <List>
+    <>
       {captureModels.map(model => (
-        <List.Item key={model.id}>
-          <List.Header>{model.label}</List.Header>
-          <List.Description>
-            <a onClick={() => onClick(model.id)}>Edit</a> • <a onClick={() => onDelete(model.id)}>Delete</a>
-          </List.Description>
-        </List.Item>
+        <Card key={model.id}>
+          <Card.Content>
+            <Card.Header>{model.label}</Card.Header>
+          </Card.Content>
+          <Card.Content extra>
+            <a onClick={() => onClick(model.id)}>Edit</a> | <a onClick={() => onDelete(model.id)}>Delete</a>
+          </Card.Content>
+        </Card>
       ))}
-    </List>
+    </>
   );
 };

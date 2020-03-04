@@ -46,7 +46,7 @@ export const NewFieldForm: React.FC<Props> = ({ existingTerms, onSave }) => {
   }, [existingTerms, term]);
 
   return (
-    <StyledForm onSubmit={onSubmit} autocomplete="off">
+    <StyledForm onSubmit={onSubmit} autoComplete="off">
       <StyledForm.Field>
         <label>
           Choose field type

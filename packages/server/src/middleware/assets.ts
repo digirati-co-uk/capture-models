@@ -2,13 +2,13 @@ import * as path from 'path';
 import { RouteMiddleware } from '../types';
 import { readFileSync, existsSync } from 'fs';
 
-export const assets = (): RouteMiddleware<{ assetName: string; folder: string }> => {
+export const assets = (): RouteMiddleware<{ assetName: string; folder: string; subFolder?: string }> => {
   const manifest = require(`@capture-models/server-ui/dist/umd/manifest.json`);
 
   const assetList = Object.values(manifest);
 
   return context => {
-    const { assetName, folder } = context.params;
+    const { assetName, folder, subFolder } = context.params;
 
     if (assetName.match(/\.\./)) {
       context.status = 404;
@@ -30,14 +30,20 @@ export const assets = (): RouteMiddleware<{ assetName: string; folder: string }>
       }
       const asset = context.request.path;
       const isValid =
-        assetList.indexOf(asset) !== -1 || (asset.endsWith('.map') && assetList.indexOf(asset.slice(0, -4)) !== -1);
+        subFolder ||
+        assetList.indexOf(asset) !== -1 ||
+        (asset.endsWith('.map') && assetList.indexOf(asset.slice(0, -4)) !== -1);
 
       if (!isValid) {
         context.status = 404;
         return;
       }
 
-      const fileName = require.resolve(`@capture-models/server-ui/dist/umd/${assetName}`);
+      const fileName = require.resolve(
+        subFolder
+          ? `@capture-models/server-ui/dist/umd/${subFolder}/${assetName}`
+          : `@capture-models/server-ui/dist/umd/${assetName}`
+      );
       if (existsSync(fileName)) {
         context.headers['Content-Type'] = 'application/javascript';
         context.body = readFileSync(fileName);

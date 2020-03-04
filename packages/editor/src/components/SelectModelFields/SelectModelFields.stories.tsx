@@ -1,5 +1,5 @@
-import { Button, Card, Divider, Tag } from '@blueprintjs/core';
 import React, { useState } from 'react';
+import { Button, Card, Label } from 'semantic-ui-react';
 import { mergeFlatKeys, structureToFlatStructureDefinition } from '../../core/structure-editor';
 import { SelectModelFields } from './SelectModelFields';
 import { CaptureModel } from '@capture-models/types';
@@ -30,26 +30,23 @@ export const Simple: React.FC = () => {
           </Button>
         </React.Fragment>
       ) : (
-        <Button minimal={true} onClick={() => setIsSelecting(true)}>
-          Add new
-        </Button>
+        <Button onClick={() => setIsSelecting(true)}>Add new</Button>
       )}
       <Card style={{ marginTop: 20 }}>
         {structureToFlatStructureDefinition(model.document, mergeFlatKeys(selected)).map((struct, key) => (
           <div key={key} style={{ margin: 5 }}>
             {struct.label}
-            <Tag intent="primary" style={{ marginRight: 5, marginLeft: 5 }}>
+            <Label color="blue" style={{ marginRight: 5, marginLeft: 5 }}>
               {struct.type}
-            </Tag>
+            </Label>
             {struct.key.map((s: string) => (
-              <Tag minimal={true} key={s} style={{ marginRight: 5 }}>
+              <Label key={s} style={{ marginRight: 5 }}>
                 {s}
-              </Tag>
+              </Label>
             ))}
           </div>
         ))}
         <br />
-        <Divider />
         <pre>{JSON.stringify(mergeFlatKeys(selected), null, 2)}</pre>
       </Card>
     </div>
