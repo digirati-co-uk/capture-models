@@ -14,7 +14,6 @@ import { Field } from './entity/Field';
 import { Document } from './entity/Document';
 import { Property } from './entity/Property';
 import { Revision } from './entity/Revision';
-import { RevisionAuthors } from './entity/RevisionAuthors';
 import { Structure } from './entity/Structure';
 import { fromContributor } from './mapping/from-contributor';
 import { fromDocument } from './mapping/from-document';
@@ -68,19 +67,23 @@ export class CaptureModelRepository {
           `Invalid revision status ${revisionStatus}, should be one of ['draft', 'submitted', 'accepted']`
         );
       }
-      builder.andWhere(
-        new Brackets(qb =>
-          qb
-            // Add the revision id.
-            .where('di.status = :status', { status: revisionStatus.toLowerCase() })
-            .orWhere('fi.status = :status', { status: revisionStatus.toLowerCase() })
-        )
-      );
-      if (includeCanonical) {
-        // @todo this will include canonical items
-        //    (field.revision.accepted === status OR no revision)
-        throw new Error('Not yet implemented [include canonical]');
-      }
+      builder
+        .leftJoin('fi.revision', 'fir')
+        .leftJoin('di.revision', 'dir')
+        .andWhere(
+          new Brackets(qb =>
+            includeCanonical
+              ? qb
+                  // Add the revision id.
+                  .where('dir.status = :status', { status: revisionStatus.toLowerCase() })
+                  .orWhere('fir.status = :status', { status: revisionStatus.toLowerCase() })
+                  .orWhere('di.revision IS NULL')
+              : qb
+                  // Add the revision id.
+                  .where('dir.status = :status', { status: revisionStatus.toLowerCase() })
+                  .orWhere('fir.status = :status', { status: revisionStatus.toLowerCase() })
+          )
+        );
     }
 
     if (userId) {
@@ -284,6 +287,16 @@ export class CaptureModelRepository {
     });
   }
 
+  async forkCaptureModel(id: string): Promise<CaptureModel> {
+    throw new Error(`Not yet implemented - ${id}`);
+    // Grab capture model
+    // Convert to @capture-model/types model
+    // Change everything except the structure id, that remains a reference. (using traverse)
+    // Clear any revisions.
+    // Clear any contributors.
+    // Save back to database.
+  }
+
   async getRevision(id: string): Promise<RevisionRequest> {
     const model = await this.manager.findOne(Revision, id);
     if (!model) {
@@ -361,8 +374,9 @@ export class CaptureModelRepository {
     }
 
     // @todo only return the canonical model.
+    // @todo If this doesn't exist, then we're creating a new one?
     const captureModel = await this.getCaptureModel(req.captureModelId, {
-      /*canonical: true*/
+      includeCanonical: true,
     });
 
     // Validation for the request.
