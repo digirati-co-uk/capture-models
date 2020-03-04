@@ -1,7 +1,6 @@
-import { FormGroup, InputGroup, TextArea } from '@blueprintjs/core';
 import { useFormik } from 'formik';
 import React from 'react';
-import { Button } from 'semantic-ui-react';
+import { Button, Form as StyledForm } from 'semantic-ui-react';
 import { CaptureModel } from '@capture-models/types';
 
 type Props = {
@@ -19,24 +18,34 @@ export const ModelMetadataEditor: React.FC<Props> = ({ structure, onSave }) => {
 
   return (
     <form onSubmit={formik.handleSubmit}>
-      <FormGroup label="Label" labelFor="label" labelInfo="(required)">
-        <InputGroup
-          id="label"
-          placeholder="Placeholder text"
-          onChange={formik.handleChange}
-          value={formik.values.label}
-        />
-      </FormGroup>
-      <FormGroup label="Description" labelFor="description">
-        <TextArea
-          id="description"
-          growVertically={true}
-          fill={true}
-          placeholder="Enter a description of the model"
-          onChange={formik.handleChange}
-          value={formik.values.description}
-        />
-      </FormGroup>
+      <StyledForm>
+        <StyledForm.Field>
+          <label>
+            Label
+            <StyledForm.Input
+              type="text"
+              name="label"
+              required={true}
+              value={formik.values.label}
+              onChange={formik.handleChange}
+            />
+          </label>
+        </StyledForm.Field>
+
+        <StyledForm.Field>
+          <label>
+            Description
+            <StyledForm.Input
+              type="text"
+              name="description"
+              required={true}
+              value={formik.values.description}
+              onChange={formik.handleChange}
+            />
+          </label>
+        </StyledForm.Field>
+      </StyledForm>
+
       {formik.dirty ? (
         <Button type="submit" color="blue" size="small">
           Save

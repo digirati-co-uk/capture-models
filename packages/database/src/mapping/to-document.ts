@@ -3,6 +3,7 @@ import { Document } from '../entity/Document';
 import { Property } from '../entity/Property';
 import { fromSelector } from './from-selector';
 import { toField } from './to-field';
+import { toSelector } from './to-selector';
 
 export async function toDocument(doc: Document, parentRootProperties?: Property[]): Promise<CaptureModel['document']> {
   const {
@@ -46,7 +47,7 @@ export async function toDocument(doc: Document, parentRootProperties?: Property[
   }
 
   if (selector) {
-    returnDocument.selector = fromSelector(selector);
+    returnDocument.selector = toSelector(selector);
   }
 
   return returnDocument;

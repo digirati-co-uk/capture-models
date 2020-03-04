@@ -7,6 +7,7 @@ import { deleteCaptureModelApi } from './routes/api/delete-capture-model';
 import { deleteRevisionApi } from './routes/api/delete-revision';
 import { forkRevisionApi } from './routes/api/fork-revision';
 import { revisionListApi } from './routes/api/revision-list';
+import { updateCaptureModelApi } from './routes/api/update-capture-model';
 import { updateRevisionApi } from './routes/api/update-revision';
 import { TypedRouter } from './utility/typed-router';
 import { captureModelApi } from './routes/api/capture-model';
@@ -18,11 +19,13 @@ export const router = new TypedRouter({
   // Page routes.
   'index-page': [TypedRouter.GET, '/', indexPage],
   assets: [TypedRouter.GET, '/assets/:folder/:assetName', assets()],
+  'assets-sub': [TypedRouter.GET, '/assets/:folder/:subFolder/:assetName', assets()],
 
   // API Routes.
   'list-capture-models': [TypedRouter.GET, '/api/model', captureModelListApi],
   'capture-model': [TypedRouter.GET, '/api/model/:id', captureModelApi],
   'create-capture-model': [TypedRouter.POST, '/api/model', createCaptureModelApi],
+  'update-capture-model': [TypedRouter.PUT, '/api/model/:id', updateCaptureModelApi],
   'delete-capture-model': [TypedRouter.DELETE, '/api/model/:id', deleteCaptureModelApi],
   'create-revision': [TypedRouter.POST, '/api/model/:captureModelId/revision', createRevisionApi],
   'choice-revision': [TypedRouter.GET, '/api/model/:captureModelId/structure/:structureId', choiceRevisionApi],
@@ -39,4 +42,5 @@ export const router = new TypedRouter({
   // Fallback.
   'fallback-root': [TypedRouter.GET, '/:path', indexPage],
   'fallback-editor': [TypedRouter.GET, '/editor/:id', indexPage],
+  'fallback-editor-path': [TypedRouter.GET, '/editor/:id/:path', indexPage],
 });

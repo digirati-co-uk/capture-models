@@ -1,8 +1,9 @@
 import { Revisions } from '@capture-models/editor';
+import { RevisionRequest } from '@capture-models/types';
 import React from 'react';
 import { VerboseEntityPage } from '../VerboseEntityPage/VerboseEntityPage';
 
-export const RevisionTopLevel: React.FC = () => {
+export const RevisionTopLevel: React.FC<{ onSaveRevision: (req: RevisionRequest) => void }> = ({ onSaveRevision }) => {
   const current = Revisions.useStoreState(s => s.currentRevision);
   if (!current) return null;
 
@@ -11,7 +12,9 @@ export const RevisionTopLevel: React.FC = () => {
       <VerboseEntityPage
         entity={{ property: 'root', instance: current.document }}
         path={[]}
-        goBack={() => console.log('Whole revision!', JSON.stringify(current))}
+        goBack={() => {
+          onSaveRevision(current);
+        }}
       />
     </>
   );

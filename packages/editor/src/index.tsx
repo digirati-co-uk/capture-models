@@ -11,7 +11,6 @@ export * from './components/ChooseField/ChooseField';
 export * from './components/ChooseFieldButton/ChooseFieldButton';
 export * from './components/ChooseSelector/ChooseSelector';
 export * from './components/ChooseSelectorButton/ChooseSelectorButton';
-export * from './components/CreateStructure/CreateStructure';
 export * from './components/DocumentCreator/DocumentCreator';
 export * from './components/DocumentEditor/DocumentEditor';
 export * from './components/DocumentPreview/DocumentPreview';

@@ -137,12 +137,32 @@ export const revisionStore: RevisionsModel = {
     state.unsavedRevisionIds.push(newRevisionId);
   }),
 
+  persistRevision: thunk(async (actions, { revisionId: customRevisionId, createRevision, updateRevision }, helpers) => {
+    // First persist to get new
+    const state = helpers.getState();
+    const revisionId = customRevisionId ? customRevisionId : state.currentRevisionId;
+    if (!revisionId) {
+      // @todo error handling?
+      return;
+    }
+    const oldRevision = state.revisions[revisionId];
+    if (state.unsavedRevisionIds.indexOf(revisionId) === -1) {
+      const newRevision = await createRevision(oldRevision);
+      actions.importRevision({ revisionRequest: newRevision });
+      actions.saveRevision({ revisionId });
+    } else {
+      const newRevision = await updateRevision(oldRevision);
+      actions.importRevision({ revisionRequest: newRevision });
+    }
+  }),
+
+  importRevision: action((state, { revisionRequest }) => {
+    state.revisions[revisionRequest.revision.id] = revisionRequest;
+  }),
+
   // @todo Not sure what this will do yet, might be a thunk.
   saveRevision: action((state, { revisionId }) => {
-    // Grab revisions from unsavedRevisionIds
-    // Call passed in callback for saving revisions
-    // set unsavedRevisionIds to []
-    return null as any;
+    state.unsavedRevisionIds = state.unsavedRevisionIds.filter(unsavedId => unsavedId !== revisionId);
   }),
 
   // Just sets the id.

@@ -1,10 +1,13 @@
 import { BackgroundSplash, Revisions, RoundedCard, useNavigation } from '@capture-models/editor';
-import { CaptureModel } from '@capture-models/types';
+import { CaptureModel, RevisionRequest } from '@capture-models/types';
 import React from 'react';
 import { RevisionList } from '../RevisionList/RevisionList';
 import { RevisionTopLevel } from '../RevisionTopLevel/RevisionTopLevel';
 
-export const RevisionNavigation: React.FC<{ structure: CaptureModel['structure'] }> = ({ structure }) => {
+export const RevisionNavigation: React.FC<{
+  structure: CaptureModel['structure'];
+  onSaveRevision: (req: RevisionRequest) => void;
+}> = ({ structure, onSaveRevision }) => {
   const [currentView, { pop, push, idStack }] = useNavigation(structure);
   const currentRevisionId = Revisions.useStoreState(s => s.currentRevisionId);
 
@@ -13,7 +16,7 @@ export const RevisionNavigation: React.FC<{ structure: CaptureModel['structure']
   }
 
   if (currentRevisionId) {
-    return <RevisionTopLevel />;
+    return <RevisionTopLevel onSaveRevision={onSaveRevision} />;
   }
 
   if (currentView.type === 'model') {

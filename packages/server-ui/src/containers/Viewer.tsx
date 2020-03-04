@@ -1,33 +1,17 @@
 import { CardButton, Heading, Revisions, RoundedCard } from '@capture-models/editor';
 import { CanvasPanel } from '@capture-models/editor/lib/content-types/CanvasPanel/CanvasPanel';
 import { useContentType } from '@capture-models/plugin-api';
-import { Switch, Route, Link } from 'react-router-dom';
-import { CaptureModel } from '@capture-models/types';
 import { ContentLayout, RootLayout } from '@layouts/core';
-import React, { Suspense, useState } from 'react';
-import { RevisionNavigation } from './components/RevisionNavigation/RevisionNavigation';
-import { CaptureModelEditor } from './RootEditor';
-import { getExampleContent } from './utility/get-example-content';
-import { getExampleModels } from './utility/get-example-models';
-import { useApiModel, useApiModels, useRevisionList } from './utility/useModels';
+import React, { Suspense } from 'react';
+import { RevisionNavigation } from '../components/RevisionNavigation/RevisionNavigation';
+import { createRevision } from '../utility/create-revision';
+import { getExampleContent } from '../utility/get-example-content';
+import { updateRevision } from '../utility/update-revision';
+import { useApiModels } from '../utility/useModels';
 
-// const examples = getExampleModels();
 const content = getExampleContent();
 
-// Routes:
-// /browse/{id[]}
-// /revision/{id}
-// /revision/{id}/field/{id}
-// /revision/{id}/field/{id}/selector
-// /revision/{id}/doc/{id}
-// /revision/{id}/doc/{id}/selector
-// /revision/{id}/preview
-// /revision/{id}/export
-
-// Things:
-// - field index: id => [id, id, id]: computed field on revision
-
-const Root: React.FC<any> = ({
+export const Viewer: React.FC<any> = ({
   selectedCaptureModel,
   setSelectedCaptureModel,
   selectedContent,
@@ -36,10 +20,9 @@ const Root: React.FC<any> = ({
 }) => {
   const models = useApiModels();
   const contentComponent = useContentType(selectedCaptureModel ? selectedCaptureModel.target : undefined);
-
-  // useEffect(() => {
-  //   setSelectedCaptureModel(examples[16]);
-  // })
+  const currentId = Revisions.useStoreState(s => s.currentRevisionId);
+  const deselect = Revisions.useStoreActions(a => a.deselectRevision);
+  const persistRevision = Revisions.useStoreActions(a => a.persistRevision);
 
   return (
     <RootLayout>
@@ -49,7 +32,14 @@ const Root: React.FC<any> = ({
             <button onClick={backHome}>Back home</button>
             {selectedCaptureModel ? (
               selectedContent || contentComponent ? (
-                <RevisionNavigation structure={selectedCaptureModel.structure} />
+                <RevisionNavigation
+                  onSaveRevision={rev => {
+                    persistRevision({ createRevision, updateRevision, revisionId: rev.revision.id }).then(() => {
+                      deselect({ revisionId: rev.revision.id });
+                    });
+                  }}
+                  structure={selectedCaptureModel.structure}
+                />
               ) : (
                 'Select content'
               )
@@ -117,58 +107,5 @@ const Root: React.FC<any> = ({
         )}
       </ContentLayout>
     </RootLayout>
-  );
-};
-
-const RevisionPlaceholder: React.FC = () => {
-  const revisions = useRevisionList();
-
-  return (
-    <div>
-      <ul>
-        {revisions.map((revision, idx) => {
-          return <li>{revision.label}</li>;
-        })}
-      </ul>
-    </div>
-  );
-};
-
-export const RootExamples: React.FC = () => {
-  const [selectedContent, setSelectedContent] = useState<{ label: string; manifest: string; thumbnail?: string }>();
-  const [selectedCaptureModelId, setSelectedCaptureModelId] = useState<string>();
-  const captureModel = useApiModel(selectedCaptureModelId);
-
-  return (
-    <Revisions.Provider captureModel={captureModel}>
-      <h1>Home</h1>
-      <nav>
-        <Link to="/">Home</Link> | <a href="/fixtures">Fixtures</a> | <Link to="/revisions">Revisions</Link> |{' '}
-        <Link to="/viewer">Viewer</Link> | <Link to="/editor">Editor</Link>
-      </nav>
-      <Switch>
-        <Route path="/" exact>
-          <>Home</>
-        </Route>
-        <Route path="/revisions">
-          <RevisionPlaceholder />
-        </Route>
-        <Route path="/viewer" exact>
-          <Root
-            backHome={() => {
-              setSelectedContent(undefined);
-              setSelectedCaptureModelId(undefined);
-            }}
-            selectedCaptureModel={captureModel}
-            setSelectedCaptureModel={setSelectedCaptureModelId}
-            selectedContent={selectedContent}
-            setSelectedContent={setSelectedContent}
-          />
-        </Route>
-        <Route path="/editor*">
-          <CaptureModelEditor />
-        </Route>
-      </Switch>
-    </Revisions.Provider>
   );
 };

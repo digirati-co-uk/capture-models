@@ -121,20 +121,30 @@ export class CaptureModelRepository {
    *
    * @param page The page requested
    * @param pageSize The number of results
+   * @param includeDerivatives
    */
-  async getAllCaptureModels(page = 0, pageSize = 20) {
-    const result: Array<{ capture_model_id: string; structure_label: string }> = await this.manager
+  async getAllCaptureModels(
+    page = 0,
+    pageSize = 20,
+    { includeDerivatives = false }: { includeDerivatives?: boolean } = {}
+  ) {
+    const query = this.manager
       .createQueryBuilder()
-      .select(['capture_model.id'])
+      .select(['capture_model.id as id', 'COUNT(df.id) as derivatives'])
       .from(CaptureModel, 'capture_model')
       .leftJoin('capture_model.structure', 'structure')
-      .addSelect('structure.label')
-      .take(pageSize)
-      .skip(page * pageSize)
-      .getRawMany();
+      .leftJoin('capture_model.derivedFrom', 'df')
+      .addSelect('structure.label', 'label')
+      .groupBy('capture_model.id')
+      .addGroupBy('structure.id');
 
-    // eslint-disable-next-line @typescript-eslint/camelcase
-    return result.map(({ capture_model_id, structure_label }) => ({ id: capture_model_id, label: structure_label }));
+    if (!includeDerivatives) {
+      query.where('capture_model.derivedFromId IS NULL');
+    }
+
+    query.take(pageSize).skip(page * pageSize);
+
+    return await query.getRawMany();
   }
 
   /**

@@ -47,9 +47,13 @@ const Models = () => {
   return (
     <Card.Content>
       <CaptureModelList
-        captureModels={models}
-        onClick={e => history.push(`/editor/${e._id}`)}
-        onDelete={e => db.remove({ _id: e._id as string, _rev: e._rev as string })}
+        captureModels={[]}
+        onClick={e => {
+          /*history.push(`/editor/${e._id}`)*/
+        }}
+        onDelete={e => {
+          /*db.remove({ _id: e._id as string, _rev: e._rev as string })*/
+        }}
       />
       <button
         onClick={() => {

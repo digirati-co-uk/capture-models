@@ -47,7 +47,7 @@ import { SelectorModel } from '../selectors/selector-model';
  *
  * Remaining things:
  * - How to label structures in the UI?
- * - Revisions should have structure ID.
+ * - RevisionsManager should have structure ID.
  */
 export type RevisionsModel = {
   revisions: {
@@ -68,6 +68,18 @@ export type RevisionsModel = {
     // Either a structure id, fields (/w optional structure ID) and always an optional revises.
     { revisionId: string; cloneMode: REVISION_CLONE_MODE; modelMapping?: { [key: string]: string } }
   >;
+  // Persist will handle the flow of saving.
+  persistRevision: Thunk<
+    RevisionsModel,
+    {
+      createRevision: (req: RevisionRequest) => Promise<RevisionRequest>;
+      updateRevision: (req: RevisionRequest) => Promise<RevisionRequest>;
+      revisionId?: string;
+    }
+  >;
+  // Import will take in the persisted revision, or a full PUT
+  importRevision: Action<RevisionsModel, { revisionRequest: RevisionRequest }>;
+  // Save will remove the revision from unsavedRevisionIds
   saveRevision: Action<RevisionsModel, { revisionId: string }>;
   selectRevision: Action<RevisionsModel, { revisionId: string }>;
   deselectRevision: Action<RevisionsModel, { revisionId: string }>;
