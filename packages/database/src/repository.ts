@@ -1,5 +1,12 @@
 import { Brackets, EntityManager, EntityRepository } from 'typeorm';
-import { BaseField, CaptureModel as CaptureModelType, RevisionRequest, StatusTypes } from '@capture-models/types';
+import {
+  BaseField,
+  CaptureModel as CaptureModelType,
+  Contributor as ContributorType,
+  RevisionRequest,
+  StatusTypes,
+  Target,
+} from '@capture-models/types';
 import {
   traverseDocument,
   validateRevision,
@@ -8,6 +15,7 @@ import {
   createRevisionRequestFromStructure,
   forkExistingRevision,
 } from '@capture-models/helpers';
+import { generateId } from '../../helpers/src/generate-id';
 import { CaptureModel } from './entity/CaptureModel';
 import { Contributor } from './entity/Contributor';
 import { Field } from './entity/Field';
@@ -287,14 +295,32 @@ export class CaptureModelRepository {
     });
   }
 
-  async forkCaptureModel(id: string): Promise<CaptureModel> {
-    throw new Error(`Not yet implemented - ${id}`);
-    // Grab capture model
-    // Convert to @capture-model/types model
-    // Change everything except the structure id, that remains a reference. (using traverse)
-    // Clear any revisions.
-    // Clear any contributors.
-    // Save back to database.
+  async forkCaptureModel(id: string, target: Target[], creator?: ContributorType): Promise<CaptureModelType> {
+    const model = await this.getCaptureModel(id);
+
+    // This might be able to check if a field exists at a target, but that is for the
+    // application calling to decide. It's valid in here to have 2 capture models that are
+    // derived form the same model against the same target.
+    // Create json_populate_recordset and then query for target and type
+
+    traverseDocument(model.document, {
+      visitEntity(entity) {
+        entity.id = generateId();
+      },
+      visitField(field) {
+        field.id = generateId();
+      },
+      visitSelector(selector) {
+        selector.id = generateId();
+      },
+    });
+
+    model.revisions = [];
+    model.contributors = creator ? { [creator.id]: creator } : {};
+    model.derivedFrom = id;
+    model.target = target;
+
+    return await this.saveCaptureModel(model);
   }
 
   async getRevision(id: string): Promise<RevisionRequest> {
