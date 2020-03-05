@@ -1,6 +1,7 @@
 import { assets } from './middleware/assets';
 import { captureModelListApi } from './routes/api/caputre-model-list';
 import { choiceRevisionApi } from './routes/api/choice-revision';
+import { cloneCaptureModel } from './routes/api/clone-capture-model';
 import { createCaptureModelApi } from './routes/api/create-capture-model';
 import { createRevisionApi } from './routes/api/create-revision';
 import { deleteCaptureModelApi } from './routes/api/delete-capture-model';
@@ -27,6 +28,7 @@ export const router = new TypedRouter({
   'create-capture-model': [TypedRouter.POST, '/api/model', createCaptureModelApi],
   'update-capture-model': [TypedRouter.PUT, '/api/model/:id', updateCaptureModelApi],
   'delete-capture-model': [TypedRouter.DELETE, '/api/model/:id', deleteCaptureModelApi],
+  'clone-capture-model': [TypedRouter.POST, '/api/model/:id/clone', cloneCaptureModel],
   'create-revision': [TypedRouter.POST, '/api/model/:captureModelId/revision', createRevisionApi],
   'choice-revision': [TypedRouter.GET, '/api/model/:captureModelId/structure/:structureId', choiceRevisionApi],
   'fork-revision': [TypedRouter.GET, '/api/model/:captureModelId/fork/:revisionId', forkRevisionApi],
