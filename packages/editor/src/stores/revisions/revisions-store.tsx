@@ -29,6 +29,7 @@ export const revisionStore: RevisionsModel = {
       : null
   ),
   unsavedRevisionIds: [],
+  currentRevisionReadMode: false,
 
   // Empty state for selectors. This will be populated when you select a revision and be reset when you deselect one.
   // It contains the basic state for what's currently selected.
@@ -45,9 +46,11 @@ export const revisionStore: RevisionsModel = {
 
     if (payload.initialRevision && revisions[payload.initialRevision]) {
       state.currentRevisionId = payload.initialRevision;
+      state.currentRevisionReadMode = !!payload.initialRevisionReadMode;
       state.selector = createSelectorStore(revisions[payload.initialRevision].document);
     } else {
       state.currentRevisionId = null;
+      state.currentRevisionReadMode = false;
       state.selector = createSelectorStore();
     }
 
@@ -105,14 +108,13 @@ export const revisionStore: RevisionsModel = {
 
   // This method assumes we have the latest capture model available, which may not
   // be the case. This needs to be more generic.
-  createRevision: action<RevisionsModel>((state, { revisionId, cloneMode, modelMapping }) => {
+  createRevision: action<RevisionsModel>((state, { revisionId, readMode, cloneMode, modelMapping }) => {
     const baseRevision = state.revisions[revisionId];
     // Structure ID is the structure from the capture model, so if this exists we can set fields.
     if (!baseRevision) {
       // @todo error handling.
       return;
     }
-
     // Document
     const documentToClone = baseRevision.document;
     // New id
@@ -125,14 +127,24 @@ export const revisionStore: RevisionsModel = {
       baseRevision.modelRoot,
       modelMapping
     );
+
     // Add new revision request
-    state.revisions[newRevisionId] = createRevisionRequest(
+    const newRevisionRequest = createRevisionRequest(
       baseRevision.captureModelId as string,
       baseRevision.revision,
       newDocument
     );
+    // Update Id of revision.
+    newRevisionRequest.revision = {
+      ...baseRevision.revision,
+      approved: false, // @todo this is where auto-approval config might go, will still be server checked.
+      id: newRevisionId,
+    };
+    // Save new revision request.
+    state.revisions[newRevisionId] = newRevisionRequest;
     // Save it to state.
     state.currentRevisionId = newRevisionId;
+    state.currentRevisionReadMode = !!readMode;
     state.selector = createSelectorStore(newDocument);
     state.unsavedRevisionIds.push(newRevisionId);
   }),
@@ -146,7 +158,7 @@ export const revisionStore: RevisionsModel = {
       return;
     }
     const oldRevision = state.revisions[revisionId];
-    if (state.unsavedRevisionIds.indexOf(revisionId) === -1) {
+    if (state.unsavedRevisionIds.indexOf(revisionId) !== -1) {
       const newRevision = await createRevision(oldRevision);
       actions.importRevision({ revisionRequest: newRevision });
       actions.saveRevision({ revisionId });
@@ -166,18 +178,20 @@ export const revisionStore: RevisionsModel = {
   }),
 
   // Just sets the id.
-  selectRevision: action((state, { revisionId }) => {
+  selectRevision: action((state, { revisionId, readMode }) => {
     // @todo this might be where we go through and initialise the selector section of the store. This needs to be
     //    reliable.
     if (state.revisions[revisionId]) {
       // Add the current revision
       state.currentRevisionId = revisionId;
+      state.currentRevisionReadMode = !!readMode;
       // Set up our selector store.
       state.selector = createSelectorStore(original(state.revisions[revisionId].document) as CaptureModel['document']);
     }
   }),
   deselectRevision: action(state => {
     state.currentRevisionId = null;
+    state.currentRevisionReadMode = false;
     state.selector = createSelectorStore();
   }),
 

@@ -66,8 +66,6 @@ export function useNavigation(structure: CaptureModel['structure'], startId?: st
     [structureMap]
   );
 
-  console.log({ currentId });
-
   return [
     structureMap[currentId].structure,
     {

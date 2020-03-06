@@ -12,7 +12,7 @@
   },
   "scripts": {
     "build": "fesk-build --cjs --umd && tsc -p ./ --emitDeclarationOnly",
-    "start": "fesk-start --umd",
+    "start": "fesk-start --cjs --umd --noServer",
     "build-types": "tsc -p ./ --emitDeclarationOnly",
     "build:prod": "NODE_ENV=production fesk-build --cjs --umd && tsc -p ./ --emitDeclarationOnly"
   },
