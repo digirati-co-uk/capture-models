@@ -15,7 +15,7 @@ import {
   createRevisionRequestFromStructure,
   forkExistingRevision,
 } from '@capture-models/helpers';
-import { generateId } from '../../helpers/src/generate-id';
+import { generateId } from '@capture-models/helpers';
 import { CaptureModel } from './entity/CaptureModel';
 import { Contributor } from './entity/Contributor';
 import { Field } from './entity/Field';
@@ -458,6 +458,7 @@ export class CaptureModelRepository {
     ];
 
     const revision = fromRevisionRequest(req);
+
     // Save the revision.
     await this.manager.transaction(async manager => {
       const rev = await manager.save(revision);

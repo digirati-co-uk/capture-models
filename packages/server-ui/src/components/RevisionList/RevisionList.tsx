@@ -21,7 +21,7 @@ export const RevisionList: React.FC<{ model: StructureType<'model'> }> = ({ mode
           label={rev.revision.label || rev.revision.id}
           interactive
           key={idx}
-          onClick={() => selectRevision({ revisionId: rev.revision.id })}
+          onClick={() => selectRevision({ revisionId: rev.revision.id, readMode: rev.revision.approved })}
         >
           {rev.revision.approved ? 'Approved' : 'Draft'}
         </RoundedCard>

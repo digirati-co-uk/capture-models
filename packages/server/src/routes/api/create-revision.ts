@@ -14,6 +14,14 @@ export const createRevisionApi: RouteMiddleware<{ captureModelId: string }, Revi
     throw new RequestError('Revision already exists');
   }
 
+  // Different types of revisions. @todo what to do in these cases.
+  if (revisionRequest.revision.approved) {
+    throw new Error('Auto approved');
+  }
+  if (revisionRequest.revision.source === 'canonical') {
+    throw new Error('Editing canonical');
+  }
+
   context.response.body = await context.db.api.createRevision(revisionRequest, {
     allowAnonymous: true,
   });

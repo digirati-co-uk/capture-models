@@ -57,6 +57,7 @@ export type RevisionsModel = {
   // The revision.
   currentRevisionId: string | null;
   currentRevision: Computed<RevisionsModel, RevisionRequest | null>;
+  currentRevisionReadMode: boolean;
   unsavedRevisionIds: string[];
 
   // A slightly split out model for the selectors.
@@ -66,7 +67,7 @@ export type RevisionsModel = {
   createRevision: Action<
     RevisionsModel,
     // Either a structure id, fields (/w optional structure ID) and always an optional revises.
-    { revisionId: string; cloneMode: REVISION_CLONE_MODE; modelMapping?: { [key: string]: string } }
+    { revisionId: string; cloneMode: REVISION_CLONE_MODE; readMode?: boolean; modelMapping?: { [key: string]: string } }
   >;
   // Persist will handle the flow of saving.
   persistRevision: Thunk<
@@ -81,7 +82,7 @@ export type RevisionsModel = {
   importRevision: Action<RevisionsModel, { revisionRequest: RevisionRequest }>;
   // Save will remove the revision from unsavedRevisionIds
   saveRevision: Action<RevisionsModel, { revisionId: string }>;
-  selectRevision: Action<RevisionsModel, { revisionId: string }>;
+  selectRevision: Action<RevisionsModel, { revisionId: string; readMode?: boolean }>;
   deselectRevision: Action<RevisionsModel, { revisionId: string }>;
   // discardRevisionChanges(rid) -- maybe
 
@@ -117,7 +118,7 @@ export type RevisionsModel = {
   // visibleSelectors: Computed<RevisionsModel, SelectorTypes[]>;
   setCaptureModel: Action<
     RevisionsModel,
-    { captureModel: CaptureModel; initialRevision?: string; excludeStructures?: boolean }
+    { captureModel: CaptureModel; initialRevision?: string; initialRevisionReadMode?: boolean, excludeStructures?: boolean }
   >;
 };
 
