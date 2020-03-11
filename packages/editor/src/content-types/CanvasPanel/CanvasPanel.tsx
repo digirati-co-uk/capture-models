@@ -32,13 +32,13 @@ export const CanvasPanel: React.FC<CanvasPanelProps['state']> = ({ canvasId, man
     y: 500,
   });
 
-  const displaySelectors = useDisplaySelectors('canvas-panel');
+  const [displayIds, displaySelectors] = useDisplaySelectors('canvas-panel');
   const [actions, availableSelectors] = useSelectorActions();
   // @todo useTopLevelSelector();
 
   useEffect(() => {
     // @todo UI to toggle these on and off and props to control this behaviour.
-    if (actions && availableSelectors && displaySelectors && displaySelectors.length === 0) {
+    if (actions && availableSelectors && displayIds && displayIds.length === 0) {
       const selectorIds = ((availableSelectors as any) || []).map((s: any) => s.id);
       if (selectorIds.length) {
         actions.addVisibleSelectorIds({
@@ -47,15 +47,18 @@ export const CanvasPanel: React.FC<CanvasPanelProps['state']> = ({ canvasId, man
       }
     }
 
-    if (actions && !currentSelector && availableSelectors && availableSelectors[0]) {
-      actions.chooseSelector({ selectorId: availableSelectors[0].id });
-    }
+    // @todo remove this, it's not right.
+    // if (actions && !currentSelector && availableSelectors && availableSelectors[0]) {
+    //   actions.chooseSelector({ selectorId: availableSelectors[0].id });
+    // }
 
     // @todo set top level selector
     // @todo change viewport if top level selector is set and props to control
     // @todo cycle through available selectors and add preview state - cropped
     //     thumbnail, if available.
-  }, [actions, availableSelectors, currentSelector, displaySelectors]);
+  }, [actions, availableSelectors, currentSelector, displayIds, displaySelectors]);
+
+  console.log({ availableSelectors, currentSelector, displaySelectors });
 
   return (
     <Suspense fallback={() => null}>

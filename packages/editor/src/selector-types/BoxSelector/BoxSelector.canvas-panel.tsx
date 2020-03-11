@@ -13,7 +13,7 @@ const BoxSelectorCanvasPanel: SelectorComponent<BoxSelectorProps> = props => {
     return (
       <EditableAnnotation
         {...props}
-        {...selector}
+        {...props.state}
         ratio={1}
         boxStyles={{ pointerEvents: 'none', background: 'rgba(100,100,100,.1)', outline: '5px solid rgba(0,0,80,.8)' }}
       />
