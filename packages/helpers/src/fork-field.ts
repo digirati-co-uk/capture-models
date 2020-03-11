@@ -13,7 +13,14 @@ export function formPropertyValue<T extends BaseField | CaptureModel['document']
     clone = true,
     forkValue = false,
     revisesFork = true,
-  }: { generateNewId?: boolean, clone?: boolean; authors?: string[]; forkValue?: boolean; revision?: string; revisesFork?: boolean } = {},
+  }: {
+    generateNewId?: boolean;
+    clone?: boolean;
+    authors?: string[];
+    forkValue?: boolean;
+    revision?: string;
+    revisesFork?: boolean;
+  } = {}
 ): T {
   // Copy whole field.
   const id = field.id;
@@ -50,8 +57,14 @@ export function formPropertyValue<T extends BaseField | CaptureModel['document']
     }
   }
 
-  // Finally, set a new ID.
-  newField.id = generateId();
+  if (generateNewId) {
+    // Finally, set a new ID.
+    newField.id = generateId();
+
+    if (newField.selector) {
+      newField.selector.id = generateId();
+    }
+  }
 
   return newField;
 }
