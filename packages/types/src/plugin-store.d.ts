@@ -1,5 +1,6 @@
 import { FieldSpecification } from './field-types';
 import { ContentSpecification } from './content-types';
+import { UnknownRefinement } from './refinements';
 import { SelectorSpecification } from './selector-types';
 
 export type PluginStore = {
@@ -12,4 +13,5 @@ export type PluginStore = {
   selectors: {
     [key in string]?: SelectorSpecification;
   };
+  refinements: UnknownRefinement[];
 };

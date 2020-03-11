@@ -12,6 +12,7 @@ const bootstrapGlobalStore: () => PluginStore = () => {
       fields: {},
       contentTypes: {},
       selectors: {},
+      refinements: [],
     };
   }
 
