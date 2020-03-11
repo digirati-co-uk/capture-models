@@ -8,3 +8,4 @@ export * from './hooks/use-field-preview';
 export * from './hooks/use-selector';
 export * from './hooks/use-selector-status';
 export * from './hooks/use-selectors';
+export * from './hooks/use-refinement';

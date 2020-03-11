@@ -6,6 +6,7 @@ import {
   FieldSpecification,
   FieldTypeMap,
   SelectorSpecification,
+  UnknownRefinement,
 } from '@capture-models/types';
 import { pluginStore } from './globals';
 
@@ -25,6 +26,10 @@ export function registerContent<Props extends BaseContent>(contentType: ContentS
 
 export function registerSelector<Props extends BaseSelector>(specification: SelectorSpecification<Props>) {
   pluginStore.selectors[specification.type] = specification as any;
+}
+
+export function registerRefinement<Ref extends UnknownRefinement = UnknownRefinement>(refinement: Ref) {
+  pluginStore.refinements.push(refinement);
 }
 
 export function getFieldPlugin<Props extends BaseField, TypeMap extends FieldTypeMap = FieldTypeMap>(
