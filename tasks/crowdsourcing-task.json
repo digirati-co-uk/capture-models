@@ -1,0 +1,25 @@
+{
+  "id": "uuid-12345-12345-12345",
+  "name": "Label from canvas",
+  "description": "",
+  "type": "madoc:crowd-sourcing-canvas",
+  "subject": "http://madoc.org/canvas/1234",
+  "arguments": [
+    "http://madoc.org/s/site-name",
+    "http://madoc.org/api/capture-models/1234"
+  ],
+  "status": "in_progress",
+  "subtasks": [],
+  "creator": {
+    "id": 12314,
+    "name": "The creator"
+  },
+  "assignee":  {
+    "id": 12314,
+    "name": "The creator"
+  },
+  "state": {
+    "totalItems": 42
+  },
+  "createdAt": "2020-00-00:00-00-00"
+}

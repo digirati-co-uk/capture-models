@@ -1,0 +1,22 @@
+{
+  "id": "uuid-12345-12345-12345",
+  "name": "Label from manifest",
+  "description": "",
+  "type": "madoc:crowd-sourcing-manifest",
+  "subject": "http://madoc.org/manifest/1234",
+  "arguments": [
+    "http://madoc.org/s/site-name",
+    "http://madoc.org/api/capture-models/1234"
+  ],
+  "status": "preparing",
+  "subtasks": [],
+  "creator": {
+    "id": 12314,
+    "name": "The creator"
+  },
+  "assignee": null,
+  "state": {
+    "totalItems": 42
+  },
+  "createdAt": "2020-00-00:00-00-00"
+}
