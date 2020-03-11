@@ -78,6 +78,12 @@ export const revisionStore: RevisionsModel = {
     const selectorToUpdate = state.selector.availableSelectors.find(selector => selector.id === payload.selectorId);
     if (selectorToUpdate) {
       selectorToUpdate.state = payload.state;
+
+      const path = state.selector.selectorPaths[selectorToUpdate.id];
+      const field = getRevisionFieldFromPath<BaseField>(state, path);
+      if (field && field.selector) {
+        field.selector.state = payload.state;
+      }
       // if (onUpdateSelector) {
       //   onUpdateSelector(payload.selectorId, payload.state);
       // }

@@ -105,7 +105,7 @@ export type RevisionsModel = {
 
   // And some selector actions
   chooseSelector: Action<RevisionsModel, { selectorId: string }>;
-  clearSelector: Action<RevisionsModel>;
+  clearSelector: Action<RevisionsModel, undefined>;
   updateSelector: Action<RevisionsModel, { selectorId: string; state: BaseSelector['state'] }>;
   updateCurrentSelector: Thunk<RevisionsModel, BaseSelector['state']>;
   updateSelectorPreview: Action<RevisionsModel, { selectorId: string; preview: any }>;
@@ -118,7 +118,12 @@ export type RevisionsModel = {
   // visibleSelectors: Computed<RevisionsModel, SelectorTypes[]>;
   setCaptureModel: Action<
     RevisionsModel,
-    { captureModel: CaptureModel; initialRevision?: string; initialRevisionReadMode?: boolean, excludeStructures?: boolean }
+    {
+      captureModel: CaptureModel;
+      initialRevision?: string;
+      initialRevisionReadMode?: boolean;
+      excludeStructures?: boolean;
+    }
   >;
 };
 

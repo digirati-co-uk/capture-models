@@ -5,8 +5,9 @@ import { traverseDocument } from '@capture-models/helpers';
 export function createSelectorStore(document?: CaptureModel['document']): SelectorModel {
   // @todo create revisionSelectorMap with a path that can be used.
   const selectors: BaseSelector[] = [];
-  if (document) {
+  const selectorPaths: { [id: string]: Array<[string, string]> } = {};
 
+  if (document) {
     // We need to record the path to the current item using the propKey and
     // the parents ID. `document.properties.people[].fieldA[]` would be `[ [people, person-id], [fieldA, field-id] ]`
     const recordPath = (field: any, propKey?: string, parent?: any) => {
@@ -27,10 +28,11 @@ export function createSelectorStore(document?: CaptureModel['document']): Select
     };
     traverseDocument<{ path: [string, string][] }>(document, {
       visitSelector(selector, parent) {
-        if (parent) {
+        if (parent && parent.temp) {
           // We have the path to the selector here: parent.temp.path
           // Now we just need to store this in the state.
           // console.log(parent.temp);
+          selectorPaths[selector.id] = parent.temp.path || [];
         }
         selectors.push(selector);
       },
@@ -46,5 +48,6 @@ export function createSelectorStore(document?: CaptureModel['document']): Select
     currentSelectorState: null,
     topLevelSelector: null,
     visibleSelectorIds: [],
+    selectorPaths,
   };
 }

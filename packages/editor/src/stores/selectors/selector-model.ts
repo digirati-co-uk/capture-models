@@ -1,22 +1,17 @@
-// This is a small wrapper around the selector in order to have enough information about it to send update notifications
-// to an outer store that may be considered a source of truth. In general, this store is the only place where
-// selectors should be changed.
-// This was not readily available, but it might be needed later.
-// type SelectorItem = {
-//   selector: SelectorTypes;
-//   path: Array<[string, string]>;
-// };
-
-// Note: It's not yet clear when this store will be created. It's likely to be created when the form is active, but that
-// may not be right. It may make sense for this to be scoped globally on the capture model document OR on a single
-// subset. However, that will not change this model definition, just how the document is created (as revisions are
-// documents too, just a subset).
 import { BaseSelector } from '@capture-models/types';
 
 export type SelectorModel = {
   // This is a list of all of the available selectors that are in whatever is currently being edited. This can be
   // used to toggle on all to be visible, or some by whatever is querying the state.
   availableSelectors: BaseSelector[];
+
+  // When we need to update a selector, we will be updating the store above AND the revision directly. The reason for
+  // duplicating this logic is that all of the selectors in a revisions need to be extracted and flattened during
+  // the editing of a revision in order to display them on the target. The overhead of updating in 2 places is worth
+  // managing in order to get a really easy to maintain index of the selectors for easily displaying them.
+  selectorPaths: {
+    [id: string]: Array<[string, string]>;
+  };
 
   // We'll use IDs for selectors too, like the others. These need to be unique however, since in a full document
   // editing mode you may come across more than one. Full document editing mode may have to change these IDs during

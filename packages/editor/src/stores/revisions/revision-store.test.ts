@@ -149,7 +149,30 @@ describe('Revision store', () => {
 
       selectRevision({ revisionId: '18e0d089-e87c-448f-9ef2-3282a44cf6d2' });
 
-      expect(true).toBe(true);
+      expect(store.getState().selector.selectorPaths).toMatchInlineSnapshot(`
+Object {
+  "007a5ace-b1a4-49ca-8dd3-c78aee2d5409": Array [
+    Array [
+      "person",
+      "56405dc7-b910-45e0-8ade-898594276795",
+    ],
+    Array [
+      "firstName",
+      "9a55a096-4a79-46b0-8111-d9775d074a14",
+    ],
+  ],
+  "05a99c13-eedd-4a14-940a-f774fc461ca4": Array [
+    Array [
+      "person",
+      "cc2570c7-b3a5-4e5b-8f3d-3b3693769969",
+    ],
+    Array [
+      "firstName",
+      "c3434721-19f7-4402-9bfb-1e11875a0de0",
+    ],
+  ],
+}
+`);
     });
   });
 

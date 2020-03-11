@@ -16,7 +16,7 @@ type BoxSelectorPreview = {
   thumbnail: string;
 };
 
-export const BoxSelector: SelectorComponent<BoxSelectorProps> = ({ chooseSelector, ...props }) => {
+export const BoxSelector: SelectorComponent<BoxSelectorProps> = ({ chooseSelector, clearSelector, ...props }) => {
   if (props.selectorPreview) {
     const preview: BoxSelectorPreview = props.selectorPreview;
     console.log(preview.thumbnail);
@@ -26,12 +26,17 @@ export const BoxSelector: SelectorComponent<BoxSelectorProps> = ({ chooseSelecto
   const isSelecting = props.currentSelectorId === props.id;
 
   if (isSelecting) {
-    return <div>Move and resize the highlighted box on the image to choose your selection.</div>;
+    return (
+      <div>
+        Move and resize the highlighted box on the image to choose your selection.{' '}
+        {clearSelector ? <button onClick={clearSelector}>finish</button> : null}
+      </div>
+    );
   }
   if (props.state) {
     return (
       <div>
-        You selected a thing at {props.state.x}, {props.state.y}, {props.state.width}, {props.state.height}
+        You selected a thing at {props.state.x}, {props.state.y}, {props.state.width}, {props.state.height}{' '}
         {chooseSelector ? <button onClick={() => chooseSelector(props.id)}>edit</button> : null}
       </div>
     );
