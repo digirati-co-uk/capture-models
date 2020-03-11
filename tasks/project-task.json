@@ -1,0 +1,23 @@
+{
+  "id": "uuid-12345-12345-12345",
+  "name": "My Crowdsourcing project",
+  "description": "Description of my project",
+  "type": "madoc:crowd-sourcing-project",
+  "subject": "http://madoc.org/collection/1234",
+  "arguments": [
+    "http://madoc.org/s/site-name",
+    "http://madoc.org/api/capture-models/1234"
+  ],
+  "status": "preparing",
+  "subtasks": [],
+  "creator": {
+    "id": 12314,
+    "name": "The creator"
+  },
+  "assignee": null,
+  "state": {
+    "structureId": null,
+    "configuration": {}
+  },
+  "createdAt": "2020-00-00:00-00-00"
+}
