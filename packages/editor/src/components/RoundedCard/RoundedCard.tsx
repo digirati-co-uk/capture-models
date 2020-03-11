@@ -21,7 +21,7 @@ const CardLabel = styled.label`
   align-self: center;
 `;
 
-const CardBody = styled.label`
+const CardBody = styled.div`
   font-size: ${props => props.theme.sizes.text};
   color: #000;
 `;
