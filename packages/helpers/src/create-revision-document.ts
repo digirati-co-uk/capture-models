@@ -238,6 +238,9 @@ export function forkDocument<Fields extends string>(
           entity.id = generateId();
           entity.immutable = false;
         }
+        if (entity.selector) {
+          entity.selector.id = generateId();
+        }
         if (revisionId) {
           entity.revision = revisionId;
         }
