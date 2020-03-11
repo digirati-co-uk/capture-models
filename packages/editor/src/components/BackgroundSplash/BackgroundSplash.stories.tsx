@@ -4,6 +4,7 @@ import { BackgroundSplash } from './BackgroundSplash';
 import { defaultTheme } from '../../themes';
 import { RoundedCard } from '../RoundedCard/RoundedCard';
 import { CardButton } from '../CardButton/CardButton';
+import { BackBanner } from '../BackBanner/BackBanner';
 
 export default { title: 'Form UI|Background Splash' };
 
@@ -41,6 +42,9 @@ export const WithDescription: React.FC = () => (
 export const WithInteractiveCards: React.FC = () => (
   <ThemeProvider theme={defaultTheme}>
     <div style={{ background: '#FAFCFF', minHeight: '100vh' }}>
+      <BackBanner>
+        Some text at the top.
+      </BackBanner>
       <BackgroundSplash header="Choose what you want to tag">
         <RoundedCard interactive label="Whole Photograph">
           Enter whatever information you have about this photograph
