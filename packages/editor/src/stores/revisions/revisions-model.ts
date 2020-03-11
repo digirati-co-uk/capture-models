@@ -84,6 +84,7 @@ export type RevisionsModel = {
   saveRevision: Action<RevisionsModel, { revisionId: string }>;
   selectRevision: Action<RevisionsModel, { revisionId: string; readMode?: boolean }>;
   deselectRevision: Action<RevisionsModel, { revisionId: string }>;
+  setRevisionLabel: Action<RevisionsModel, { revisionId?: string; label: string }>;
   // discardRevisionChanges(rid) -- maybe
 
   // Fields and selector state.

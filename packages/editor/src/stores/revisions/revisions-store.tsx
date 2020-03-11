@@ -178,6 +178,17 @@ export const revisionStore: RevisionsModel = {
     state.revisions[revisionRequest.revision.id] = revisionRequest;
   }),
 
+  setRevisionLabel: action((state, { revisionId: customRevisionId, label }) => {
+    const revisionId = customRevisionId ? customRevisionId : state.currentRevisionId;
+
+    if (!revisionId || !state.revisions[revisionId]) {
+      // Error?
+      return;
+    }
+
+    state.revisions[revisionId].revision.label = label;
+  }),
+
   // @todo Not sure what this will do yet, might be a thunk.
   saveRevision: action((state, { revisionId }) => {
     state.unsavedRevisionIds = state.unsavedRevisionIds.filter(unsavedId => unsavedId !== revisionId);
