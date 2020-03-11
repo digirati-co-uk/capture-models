@@ -40,11 +40,15 @@ export function useSelectorActions() {
 }
 
 export function useDisplaySelectors(contentType: string) {
-  return useSelectors(
+  const ids = Revisions.useStoreState(s => s.selector.visibleSelectorIds);
+
+  const selectorComponents = useSelectors(
     Revisions.useStoreState(s =>
       s.selector.visibleSelectorIds.map(id => s.selector.availableSelectors.find(r => r.id === id))
     ) as BaseSelector[],
     contentType,
     { readOnly: true }
   );
+
+  return [ids, selectorComponents] as const;
 }
