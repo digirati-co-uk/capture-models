@@ -27,19 +27,21 @@ export function useSelectors<T extends BaseSelector>(
       continue;
     }
 
-    if (!props.state) {
+    if (!props.state && !readOnly) {
       props.state = defaultState;
     }
 
-    returnSelectors.push([
-      React.createElement(selector.contentComponents[contentType], {
-        ...props,
-        key: props.id,
-        readOnly,
-        selectorPreview,
-        updateSelector,
-      } as T & InjectedSelectorProps<T>),
-    ]);
+    if (props.state) {
+      returnSelectors.push([
+        React.createElement(selector.contentComponents[contentType], {
+          ...props,
+          key: props.id,
+          readOnly,
+          selectorPreview,
+          updateSelector,
+        } as T & InjectedSelectorProps<T>),
+      ]);
+    }
   }
 
   return returnSelectors;

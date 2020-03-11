@@ -31,7 +31,7 @@ export type InjectedSelectorProps<T> = {
   setSelectorPreview?: (newValue: any) => void;
   // For the form.
   chooseSelector?: (selectorId: string) => void;
-  clearSelector?: (selectorId: string) => void;
+  clearSelector?: () => void;
   // Controlling the display selector
   displaySelector?: (selectorId: string) => void;
   hideSelector?: (selectorId: string) => void;

@@ -1,11 +1,10 @@
-import { BaseSelector } from '@capture-models/types';
+import { BaseSelector, InjectedSelectorProps } from '@capture-models/types';
 import { createElement, useContext } from 'react';
 import { PluginContext } from '../context';
 
 export function useSelectorStatus<T extends BaseSelector>(
   props: T | undefined,
-  updateSelector: any,
-  selectorPreview?: any
+  actions: InjectedSelectorProps<T> = {}
 ) {
   const ctx = useContext(PluginContext);
 
@@ -18,5 +17,5 @@ export function useSelectorStatus<T extends BaseSelector>(
     throw new Error('Plugin does not exist');
   }
 
-  return createElement(selector.FormComponent, { ...props, updateSelector, selectorPreview });
+  return createElement(selector.FormComponent, { ...props, ...actions });
 }
