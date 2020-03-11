@@ -10,7 +10,6 @@ export const Choice: React.FC<{
 }> = ({ choice, onChoice, showBackButton, onBackButton }) => {
   return (
     <>
-      <h1>Choice page.</h1>
       {showBackButton ? <button onClick={onBackButton}>back</button> : null}
       <BackgroundSplash header={choice.label} description={choice.description}>
         {choice.items.map((item, idx) => (
