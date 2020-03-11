@@ -1,19 +1,10 @@
 import React from 'react';
 import { Card } from 'semantic-ui-react';
-import { DatabaseProvider, useAllDocs, useDatabase } from '../../core/database';
-import { createChoice, createDocument } from '@capture-models/helpers';
 import { CaptureModelList } from './CaptureModelList';
-import { CaptureModel } from '@capture-models/types';
 
 export default { title: 'Components|Capture Model List' };
 
-const withDatabase = (Component: React.FC): React.FC => () => (
-  <DatabaseProvider databaseName="capture-model-list">
-    <Component />
-  </DatabaseProvider>
-);
-
-export const Simple: React.FC = withDatabase(() => {
+export const Simple: React.FC = () => {
   const models = [
     { label: 'Model A', id: '1' },
     { label: 'Model B', id: '2' },
@@ -30,4 +21,4 @@ export const Simple: React.FC = withDatabase(() => {
       </Card.Content>
     </Card>
   );
-});
+};
