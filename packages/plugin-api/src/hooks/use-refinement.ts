@@ -10,10 +10,6 @@ export function useRefinement<Ref extends UnknownRefinement = UnknownRefinement>
   const ctx = useContext(PluginContext);
   const refinements = useMemo(() => ctx.refinements.filter(r => r.type === type), [ctx.refinements, type]) as Ref[];
 
-  if (type === 'entity') {
-    console.log(refinements);
-  }
-
   return useMemo(() => {
     if (!subject) {
       return null;
