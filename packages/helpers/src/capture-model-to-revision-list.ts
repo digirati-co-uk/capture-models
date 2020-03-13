@@ -15,7 +15,11 @@ export function captureModelToRevisionList(captureModel: CaptureModel, includeSt
   if (includeStructures) {
     const flatStructures = flattenStructures(captureModel.structure);
     for (const structure of flatStructures) {
-      models.push(createRevisionRequestFromStructure(captureModel, structure));
+      try {
+        models.push(createRevisionRequestFromStructure(captureModel, structure));
+      } catch (err) {
+        console.error(err);
+      }
     }
   }
 
