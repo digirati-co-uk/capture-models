@@ -1,13 +1,13 @@
-import * as path from 'path';
 import { RouteMiddleware } from '../types';
 import { readFileSync, existsSync } from 'fs';
+import send from 'koa-send';
 
 export const assets = (): RouteMiddleware<{ assetName: string; folder: string; subFolder?: string }> => {
   const manifest = require(`@capture-models/server-ui/dist/umd/manifest.json`);
 
   const assetList = Object.values(manifest);
 
-  return context => {
+  return async context => {
     const { assetName, folder, subFolder } = context.params;
 
     if (assetName.match(/\.\./)) {
@@ -35,6 +35,7 @@ export const assets = (): RouteMiddleware<{ assetName: string; folder: string; s
         (asset.endsWith('.map') && assetList.indexOf(asset.slice(0, -4)) !== -1);
 
       if (!isValid) {
+        console.log(`Resource "${asset}" is not valid ${JSON.stringify(assetList)}`);
         context.status = 404;
         return;
       }
@@ -45,8 +46,9 @@ export const assets = (): RouteMiddleware<{ assetName: string; folder: string; s
           : `@capture-models/server-ui/dist/umd/${assetName}`
       );
       if (existsSync(fileName)) {
-        context.headers['Content-Type'] = 'application/javascript';
-        context.body = readFileSync(fileName);
+        await send(context, fileName, { root: '/' });
+        // context.body = Buffer.from(readFileSync(fileName));
+        // context.headers['Content-Type'] = fileName.endsWith('.js') ? 'application/javascript' : 'text/css';
         return;
       }
     }
