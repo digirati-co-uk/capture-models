@@ -2,11 +2,24 @@
  * @jest-environment jsdom
  */
 
+import { registerField } from '@capture-models/plugin-api';
 import { CaptureModel } from '@capture-models/types';
+import React from 'react';
 import { captureModelToRevisionList } from './capture-model-to-revision-list';
 import { hydratePartialDocument } from './hydrate-partial-document';
-// Need this for the plugin store.
-import '../../editor/lib/input-types/TextField';
+
+// Mocked field.
+registerField({
+  type: 'text-field',
+  allowMultiple: true,
+  defaultValue: '',
+  TextPreview: props => props.value,
+  Component: () => React.createElement(React.Fragment),
+  defaultProps: {},
+  description: '',
+  Editor: () => React.createElement(React.Fragment),
+  label: '',
+});
 
 jest.mock('./generate-id');
 const { generateId } = require('./generate-id');
