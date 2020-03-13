@@ -2,12 +2,26 @@
  * @jest-environment jsdom
  */
 
+import React from 'react';
 import { CaptureModel } from '@capture-models/types';
 import { captureModelToRevisionList } from './capture-model-to-revision-list';
 import { forkDocument } from './create-revision-document';
 import { filterDocumentGraph } from './filter-document-graph';
 import { splitDocumentByModelRoot } from './split-document-by-model-root';
-import '../../editor/lib/input-types/TextField';
+import { registerField } from '@capture-models/plugin-api';
+
+// Mocked field.
+registerField({
+  type: 'text-field',
+  allowMultiple: true,
+  defaultValue: '',
+  TextPreview: props => props.value,
+  Component: () => React.createElement(React.Fragment),
+  defaultProps: {},
+  description: '',
+  Editor: () => React.createElement(React.Fragment),
+  label: '',
+});
 
 jest.mock('./generate-id');
 const { generateId } = require('./generate-id');
