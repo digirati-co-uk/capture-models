@@ -1,34 +1,54 @@
+import { useRefinement } from '@capture-models/plugin-api';
 import React from 'react';
 import { FieldHeaderComponent, RoundedCard } from '@capture-models/editor';
-import { BaseField, CaptureModel } from '@capture-models/types';
+import { BaseField, CaptureModel, FieldListRefinement } from '@capture-models/types';
 import { isEntityList } from '@capture-models/helpers/lib/is-entity';
 import { EntityInstanceList } from '../EntityInstanceList/EntityInstanceList';
 import { FieldInstanceList } from '../FieldInstanceList/FieldInstanceList';
 
 export const FieldList: React.FC<{
-  document: CaptureModel['document'];
+  entity: { property: string; instance: CaptureModel['document'] };
   chooseField: (field: { property: string; instance: BaseField }) => void;
   chooseEntity: (field: { property: string; instance: CaptureModel['document'] }) => void;
-}> = ({ document, chooseField, chooseEntity }) => {
+  path: Array<[string, string]>;
+  readOnly?: boolean;
+}> = ({ entity, chooseField, chooseEntity, path, readOnly }) => {
+  const refinement = useRefinement<FieldListRefinement>('field-list', entity, {
+    path,
+  });
+
+  if (refinement) {
+    return refinement.refine(entity, { path, chooseEntity, chooseField });
+  }
+
   return (
     <RoundedCard>
-      {Object.keys(document.properties).map((propertyId, idx) => {
-        const instances = document.properties[propertyId];
+      {Object.keys(entity.instance.properties).map((propertyId, idx) => {
+        const instances = entity.instance.properties[propertyId];
         if (isEntityList(instances)) {
-          const entity = instances[0];
+          const singleEntity = instances[0];
           return (
             <div key={idx}>
-              <FieldHeaderComponent label={entity.label || 'Untitled'} />
-              <EntityInstanceList entities={instances} property={propertyId} chooseEntity={chooseEntity} />
+              <FieldHeaderComponent label={singleEntity.label || 'Untitled'} />
+              <EntityInstanceList
+                path={path}
+                entities={instances}
+                property={propertyId}
+                chooseEntity={chooseEntity}
+                readOnly={readOnly}
+              />
             </div>
           );
         }
-        const field = instances[0];
         return (
-          <div key={idx}>
-            <FieldHeaderComponent label={field.label} />
-            <FieldInstanceList fields={instances} property={propertyId} chooseField={chooseField} />
-          </div>
+          <FieldInstanceList
+            key={idx}
+            path={path}
+            fields={instances}
+            property={propertyId}
+            chooseField={chooseField}
+            readOnly={readOnly}
+          />
         );
       })}
     </RoundedCard>

@@ -27,22 +27,18 @@ export const Viewer: React.FC<any> = ({
 }) => {
   const models = useApiModels();
   const contentComponent = useContentType(selectedCaptureModel ? selectedCaptureModel.target : undefined);
-  const deselect = Revisions.useStoreActions(a => a.deselectRevision);
   const persistRevision = Revisions.useStoreActions(a => a.persistRevision);
 
   return (
-    <RootLayout>
+    <RootLayout footer={<button onClick={backHome}>Reset viewer</button>}>
       <ContentLayout
         rightSidebar={
           <>
-            <button onClick={backHome}>Back home</button>
             {selectedCaptureModel ? (
               selectedContent || contentComponent ? (
                 <RevisionNavigation
                   onSaveRevision={rev => {
-                    persistRevision({ createRevision, updateRevision, revisionId: rev.revision.id }).then(() => {
-                      deselect({ revisionId: rev.revision.id });
-                    });
+                    return persistRevision({ createRevision, updateRevision, revisionId: rev.revision.id })
                   }}
                   structure={selectedCaptureModel.structure}
                 />

@@ -1,5 +1,6 @@
 import { BackgroundSplash, Revisions, RoundedCard, useNavigation } from '@capture-models/editor';
-import { CaptureModel, RevisionRequest } from '@capture-models/types';
+import { useRefinement } from '@capture-models/plugin-api';
+import { CaptureModel, ChoiceRefinement, RevisionRequest } from '@capture-models/types';
 import React from 'react';
 import { Choice } from '../Choice/Choice';
 import { RevisionList } from '../RevisionList/RevisionList';
@@ -8,31 +9,36 @@ import { TabNavigation } from '../TabNavigation/TabNavigation';
 
 export const RevisionNavigation: React.FC<{
   structure: CaptureModel['structure'];
-  onSaveRevision: (req: RevisionRequest) => void;
+  onSaveRevision: (req: RevisionRequest) => Promise<void>;
 }> = ({ structure, onSaveRevision }) => {
-  const [currentView, { pop, push, idStack }] = useNavigation(structure);
+  const [currentView, { pop, push, idStack, goTo }] = useNavigation(structure);
   const currentRevisionId = Revisions.useStoreState(s => s.currentRevisionId);
   const readMode = Revisions.useStoreState(s => s.currentRevisionReadMode);
+  const refinement = useRefinement<ChoiceRefinement>(
+    'choice-navigation',
+    { instance: currentView, property: '' },
+    { currentRevisionId, structure }
+  );
 
   if (!currentView) {
     return null;
   }
 
   if (currentRevisionId) {
-    return <RevisionTopLevel onSaveRevision={onSaveRevision} readMode={readMode} />;
+    return (
+      <RevisionTopLevel onSaveRevision={onSaveRevision} instructions={currentView.description} readOnly={readMode} />
+    );
   }
 
-  if (structure.profile && structure.profile.indexOf('tabs') !== -1 && structure.type !== 'model') {
-    return (
-      <>
-        <TabNavigation onChoice={push} currentId={currentView.id} choice={structure} />
-        {currentView.type === 'model' ? <RevisionList model={currentView} /> : null}
-      </>
+  if (refinement) {
+    return refinement.refine(
+      { instance: currentView, property: '' },
+      { readOnly: readMode, currentRevisionId, pop, push, idStack, goTo, structure }
     );
   }
 
   if (currentView.type === 'model') {
-    return <RevisionList model={currentView} />;
+    return <RevisionList goBack={pop} model={currentView} />;
   }
 
   return <Choice choice={currentView} onBackButton={pop} onChoice={push} showBackButton={idStack.length > 0} />;

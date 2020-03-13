@@ -1,14 +1,40 @@
-import { FieldPreview, RoundedCard } from '@capture-models/editor';
-import { BaseField } from '@capture-models/types';
+import { FieldHeaderComponent, FieldPreview, RoundedCard } from '@capture-models/editor';
+import { useRefinement } from '@capture-models/plugin-api';
+import { BaseField, EntityInstanceListRefinement, FieldInstanceListRefinement } from '@capture-models/types';
 import React from 'react';
 
 export const FieldInstanceList: React.FC<{
   fields: Array<BaseField>;
   property: string;
   chooseField: (field: { property: string; instance: BaseField }) => void;
-}> = ({ fields, chooseField, property }) => {
+  path: Array<[string, string]>;
+  readOnly?: boolean;
+}> = ({ fields, chooseField, property, path, readOnly }) => {
+  const refinement = useRefinement<FieldInstanceListRefinement>(
+    'field-instance-list',
+    { property, instance: fields },
+    {
+      path,
+      readOnly,
+    }
+  );
+
+  if (refinement) {
+    return refinement.refine(
+      { property, instance: fields },
+      {
+        path,
+        chooseField,
+        readOnly,
+      }
+    );
+  }
+
+  const label = fields[0] ? fields[0].label : 'Untitled';
+
   return (
-    <>
+    <div>
+      <FieldHeaderComponent label={label} />
       {fields.map((field, idx) => {
         return (
           <RoundedCard
@@ -21,6 +47,6 @@ export const FieldInstanceList: React.FC<{
           </RoundedCard>
         );
       })}
-    </>
+    </div>
   );
 };
