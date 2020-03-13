@@ -1,4 +1,3 @@
-import { ITreeNode } from '@blueprintjs/core';
 import { CaptureModel, StructureType } from '@capture-models/types';
 import { createChoice, itemFromIndex } from '@capture-models/helpers';
 import { action, computed, createContextStore, thunkOn } from 'easy-peasy';
@@ -10,7 +9,7 @@ export const StructureStore = createContextStore<
   { captureModel: CaptureModel; onStructureChange?: (structure: CaptureModel['structure']) => void }
 >(initial => ({
   structure: initial ? initial.captureModel.structure : createChoice(),
-  tree: computed(state => [structureToTree(state.structure as CaptureModel['structure']) as ITreeNode]),
+  tree: computed(state => [structureToTree(state.structure as CaptureModel['structure']) as any]),
   focus: {
     index: [],
     structure: computed([state => state.index, (state, storeState) => storeState.structure], (index, structure) =>

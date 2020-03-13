@@ -12,7 +12,7 @@
     "build": "tsc --project tsconfig.json"
   },
   "files": [
-    "src/index.d.ts"
+    "src"
   ],
   "include": [
     "src/index.d.ts"

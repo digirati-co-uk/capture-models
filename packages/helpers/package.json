@@ -5,6 +5,11 @@
   "main": "dist/umd/@capture-models/helpers.js",
   "module": "lib/index.js",
   "typings": "lib/index.d.ts",
+  "files": [
+    "lib",
+    "dist"
+  ],
+  "sideEffects": false,
   "repository": {
     "type": "git",
     "url": "https://github.com/digirati-co-uk/capture-models.git",
@@ -14,7 +19,7 @@
     "build": "fesk-build --cjs --umd && cp ./src/invalid-babel-types.d.ts ./lib/invalid-babel-types.d.ts && tsc -p ./ --emitDeclarationOnly",
     "start": "fesk-start --cjs --umd --noServer",
     "build-types": "tsc -p ./ --emitDeclarationOnly",
-    "build:prod": "NODE_ENV=production fesk-build --umd --cjs && tsc -p ./ --emitDeclarationOnly"
+    "prepare": "NODE_ENV=production fesk-build --umd --cjs && tsc -p ./ --emitDeclarationOnly"
   },
   "dependencies": {
     "@capture-models/types": "1.0.0",
