@@ -36,6 +36,7 @@ export type InjectedSelectorProps<T> = {
   displaySelector?: (selectorId: string) => void;
   hideSelector?: (selectorId: string) => void;
   currentSelectorId?: string;
+  isTopLevel?: boolean;
 };
 
 export type SelectorTypes<Type extends SelectorTypeMap = SelectorTypeMap> = MapValues<Type>;

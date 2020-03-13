@@ -3,7 +3,6 @@ import { CaptureModel } from './capture-model';
 import { BaseField } from './field-types';
 
 export type RefinementSupportProps = {
-  path: Array<[string, string]>;
   readOnly?: boolean;
 };
 
@@ -27,25 +26,33 @@ export type Refinement<Type, Subject, Context = {}, Actions = {}> = {
   ) => React.ReactElement | null;
 };
 
-export type EntityRefinement = Refinement<'entity', CaptureModel['document'], { staticBreadcrumbs?: string[] }>;
+export type EntityRefinement = Refinement<
+  'entity',
+  CaptureModel['document'],
+  { path: Array<[string, string]>; staticBreadcrumbs?: string[] }
+>;
 
-export type EntityListRefinement = Refinement<'entity-list', CaptureModel['document'][]>;
+export type EntityListRefinement = Refinement<
+  'entity-list',
+  CaptureModel['document'][],
+  { path: Array<[string, string]> }
+>;
 
 export type EntityInstanceListRefinement = Refinement<
   'entity-instance-list',
   CaptureModel['document'][],
-  {},
+  { path: Array<[string, string]> },
   {
     chooseEntity: (field: { property: string; instance: CaptureModel['document'] }) => void;
   }
 >;
 
-export type FieldRefinement = Refinement<'field', BaseField>;
+export type FieldRefinement = Refinement<'field', BaseField, { path: Array<[string, string]> }>;
 
 export type FieldListRefinement = Refinement<
   'field-list',
   CaptureModel['document'],
-  {},
+  { path: Array<[string, string]> },
   {
     chooseField: (field: { property: string; instance: BaseField }) => void;
     chooseEntity: (field: { property: string; instance: CaptureModel['document'] }) => void;
@@ -55,9 +62,21 @@ export type FieldListRefinement = Refinement<
 export type FieldInstanceListRefinement = Refinement<
   'field-instance-list',
   BaseField[],
-  {},
+  { path: Array<[string, string]> },
   {
     chooseField: (field: { property: string; instance: BaseField }) => void;
+  }
+>;
+
+export type ChoiceRefinement = Refinement<
+  'choice-navigation',
+  CaptureModel['structure'],
+  { currentRevisionId?: string | null; structure: CaptureModel['structure'] },
+  {
+    pop: () => void;
+    push: (id: string) => void;
+    idStack: string[];
+    goTo: (id: string) => void;
   }
 >;
 
@@ -67,4 +86,5 @@ export type UnknownRefinement =
   | FieldRefinement
   | FieldListRefinement
   | EntityInstanceListRefinement
-  | FieldInstanceListRefinement;
+  | FieldInstanceListRefinement
+  | ChoiceRefinement;
