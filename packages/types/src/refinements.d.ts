@@ -1,4 +1,3 @@
-import { REVISION_CLONE_MODE } from '@capture-models/editor';
 import React from 'react';
 import { CaptureModel } from './capture-model';
 import { BaseField } from './field-types';
@@ -94,7 +93,7 @@ export type RevisionListRefinement = Refinement<
     selectRevision: (options: { revisionId: string; readMode?: boolean }) => void;
     createRevision: (options: {
       revisionId: string;
-      cloneMode: REVISION_CLONE_MODE;
+      cloneMode: any /*REVISION_CLONE_MODE*/;
       readMode?: boolean;
       modelMapping?: { [key: string]: string };
     }) => void;
