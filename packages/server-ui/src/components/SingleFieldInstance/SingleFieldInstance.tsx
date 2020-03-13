@@ -11,7 +11,7 @@ export const SingleFieldInstance: React.FC<{
   const updateFieldValue = Revisions.useStoreActions(a => a.updateFieldValue);
   const chooseSelector = Revisions.useStoreActions(a => a.chooseSelector);
   const currentSelectorId = Revisions.useStoreState(s => s.selector.currentSelectorId);
-  const clearSelector = Revisions.useStoreActions(a => a.clearSelector);
+  const clearSelector = Revisions.useStoreActions(a => a.clearSelector) as any;
   const selector = useFieldSelector(field);
 
   const [updateValue] = useDebouncedCallback(newValue => {

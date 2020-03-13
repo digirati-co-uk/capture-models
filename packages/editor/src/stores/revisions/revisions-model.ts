@@ -106,7 +106,7 @@ export type RevisionsModel = {
 
   // And some selector actions
   chooseSelector: Action<RevisionsModel, { selectorId: string }>;
-  clearSelector: Action<RevisionsModel, undefined>;
+  clearSelector: Action<RevisionsModel>;
   updateSelector: Action<RevisionsModel, { selectorId: string; state: BaseSelector['state'] }>;
   updateCurrentSelector: Thunk<RevisionsModel, BaseSelector['state']>;
   updateSelectorPreview: Action<RevisionsModel, { selectorId: string; preview: any }>;
