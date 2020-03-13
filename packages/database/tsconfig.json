@@ -16,6 +16,7 @@
       "noEmitOnError": false,
       "sourceMap": true,
       "skipLibCheck": true,
+      "composite": true,
       "paths": {
          "@capture-models/editor": ["../editor/lib"]
       }
