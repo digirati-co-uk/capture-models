@@ -5,7 +5,7 @@
       "es5",
       "es6"
     ],
-    "target": "es2018",
+    "target": "es2015",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "module": "commonjs",

@@ -1,9 +1,9 @@
-import { CaptureModel } from '@capture-models/types/src/index';
-import { traverseStructure } from '@capture-models/helpers/src/traverse-structure';
 import { traverseDocument } from '@capture-models/helpers/src/traverse-document';
-import { v4 } from 'uuid';
-import { readdirSync, statSync, readFileSync, writeFileSync } from 'fs';
+import { traverseStructure } from '@capture-models/helpers/src/traverse-structure';
+import { CaptureModel } from '@capture-models/types/src/index';
+import { readdirSync, readFileSync, statSync, writeFileSync } from 'fs';
 import path from 'path';
+import { v4 } from 'uuid';
 
 const dir = readdirSync(path.join(__dirname, '..', 'fixtures'));
 
@@ -23,6 +23,11 @@ for (const folder of dir) {
       // Empty example.
       continue;
     }
+
+    json.structure.label = `${folder.replace(/^(\d)+-/, '')} - ${jsonName
+      .replace(/^(\d)+-/, '')
+      .replace(/-/g, ' ')
+      .replace(/(.json|\.)/, '')}`;
 
     const idMap: { [id: string]: string } = {};
     const getId = (id: string) => {

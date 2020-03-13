@@ -10,9 +10,8 @@ async function main() {
     password: nodemonConfig.env.DATABASE_PASSWORD,
     database: nodemonConfig.env.DATABASE_NAME,
     schema: nodemonConfig.env.DATABASE_SCHEMA ? nodemonConfig.env.DATABASE_SCHEMA : 'public',
-    synchronize: nodemonConfig.env.NODE_ENV === 'development',
   });
-  await db.synchronize(true);
+  await db.synchronize(nodemonConfig.env.NODE_ENV === 'development');
 }
 
 main().catch(err => {
