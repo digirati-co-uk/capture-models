@@ -9,10 +9,11 @@ export function useSelectors<T extends BaseSelector>(
     updateSelector?: any;
     selectorPreview?: any;
     readOnly?: boolean;
+    isTopLevel?: boolean;
     defaultState?: any;
   }
 ) {
-  const { updateSelector = null, selectorPreview = null, readOnly = false, defaultState = null } = customOptions;
+  const { updateSelector = null, selectorPreview = null, readOnly = false, defaultState = null, isTopLevel = false } = customOptions;
   const ctx = useContext(PluginContext);
 
   if (!selectorProps) {
@@ -39,6 +40,7 @@ export function useSelectors<T extends BaseSelector>(
           readOnly,
           selectorPreview,
           updateSelector,
+          isTopLevel,
         } as T & InjectedSelectorProps<T>),
       ]);
     }

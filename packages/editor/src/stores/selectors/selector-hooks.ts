@@ -43,12 +43,23 @@ export function useDisplaySelectors(contentType: string) {
   const ids = Revisions.useStoreState(s => s.selector.visibleSelectorIds);
 
   const selectorComponents = useSelectors(
-    Revisions.useStoreState(s =>
-      s.selector.visibleSelectorIds.map(id => s.selector.availableSelectors.find(r => r.id === id))
-    ) as BaseSelector[],
+    Revisions.useStoreState(s => {
+      return s.selector.visibleSelectorIds
+        .filter(id => s.selector.selectorPaths[id].length > 0)
+        .map(id => s.selector.availableSelectors.find(r => r.id === id));
+    }) as BaseSelector[],
     contentType,
     { readOnly: true }
   );
 
-  return [ids, selectorComponents] as const;
+  const topLevelSelector = useSelector(
+    Revisions.useStoreState(s => {
+      const selector = s.selector.visibleSelectorIds.find(id => s.selector.selectorPaths[id].length === 0);
+      return s.selector.availableSelectors.find(r => r.id === selector);
+    }),
+    contentType,
+    { readOnly: true, isTopLevel: true }
+  );
+
+  return [ids, selectorComponents, topLevelSelector] as const;
 }
