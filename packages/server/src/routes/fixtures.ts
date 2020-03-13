@@ -9,7 +9,7 @@ export const testFixture: RouteMiddleware<{ name: string; file: string }> = asyn
       ctx.res.statusCode = 404;
       return;
     }
-    await ctx.db.api.saveCaptureModel(model);
+    await ctx.db.api.saveCaptureModel(model, { context: ctx.state.jwt.context, user: ctx.state.jwt.user });
 
     return ctx.redirect(ctx.routes.url('capture-model', { id: model.id }));
   } catch (err) {
