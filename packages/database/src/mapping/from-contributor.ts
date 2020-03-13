@@ -11,7 +11,8 @@ export function fromContributor({
   type,
   email,
 }: ContributorType): Contributor {
-  return {
+  const contributor = new Contributor();
+  return Object.assign(contributor, {
     email,
     type,
     id,
@@ -20,5 +21,5 @@ export function fromContributor({
     homepage,
     nickname,
     name,
-  };
+  });
 }

@@ -2,6 +2,8 @@ import {
   Column,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   OneToMany,
   OneToOne,
@@ -48,11 +50,12 @@ export class CaptureModel {
   @Column('jsonb', { nullable: true })
   integrity?: any;
 
-  // @ManyToMany(
-  //   () => Contributor,
-  //   contributor => contributor.captureModels,
-  //   { nullable: true }
-  // )
+  @ManyToMany(
+    () => Contributor,
+    contributor => contributor.captureModels,
+    { nullable: true }
+  )
+  @JoinTable()
   contributors?: Contributor[];
 
   @Column({ nullable: true })
@@ -63,4 +66,7 @@ export class CaptureModel {
 
   @VersionColumn()
   version?: number;
+
+  @Column('jsonb')
+  context: string[];
 }
