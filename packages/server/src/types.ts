@@ -1,14 +1,22 @@
 import { CaptureModelDatabase } from '@capture-models/database';
-import { Middleware, RouterParamContext } from '@koa/router';
+import { Contributor } from '@capture-models/types';
+import { RouterParamContext } from '@koa/router';
 import * as Koa from 'koa';
 import { router } from './router';
 
+export type JWTScopes =
+  | 'models.admin'
+  | 'models.revision'
+  | 'models.create'
+  | 'models.contribute'
+  | 'models.view_published';
+
 export interface ApplicationState {
-  // User.
-  // JWT.
-  // Role.
-  // etc...
-  jwtToken: any;
+  jwt: {
+    context: string[];
+    scope: JWTScopes[];
+    user: Contributor & { name: string };
+  };
 }
 
 export interface ApplicationContext {
