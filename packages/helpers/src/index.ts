@@ -9,6 +9,7 @@ export * from './create-revision-document';
 export * from './create-revision-request';
 export * from './capture-model-to-revision-list';
 export * from './expand-model-fields';
+export * from './is-empty-revision';
 export * from './fetch-capture-model';
 export * from './filter-capture-model';
 export * from './filter-document-by-revision';
