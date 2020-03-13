@@ -3,6 +3,7 @@ import Koa from 'koa';
 import json from 'koa-json';
 import logger from 'koa-logger';
 import { errorHandler } from './middleware/errorHandler';
+import { jwtMock } from './middleware/jwtMock';
 import { TypedRouter } from './utility/typed-router';
 
 export async function createApp(db: CaptureModelDatabase, router: TypedRouter<any, any>) {
@@ -11,6 +12,7 @@ export async function createApp(db: CaptureModelDatabase, router: TypedRouter<an
   app.context.routes = router;
   app.context.db = db;
 
+  app.use(jwtMock);
   app.use(json({ pretty: process.env.NODE_ENV !== 'production' }));
   app.use(logger());
   app.use(errorHandler);
