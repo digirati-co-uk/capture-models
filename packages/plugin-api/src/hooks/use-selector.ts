@@ -9,6 +9,7 @@ export function useSelector<T extends BaseSelector>(
     selectorPreview?: any;
     readOnly?: boolean;
     defaultState?: any;
+    isTopLevel?: boolean;
   }
 ) {
   const selectors = useSelectors(selectorProps ? [selectorProps] : [], contentType, customOptions);
