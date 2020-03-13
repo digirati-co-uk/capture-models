@@ -4,7 +4,7 @@
     "id": "79f2ef76-e661-44d7-881c-9829d0d5ae88",
     "type": "choice",
     "description": "Example showing nested levels of navigation",
-    "label": "Navigation example",
+    "label": "basic - choice example",
     "items": [
       {
         "id": "d018606d-1bcc-4d04-b073-4d42b8a08e59",

@@ -2,7 +2,7 @@
   "structure": {
     "id": "0b190e61-6870-41ed-9ef2-e921811683bd",
     "type": "choice",
-    "label": "Basic Model with simple selector",
+    "label": "selectors - simple selector",
     "items": [
       {
         "id": "34083298-1792-4790-b909-e0166ea20a5d",

@@ -2,7 +2,7 @@
   "structure": {
     "id": "2f5a6921-23b7-4618-9ba1-74849f0b4949",
     "type": "choice",
-    "label": "Basic - Multiple choices",
+    "label": "basic - multiple choice",
     "items": [
       {
         "id": "4e989334-cc39-426a-af77-f77963ebf475",

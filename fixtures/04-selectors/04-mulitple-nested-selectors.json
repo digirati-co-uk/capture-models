@@ -2,7 +2,7 @@
   "structure": {
     "id": "f78cb77f-ff5d-4c95-afd0-34df8a967b0f",
     "type": "choice",
-    "label": "TODO - Multiple nested selectors",
+    "label": "selectors - mulitple nested selectors",
     "items": []
   },
   "document": {

@@ -2,7 +2,7 @@
   "structure": {
     "id": "efcfc161-4942-4dfa-9017-5530b3084944",
     "type": "choice",
-    "label": "Basic - Single field value",
+    "label": "basic - single field value",
     "description": "Contains single choice with single text field and a pre-filled value",
     "items": [
       {

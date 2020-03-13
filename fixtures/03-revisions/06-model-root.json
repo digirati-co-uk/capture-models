@@ -2,7 +2,7 @@
   "structure": {
     "id": "2416e3ed-90cc-4160-8d7b-ceefeb6d2adc",
     "type": "choice",
-    "label": "Revisions - model root example",
+    "label": "revisions - model root",
     "items": [
       {
         "id": "e5c95a41-2544-4cb6-aa69-376c60f617cc",

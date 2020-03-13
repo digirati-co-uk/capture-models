@@ -2,7 +2,7 @@
   "structure": {
     "id": "8d36f25f-649b-47b4-b7fe-02043f8cfe7a",
     "type": "choice",
-    "label": "Revisions - multiple transcriptions",
+    "label": "revisions - allow multiple transcriptions",
     "items": [
       {
         "id": "fd847948-11bf-42ca-bfdd-cab85ea818f3",
@@ -26,12 +26,13 @@
           "type": "text-field",
           "label": "Transcription",
           "allowMultiple": true,
-          "value": "Canonical transcription, maybe OCR"
+          "value": ""
         },
         {
           "id": "2666cf79-ef2f-419f-a3f4-038216a89783",
           "type": "text-field",
           "label": "Transcription",
+          "revises": "1615a172-b2c5-4192-bcc1-606a871b6230",
           "allowMultiple": true,
           "revision": "f496a9aa-25eb-4b1d-9d94-9cdcef03e527",
           "value": "Person A created this one"
@@ -76,6 +77,7 @@
     {
       "id": "f496a9aa-25eb-4b1d-9d94-9cdcef03e527",
       "approved": true,
+      "status": "accepted",
       "structureId": "fd847948-11bf-42ca-bfdd-cab85ea818f3",
       "fields": [
         "transcription"
@@ -83,6 +85,7 @@
     },
     {
       "id": "daf3f9d9-2a16-4c1f-8657-3560775bd9eb",
+      "status": "draft",
       "revises": "f496a9aa-25eb-4b1d-9d94-9cdcef03e527",
       "structureId": "fd847948-11bf-42ca-bfdd-cab85ea818f3",
       "fields": [
@@ -91,6 +94,7 @@
     },
     {
       "id": "bb5d55b1-6c38-4bb9-a6e6-ed236347671b",
+      "status": "submitted",
       "structureId": "fd847948-11bf-42ca-bfdd-cab85ea818f3",
       "fields": [
         "transcription"

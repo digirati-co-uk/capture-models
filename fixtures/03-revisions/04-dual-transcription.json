@@ -2,7 +2,7 @@
   "structure": {
     "id": "3ad67408-a442-4214-9b25-1e9818a90a2c",
     "type": "choice",
-    "label": "Transcribe this document",
+    "label": "revisions - dual transcription",
     "items": [
       {
         "id": "49625e01-cc02-445a-8db7-c5e3899661f8",

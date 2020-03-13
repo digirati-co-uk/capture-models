@@ -2,7 +2,7 @@
   "structure": {
     "id": "f197bd74-5ede-407b-aace-a2223c520b8f",
     "type": "choice",
-    "label": "Nested choice (multiple people)",
+    "label": "nesting - nested model multiple",
     "items": [
       {
         "id": "b0405656-79cb-4295-b7bb-940e0318ae1b",

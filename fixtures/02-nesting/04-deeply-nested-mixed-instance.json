@@ -1,7 +1,7 @@
 {
   "structure": {
     "type": "choice",
-    "label": "Deeply nested subset",
+    "label": "nesting - deeply nested mixed instance",
     "items": [
       {
         "label": "Edit all names",
