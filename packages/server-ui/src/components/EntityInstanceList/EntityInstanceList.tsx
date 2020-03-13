@@ -1,6 +1,14 @@
 import { DocumentPreview, RoundedCard } from '@capture-models/editor';
 import { isEntity } from '@capture-models/helpers';
-import { CaptureModel } from '@capture-models/types';
+import { useRefinement } from '@capture-models/plugin-api';
+import {
+  CaptureModel,
+  EntityInstanceListRefinement,
+  RefinementActions,
+  RefinementContext,
+  RefinementType,
+  UnknownRefinement,
+} from '@capture-models/types';
 import React from 'react';
 
 function getLabel(document: CaptureModel['document']) {
@@ -20,8 +28,30 @@ function getLabel(document: CaptureModel['document']) {
 export const EntityInstanceList: React.FC<{
   entities: Array<CaptureModel['document']>;
   property: string;
+  path: Array<[string, string]>;
   chooseEntity: (field: { property: string; instance: CaptureModel['document'] }) => void;
-}> = ({ entities, chooseEntity, property }) => {
+  readOnly?: boolean;
+}> = ({ entities, chooseEntity, property, path, readOnly }) => {
+  const refinement = useRefinement<EntityInstanceListRefinement>(
+    'entity-instance-list',
+    { property, instance: entities },
+    {
+      path,
+      readOnly,
+    }
+  );
+
+  if (refinement) {
+    return refinement.refine(
+      { property, instance: entities },
+      {
+        path,
+        chooseEntity,
+        readOnly,
+      }
+    );
+  }
+
   return (
     <>
       {entities.map((field, idx) => {

@@ -7,6 +7,12 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { App } from './App';
 import { UserProvider } from './utility/user-context';
 import './layout.scss';
+import './refinements/read-only';
+import './refinements/single-field-instance';
+import './refinements/inline-field-instance';
+import './refinements/basic-unnesting';
+import './refinements/tabbed-navigation';
+import './refinements/single-choice';
 
 render(
   <ThemeProvider theme={defaultTheme}>

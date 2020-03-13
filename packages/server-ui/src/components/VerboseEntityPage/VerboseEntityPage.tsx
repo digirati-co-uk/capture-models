@@ -1,20 +1,25 @@
-import { BackgroundSplash, CardButton } from '@capture-models/editor';
 import { BaseField, CaptureModel } from '@capture-models/types';
 import React, { useState } from 'react';
-import { FieldList } from '../FieldList/FieldList';
+import { EntityTopLevel } from '../EntityTopLevel/EntityTopLevel';
 import { VerboseFieldPage } from '../VerboseFieldPage/VerboseFieldPage';
 
 export const VerboseEntityPage: React.FC<{
+  title?: string;
+  description?: string;
   entity: { property: string; instance: CaptureModel['document'] };
   path: Array<[string, string]>;
-  goBack: () => void;
-}> = ({ entity, path, goBack }) => {
+  goBack?: () => void;
+  showNavigation?: boolean;
+  readOnly?: boolean;
+  staticBreadcrumbs?: string[];
+}> = ({ path, readOnly, children, ...props }) => {
   const [selectedField, setSelectedField] = useState<{ property: string; instance: BaseField }>();
   const [selectedEntity, setSelectedEntity] = useState<{ property: string; instance: CaptureModel['document'] }>();
 
   if (selectedField) {
     return (
       <VerboseFieldPage
+        readOnly={readOnly}
         field={selectedField}
         path={[...path, [selectedField.property, selectedField.instance.id]]}
         goBack={() => setSelectedField(undefined)}
@@ -25,6 +30,7 @@ export const VerboseEntityPage: React.FC<{
   if (selectedEntity) {
     return (
       <VerboseEntityPage
+        readOnly={readOnly}
         entity={selectedEntity}
         path={[...path, [selectedEntity.property, selectedEntity.instance.id]]}
         goBack={() => setSelectedEntity(undefined)}
@@ -33,9 +39,14 @@ export const VerboseEntityPage: React.FC<{
   }
 
   return (
-    <BackgroundSplash header={entity.instance.label || 'New revision'}>
-      <FieldList document={entity.instance} chooseEntity={setSelectedEntity} chooseField={setSelectedField} />
-      <CardButton onClick={() => goBack()}>Finish and save</CardButton>
-    </BackgroundSplash>
+    <EntityTopLevel
+      setSelectedField={setSelectedField}
+      setSelectedEntity={setSelectedEntity}
+      path={path}
+      readOnly={readOnly}
+      {...props}
+    >
+      {children}
+    </EntityTopLevel>
   );
 };
