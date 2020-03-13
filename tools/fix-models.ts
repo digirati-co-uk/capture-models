@@ -1,6 +1,6 @@
 import { CaptureModel } from '@capture-models/types/src/index';
-import { traverseStructure } from '@capture-models/editor/src/utility/traverse-structure';
-import { traverseDocument } from '@capture-models/editor/src/utility/traverse-document';
+import { traverseStructure } from '@capture-models/helpers/src/traverse-structure';
+import { traverseDocument } from '@capture-models/helpers/src/traverse-document';
 import { v4 } from 'uuid';
 import { readdirSync, statSync, readFileSync, writeFileSync } from 'fs';
 import path from 'path';
