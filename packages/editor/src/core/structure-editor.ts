@@ -1,4 +1,3 @@
-import { ITreeNode } from '@blueprintjs/core';
 import { CaptureModel, ModelFields, NestedModelFields } from '@capture-models/types';
 import { isEntity } from '@capture-models/helpers';
 
@@ -160,7 +159,7 @@ export function documentFieldOptionsToStructure(definitions: FlatStructureDefini
   return mergeFlatKeys(flatKeys);
 }
 
-export function structureToTree(level: CaptureModel['structure'], keyAcc: number[] = []): ITreeNode | null {
+export function structureToTree(level: CaptureModel['structure'], keyAcc: number[] = []): any | null {
   switch (level.type) {
     case 'choice':
       return {
@@ -171,7 +170,7 @@ export function structureToTree(level: CaptureModel['structure'], keyAcc: number
         isExpanded: true,
         childNodes: level.items
           .map((choiceItem, choiceKey) => structureToTree(choiceItem, [...keyAcc, choiceKey]))
-          .filter(e => e) as ITreeNode[],
+          .filter(e => e) as any[],
       };
 
     case 'model':

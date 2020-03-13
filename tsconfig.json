@@ -47,6 +47,7 @@
   // Need to be manually added for each package.
   "references": [
     { "path": "packages/types" },
+    { "path": "packages/database" },
     { "path": "packages/editor" },
     { "path": "packages/server" },
     { "path": "packages/server-ui" },

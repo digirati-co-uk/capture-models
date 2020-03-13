@@ -1,13 +1,12 @@
-import { ITreeNode, Tree } from '@blueprintjs/core';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Grid, Segment } from 'semantic-ui-react';
-import { useTreeNode } from '../../hooks/useTreeNode';
 import { ChoiceEditor } from '../ChoiceEditor/ChoiceEditor';
 import { ModelEditor } from '../ModelEditor/ModelEditor';
 import { CaptureModel, ModelFields, StructureType } from '@capture-models/types';
+import { Tree } from '../Tree/Tree';
 
 type Props = {
-  tree: ITreeNode[];
+  tree: any[];
   structure: CaptureModel['structure'];
   currentPath?: number[];
   document: CaptureModel['document'];
@@ -39,37 +38,11 @@ export const StructureEditor: React.FC<Props> = ({
   onAddModel,
   setModelFields,
 }) => {
-  const { nodes, mutatePoint, setNodes } = useTreeNode(() => tree);
-
-  useEffect(() => {
-    setNodes(tree);
-  }, [setNodes, tree]);
-
-  const onNodeClick = (node: ITreeNode, [_, ...path]: number[]) => {
-    setFocus(path);
-  };
-
-  const handleNodeExpand = (_: any, path: number[]) => {
-    mutatePoint(path, node => {
-      node.isExpanded = true;
-    });
-  };
-
-  const handleNodeCollapse = (_: any, path: number[]) => {
-    mutatePoint(path, node => {
-      node.isExpanded = false;
-    });
-  };
-
+  console.log(tree);
   return (
     <Grid padded>
       <Grid.Column width={6}>
-        <Tree
-          contents={nodes}
-          onNodeClick={onNodeClick}
-          onNodeCollapse={handleNodeCollapse}
-          onNodeExpand={handleNodeExpand}
-        />
+        <Tree tree={tree[0]} onClick={({ key }) => setFocus(key)} />
       </Grid.Column>
       <Grid.Column width={10}>
         {structure ? (

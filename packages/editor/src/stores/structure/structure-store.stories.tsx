@@ -1,4 +1,3 @@
-import { Tree } from '@blueprintjs/core';
 import { CaptureModel } from '@capture-models/types';
 import React from 'react';
 import { Breadcrumb } from 'semantic-ui-react';
@@ -35,13 +34,6 @@ const Test: React.FC = () => {
         Flip first 2 items
       </button>
       <h1>{current.structure.label}</h1>
-      <Tree
-        contents={tree}
-        onNodeClick={node => {
-          const data = node.nodeData as any;
-          focus.setFocus(data.key);
-        }}
-      />
     </div>
   );
 };

@@ -145,6 +145,7 @@ export class CaptureModelRepository {
    *
    * @param page The page requested
    * @param pageSize The number of results
+   * @param context
    * @param includeDerivatives
    */
   async getAllCaptureModels(
@@ -498,18 +499,24 @@ export class CaptureModelRepository {
       throw new Error('Not yet implemented [allow overwrite]');
     }
 
+    const contributor = req.author ? fromContributor(req.author) : null;
+
     // Everything we need to add into the database.
-    const dbInserts: (Field | Document | Property)[][] = [
+    const dbInserts: (Field | Document | Property | Contributor)[][] = [
       // Map the documents, adding missing fields if required.
       ...partialDocumentsToInserts(docsToHydrate, entityMap, captureModel.document.id),
       // Map the fields
       fieldsToInserts(fieldsToAdd),
     ];
 
+
     const revision = fromRevisionRequest(req);
 
     // Save the revision.
     await this.manager.transaction(async manager => {
+      if (contributor) {
+        await manager.save(contributor);
+      }
       const rev = await manager.save(revision);
       for (const insert of dbInserts) {
         // @todo change this to insert() and expand list of inserts to other entities.

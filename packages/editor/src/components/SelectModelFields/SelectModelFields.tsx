@@ -1,7 +1,7 @@
-import { Classes, ITreeNode, Label, Tag, Tree } from '@blueprintjs/core';
 import produce, { Draft } from 'immer';
 import React, { useState } from 'react';
 import { CaptureModel } from '@capture-models/types';
+import { Tree } from '../Tree/Tree';
 
 type Props = {
   document: CaptureModel['document'];
@@ -10,7 +10,7 @@ type Props = {
 };
 
 export const SelectModelFields: React.FC<Props> = ({ document, selected = [], onSave }) => {
-  const processDoc = (doc: CaptureModel['document'], keyAcc: string[]): ITreeNode[] => {
+  const processDoc = (doc: CaptureModel['document'], keyAcc: string[]): any[] => {
     const idx = selected.map(s => s.join('--HASH--'));
     return Object.keys(doc.properties)
       .map(key => {
@@ -25,7 +25,7 @@ export const SelectModelFields: React.FC<Props> = ({ document, selected = [], on
             icon: 'layers',
             label: prop.label,
             nodeData: [...keyAcc, key],
-            secondaryLabel: <Label color="yellow">entity</Label>,
+            secondaryLabel: <div color="yellow">entity</div>,
             childNodes: processDoc(prop as CaptureModel['document'], [...keyAcc, key]),
           };
         }
@@ -33,21 +33,21 @@ export const SelectModelFields: React.FC<Props> = ({ document, selected = [], on
           id: key,
           icon: 'cube',
           label: prop.label,
-          secondaryLabel: <Label color="blue">{prop.type}</Label>,
+          secondaryLabel: <div color="blue">{prop.type}</div>,
           disabled: idx.indexOf([...keyAcc, key].join('--HASH--')) !== -1,
           nodeData: [...keyAcc, key],
         };
       })
-      .filter(Boolean) as ITreeNode[];
+      .filter(Boolean) as any[];
   };
 
-  const [nodes, setNodes] = useState<ITreeNode[]>(() => processDoc(document, []));
+  const [nodes, setNodes] = useState<any[]>(() => processDoc(document, []));
 
-  const mutatePoint = ([i, ...path]: number[], mutation: (node: Draft<ITreeNode>) => void) => {
+  const mutatePoint = ([i, ...path]: number[], mutation: (node: Draft<any>) => void) => {
     setNodes(
       produce(nodesDraft => {
         mutation(
-          path.reduce((acc: ITreeNode, next: number) => {
+          path.reduce((acc: any, next: number) => {
             if (!acc.childNodes) return acc;
             return acc.childNodes[next];
           }, nodesDraft[i])
@@ -56,10 +56,10 @@ export const SelectModelFields: React.FC<Props> = ({ document, selected = [], on
     );
   };
 
-  const onNodeClick = (node: ITreeNode) => {
-    if (!node.childNodes) {
+  const onNodeClick = (node: any) => {
+    if (node) {
       // @todo change this to accept ALL fields in the model.
-      onSave(node.nodeData as string[]);
+      onSave(node as string[]);
     }
   };
 
@@ -76,12 +76,6 @@ export const SelectModelFields: React.FC<Props> = ({ document, selected = [], on
   };
 
   return (
-    <Tree
-      contents={nodes}
-      onNodeClick={onNodeClick}
-      onNodeCollapse={handleNodeCollapse}
-      onNodeExpand={handleNodeExpand}
-      className={Classes.ELEVATION_1}
-    />
+    <Tree tree={{ id: 'root', label: 'Document root', nodeData: null, childNodes: nodes }} onClick={onNodeClick} />
   );
 };

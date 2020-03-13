@@ -1,4 +1,3 @@
-// import { Button, Card, Divider, Tag } from '@blueprintjs/core';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Button, Card, Grid, Icon, Label, List } from 'semantic-ui-react';
 import { expandModelFields, mergeFlatKeys, structureToFlatStructureDefinition } from '../../core/structure-editor';

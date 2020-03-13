@@ -1,6 +1,7 @@
-import { ITreeNode } from '@blueprintjs/core';
 import produce, { Draft } from 'immer';
 import { useState } from 'react';
+
+type ITreeNode = any;
 
 export const useTreeNode = (createInitial: () => ITreeNode[]) => {
   const [nodes, setNodes] = useState<ITreeNode[]>(createInitial);
@@ -11,7 +12,7 @@ export const useTreeNode = (createInitial: () => ITreeNode[]) => {
         const handleNode = (node: Draft<ITreeNode>) => {
           mutation(node);
           if (node.childNodes) {
-            node.childNodes.forEach(childNode => {
+            node.childNodes.forEach((childNode: any) => {
               handleNode(childNode);
             });
           }

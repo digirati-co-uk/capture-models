@@ -1,4 +1,3 @@
-import { ITreeNode } from '@blueprintjs/core';
 import { CaptureModel, ModelFields } from '@capture-models/types';
 import { Action, Computed, ThunkOn } from 'easy-peasy';
 
@@ -7,7 +6,7 @@ export type StructureModel = {
   structure: CaptureModel['structure'];
 
   // Computed
-  tree: Computed<StructureModel, ITreeNode[]>;
+  tree: Computed<StructureModel, any[]>;
 
   // Currently focused item.
   focus: {

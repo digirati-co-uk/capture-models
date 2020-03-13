@@ -5,6 +5,10 @@
   "main": "dist/umd/@capture-models/plugin-api.js",
   "module": "lib/index.js",
   "typings": "lib/index.d.ts",
+  "files": [
+    "dist",
+    "lib"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/digirati-co-uk/capture-models.git",
