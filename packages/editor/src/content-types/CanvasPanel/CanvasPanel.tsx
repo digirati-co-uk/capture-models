@@ -8,8 +8,9 @@ import {
   Viewport,
   // @ts-ignore
 } from '@canvas-panel/core';
+import { createContext } from '@capture-models/helpers';
 import { BaseContent } from '@capture-models/types';
-import React, { Suspense, useEffect } from 'react';
+import React, { Suspense, useEffect, useRef, useState } from 'react';
 // import { Content } from '@capture-models/plugin-api';
 import { useCurrentSelector, useDisplaySelectors, useSelectorActions } from '../../stores/selectors/selector-hooks';
 
@@ -22,7 +23,10 @@ export interface CanvasPanelProps extends BaseContent {
   };
 }
 
+export const [useViewer, ViewerProvider] = createContext<any>();
+
 export const CanvasPanel: React.FC<CanvasPanelProps['state']> = ({ canvasId, manifestId }) => {
+  const [viewer, setViewer] = useState<any>();
   // Starting with display selectors. I need the selector context, BUT it should
   // work without the context too.
   const currentSelector = useCurrentSelector('canvas-panel', {
@@ -32,7 +36,7 @@ export const CanvasPanel: React.FC<CanvasPanelProps['state']> = ({ canvasId, man
     y: 500,
   });
 
-  const [displayIds, displaySelectors] = useDisplaySelectors('canvas-panel');
+  const [displayIds, displaySelectors, topLevelSelectors] = useDisplaySelectors('canvas-panel');
   const [actions, availableSelectors] = useSelectorActions();
   // @todo useTopLevelSelector();
 
@@ -58,23 +62,24 @@ export const CanvasPanel: React.FC<CanvasPanelProps['state']> = ({ canvasId, man
     //     thumbnail, if available.
   }, [actions, availableSelectors, currentSelector, displayIds, displaySelectors]);
 
-  console.log({ availableSelectors, currentSelector, displaySelectors });
-
   return (
     <Suspense fallback={() => null}>
-      <Manifest url={manifestId}>
-        <CanvasProvider startCanvas={canvasId || undefined}>
-          <SingleTileSource>
-            <Viewport maxHeight={600}>
-              <OpenSeadragonViewport viewportController={true}>
-                <OpenSeadragonViewer maxHeight={1000} />
-              </OpenSeadragonViewport>
-              <CanvasRepresentation ratio={1}>{displaySelectors}</CanvasRepresentation>
-              <CanvasRepresentation ratio={1}>{currentSelector}</CanvasRepresentation>
-            </Viewport>
-          </SingleTileSource>
-        </CanvasProvider>
-      </Manifest>
+      <ViewerProvider value={viewer}>
+        <Manifest url={manifestId}>
+          <CanvasProvider startCanvas={canvasId || undefined}>
+            <SingleTileSource>
+              <Viewport maxHeight={600} setRef={setViewer}>
+                <OpenSeadragonViewport viewportController={true}>
+                  <OpenSeadragonViewer maxHeight={1000} />
+                </OpenSeadragonViewport>
+                <CanvasRepresentation ratio={1}>{displaySelectors}</CanvasRepresentation>
+                <CanvasRepresentation ratio={1}>{topLevelSelectors}</CanvasRepresentation>
+                <CanvasRepresentation ratio={1}>{currentSelector}</CanvasRepresentation>
+              </Viewport>
+            </SingleTileSource>
+          </CanvasProvider>
+        </Manifest>
+      </ViewerProvider>
     </Suspense>
   );
 };

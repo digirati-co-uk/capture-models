@@ -1,5 +1,7 @@
+import { CardButton } from '@capture-models/editor';
 import { BaseSelector, SelectorComponent } from '@capture-models/types';
 import React from 'react';
+import styled from 'styled-components';
 
 export interface BoxSelectorProps extends BaseSelector {
   id: string;
@@ -16,7 +18,18 @@ type BoxSelectorPreview = {
   thumbnail: string;
 };
 
-export const BoxSelector: SelectorComponent<BoxSelectorProps> = ({ chooseSelector, clearSelector, ...props }) => {
+const SelectorButton = styled(CardButton)`
+  margin-bottom: 0;
+  margin-top: 10px;
+  padding: 0.3em 0.7em;
+`;
+
+export const BoxSelector: SelectorComponent<BoxSelectorProps> = ({
+  chooseSelector,
+  clearSelector,
+  readOnly,
+  ...props
+}) => {
   if (props.selectorPreview) {
     const preview: BoxSelectorPreview = props.selectorPreview;
     console.log(preview.thumbnail);
@@ -28,23 +41,39 @@ export const BoxSelector: SelectorComponent<BoxSelectorProps> = ({ chooseSelecto
   if (isSelecting) {
     return (
       <div>
-        Move and resize the highlighted box on the image to choose your selection.{' '}
-        {clearSelector ? <button onClick={clearSelector}>finish</button> : null}
+        Move and resize the highlighted box on the image to choose your selection.
+        <br />
+        {clearSelector && !readOnly ? (
+          <SelectorButton inline={true} size="small" onClick={clearSelector}>
+            finish
+          </SelectorButton>
+        ) : null}
       </div>
     );
   }
   if (props.state) {
     return (
       <div>
-        You selected a thing at {props.state.x}, {props.state.y}, {props.state.width}, {props.state.height}{' '}
-        {chooseSelector ? <button onClick={() => chooseSelector(props.id)}>edit</button> : null}
+        You selected a thing at {props.state.x}, {props.state.y}, {props.state.width}, {props.state.height}
+        <br />
+        {chooseSelector && !readOnly ? (
+          <SelectorButton inline={true} size="small" onClick={() => chooseSelector(props.id)}>
+            edit
+          </SelectorButton>
+        ) : null}
       </div>
     );
   }
 
   return (
     <div>
-      You can add a box {chooseSelector ? <button onClick={() => chooseSelector(props.id)}>edit</button> : null}
+      No region has been selected
+      <br />
+      {chooseSelector && !readOnly ? (
+        <SelectorButton inline={true} size="small" onClick={() => chooseSelector(props.id)}>
+          choose region
+        </SelectorButton>
+      ) : null}
     </div>
   );
 
