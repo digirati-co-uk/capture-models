@@ -7,7 +7,7 @@ export const config = {
   database: process.env.DATABASE_NAME as string,
   schema: process.env.DATABASE_SCHEMA ? process.env.DATABASE_SCHEMA : 'public',
   synchronize: process.env.NODE_ENV === 'development',
-  logging: true,
+  logging: false,
 };
 
 export const port = process.env.SERVER_PORT || 3000;
