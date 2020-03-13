@@ -5,13 +5,16 @@ import 'semantic-ui-css/semantic.min.css';
 import { ThemeProvider } from 'styled-components';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { App } from './App';
+import { UserProvider } from './utility/user-context';
 import './layout.scss';
 
 render(
   <ThemeProvider theme={defaultTheme}>
-    <Router>
-      <App />
-    </Router>
+    <UserProvider>
+      <Router basename={process.env.BASE_PATH}>
+        <App />
+      </Router>
+    </UserProvider>
   </ThemeProvider>,
   document.getElementById('root')
 );

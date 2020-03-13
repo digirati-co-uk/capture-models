@@ -7,15 +7,18 @@ import { Viewer } from './containers/Viewer';
 import { RevisionsManager } from './containers/RevisionsManager';
 import { CaptureModelEditor } from './containers/CaptureModelEditor';
 import { useApiModel } from './utility/useModels';
+import { useCurrentUser } from './utility/user-context';
 
 export const App: React.FC = () => {
   const [selectedContent, setSelectedContent] = useState<{ label: string; manifest: string; thumbnail?: string }>();
   const [selectedCaptureModelId, setSelectedCaptureModelId] = useState<string>();
   const captureModel = useApiModel(selectedCaptureModelId);
+  const { user } = useCurrentUser();
 
   return (
     <Revisions.Provider captureModel={captureModel}>
       <h1>Home</h1>
+      <p>Logged in as {user.name}.</p>
       <nav>
         <Link to="/">Home</Link> | <a href="/fixtures">Fixtures</a> | <Link to="/revisions">Revisions</Link> |{' '}
         <Link to="/viewer">Viewer</Link> | <Link to="/editor">Editor</Link>
