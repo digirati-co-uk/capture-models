@@ -1,6 +1,9 @@
+import { REVISION_CLONE_MODE } from '@capture-models/editor';
 import React from 'react';
 import { CaptureModel } from './capture-model';
 import { BaseField } from './field-types';
+import { RevisionRequest } from './revision-request';
+import { StructureType } from './utility';
 
 export type RefinementSupportProps = {
   readOnly?: boolean;
@@ -80,6 +83,24 @@ export type ChoiceRefinement = Refinement<
   }
 >;
 
+export type RevisionListRefinement = Refinement<
+  'revision-list',
+  StructureType<'model'>,
+  {
+    revisions: RevisionRequest[];
+  },
+  {
+    goBack?: () => void;
+    selectRevision: (options: { revisionId: string; readMode?: boolean }) => void;
+    createRevision: (options: {
+      revisionId: string;
+      cloneMode: REVISION_CLONE_MODE;
+      readMode?: boolean;
+      modelMapping?: { [key: string]: string };
+    }) => void;
+  }
+>;
+
 export type UnknownRefinement =
   | EntityRefinement
   | EntityListRefinement
@@ -87,4 +108,5 @@ export type UnknownRefinement =
   | FieldListRefinement
   | EntityInstanceListRefinement
   | FieldInstanceListRefinement
-  | ChoiceRefinement;
+  | ChoiceRefinement
+  | RevisionListRefinement;
