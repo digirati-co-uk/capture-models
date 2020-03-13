@@ -13,7 +13,13 @@ export function createRevisionRequestFromStructure(
 
   const flatFields = expandModelFields(structure.fields);
   const structureDocument = filterCaptureModel(structure.id, captureModel.document, flatFields, field => {
-    return !field.revision; // Where there is no revision.
+    if (!field.revision) {
+      return true; // Canonical
+    }
+
+    const revision = (captureModel.revisions || []).find(({ id }) => id === field.revision);
+
+    return !!(revision && revision.approved && revision.status === 'accepted');
   });
 
   if (!structureDocument) {
