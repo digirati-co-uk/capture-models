@@ -225,94 +225,98 @@ describe('capture model to revision list', () => {
 
   test('dual-transcription', () => {
     expect(captureModelToRevisionList(single05 as CaptureModel)).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "captureModelId": "143d9c4a-5d4e-4ca2-89f3-dc4bd7b45e3e",
-          "document": Object {
-            "id": "47e8a9d8-76f8-422b-91af-b457d1c624a0",
-            "label": "Name of entity",
-            "properties": Object {
-              "transcription": Array [
-                Object {
-                  "allowMultiple": true,
-                  "id": "2666cf79-ef2f-419f-a3f4-038216a89783",
-                  "label": "Transcription",
-                  "revision": "f496a9aa-25eb-4b1d-9d94-9cdcef03e527",
-                  "type": "text-field",
-                  "value": "Person A created this one",
-                },
-              ],
-            },
-            "type": "entity",
+Array [
+  Object {
+    "captureModelId": "143d9c4a-5d4e-4ca2-89f3-dc4bd7b45e3e",
+    "document": Object {
+      "id": "47e8a9d8-76f8-422b-91af-b457d1c624a0",
+      "label": "Name of entity",
+      "properties": Object {
+        "transcription": Array [
+          Object {
+            "allowMultiple": true,
+            "id": "2666cf79-ef2f-419f-a3f4-038216a89783",
+            "label": "Transcription",
+            "revises": "1615a172-b2c5-4192-bcc1-606a871b6230",
+            "revision": "f496a9aa-25eb-4b1d-9d94-9cdcef03e527",
+            "type": "text-field",
+            "value": "Person A created this one",
           },
-          "revision": Object {
-            "approved": true,
-            "fields": Array [
-              "transcription",
-            ],
-            "id": "f496a9aa-25eb-4b1d-9d94-9cdcef03e527",
-            "structureId": "fd847948-11bf-42ca-bfdd-cab85ea818f3",
+        ],
+      },
+      "type": "entity",
+    },
+    "revision": Object {
+      "approved": true,
+      "fields": Array [
+        "transcription",
+      ],
+      "id": "f496a9aa-25eb-4b1d-9d94-9cdcef03e527",
+      "status": "accepted",
+      "structureId": "fd847948-11bf-42ca-bfdd-cab85ea818f3",
+    },
+    "source": "structure",
+  },
+  Object {
+    "captureModelId": "143d9c4a-5d4e-4ca2-89f3-dc4bd7b45e3e",
+    "document": Object {
+      "id": "47e8a9d8-76f8-422b-91af-b457d1c624a0",
+      "label": "Name of entity",
+      "properties": Object {
+        "transcription": Array [
+          Object {
+            "allowMultiple": true,
+            "id": "1efd5946-a3a1-484f-a862-710741a3b682",
+            "label": "Transcription",
+            "revision": "daf3f9d9-2a16-4c1f-8657-3560775bd9eb",
+            "type": "text-field",
+            "value": "Person B created this one, to override Person A's one",
           },
-          "source": "structure",
-        },
-        Object {
-          "captureModelId": "143d9c4a-5d4e-4ca2-89f3-dc4bd7b45e3e",
-          "document": Object {
-            "id": "47e8a9d8-76f8-422b-91af-b457d1c624a0",
-            "label": "Name of entity",
-            "properties": Object {
-              "transcription": Array [
-                Object {
-                  "allowMultiple": true,
-                  "id": "1efd5946-a3a1-484f-a862-710741a3b682",
-                  "label": "Transcription",
-                  "revision": "daf3f9d9-2a16-4c1f-8657-3560775bd9eb",
-                  "type": "text-field",
-                  "value": "Person B created this one, to override Person A's one",
-                },
-              ],
-            },
-            "type": "entity",
+        ],
+      },
+      "type": "entity",
+    },
+    "revision": Object {
+      "fields": Array [
+        "transcription",
+      ],
+      "id": "daf3f9d9-2a16-4c1f-8657-3560775bd9eb",
+      "revises": "f496a9aa-25eb-4b1d-9d94-9cdcef03e527",
+      "status": "draft",
+      "structureId": "fd847948-11bf-42ca-bfdd-cab85ea818f3",
+    },
+    "source": "structure",
+  },
+  Object {
+    "captureModelId": "143d9c4a-5d4e-4ca2-89f3-dc4bd7b45e3e",
+    "document": Object {
+      "id": "47e8a9d8-76f8-422b-91af-b457d1c624a0",
+      "label": "Name of entity",
+      "properties": Object {
+        "transcription": Array [
+          Object {
+            "allowMultiple": true,
+            "id": "892f3abe-bbbe-4b1e-9167-a52ec76ea5c1",
+            "label": "Transcription",
+            "revision": "bb5d55b1-6c38-4bb9-a6e6-ed236347671b",
+            "type": "text-field",
+            "value": "Person C created this one",
           },
-          "revision": Object {
-            "fields": Array [
-              "transcription",
-            ],
-            "id": "daf3f9d9-2a16-4c1f-8657-3560775bd9eb",
-            "revises": "f496a9aa-25eb-4b1d-9d94-9cdcef03e527",
-            "structureId": "fd847948-11bf-42ca-bfdd-cab85ea818f3",
-          },
-          "source": "structure",
-        },
-        Object {
-          "captureModelId": "143d9c4a-5d4e-4ca2-89f3-dc4bd7b45e3e",
-          "document": Object {
-            "id": "47e8a9d8-76f8-422b-91af-b457d1c624a0",
-            "label": "Name of entity",
-            "properties": Object {
-              "transcription": Array [
-                Object {
-                  "allowMultiple": true,
-                  "id": "892f3abe-bbbe-4b1e-9167-a52ec76ea5c1",
-                  "label": "Transcription",
-                  "revision": "bb5d55b1-6c38-4bb9-a6e6-ed236347671b",
-                  "type": "text-field",
-                  "value": "Person C created this one",
-                },
-              ],
-            },
-            "type": "entity",
-          },
-          "revision": Object {
-            "fields": Array [
-              "transcription",
-            ],
-            "id": "bb5d55b1-6c38-4bb9-a6e6-ed236347671b",
-            "structureId": "fd847948-11bf-42ca-bfdd-cab85ea818f3",
-          },
-          "source": "structure",
-        },
-      ]
-    `);
+        ],
+      },
+      "type": "entity",
+    },
+    "revision": Object {
+      "fields": Array [
+        "transcription",
+      ],
+      "id": "bb5d55b1-6c38-4bb9-a6e6-ed236347671b",
+      "status": "submitted",
+      "structureId": "fd847948-11bf-42ca-bfdd-cab85ea818f3",
+    },
+    "source": "structure",
+  },
+]
+`);
   });
 });
