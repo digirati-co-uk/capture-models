@@ -37,6 +37,9 @@
   "fesk": {
     "typescript": true
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "devDependencies": {
     "sass": "^1.26.3",
     "@fesk/scripts": "1.4.0-pr.a95f698d",

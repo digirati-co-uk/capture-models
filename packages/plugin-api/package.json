@@ -20,6 +20,9 @@
     "build-types": "tsc -p ./ --emitDeclarationOnly",
     "build:prod": "NODE_ENV=production fesk-build --umd --cjs && tsc -p ./ --emitDeclarationOnly"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "@capture-models/types": "1.0.0",
     "react": "^16.12.0"

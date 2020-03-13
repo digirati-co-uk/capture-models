@@ -29,6 +29,9 @@
       "typeorm": "0.2.22",
       "fast-deep-equal": "^3.1.1"
    },
+   "publishConfig": {
+      "access": "public"
+   },
    "scripts": {
       "build": "tsc -p .",
       "start": "tsc -p . --watch",

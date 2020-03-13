@@ -25,6 +25,9 @@
     "build-ts": "tsc -p ./",
     "build:prod": "NODE_ENV=production fesk-build --umd && tsc -p ./ --emitDeclarationOnly && build-storybook"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "@canvas-panel/core": "^0.2.0",
     "@capture-models/helpers": "1.0.0",
