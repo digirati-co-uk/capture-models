@@ -4,7 +4,9 @@
     "id": "006d634e-e8c4-4edd-9d37-b4beff3da7f2",
     "type": "choice",
     "label": "Tabs example",
-    "profile": ["tabs"],
+    "profile": [
+      "tabs"
+    ],
     "items": [
       {
         "id": "6c42bb4e-05db-4c3c-b423-20e4972dc11f",

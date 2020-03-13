@@ -15,6 +15,16 @@
       }
     ]
   },
+  "target": [
+    {
+      "type": "manifest",
+      "id": "https://wellcomelibrary.org/iiif/b18035723/manifest"
+    },
+    {
+      "type": "canvas",
+      "id": "https://wellcomelibrary.org/iiif/b18035723/canvas/c0"
+    }
+  ],
   "document": {
     "id": "12396c9f-0706-49c1-9559-1ab853040be1",
     "type": "entity",
