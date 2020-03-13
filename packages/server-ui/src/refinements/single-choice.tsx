@@ -3,7 +3,7 @@ import { registerRefinement } from '@capture-models/plugin-api';
 import { StructureType } from '@capture-models/types';
 import React, { useCallback } from 'react';
 import { Choice } from '../components/Choice/Choice';
-import { RevisionList } from '../components/RevisionList/RevisionList';
+import { RevisionChoicePage } from '../containers/RevisionChoicePage';
 
 const SingleChoice: React.FC<any> = ({ navigation, actions }) => {
   const currentView = (navigation.instance as StructureType<'choice'>).items[0];
@@ -21,7 +21,7 @@ const SingleChoice: React.FC<any> = ({ navigation, actions }) => {
   }, [actions, currentView.id]);
 
   if (currentView.type === 'model') {
-    return <RevisionList model={currentView} />;
+    return <RevisionChoicePage model={currentView} />;
   }
 
   return <Choice choice={currentView} onChoice={push} showBackButton={false} onBackButton={pop} />;

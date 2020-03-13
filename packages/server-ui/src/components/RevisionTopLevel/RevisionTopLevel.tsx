@@ -16,6 +16,7 @@ export const RevisionTopLevel: React.FC<{
   const [isPreviewing, setIsPreviewing] = useState(false);
   const [isThankYou, setIsThankYou] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [error, setError] = useState('');
 
   if (!current) return null;
 
@@ -27,14 +28,21 @@ export const RevisionTopLevel: React.FC<{
     return (
       <RevisionPreview
         isSaving={isSaving}
+        error={error}
         entity={{ property: 'root', instance: current.document }}
         onEdit={() => setIsPreviewing(false)}
         onSave={() => {
+          setError('');
           setIsSaving(true);
-          onSaveRevision(current).then(() => {
-            setIsSaving(false);
-            setIsThankYou(true);
-          });
+          onSaveRevision(current)
+            .then(() => {
+              setIsSaving(false);
+              setIsThankYou(true);
+            })
+            .catch(() => {
+              setIsSaving(false);
+              setError('We could not save your model');
+            });
         }}
       />
     );
