@@ -2,6 +2,7 @@ import { Revisions } from '@capture-models/editor';
 import React, { useState } from 'react';
 import { Link, Route, Switch } from 'react-router-dom';
 import { CaptureModelListing } from './containers/CaptureModelListing';
+import { Fixtures } from './containers/Fixtures';
 import { Homepage } from './containers/Homepage';
 import { Viewer } from './containers/Viewer';
 import { RevisionsManager } from './containers/RevisionsManager';
@@ -20,12 +21,16 @@ export const App: React.FC = () => {
       <h1>Home</h1>
       <p>Logged in as {user.name}.</p>
       <nav>
-        <Link to="/">Home</Link> | <a href="/fixtures">Fixtures</a> | <Link to="/revisions">Revisions</Link> |{' '}
+        <Link to="/">Home</Link> | <Link to="/fixtures">Fixtures</Link> | <Link to="/revisions">Revisions</Link> |{' '}
         <Link to="/viewer">Viewer</Link> | <Link to="/editor">Editor</Link>
       </nav>
       <Switch>
         <Route path="/" exact>
           <Homepage />
+        </Route>
+
+        <Route path="/fixtures">
+          <Fixtures />
         </Route>
 
         <Route path="/revisions">
