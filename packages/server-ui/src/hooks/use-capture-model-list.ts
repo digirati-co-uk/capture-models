@@ -20,6 +20,9 @@ export function useCaptureModelList() {
         // Push on list.
         _setCaptureModelList(list => [...list, r]);
         _setNeedsRefresh(true);
+      })
+      .catch(err => {
+        _setError(err);
       });
   }
 
@@ -55,7 +58,9 @@ export function useCaptureModelList() {
   // Initial listing.
   useEffect(() => {
     if (needsRefresh) {
-      refresh();
+      refresh().catch(err => {
+        _setError(err);
+      });
     }
   }, [needsRefresh, refresh]);
 
