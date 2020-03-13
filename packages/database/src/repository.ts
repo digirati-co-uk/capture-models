@@ -47,7 +47,14 @@ export class CaptureModelRepository {
       revisionStatus,
       revisionId,
       userId,
-    }: { includeCanonical?: boolean; revisionStatus?: StatusTypes; revisionId?: string; userId?: string } = {}
+      context,
+    }: {
+      includeCanonical?: boolean;
+      revisionStatus?: StatusTypes;
+      revisionId?: string;
+      userId?: string;
+      context?: string[];
+    } = {}
   ): Promise<CaptureModelType & { id: string }> {
     const builder = await this.manager
       .createQueryBuilder()
@@ -57,13 +64,19 @@ export class CaptureModelRepository {
       .leftJoinAndSelect('model.structure', 'structure')
       .leftJoinAndSelect('structure.flatItems', 'structureFlatItem')
       .leftJoinAndSelect('model.revisions', 'revision')
+      .leftJoinAndSelect('model.contributors', 'contributor')
       .leftJoinAndSelect('doc.selector', 'selector')
       .leftJoinAndSelect('doc.nestedProperties', 'property')
       .leftJoinAndSelect('property.fieldInstances', 'fi')
       .leftJoinAndSelect('property.documentInstances', 'di')
       .leftJoinAndSelect('di.selector', 'dis')
       .leftJoinAndSelect('fi.selector', 'fis')
+      .leftJoinAndSelect('revision.authors', 'ri')
       .where('doc.captureModelId = :id', { id });
+
+    if (context) {
+      builder.andWhere('model.context ?& array[:...ctx]::TEXT[]', { ctx: context });
+    }
 
     if (includeCanonical && !revisionStatus) {
       revisionStatus = 'accepted';
@@ -137,7 +150,7 @@ export class CaptureModelRepository {
   async getAllCaptureModels(
     page = 0,
     pageSize = 20,
-    { includeDerivatives = false }: { includeDerivatives?: boolean } = {}
+    { context, includeDerivatives = false }: { context?: string[]; includeDerivatives?: boolean } = {}
   ) {
     const query = this.manager
       .createQueryBuilder()
@@ -151,6 +164,10 @@ export class CaptureModelRepository {
 
     if (!includeDerivatives) {
       query.where('capture_model.derivedFromId IS NULL');
+    }
+
+    if (context) {
+      query.andWhere('capture_model.context ?& array[:...ctx]::TEXT[]', { ctx: context });
     }
 
     query.take(pageSize).skip(page * pageSize);
@@ -184,17 +201,22 @@ export class CaptureModelRepository {
    * Creates a canonical capture model. This should be an admin operation only.
    *
    * @param model
+   * @param context
+   * @param user
    */
-  async saveCaptureModel({
-    // list of fields
-    integrity,
-    document,
-    contributors,
-    id,
-    revisions,
-    structure,
-    target,
-  }: CaptureModelType) {
+  async saveCaptureModel(
+    {
+      // list of fields
+      integrity,
+      document,
+      contributors,
+      id,
+      revisions,
+      structure,
+      target,
+    }: CaptureModelType,
+    { context, user }: { context?: string[]; user?: ContributorType } = {}
+  ) {
     // @todo validation of capture model.
     const newModel = await this.manager.transaction(async manager => {
       // The order of operations is as follows:
@@ -213,6 +235,11 @@ export class CaptureModelRepository {
         await manager.save(Structure, mappedStructure);
 
         // Contributors - no dependencies.
+        if (user && (!contributors || !contributors[user.id])) {
+          contributors = contributors ? contributors : {};
+          contributors[user.id] = user;
+        }
+
         const mappedContributors = Object.values(contributors || {}).map(fromContributor);
         if (contributors) {
           await manager.save(Contributor, mappedContributors);
@@ -246,6 +273,7 @@ export class CaptureModelRepository {
           captureModel.contributors = mappedContributors;
         }
 
+        captureModel.context = context;
         // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
         // @ts-ignore
         return await manager.save(CaptureModel, captureModel);
@@ -295,8 +323,13 @@ export class CaptureModelRepository {
     });
   }
 
-  async forkCaptureModel(id: string, target: Target[], creator?: ContributorType): Promise<CaptureModelType> {
-    const model = await this.getCaptureModel(id);
+  async forkCaptureModel(
+    id: string,
+    target: Target[],
+    creator?: ContributorType,
+    context?: string[]
+  ): Promise<CaptureModelType> {
+    const model = await this.getCaptureModel(id, { context });
 
     // This might be able to check if a field exists at a target, but that is for the
     // application calling to decide. It's valid in here to have 2 capture models that are
@@ -323,13 +356,13 @@ export class CaptureModelRepository {
     return await this.saveCaptureModel(model);
   }
 
-  async getRevision(id: string): Promise<RevisionRequest> {
+  async getRevision(id: string, context?: string[]): Promise<RevisionRequest> {
     const model = await this.manager.findOne(Revision, id);
     if (!model) {
       throw new Error(`Revision: ${id} was not found`);
     }
     const revision = toRevision(model);
-    const fullModel = await this.getCaptureModel(model.captureModelId, { revisionId: id });
+    const fullModel = await this.getCaptureModel(model.captureModelId, { revisionId: id, context });
 
     return {
       captureModelId: model.captureModelId,
@@ -354,13 +387,18 @@ export class CaptureModelRepository {
     return count !== 0;
   }
 
-  async captureModelExists(id: string) {
-    const count = await this.manager
+  async captureModelExists(id: string, context?: string[]) {
+    const query = this.manager
       .createQueryBuilder()
       .select('c.id')
       .from(CaptureModel, 'c')
-      .where({ id })
-      .getCount();
+      .where({ id });
+
+    if (context) {
+      query.andWhere('c.context ?& array[:...ctx]::TEXT[]', { ctx: context });
+    }
+
+    const count = await query.getCount();
 
     return count !== 0;
   }
@@ -373,6 +411,8 @@ export class CaptureModelRepository {
    * The purpose of this is to merge in that revision and it's fields into the main document.
    *
    * @param req The revision request
+   * @param context
+   * @param user
    * @param createNewCaptureModel Creates a new capture model from the one provided
    * @param allowCanonicalChanges Allows the request to make canonical changes to the document in this revision
    * @param allowCustomStructure Allows the request to deviate from the structure stored in the database
@@ -382,12 +422,16 @@ export class CaptureModelRepository {
   async createRevision(
     req: RevisionRequest,
     {
+      context,
+      user,
       createNewCaptureModel = false,
       allowCanonicalChanges = false,
       allowCustomStructure = false,
       allowOverwrite = false,
       allowAnonymous = false,
     }: {
+      context?: string[];
+      user?: ContributorType;
       createNewCaptureModel?: boolean;
       allowCanonicalChanges?: boolean;
       allowCustomStructure?: boolean;
@@ -399,10 +443,15 @@ export class CaptureModelRepository {
       throw new Error('Capture model ID is required');
     }
 
+    if (user) {
+      req.author = user;
+    }
+
     // @todo only return the canonical model.
     // @todo If this doesn't exist, then we're creating a new one?
     const captureModel = await this.getCaptureModel(req.captureModelId, {
       includeCanonical: true,
+      context,
     });
 
     // Validation for the request.
@@ -477,18 +526,42 @@ export class CaptureModelRepository {
    * Updating of existing revision.
    *
    * @param req
+   * @param user
+   * @param context
    * @param allowAdditionalFields
+   * @param allowUserMismatch
    * @param allowDeletedFields
    */
   async updateRevision(
     req: RevisionRequest,
     {
+      user,
+      context,
       allowAdditionalFields = false,
+      allowUserMismatch = false,
       allowDeletedFields = false,
-    }: { allowAdditionalFields?: boolean; allowDeletedFields?: boolean } = {}
+    }: {
+      user?: ContributorType;
+      allowAdditionalFields?: boolean;
+      allowDeletedFields?: boolean;
+      allowUserMismatch?: boolean;
+      context?: string[];
+    } = {}
   ) {
     const storedRevision = await this.getRevision(req.revision.id);
-    const captureModel = await this.getCaptureModel(req.captureModelId);
+    const captureModel = await this.getCaptureModel(req.captureModelId, { context });
+
+    if (!allowUserMismatch) {
+      if (!user) {
+        throw new Error('User is required when using `allowUserMismatch`');
+      }
+      if ((storedRevision.revision.authors || []).length === 0) {
+        throw new Error('No user is assigned to this revision');
+      }
+      if (storedRevision.revision.authors.indexOf(user.id) === -1) {
+        throw new Error('User is not allowed to edit this revision');
+      }
+    }
 
     // Filter the new document with the stored revision (to be sure.)
     const newFilteredDocument = filterDocumentByRevision(req.document, storedRevision.revision);
@@ -543,7 +616,10 @@ export class CaptureModelRepository {
         }
         fieldIds.splice(fieldIds.indexOf(field.id), 1);
 
-        if (!deepEqual(fieldMap[field.id].value, field.value)) {
+        if (
+          !deepEqual(fieldMap[field.id].value, field.value) ||
+          (field.selector && !deepEqual(selectorMap[field.selector.id].state, field.selector.state))
+        ) {
           // UPDATE @todo treating this the same as creation.
           fieldsToAdd.push({ field, term, parent });
           return;
@@ -602,12 +678,14 @@ export class CaptureModelRepository {
     captureModelId: string,
     revisionId: string,
     {
+      context,
       includeRevisions,
       includeStructures,
       cloneMode = 'FORK_TEMPLATE',
       modelMapping = {},
       modelRoot = [],
     }: {
+      context?: string[];
       includeRevisions?: boolean;
       includeStructures?: boolean;
       cloneMode?: string; // @todo REVISION_CLONE_MODE has inter-dependency issues
@@ -616,6 +694,7 @@ export class CaptureModelRepository {
     } = {}
   ) {
     const baseRevision = await this.getRevisionTemplate(captureModelId, revisionId, {
+      context,
       includeRevisions,
       includeStructures,
     });
@@ -630,11 +709,16 @@ export class CaptureModelRepository {
   async getRevisionTemplate(
     captureModelId: string,
     revisionId: string,
-    { includeRevisions, includeStructures }: { includeRevisions?: boolean; includeStructures?: boolean } = {}
+    {
+      context,
+      includeRevisions,
+      includeStructures,
+    }: { context?: string[]; includeRevisions?: boolean; includeStructures?: boolean } = {}
   ) {
     if (includeStructures) {
       const captureModel = await this.getCaptureModel(captureModelId, {
         includeCanonical: false /* @todo change to true */,
+        context,
       });
       const foundStructure = findStructure(captureModel, revisionId);
       if (foundStructure) {
