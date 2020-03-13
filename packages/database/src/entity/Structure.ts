@@ -82,7 +82,7 @@ export class Structure {
   @ManyToOne(
     () => Structure,
     structure => structure.items,
-    { nullable: true }
+    { nullable: true, onDelete: 'CASCADE' }
   )
   rootChoice?: Structure;
 

@@ -14,11 +14,11 @@ export function toContributor({
   return {
     id,
     type: type as any,
-    email,
+    name: name ? name : 'Anonymous user',
+    email: email ? email : undefined,
     // eslint-disable-next-line @typescript-eslint/camelcase
-    email_sha1,
-    homepage,
-    nickname,
-    name,
+    email_sha1: email_sha1 ? email_sha1 : undefined,
+    homepage: homepage ? homepage : undefined,
+    nickname: nickname ? nickname : undefined,
   };
 }

@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToMany, OneToMany, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
 import { CaptureModel } from './CaptureModel';
 import { RevisionAuthors } from './RevisionAuthors';
 
@@ -10,7 +10,7 @@ export enum ContributorTypes {
 
 @Entity()
 export class Contributor {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryColumn('text')
   id: string;
 
   @Column({
