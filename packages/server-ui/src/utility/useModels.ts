@@ -5,7 +5,7 @@ export const useApiModels = () => {
   const [models, setModels] = useState<Array<{ label: string; id: string }>>([]);
 
   useEffect(() => {
-    fetch(`/api/model`)
+    fetch(`/api/crowdsourcing/model`)
       .then(r => r.json())
       .then(r => {
         setModels(r);
@@ -20,7 +20,7 @@ export const useApiModel = (id?: string) => {
 
   useEffect(() => {
     if (id) {
-      fetch(`/api/model/${id}`)
+      fetch(`/api/crowdsourcing/model/${id}`)
         .then(r => r.json())
         .then(r => {
           setModel(r);
@@ -37,7 +37,7 @@ export const useRevisionList = () => {
   const [revisions, setRevisions] = useState<Array<{ id: string; label: string }>>([]);
 
   useEffect(() => {
-    fetch(`/api/revision`)
+    fetch(`/api/crowdsourcing/revision`)
       .then(r => r.json())
       .then(r => setRevisions(r));
   }, []);

@@ -18,23 +18,13 @@ export const testFixture: RouteMiddleware<{ name: string; file: string }> = asyn
 };
 
 export const fixtures: RouteMiddleware = async ctx => {
-  ctx.headers['Content-Type'] = 'text/html';
-  ctx.body = `
-    <h1>Fixtures</h1>
-    ${readdirSync(path.join(__dirname, '../../../../fixtures'))
-      .map(name =>
-        name === 'simple.json'
-          ? ''
-          : `<h3>${name}</h3>
-           <ul>
-           ${readdirSync(path.join(__dirname, `../../../../fixtures/${name}`))
-             .map(
-               file =>
-                 `<li><a href="${ctx.routes.url('test-fixture', { name, file: file.slice(0, -5) })}">${file}</a></li>`
-             )
-             .join('')}
-           </ul>`
-      )
-      .join('')}
-  `;
+  ctx.body = readdirSync(path.join(__dirname, '../../../../fixtures'))
+    .filter(name => name !== 'simple.json')
+    .map(name => ({
+      name,
+      items: readdirSync(path.join(__dirname, `../../../../fixtures/${name}`)).map(file => ({
+        name: file,
+        url: ctx.routes.url('test-fixture', { name, file: file.slice(0, -5) }),
+      })),
+    }));
 };

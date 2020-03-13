@@ -1,7 +1,7 @@
 import { RevisionRequest } from '@capture-models/types';
 
 export async function updateRevision(req: RevisionRequest): Promise<RevisionRequest> {
-  return await fetch(`/api/revision/${req.revision.id}`, {
+  return await fetch(`/api/crowdsourcing/revision/${req.revision.id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',

@@ -8,7 +8,7 @@ export function useCaptureModelApi(id: string) {
 
   const refresh = useCallback(modelId => {
     setFetching(true);
-    fetch(`/api/model/${modelId}`)
+    fetch(`/api/crowdsourcing/model/${modelId}`)
       .then(r => r.json())
       .then(model => {
         _updateCaptureModel(model);
@@ -24,7 +24,7 @@ export function useCaptureModelApi(id: string) {
   }, []);
 
   async function update(model: CaptureModel) {
-    const newModel = await fetch(`/api/model/${model.id}`, {
+    const newModel = await fetch(`/api/crowdsourcing/model/${model.id}`, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -40,7 +40,7 @@ export function useCaptureModelApi(id: string) {
     // remove model.
     _updateCaptureModel(undefined);
 
-    await fetch(`/api/model/${model.id}`, {
+    await fetch(`/api/crowdsourcing/model/${model.id}`, {
       method: 'DELETE',
     }).catch(err => {
       // Add error.
