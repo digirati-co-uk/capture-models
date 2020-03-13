@@ -2,7 +2,7 @@
   "structure": {
     "id": "04e37aea-9a1e-48f1-af1c-35fe3a83f3d9",
     "type": "choice",
-    "label": "Multiple fields with multiple values",
+    "label": "basic - multiple fields multiple values",
     "items": [
       {
         "id": "e28edc8c-66a2-453a-aaf1-55ff3b833efa",

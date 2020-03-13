@@ -2,7 +2,7 @@
   "structure": {
     "id": "44a1c57f-8dc5-41a4-a020-91adfa3f402b",
     "type": "choice",
-    "label": "Nesting - Person + fields",
+    "label": "nesting - nested model",
     "items": [
       {
         "id": "1a0d894a-1897-4448-abd0-0acc451e76fc",

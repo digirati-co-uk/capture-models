@@ -2,7 +2,7 @@
   "structure": {
     "id": "892f0228-53d2-4f79-986d-712c122bd33f",
     "type": "choice",
-    "label": "Basic Model with simple selector",
+    "label": "selectors - wunder selector",
     "items": [
       {
         "id": "e801f905-5afc-4612-9e59-2b78cf407b9d",

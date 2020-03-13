@@ -2,7 +2,7 @@
   "structure": {
     "id": "2416e3ed-90cc-4160-8d7b-ceefeb6d2adc",
     "type": "choice",
-    "label": "Revisions - single field",
+    "label": "revisions - single field with revision",
     "items": [
       {
         "id": "31b27c9b-2388-47df-b6f4-73fb4878c1fa",

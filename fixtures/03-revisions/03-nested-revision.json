@@ -2,7 +2,7 @@
   "structure": {
     "id": "a980bf48-5572-423f-8eac-ac1d491b8e4a",
     "type": "choice",
-    "label": "Nested choice",
+    "label": "revisions - nested revision",
     "items": [
       {
         "id": "d4000be7-1407-43a4-b5e7-75479fb96a0d",

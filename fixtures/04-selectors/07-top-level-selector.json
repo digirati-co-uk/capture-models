@@ -2,7 +2,7 @@
   "structure": {
     "id": "ce61be72-aed8-4f5f-ba07-c42829eba7d0",
     "type": "choice",
-    "label": "Top level selector",
+    "label": "selectors - top level selector",
     "items": [
       {
         "id": "7f244335-6501-4faf-a089-c3f2bb18ffad",

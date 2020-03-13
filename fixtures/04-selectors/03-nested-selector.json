@@ -2,7 +2,7 @@
   "structure": {
     "id": "86dafca3-ae73-4d61-b655-a2919fe4993c",
     "type": "choice",
-    "label": "Nested choice (multiple selectors)",
+    "label": "selectors - nested selector",
     "items": [
       {
         "id": "7b9703b9-22f5-40ab-8bfa-bdaf6c1cfc67",

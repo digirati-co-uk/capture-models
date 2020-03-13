@@ -3,7 +3,7 @@
   "structure": {
     "id": "006d634e-e8c4-4edd-9d37-b4beff3da7f2",
     "type": "choice",
-    "label": "Tabs example",
+    "label": "profiles - tabs",
     "profile": [
       "tabs"
     ],
