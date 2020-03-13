@@ -1,7 +1,7 @@
 import { registerRefinement } from '@capture-models/plugin-api';
 import React from 'react';
-import { RevisionList } from '../components/RevisionList/RevisionList';
 import { TabNavigation } from '../components/TabNavigation/TabNavigation';
+import { RevisionChoicePage } from '../containers/RevisionChoicePage';
 
 registerRefinement({
   type: 'choice-navigation',
@@ -17,7 +17,7 @@ registerRefinement({
     return (
       <>
         <TabNavigation onChoice={push} currentId={currentView.instance.id} choice={structure} />
-        {currentView.instance.type === 'model' ? <RevisionList model={currentView.instance} /> : null}
+        {currentView.instance.type === 'model' ? <RevisionChoicePage model={currentView.instance} /> : null}
       </>
     );
   },

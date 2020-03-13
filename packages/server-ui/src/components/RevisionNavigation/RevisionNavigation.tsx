@@ -1,11 +1,10 @@
-import { BackgroundSplash, Revisions, RoundedCard, useNavigation } from '@capture-models/editor';
+import { Revisions, useNavigation } from '@capture-models/editor';
 import { useRefinement } from '@capture-models/plugin-api';
 import { CaptureModel, ChoiceRefinement, RevisionRequest } from '@capture-models/types';
 import React from 'react';
+import { RevisionChoicePage } from '../../containers/RevisionChoicePage';
 import { Choice } from '../Choice/Choice';
-import { RevisionList } from '../RevisionList/RevisionList';
 import { RevisionTopLevel } from '../RevisionTopLevel/RevisionTopLevel';
-import { TabNavigation } from '../TabNavigation/TabNavigation';
 
 export const RevisionNavigation: React.FC<{
   structure: CaptureModel['structure'];
@@ -38,7 +37,7 @@ export const RevisionNavigation: React.FC<{
   }
 
   if (currentView.type === 'model') {
-    return <RevisionList goBack={pop} model={currentView} />;
+    return <RevisionChoicePage goBack={pop} model={currentView} />;
   }
 
   return <Choice choice={currentView} onBackButton={pop} onChoice={push} showBackButton={idStack.length > 0} />;
