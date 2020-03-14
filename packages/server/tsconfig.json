@@ -16,13 +16,9 @@
     "experimentalDecorators": true,
     "noEmitOnError": false,
     "sourceMap": true,
-    "skipLibCheck": true,
-    "paths": {
-      "@capture-models/database": ["../database/lib"]
-    }
+    "skipLibCheck": true
   },
   "references": [
-    { "path": "../types" },
-    { "path": "../database" }
+    { "path": "../types" }
   ]
 }
