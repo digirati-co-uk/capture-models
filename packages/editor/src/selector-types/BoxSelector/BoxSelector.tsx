@@ -1,4 +1,4 @@
-import { CardButton } from '@capture-models/editor';
+import { CardButton } from '../../components/CardButton/CardButton';
 import { BaseSelector, SelectorComponent } from '@capture-models/types';
 import React from 'react';
 import styled from 'styled-components';
