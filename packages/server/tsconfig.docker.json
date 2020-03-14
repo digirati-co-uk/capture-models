@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "baseUrl": "src",
+    "lib": [
+      "es5",
+      "es6"
+    ],
+    "target": "es2015",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "module": "commonjs",
+    "declaration": true,
+    "moduleResolution": "node",
+    "outDir": "./lib",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "noEmitOnError": false,
+    "sourceMap": true,
+    "skipLibCheck": true
+  }
+}
