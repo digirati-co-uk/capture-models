@@ -1,6 +1,6 @@
 {
   "name": "@capture-models/server-ui",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "license": "MIT",
   "main": "dist/umd/@capture-models/server-ui.js",
   "module": "lib/index.js",
@@ -21,18 +21,18 @@
     "prepare": "NODE_ENV=production fesk-build --cjs --umd && tsc -p ./ --emitDeclarationOnly"
   },
   "dependencies": {
-    "@capture-models/editor": "1.0.0",
-    "@capture-models/plugin-api": "1.0.0",
-    "@capture-models/helpers": "1.0.0",
-    "@capture-models/types": "1.0.0",
+    "@capture-models/editor": "^0.0.1",
+    "@capture-models/helpers": "^0.0.1",
+    "@capture-models/plugin-api": "^0.0.1",
+    "@capture-models/types": "^0.0.1",
     "@layouts/core": "^0.1.2",
-    "semantic-ui-react": "^0.88.2",
-    "styled-components": "^5.0.1",
+    "history": "^5.0.0-beta.5",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-router": "5.1.2",
     "react-router-dom": "5.1.2",
-    "history": "^5.0.0-beta.5"
+    "semantic-ui-react": "^0.88.2",
+    "styled-components": "^5.0.1"
   },
   "fesk": {
     "typescript": true
@@ -41,11 +41,11 @@
     "access": "public"
   },
   "devDependencies": {
-    "sass": "^1.26.3",
     "@fesk/scripts": "1.4.0-pr.a95f698d",
     "@types/react": "^16.9.19",
     "@types/react-dom": "^16.9.5",
     "@types/react-router": "^5.1.4",
-    "@types/react-router-dom": "^5.1.3"
+    "@types/react-router-dom": "^5.1.3",
+    "sass": "^1.26.3"
   }
 }

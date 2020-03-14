@@ -1,6 +1,6 @@
 {
   "name": "@capture-models/helpers",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "license": "MIT",
   "main": "dist/umd/@capture-models/helpers.js",
   "module": "lib/index.js",
@@ -25,11 +25,11 @@
     "access": "public"
   },
   "dependencies": {
-    "@capture-models/types": "1.0.0",
-    "@capture-models/plugin-api": "1.0.0",
+    "@capture-models/plugin-api": "^0.0.1",
+    "@capture-models/types": "^0.0.1",
     "fast-copy": "^2.0.4",
-    "react": "^16.10.2",
     "immer": "^4.0.1",
+    "react": "^16.10.2",
     "uuid": "^3.4.0"
   },
   "fesk": {
