@@ -2,7 +2,7 @@
 module.exports = {
   apps: [
     {
-      name: 'server-ui',
+      name: 'server-ui-dev',
       script: 'src/index.ts',
 
       // Options reference: https://pm2.keymetrics.io/docs/usage/application-declaration/
@@ -20,6 +20,19 @@ module.exports = {
         DATABASE_SCHEMA: 'public',
         DATABASE_PASSWORD: 'postgres',
       },
+      env_production: {
+        NODE_ENV: 'production',
+      },
+    },
+    {
+      name: 'server-ui-prod',
+      script: 'lib/index.js',
+
+      // Options reference: https://pm2.keymetrics.io/docs/usage/application-declaration/
+      instances: 1,
+      autorestart: true,
+      watch: false,
+      max_memory_restart: '1G',
       env_production: {
         NODE_ENV: 'production',
       },

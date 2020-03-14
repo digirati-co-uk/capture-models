@@ -17,8 +17,5 @@
     "noEmitOnError": false,
     "sourceMap": true,
     "skipLibCheck": true
-  },
-  "references": [
-    { "path": "../types" }
-  ]
+  }
 }
