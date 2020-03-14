@@ -42,4 +42,4 @@ RUN npm install -g pm2
 
 USER node
 
-CMD ["pm2-runtime", "start ecosystem.config.js", "--only", "server-ui-prod"]
+CMD ["pm2-runtime", "start", "./ecosystem.config.js", "--only", "server-ui-prod"]
