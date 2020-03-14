@@ -2,12 +2,12 @@ FROM node:12 as build
 
 WORKDIR /home/node/app
 
-ADD ./package.json /home/node/app/package.json
+ADD ./packages/server/package.json /home/node/app/package.json
 
 RUN yarn install --no-interactive
 
-COPY ./src /home/node/app/src
-COPY ./tsconfig.docker.json /home/node/app/tsconfig.json
+COPY ./packages/server/src /home/node/app/src
+COPY ./packages/server/tsconfig.docker.json /home/node/app/tsconfig.json
 
 RUN yarn build
 
@@ -20,7 +20,8 @@ RUN npm install -g nodemon
 COPY --from=build /home/node/app/package.json /home/node/app/package.json
 COPY --from=build /home/node/app/yarn.lock /home/node/app/yarn.lock
 COPY --from=build /home/node/app/lib /home/node/app/lib
-COPY ./ecosystem.config.js /home/node/app/ecosystem.config.js
+COPY ./packages/server/ecosystem.config.js /home/node/app/ecosystem.config.js
+COPY ./fixtures /home/node/app/fixtures
 
 WORKDIR /home/node/app/
 
@@ -33,6 +34,7 @@ ENV DATABASE_PORT=5400
 ENV DATABASE_USER=capture_model_api
 ENV DATABASE_SCHEMA=public
 ENV DATABASE_PASSWORD=capture_model_api_password
+ENV FIXTURE_PATH=/home/node/app/fixtures
 
 EXPOSE 3000
 

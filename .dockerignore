@@ -1,0 +1,9 @@
+packages/database
+packages/editor
+packages/helpers
+packages/plugin-api
+packages/server-ui
+packages/types
+node_modules
+coverage
+.jest-cache
