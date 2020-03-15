@@ -2,7 +2,6 @@ import {
   BackgroundSplash,
   CardButton,
   CardButtonGroup,
-  REVISION_CLONE_MODE,
   RoundedCard,
 } from '@capture-models/editor';
 import { isEmptyRevision } from '@capture-models/helpers';
@@ -21,7 +20,7 @@ export type RevisionListProps = {
   selectRevision: (options: { revisionId: string; readMode?: boolean }) => void;
   createRevision: (options: {
     revisionId: string;
-    cloneMode: REVISION_CLONE_MODE;
+    cloneMode: string;
     readMode?: boolean;
     modelMapping?: { [key: string]: string };
   }) => void;

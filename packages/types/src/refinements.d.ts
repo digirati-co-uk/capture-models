@@ -106,7 +106,7 @@ export type RevisionListRefinement = Refinement<
     selectRevision: (options: { revisionId: string; readMode?: boolean }) => void;
     createRevision: (options: {
       revisionId: string;
-      cloneMode: any /*REVISION_CLONE_MODE*/;
+      cloneMode: string;
       readMode?: boolean;
       modelMapping?: { [key: string]: string };
     }) => void;
