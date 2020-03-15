@@ -67,7 +67,7 @@ export type RevisionsModel = {
   createRevision: Action<
     RevisionsModel,
     // Either a structure id, fields (/w optional structure ID) and always an optional revises.
-    { revisionId: string; cloneMode: REVISION_CLONE_MODE; readMode?: boolean; modelMapping?: { [key: string]: string } }
+    { revisionId: string; cloneMode: string; readMode?: boolean; modelMapping?: { [key: string]: string } }
   >;
   // Persist will handle the flow of saving.
   persistRevision: Thunk<

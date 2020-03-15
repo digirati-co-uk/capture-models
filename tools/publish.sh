@@ -14,6 +14,15 @@ if [[ "$BUMP_BY" != "major" ]] && [[ "$BUMP_BY" != "minor" ]] && [[ "$BUMP_BY" !
   exit 1;
 fi;
 
+# Make sure dependencies are up-to-date
+yarn
+
+# First make sure we can build.
+yarn build
+
+# Run the tests.
+yarn test
+
 # Create new tag
 yarn lerna version "$BUMP_BY" --allow-branch master --yes
 
