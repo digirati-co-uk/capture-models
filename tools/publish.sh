@@ -6,7 +6,7 @@
 
 BUMP_BY=$1; shift;
 
-if [[ "$BUMP_BY" != "major" ]] || [[ "$BUMP_BY" != "minor" ]] || [[ "$BUMP_BY" != "patch" ]]; then;
+if [[ "$BUMP_BY" != "major" ]] && [[ "$BUMP_BY" != "minor" ]] && [[ "$BUMP_BY" != "patch" ]]; then
   echo -d
   echo -e "Usage :"
   echo -e " ./tools/publish.sh [ major | minor | patch ] "

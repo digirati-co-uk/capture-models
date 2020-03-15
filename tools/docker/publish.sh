@@ -12,7 +12,7 @@ COMMIT_HASH="$(git rev-parse --short HEAD)"
 TEMP_IMAGE="capture-models--$COMMIT_HASH"
 
 # Build
-docker built -t "$TEMP_IMAGE" .
+docker build -t "$TEMP_IMAGE" .
 
 # Tag
 docker tag "$TEMP_IMAGE" digirati/capture-models:"$LATEST_TAG"
