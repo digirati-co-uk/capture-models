@@ -1,3 +1,7 @@
+#!/bin/bash
+
+set -e
+
 # Builds based on current tag in lerna.json
 # - major/minor/patch
 # - Builds NPM packages and publishes
