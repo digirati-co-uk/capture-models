@@ -1,14 +1,15 @@
-import { EditorContext } from '@capture-models/editor';
+import { CardButton, EditorContext, RoundedCard } from '@capture-models/editor';
 import { CaptureModel } from '@capture-models/types';
 import React, { useEffect, useRef } from 'react';
-import { Route, Switch, useRouteMatch } from 'react-router-dom';
+import { Link, NavLink, Route, Switch, useRouteMatch } from 'react-router-dom';
 import { useDebouncedCallback } from 'use-debounce';
 import { useCaptureModelApi } from '../hooks/use-caputre-model-api';
 import { FullDocumentEditor } from './FullDocumentEditor';
 import { FullStructureEditor } from './FullStructureEditor';
 import { MenuItem } from '../components/MenuItem/MenuItem';
+import { Menu } from 'semantic-ui-react';
 
-export const CaptureModelEditor: React.FC = () => {
+export const CaptureModelEditor: React.FC<{ onUpdate: (id: string) => void }> = ({ onUpdate }) => {
   const match = useRouteMatch<{ id: string }>();
   const id = match.params.id;
   const [model, { error, fetching, update }] = useCaptureModelApi(id);
@@ -18,7 +19,7 @@ export const CaptureModelEditor: React.FC = () => {
       update({
         ...model,
         document: doc,
-      });
+      }).then(() => onUpdate(id));
     }
   }, 1000);
 
@@ -27,7 +28,7 @@ export const CaptureModelEditor: React.FC = () => {
       update({
         ...model,
         structure,
-      });
+      }).then(() => onUpdate(id));
     }
   }, 1000);
 
@@ -57,6 +58,23 @@ export const CaptureModelEditor: React.FC = () => {
       onDocumentChange={doc => functions.current.onDocumentChange(doc)}
       onStructureChange={struct => functions.current.onStructureChange(struct)}
     >
+      <Menu secondary>
+        <Menu.Item>
+          <strong>{model?.structure.label}</strong>
+        </Menu.Item>
+        <Menu.Item as={NavLink} to={`/editor/${id}/structure`}>
+          Structure
+        </Menu.Item>
+        <Menu.Item as={NavLink} to={`/editor/${id}/document`}>
+          Document
+        </Menu.Item>
+        <Menu.Item as={NavLink} to={`/viewer/${id}`}>
+          Open in viewer
+        </Menu.Item>
+        <Menu.Item as={NavLink} to={`/editor/${id}/json`}>
+          JSON
+        </Menu.Item>
+      </Menu>
       <Switch>
         <Route path="/editor/:id/document" exact>
           <FullDocumentEditor />
@@ -64,11 +82,41 @@ export const CaptureModelEditor: React.FC = () => {
         <Route path="/editor/:id/structure" exact>
           <FullStructureEditor />
         </Route>
+        <Route path="/editor/:id/json" exact>
+          <div style={{ padding: 40 }}>
+            <code>
+              <pre>{JSON.stringify(model, null, 4)}</pre>
+            </code>
+          </div>
+        </Route>
         <Route path="/editor/:id" exact>
-          <h1>
-            <MenuItem href={`/editor/${id}/document`}>Document</MenuItem>
-            <MenuItem href={`/editor/${id}/structure`}>Structure</MenuItem>
-          </h1>
+          <div style={{ maxWidth: 550, padding: '20' }}>
+            <RoundedCard>
+              <h1>Creating a capture model</h1>
+              <p style={{ fontSize: '1.3em' }}>
+                There are 2 main sections of a model. The first is the document. Each image you crowdsource will have a
+                copy of this document. All of the contributions from all users will be building up this single document.
+                A document can have either fields for values inputted, such as transcriptions fields, or Entities.
+                Entities are a way of nesting related fields. For example, a Person entity may contain all of the fields
+                related to people.
+              </p>
+              <p style={{ fontSize: '1.3em' }}>
+                A contributor will be able to add multiple instances of each of these fields and entities. Your document
+                may contain a lot of different fields that could be crowdsourced. To manage this and avoid a single
+                large form being presented to the user the document is sliced using a Structure. A structure is a subset
+                of the fields from the document. This drives a navigation so the user can decide what they want to
+                contribute and then only see the fields for that thing.
+              </p>
+              <p style={{ fontSize: '1.3em' }}>
+                You can load some of the fixtures to see examples of various documents and structures.
+              </p>
+            </RoundedCard>
+            <CardButton size="large">
+              <Link to={`/editor/${id}/document`} style={{ color: '#fff' }}>
+                Get started
+              </Link>
+            </CardButton>
+          </div>
         </Route>
       </Switch>
     </EditorContext>

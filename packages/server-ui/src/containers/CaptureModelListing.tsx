@@ -10,7 +10,7 @@ export const CaptureModelListing: React.FC = () => {
   const history = useHistory();
 
   return (
-    <Card.Content>
+    <div style={{ padding: 40 }}>
       <CaptureModelList
         captureModels={models}
         onClick={id => history.push(`/editor/${id}`)}
@@ -30,6 +30,6 @@ export const CaptureModelListing: React.FC = () => {
       >
         Add model
       </CardButton>
-    </Card.Content>
+    </div>
   );
 };

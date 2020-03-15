@@ -1,5 +1,5 @@
 import copy from 'fast-copy';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Button, Card, Dropdown, Form as StyledForm, Grid, Icon, Label, List } from 'semantic-ui-react';
 import { PluginContext } from '@capture-models/plugin-api';
 import { useMiniRouter } from '../../hooks/useMiniRouter';
@@ -45,6 +45,7 @@ export const DocumentEditor: React.FC<DocumentEditorProps> = ({
   const [route, router] = useMiniRouter(['list', 'newField', 'newDocument'], 'list');
   const { selectors } = useContext(PluginContext);
   const isRoot = subtreePath.length === 0;
+  const [metadataOpen, setMetadataOpen] = useState(false);
 
   useEffect(() => {
     if (route !== 'list') {
@@ -72,98 +73,109 @@ export const DocumentEditor: React.FC<DocumentEditorProps> = ({
                 </Grid.Column>
               </Grid>
             </Card.Content>
-            <Card.Content extra>
-              <StyledForm>
-                <StyledForm.Field>
-                  <label>
-                    Label
-                    <StyledForm.Input
-                      type="text"
-                      name="label"
-                      required={true}
-                      value={subtree.label}
-                      onChange={e => setLabel(e.currentTarget.value)}
-                    />
-                  </label>
-                </StyledForm.Field>
-                <StyledForm.Field>
-                  <label>
-                    Description
-                    <StyledForm.Input
-                      type="textarea"
-                      name="description"
-                      value={subtree.description}
-                      onChange={e => setDescription(e.currentTarget.value)}
-                    />
-                  </label>
-                </StyledForm.Field>
-                {!isRoot && (
-                  <>
-                    <StyledForm.Field>
-                      <label>
-                        Allow multiple instances
-                        <StyledForm.Input
-                          type="checkbox"
-                          name="allowMultiple"
-                          checked={!!subtree.allowMultiple}
-                          value={!!subtree.allowMultiple}
-                          onChange={e => setAllowMultiple(e.currentTarget.checked)}
-                        />
-                      </label>
-                    </StyledForm.Field>
-                  </>
-                )}
-                <StyledForm.Field>
-                  <label>
-                    Entity labelled by property
-                    <Dropdown
-                      placeholder="Choose property"
-                      fluid
-                      selection
-                      value={subtree.labelledBy}
-                      onChange={(_, ev) => {
-                        setLabelledBy(ev.value as string);
-                      }}
-                      options={[
-                        {
-                          key: '',
-                          value: '',
-                          text: 'none',
-                        },
-                        ...subtreeFields.map(item => ({
-                          key: item.term,
-                          value: item.term,
-                          text: item.value.label === item.term ? item.term : `${item.value.label} (${item.term})`,
-                        })),
-                      ]}
-                    />
-                  </label>
-                </StyledForm.Field>
-                <StyledForm.Field>
-                  <label>
-                    Choose selector (optional)
-                    <ChooseSelectorButton
-                      value={subtree.selector ? subtree.selector.type : ''}
-                      onChange={t => {
-                        if (t) {
-                          const selector = selectors[t as keyof SelectorTypeMap];
-                          if (selector) {
-                            setSelector({
-                              selector: {
-                                type: selector.type,
-                                state: copy(selector.defaultState),
-                              } as any,
-                            });
+            {metadataOpen ? (
+              <Card.Content extra>
+                <StyledForm>
+                  <StyledForm.Field>
+                    <label>
+                      Label
+                      <StyledForm.Input
+                        type="text"
+                        name="label"
+                        required={true}
+                        value={subtree.label}
+                        onChange={e => setLabel(e.currentTarget.value)}
+                      />
+                    </label>
+                  </StyledForm.Field>
+                  <StyledForm.Field>
+                    <label>
+                      Description
+                      <StyledForm.Input
+                        type="textarea"
+                        name="description"
+                        value={subtree.description}
+                        onChange={e => setDescription(e.currentTarget.value)}
+                      />
+                    </label>
+                  </StyledForm.Field>
+                  {!isRoot && (
+                    <>
+                      <StyledForm.Field>
+                        <label>
+                          Allow multiple instances
+                          <StyledForm.Input
+                            type="checkbox"
+                            name="allowMultiple"
+                            checked={!!subtree.allowMultiple}
+                            value={!!subtree.allowMultiple}
+                            onChange={e => setAllowMultiple(e.currentTarget.checked)}
+                          />
+                        </label>
+                      </StyledForm.Field>
+                    </>
+                  )}
+                  <StyledForm.Field>
+                    <label>
+                      Entity labelled by property
+                      <Dropdown
+                        placeholder="Choose property"
+                        fluid
+                        selection
+                        value={subtree.labelledBy}
+                        onChange={(_, ev) => {
+                          setLabelledBy(ev.value as string);
+                        }}
+                        options={[
+                          {
+                            key: '',
+                            value: '',
+                            text: 'none',
+                          },
+                          ...subtreeFields.map(item => ({
+                            key: item.term,
+                            value: item.term,
+                            text: item.value.label === item.term ? item.term : `${item.value.label} (${item.term})`,
+                          })),
+                        ]}
+                      />
+                    </label>
+                  </StyledForm.Field>
+                  <StyledForm.Field>
+                    <label>
+                      Choose selector (optional)
+                      <ChooseSelectorButton
+                        value={subtree.selector ? subtree.selector.type : ''}
+                        onChange={t => {
+                          if (t) {
+                            const selector = selectors[t as keyof SelectorTypeMap];
+                            if (selector) {
+                              setSelector({
+                                selector: {
+                                  type: selector.type,
+                                  state: copy(selector.defaultState),
+                                } as any,
+                              });
+                            }
+                          } else {
+                            setSelector({ selector: undefined });
                           }
-                        } else {
-                          setSelector({ selector: undefined });
-                        }
-                      }}
-                    />
-                  </label>
-                </StyledForm.Field>
-              </StyledForm>
-            </Card.Content>
+                        }}
+                      />
+                    </label>
+                  </StyledForm.Field>
+                </StyledForm>
+                <Button size="tiny" onClick={() => setMetadataOpen(m => !m)}>
+                  Close metadata
+                </Button>
+              </Card.Content>
+            ) : (
+              <Card.Content extra>
+                <Button size="tiny" onClick={() => setMetadataOpen(m => !m)}>
+                  Edit metadata
+                </Button>
+              </Card.Content>
+            )}
             <Card.Content extra>
               <List relaxed selection size="large">
                 {subtreeFields.map(({ value: item, term }, key) => (
@@ -189,12 +201,6 @@ export const DocumentEditor: React.FC<DocumentEditorProps> = ({
                   </List.Item>
                 ))}
               </List>
-            </Card.Content>
-            <Card.Content extra>
-              <p>Add an nested entity field</p>
-              <Button fluid onClick={router.newDocument}>
-                Add Entity
-              </Button>
             </Card.Content>
             <Card.Content extra>
               <p>Add a new field</p>
@@ -301,6 +307,12 @@ export const DocumentEditor: React.FC<DocumentEditorProps> = ({
             </Card.Content>
           </>
         )}
+        <Card.Content extra>
+          <p>Add an nested entity field</p>
+          <Button fluid onClick={router.newDocument}>
+            Add Entity
+          </Button>
+        </Card.Content>
       </Card>
     </div>
   );
