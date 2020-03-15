@@ -8,5 +8,5 @@ export const FieldPreview: React.FC<{
 }> = ({ field, as = 'h4' }) => {
   const preview = useFieldPreview(field);
 
-  return React.createElement(as, {}, [preview]);
+  return React.createElement(as, {}, preview);
 };

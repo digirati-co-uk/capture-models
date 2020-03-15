@@ -12,6 +12,8 @@ export const VerboseEntityPage: React.FC<{
   showNavigation?: boolean;
   readOnly?: boolean;
   staticBreadcrumbs?: string[];
+  hideSplash?: boolean;
+  hideCard?: boolean;
 }> = ({ path, readOnly, children, ...props }) => {
   const [selectedField, setSelectedField] = useState<{ property: string; instance: BaseField }>();
   const [selectedEntity, setSelectedEntity] = useState<{ property: string; instance: CaptureModel['document'] }>();

@@ -6,6 +6,7 @@ export function useFocusedStructureEditor() {
   const actions = StructureStore.useStoreActions(act => ({
     setLabel: act.setStructureLabel,
     setDescription: act.setStructureDescription,
+    setInstructions: act.setStructureInstructions,
     setProfile: act.setStructureProfile,
     reorderChoices: act.reorderChoices,
     setModelFields: act.setModelFields,
@@ -17,6 +18,10 @@ export function useFocusedStructureEditor() {
   // Just calls the same functions with an added index parameter.
   const setLabel = useCallback((label: string) => actions.setLabel({ label, index }), [actions, index]);
   const setDescription = useCallback((description: string) => actions.setDescription({ description, index }), [
+    actions,
+    index,
+  ]);
+  const setInstructions = useCallback((instructions: string) => actions.setInstructions({ instructions, index }), [
     actions,
     index,
   ]);
@@ -51,6 +56,7 @@ export function useFocusedStructureEditor() {
     index,
     setLabel,
     setDescription,
+    setInstructions,
     setProfile,
     setModelFields,
     reorderChoices,

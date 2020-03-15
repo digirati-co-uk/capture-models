@@ -1,4 +1,5 @@
 import { assets } from './middleware/assets';
+import { captureModelExport } from './routes/api/capture-model-export';
 import { captureModelListApi } from './routes/api/caputre-model-list';
 import { choiceRevisionApi } from './routes/api/choice-revision';
 import { cloneCaptureModel } from './routes/api/clone-capture-model';
@@ -25,6 +26,7 @@ export const router = new TypedRouter({
   // API Routes.
   'list-capture-models': [TypedRouter.GET, '/api/crowdsourcing/model', captureModelListApi],
   'capture-model': [TypedRouter.GET, '/api/crowdsourcing/model/:id', captureModelApi],
+  'capture-model-export': [TypedRouter.GET, '/api/crowdsourcing/model/:id/json', captureModelExport],
   'create-capture-model': [TypedRouter.POST, '/api/crowdsourcing/model', createCaptureModelApi],
   'update-capture-model': [TypedRouter.PUT, '/api/crowdsourcing/model/:id', updateCaptureModelApi],
   'delete-capture-model': [TypedRouter.DELETE, '/api/crowdsourcing/model/:id', deleteCaptureModelApi],

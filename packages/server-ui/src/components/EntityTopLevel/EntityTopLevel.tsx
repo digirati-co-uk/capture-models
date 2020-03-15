@@ -17,6 +17,8 @@ export const EntityTopLevel: React.FC<{
   setSelectedField: (field: { property: string; instance: BaseField }) => void;
   setSelectedEntity: (field: { property: string; instance: CaptureModel['document'] }) => void;
   staticBreadcrumbs?: string[];
+  hideSplash?: boolean;
+  hideCard?: boolean;
 }> = ({
   title,
   description,
@@ -28,6 +30,8 @@ export const EntityTopLevel: React.FC<{
   readOnly,
   setSelectedEntity,
   setSelectedField,
+  hideSplash,
+  hideCard,
   children,
 }) => {
   const refinement = useRefinement<EntityRefinement>('entity', entity, {
@@ -45,12 +49,38 @@ export const EntityTopLevel: React.FC<{
         showNavigation,
         staticBreadcrumbs,
         readOnly,
+        hideSplash,
+        hideCard,
       },
       children
     );
   }
 
   const showSelector = entity.instance.selector && (path.length !== 0 || entity.instance.selector.state);
+
+  const body = (
+    <>
+      {showSelector && entity.instance.selector ? (
+        <VerboseSelector
+          isTopLevel={path.length === 0}
+          readOnly={readOnly || path.length === 0}
+          selector={entity.instance.selector}
+        />
+      ) : null}
+      <FieldList
+        path={path}
+        entity={entity}
+        chooseEntity={setSelectedEntity}
+        chooseField={setSelectedField}
+        readOnly={readOnly}
+        hideCard={hideCard}
+      />
+    </>
+  );
+
+  if (hideSplash) {
+    return body;
+  }
 
   return (
     <BackgroundSplash
@@ -65,20 +95,7 @@ export const EntityTopLevel: React.FC<{
           />
         </RoundedCard>
       ) : null}
-      {showSelector && entity.instance.selector ? (
-        <VerboseSelector
-          isTopLevel={path.length === 0}
-          readOnly={readOnly || path.length === 0}
-          selector={entity.instance.selector}
-        />
-      ) : null}
-      <FieldList
-        path={path}
-        entity={entity}
-        chooseEntity={setSelectedEntity}
-        chooseField={setSelectedField}
-        readOnly={readOnly}
-      />
+      {body}
       {goBack ? <CardButton onClick={goBack}>{readOnly ? 'Go back' : 'Finish and save'}</CardButton> : null}
       {children}
     </BackgroundSplash>

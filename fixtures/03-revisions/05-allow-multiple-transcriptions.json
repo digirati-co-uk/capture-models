@@ -54,12 +54,12 @@
           "value": "Person C created this one"
         },
         {
-          "id": "892f3abe-bbbe-4b1e-9167-a52ec76ea5c1",
+          "id": "912683e3-fd6e-4599-bb0f-acd232c9cf87",
           "type": "text-field",
           "label": "Transcription",
           "allowMultiple": true,
           "revises": "2666cf79-ef2f-419f-a3f4-038216a89783",
-          "revision": "p4",
+          "revision": "896c6278-655a-4a39-965c-08abbffb0bf2",
           "value": "Person D created this one, which overrides Person As one"
         }
       ]
@@ -81,8 +81,8 @@
       "type": "Person",
       "name": "Test person C"
     },
-    "p4": {
-      "id": "p4",
+    "896c6278-655a-4a39-965c-08abbffb0bf2": {
+      "id": "896c6278-655a-4a39-965c-08abbffb0bf2",
       "type": "Person",
       "name": "Test person D"
     }
@@ -115,7 +115,7 @@
       ]
     },
     {
-      "id": "p4",
+      "id": "896c6278-655a-4a39-965c-08abbffb0bf2",
       "status": "submitted",
       "revises": "f496a9aa-25eb-4b1d-9d94-9cdcef03e527",
       "structureId": "fd847948-11bf-42ca-bfdd-cab85ea818f3",

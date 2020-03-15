@@ -29,6 +29,7 @@ export type DocumentModel = {
   setSelectorState: Action<DocumentModel, { selectorType: string; selector: BaseSelector['state'] }>;
   setAllowMultiple: Action<DocumentModel, boolean>;
   setLabelledBy: Action<DocumentModel, string>;
+  setPluralLabel: Action<DocumentModel, string>;
 
   setField: Thunk<DocumentModel, { term?: string; field: BaseField }, any, DocumentModel>;
   setCustomProperty: Action<DocumentModel, { term?: string; key: string; value: any }>;

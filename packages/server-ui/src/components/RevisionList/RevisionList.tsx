@@ -5,14 +5,18 @@ import {
   REVISION_CLONE_MODE,
   RoundedCard,
 } from '@capture-models/editor';
+import { isEmptyRevision } from '@capture-models/helpers';
 import { useRefinement } from '@capture-models/plugin-api';
 import { RevisionListRefinement, RevisionRequest, StructureType } from '@capture-models/types';
 import React from 'react';
 import { useCurrentUser } from '../../utility/user-context';
+import { SingleRevision } from '../SingleRevision/SingleRevision';
+import { SubmissionList } from '../SubmissionList/SubmissionList';
 
 export type RevisionListProps = {
   model: StructureType<'model'>;
   revisions: RevisionRequest[];
+  unsavedIds?: string[];
   goBack?: () => void;
   selectRevision: (options: { revisionId: string; readMode?: boolean }) => void;
   createRevision: (options: {
@@ -29,6 +33,7 @@ export const RevisionList: React.FC<RevisionListProps> = ({
   revisions,
   selectRevision,
   createRevision,
+  unsavedIds = [],
 }) => {
   const user = useCurrentUser();
   const refinement = useRefinement<RevisionListRefinement>(
@@ -67,27 +72,25 @@ export const RevisionList: React.FC<RevisionListProps> = ({
   // Approved or not - revision.approved
   // Preview (refineable) - revision.document
 
-  const canonicalRevision = revisions.filter(rev => rev.source === 'canonical');
+  const canonicalRevision = revisions.filter(rev => rev.source === 'canonical').filter(rev => !isEmptyRevision(rev));
   const myRevisions = revisions.filter(rev => (rev.revision.authors || []).indexOf(user.user.id) !== -1);
-
-  console.log({ canonicalRevision, myRevisions });
+  // const otherPeoplesRevisions = revisions.filter(rev => (rev.revision.authors || []).indexOf(user.user.id) === -1);
+  // const myAcceptedRevisions = myRevisions.filter(rev => rev.revision.approved);
+  // const otherPeoplesAcceptedRevisions = otherPeoplesRevisions.filter(rev => rev.revision.approved);
+  // const myUnpublished = myRevisions.filter(rev => rev.revision.status === 'draft');
+  // const mySubmitted = myRevisions.filter(rev => rev.revision.status === 'submitted');
 
   return (
-    <BackgroundSplash header={model.label} description={model.description}>
-      {revisions.length === 0 ? <RoundedCard>Nothing submitted yet</RoundedCard> : null}
-      {revisions.map((rev, idx) => (
-        <RoundedCard
-          label={rev.revision.label || rev.revision.id}
-          interactive
-          key={idx}
-          onClick={() => selectRevision({ revisionId: rev.revision.id, readMode: rev.revision.approved })}
-        >
-          {rev.revision.approved ? 'Approved' : 'Draft'}
-        </RoundedCard>
+    <BackgroundSplash header={model.label} description={model.instructions ? model.instructions : model.description}>
+      {canonicalRevision.length === 0 ? <RoundedCard>Nothing submitted yet</RoundedCard> : null}
+      {canonicalRevision.map((rev, idx) => (
+        <SingleRevision key={idx} request={rev} unsavedIds={unsavedIds} selectRevision={selectRevision} />
       ))}
+      {myRevisions.length > 0 ? <SubmissionList submissions={myRevisions} /> : null}
+      {model.instructions ? <RoundedCard>{model.instructions}</RoundedCard> : null}
       <CardButtonGroup>
         {goBack ? <CardButton onClick={goBack}>Back to choices</CardButton> : null}
-        <CardButton onClick={() => createRevision({ revisionId: model.id, cloneMode: 'FORK_TEMPLATE' })}>
+        <CardButton onClick={() => createRevision({ revisionId: model.id, cloneMode: 'FORK_INSTANCE' })}>
           Create new
         </CardButton>
       </CardButtonGroup>

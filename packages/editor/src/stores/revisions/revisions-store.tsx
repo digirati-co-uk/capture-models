@@ -155,24 +155,26 @@ export const revisionStore: RevisionsModel = {
     state.unsavedRevisionIds.push(newRevisionId);
   }),
 
-  persistRevision: thunk(async (actions, { revisionId: customRevisionId, createRevision, updateRevision }, helpers) => {
-    // First persist to get new
-    const state = helpers.getState();
-    const revisionId = customRevisionId ? customRevisionId : state.currentRevisionId;
-    if (!revisionId) {
-      // @todo error handling?
-      return;
+  persistRevision: thunk(
+    async (actions, { revisionId: customRevisionId, createRevision, updateRevision, status }, helpers) => {
+      // First persist to get new
+      const state = helpers.getState();
+      const revisionId = customRevisionId ? customRevisionId : state.currentRevisionId;
+      if (!revisionId) {
+        // @todo error handling?
+        return;
+      }
+      const oldRevision = state.revisions[revisionId];
+      if (state.unsavedRevisionIds.indexOf(revisionId) !== -1) {
+        const newRevision = await createRevision(oldRevision, status);
+        actions.importRevision({ revisionRequest: newRevision });
+        actions.saveRevision({ revisionId });
+      } else {
+        const newRevision = await updateRevision(oldRevision, status);
+        actions.importRevision({ revisionRequest: newRevision });
+      }
     }
-    const oldRevision = state.revisions[revisionId];
-    if (state.unsavedRevisionIds.indexOf(revisionId) !== -1) {
-      const newRevision = await createRevision(oldRevision);
-      actions.importRevision({ revisionRequest: newRevision });
-      actions.saveRevision({ revisionId });
-    } else {
-      const newRevision = await updateRevision(oldRevision);
-      actions.importRevision({ revisionRequest: newRevision });
-    }
-  }),
+  ),
 
   importRevision: action((state, { revisionRequest }) => {
     state.revisions[revisionRequest.revision.id] = revisionRequest;

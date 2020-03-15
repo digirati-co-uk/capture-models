@@ -10,6 +10,7 @@ export function fromDocument(input: CaptureModel['document'], instances = true):
 
   document.id = input.id;
   document.label = input.label;
+  document.pluralLabel = input.pluralLabel;
   document.labelledBy = input.labelledBy;
   document.description = input.description;
   document.allowMultiple = !!input.allowMultiple;

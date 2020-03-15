@@ -28,6 +28,9 @@ export class Field {
   label: string;
 
   @Column('text', { nullable: true })
+  pluralLabel?: string;
+
+  @Column('text', { nullable: true })
   description?: string;
 
   @Column({ nullable: true })

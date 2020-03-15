@@ -20,6 +20,7 @@ export async function toStructure(structure: Structure, root = true): Promise<Ca
       ...baseFields,
       fields: structure.fields ? structure.fields : undefined,
       modelRoot: structure.modelRoot ? structure.modelRoot : undefined,
+      instructions: structure.instructions ? structure.instructions : undefined,
       forkValues: structure.forkValues ? structure.forkValues : undefined,
       editableAboveRoot: structure.editableAboveRoot ? structure.editableAboveRoot : undefined,
       preventAdditionsAdjacentToRoot: structure.preventAdditionsAdjacentToRoot

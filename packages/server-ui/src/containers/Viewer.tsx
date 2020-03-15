@@ -78,13 +78,13 @@ export const Viewer: React.FC<any> = ({
           </div>
         )}
       </div>
-      <div style={{ width: 370, borderLeft: '2px solid #ddd' }}>
+      <div style={{ width: 410, borderLeft: '2px solid #ddd' }}>
         <>
           {selectedCaptureModel ? (
             selectedContent || contentComponent ? (
               <RevisionNavigation
-                onSaveRevision={rev => {
-                  return persistRevision({ createRevision, updateRevision, revisionId: rev.revision.id });
+                onSaveRevision={(rev, status) => {
+                  return persistRevision({ createRevision, updateRevision, revisionId: rev.revision.id, status });
                 }}
                 structure={selectedCaptureModel.structure}
               />
@@ -99,7 +99,6 @@ export const Viewer: React.FC<any> = ({
                   <CardButton
                     as={Link}
                     to={`/viewer/${example.id}`}
-                    inline
                     size="medium"
                     style={{ display: 'block', color: '#fff', marginBottom: 0 }}
                   >

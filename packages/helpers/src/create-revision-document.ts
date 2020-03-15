@@ -306,6 +306,14 @@ export function createRevisionDocument(
       return forkDocument(document, { revisionId, modelRoot, modelMapping, removeValues: false });
     case 'FORK_TEMPLATE':
       return forkDocument(document, { revisionId, modelRoot, removeDefaultValues: true, removeValues: true });
+    case 'FORK_INSTANCE':
+      return forkDocument(document, {
+        revisionId,
+        modelRoot,
+        removeDefaultValues: true,
+        removeValues: true,
+        addRevises: false,
+      });
   }
   throw new Error();
 }

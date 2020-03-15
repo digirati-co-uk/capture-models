@@ -10,6 +10,7 @@ export const RevisionChoicePage: React.FC<{ model: StructureType<'model'>; goBac
   const revisions = useChoiceRevisions(model.id);
   const selectRevision = Revisions.useStoreActions(a => a.selectRevision);
   const createRevision = Revisions.useStoreActions(a => a.createRevision);
+  const unsavedIds = Revisions.useStoreState(s => s.unsavedRevisionIds);
 
   return (
     <RevisionList
@@ -18,6 +19,7 @@ export const RevisionChoicePage: React.FC<{ model: StructureType<'model'>; goBac
       revisions={revisions}
       selectRevision={selectRevision}
       createRevision={createRevision}
+      unsavedIds={unsavedIds}
     />
   );
 };

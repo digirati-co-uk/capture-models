@@ -1,6 +1,6 @@
 import { CardButton, CardButtonGroup, Revisions } from '@capture-models/editor';
 import { RevisionRequest } from '@capture-models/types';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { VerboseEntityPage } from '../VerboseEntityPage/VerboseEntityPage';
 import { RevisionPreview } from '../RevisionPreview/RevisionPreview';
 import { ThankYouPage } from '../ThankYouPage/ThankYouPage';
@@ -8,15 +8,17 @@ import { ThankYouPage } from '../ThankYouPage/ThankYouPage';
 export const RevisionTopLevel: React.FC<{
   readOnly: boolean;
   instructions?: string;
-  onSaveRevision: (req: RevisionRequest) => Promise<void>;
+  onSaveRevision: (req: RevisionRequest, status?: string) => Promise<void>;
 }> = ({ readOnly, instructions, onSaveRevision }) => {
   const current = Revisions.useStoreState(s => s.currentRevision);
   const deselectRevision = Revisions.useStoreActions(s => s.deselectRevision);
   const createRevision = Revisions.useStoreActions(a => a.createRevision);
+  const setRevisionLabel = Revisions.useStoreActions(a => a.setRevisionLabel);
   const [isPreviewing, setIsPreviewing] = useState(false);
   const [isThankYou, setIsThankYou] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState('');
+  const setDescriptionOfChange = useCallback(label => setRevisionLabel({ label }), [setRevisionLabel]);
 
   if (!current) return null;
 
@@ -29,12 +31,27 @@ export const RevisionTopLevel: React.FC<{
       <RevisionPreview
         isSaving={isSaving}
         error={error}
+        descriptionOfChange={current.revision.label || current.document.label || ''}
+        setDescriptionOfChange={setDescriptionOfChange}
         entity={{ property: 'root', instance: current.document }}
         onEdit={() => setIsPreviewing(false)}
         onSave={() => {
           setError('');
           setIsSaving(true);
-          onSaveRevision(current)
+          onSaveRevision(current, 'draft')
+            .then(() => {
+              setIsSaving(false);
+              deselectRevision({ revisionId: current.revision.id });
+            })
+            .catch(() => {
+              setIsSaving(false);
+              setError('We could not save your model');
+            });
+        }}
+        onPublish={() => {
+          setError('');
+          setIsSaving(true);
+          onSaveRevision(current, 'submitted')
             .then(() => {
               setIsSaving(false);
               setIsThankYou(true);

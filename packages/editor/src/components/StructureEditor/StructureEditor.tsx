@@ -13,6 +13,7 @@ type Props = {
   setPath?: (ids: number[]) => void;
   setLabel: (value: string) => void;
   setDescription: (value: string) => void;
+  setInstructions: (value: string) => void;
   onAddChoice: (choice: StructureType<'choice'>) => void;
   onAddModel: (model: StructureType<'model'>) => void;
   onRemove: (id: number) => void;
@@ -29,6 +30,7 @@ export const StructureEditor: React.FC<Props> = ({
   setFocus,
   currentPath,
   setDescription,
+  setInstructions,
   setLabel,
   setPath,
   popFocus,
@@ -67,6 +69,7 @@ export const StructureEditor: React.FC<Props> = ({
               key={(currentPath || []).map(r => `${r}`).join('-')}
               setLabel={setLabel}
               setDescription={setDescription}
+              setInstructions={setInstructions}
               document={document}
               modelFields={structure.fields}
               setModelFields={setModelFields}

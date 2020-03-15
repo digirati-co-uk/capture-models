@@ -11,8 +11,9 @@ export const FieldList: React.FC<{
   chooseField: (field: { property: string; instance: BaseField }) => void;
   chooseEntity: (field: { property: string; instance: CaptureModel['document'] }) => void;
   path: Array<[string, string]>;
+  hideCard?: boolean;
   readOnly?: boolean;
-}> = ({ entity, chooseField, chooseEntity, path, readOnly }) => {
+}> = ({ entity, chooseField, chooseEntity, path, readOnly, hideCard }) => {
   const refinement = useRefinement<FieldListRefinement>('field-list', entity, {
     path,
   });
@@ -21,8 +22,8 @@ export const FieldList: React.FC<{
     return refinement.refine(entity, { path, chooseEntity, chooseField });
   }
 
-  return (
-    <RoundedCard>
+  const content = (
+    <>
       {Object.keys(entity.instance.properties).map((propertyId, idx) => {
         const instances = entity.instance.properties[propertyId];
         if (isEntityList(instances)) {
@@ -51,6 +52,12 @@ export const FieldList: React.FC<{
           />
         );
       })}
-    </RoundedCard>
+    </>
   );
+
+  if (hideCard) {
+    return content;
+  }
+
+  return <RoundedCard>{content}</RoundedCard>;
 };
