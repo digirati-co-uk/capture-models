@@ -1,10 +1,10 @@
 import { CaptureModel } from '@capture-models/types';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 export const useApiModels = () => {
   const [models, setModels] = useState<Array<{ label: string; id: string }>>([]);
 
-  useEffect(() => {
+  const refresh = useCallback(() => {
     fetch(`/api/crowdsourcing/model`)
       .then(r => r.json())
       .then(r => {
@@ -12,13 +12,17 @@ export const useApiModels = () => {
       });
   }, []);
 
-  return models;
+  useEffect(() => {
+    refresh();
+  }, [refresh]);
+
+  return [models, refresh] as const;
 };
 
 export const useApiModel = (id?: string) => {
   const [model, setModel] = useState<CaptureModel>();
 
-  useEffect(() => {
+  const getCurrentModel = useCallback(() => {
     if (id) {
       fetch(`/api/crowdsourcing/model/${id}`)
         .then(r => r.json())
@@ -30,7 +34,11 @@ export const useApiModel = (id?: string) => {
     }
   }, [id]);
 
-  return model;
+  useEffect(() => {
+    getCurrentModel();
+  }, [getCurrentModel, id]);
+
+  return [model, getCurrentModel] as const;
 };
 
 export const useRevisionList = () => {

@@ -18,6 +18,7 @@ export interface CanvasPanelProps extends BaseContent {
   id: string;
   type: string;
   state: {
+    maxHeight?: number;
     canvasId: string;
     manifestId: string;
   };
@@ -25,7 +26,7 @@ export interface CanvasPanelProps extends BaseContent {
 
 export const [useViewer, ViewerProvider] = createContext<any>();
 
-export const CanvasPanel: React.FC<CanvasPanelProps['state']> = ({ canvasId, manifestId }) => {
+export const CanvasPanel: React.FC<CanvasPanelProps['state']> = ({ canvasId, manifestId, maxHeight }) => {
   const [viewer, setViewer] = useState<any>();
   // Starting with display selectors. I need the selector context, BUT it should
   // work without the context too.
@@ -68,7 +69,7 @@ export const CanvasPanel: React.FC<CanvasPanelProps['state']> = ({ canvasId, man
         <Manifest url={manifestId}>
           <CanvasProvider startCanvas={canvasId || undefined}>
             <SingleTileSource>
-              <Viewport maxHeight={600} setRef={setViewer}>
+              <Viewport maxHeight={maxHeight || window.innerHeight} setRef={setViewer}>
                 <OpenSeadragonViewport viewportController={true}>
                   <OpenSeadragonViewer maxHeight={1000} />
                 </OpenSeadragonViewport>

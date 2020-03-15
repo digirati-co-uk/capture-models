@@ -49,6 +49,7 @@ export const router = new TypedRouter({
   'fallback-local-root': [TypedRouter.GET, '/:path', indexPage],
   'fallback-root': [TypedRouter.GET, '/crowdsourcing-editor/:path', indexPage],
   'fallback-editor': [TypedRouter.GET, '/crowdsourcing-editor/editor/:id', indexPage],
+  'fallback-viewer': [TypedRouter.GET, '/crowdsourcing-editor/viewer/:id', indexPage],
   'fallback-editor-path': [TypedRouter.GET, '/crowdsourcing-editor/editor/:id/:path', indexPage],
   root: [TypedRouter.GET, '/', redirectToIndexPage],
 });

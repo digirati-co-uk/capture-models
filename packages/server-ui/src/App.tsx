@@ -1,6 +1,6 @@
 import { Revisions } from '@capture-models/editor';
-import React, { useState } from 'react';
-import { Link, Route, Switch } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, NavLink, Route, Switch, useRouteMatch } from 'react-router-dom';
 import { CaptureModelListing } from './containers/CaptureModelListing';
 import { Fixtures } from './containers/Fixtures';
 import { Homepage } from './containers/Homepage';
@@ -9,55 +9,83 @@ import { RevisionsManager } from './containers/RevisionsManager';
 import { CaptureModelEditor } from './containers/CaptureModelEditor';
 import { useApiModel } from './utility/useModels';
 import { useCurrentUser } from './utility/user-context';
+import { Menu } from 'semantic-ui-react';
 
 export const App: React.FC = () => {
   const [selectedContent, setSelectedContent] = useState<{ label: string; manifest: string; thumbnail?: string }>();
   const [selectedCaptureModelId, setSelectedCaptureModelId] = useState<string>();
-  const captureModel = useApiModel(selectedCaptureModelId);
+  const [captureModel, refresh] = useApiModel(selectedCaptureModelId);
   const { user } = useCurrentUser();
 
   return (
     <Revisions.Provider captureModel={captureModel}>
-      <h1>Home</h1>
-      <p>Logged in as {user.name}.</p>
-      <nav>
-        <Link to="/">Home</Link> | <Link to="/fixtures">Fixtures</Link> | <Link to="/revisions">Revisions</Link> |{' '}
-        <Link to="/viewer">Viewer</Link> | <Link to="/editor">Editor</Link>
-      </nav>
-      <Switch>
-        <Route path="/" exact>
-          <Homepage />
-        </Route>
+      <div style={{ display: 'flex', flexDirection: 'column', maxHeight: '100vh', height: '100vh' }}>
+        <Menu inverted compact={true} attached={true}>
+          <Menu.Item>
+            <NavLink to="/">Crowdsourcing editor</NavLink>
+          </Menu.Item>
 
-        <Route path="/fixtures">
-          <Fixtures />
-        </Route>
+          <Menu.Item as={NavLink} to="/fixtures">
+            Fixtures
+          </Menu.Item>
 
-        <Route path="/revisions">
-          <RevisionsManager />
-        </Route>
+          <Menu.Item as={NavLink} to="/viewer">
+            Viewer
+          </Menu.Item>
 
-        <Route path="/viewer" exact>
-          <Viewer
-            backHome={() => {
-              setSelectedContent(undefined);
-              setSelectedCaptureModelId(undefined);
-            }}
-            selectedCaptureModel={captureModel}
-            setSelectedCaptureModel={setSelectedCaptureModelId}
-            selectedContent={selectedContent}
-            setSelectedContent={setSelectedContent}
+          <Menu.Item as={NavLink} to="/editor">
+            Editor
+          </Menu.Item>
+
+          <Menu.Item position="right">
+            <strong>{user.name}</strong>
+          </Menu.Item>
+        </Menu>
+        <Switch>
+          <Route path="/" exact>
+            <Homepage />
+          </Route>
+
+          <Route path="/fixtures">
+            <Fixtures />
+          </Route>
+
+          <Route path="/revisions">
+            <RevisionsManager />
+          </Route>
+
+          <Route
+            path={['/viewer/:id', '/viewer']}
+            render={() => (
+              <Viewer
+                backHome={() => {
+                  setSelectedContent(undefined);
+                  setSelectedCaptureModelId(undefined);
+                }}
+                selectedCaptureModel={captureModel}
+                setSelectedCaptureModel={setSelectedCaptureModelId}
+                selectedContent={selectedContent}
+                setSelectedContent={setSelectedContent}
+              />
+            )}
           />
-        </Route>
 
-        <Route path="/editor" exact>
-          <CaptureModelListing />
-        </Route>
+          <Route path="/editor" exact>
+            <CaptureModelListing />
+          </Route>
 
-        <Route path="/editor/:id">
-          <CaptureModelEditor />
-        </Route>
-      </Switch>
+          <Route path="/editor/:id">
+            <CaptureModelEditor
+              onUpdate={id => {
+                if (id === selectedCaptureModelId) {
+                  console.log('refresh?')
+                  refresh();
+                }
+              }}
+            />
+          </Route>
+        </Switch>
+      </div>
     </Revisions.Provider>
   );
 };
