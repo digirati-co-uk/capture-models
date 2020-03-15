@@ -248,10 +248,17 @@ export class CaptureModelRepository {
 
         // Revision - depends on Contributors & Structures
         const mappedRevisions = (revisions || []).map(fromRevision);
-        if (revisions) {
-          await manager.save(Revision, mappedRevisions);
+        if (mappedRevisions) {
+          for (const rev of mappedRevisions) {
+            const dbRevision = await manager.findOne(Revision, id);
+            if (dbRevision) {
+              await manager.merge(Revision, dbRevision, rev);
+              await manager.save(Revision, dbRevision);
+            } else {
+              await manager.save(Revision, rev);
+            }
+          }
         }
-
         // Document - depends on revisions and itself.
         // Split the document into a list of inserts, in the correct order for saving.
         const dbInserts = documentToInserts(document);
@@ -509,7 +516,6 @@ export class CaptureModelRepository {
       fieldsToInserts(fieldsToAdd),
     ];
 
-
     const revision = fromRevisionRequest(req);
 
     // Save the revision.
@@ -538,6 +544,7 @@ export class CaptureModelRepository {
    * @param allowAdditionalFields
    * @param allowUserMismatch
    * @param allowDeletedFields
+   * @param allowReview
    */
   async updateRevision(
     req: RevisionRequest,
@@ -547,11 +554,13 @@ export class CaptureModelRepository {
       allowAdditionalFields = false,
       allowUserMismatch = false,
       allowDeletedFields = false,
+      allowReview = false,
     }: {
       user?: ContributorType;
       allowAdditionalFields?: boolean;
       allowDeletedFields?: boolean;
       allowUserMismatch?: boolean;
+      allowReview?: boolean;
       context?: string[];
     } = {}
   ) {
@@ -675,6 +684,25 @@ export class CaptureModelRepository {
       // Double check.
       if (allowDeletedFields && dbRemovals.length) {
         await manager.remove(dbRemovals);
+      }
+
+      if (
+        req.revision.status !== storedRevision.revision.status ||
+        req.revision.label !== storedRevision.revision.label
+      ) {
+        if (allowReview || req.revision.status === 'submitted' || req.revision.status === 'draft') {
+          const toSave = fromRevision(storedRevision.revision);
+          toSave.status = req.revision.status;
+          await manager.update(
+            Revision,
+            { id: req.revision.id },
+            // @ts-ignore
+            {
+              label: req.revision.label,
+              status: req.revision.status,
+            }
+          );
+        }
       }
     });
 

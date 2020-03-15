@@ -21,6 +21,7 @@ export const FullDocumentEditor: React.FC = () => {
           setLabel={actions.setLabel}
           setAllowMultiple={actions.setAllowMultiple}
           setLabelledBy={actions.setLabelledBy}
+          setPluralLabel={actions.setPluralLabel}
           deselectField={actions.deselectField}
           popSubtree={actions.popSubtree}
           pushSubtree={actions.pushSubtree}

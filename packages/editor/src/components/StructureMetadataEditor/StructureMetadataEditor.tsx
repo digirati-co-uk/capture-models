@@ -36,7 +36,7 @@ export const StructureMetadataEditor: React.FC<Props> = ({ structure, onSave }) 
           <label>
             Description
             <StyledForm.Input
-              type="text"
+              as={'textarea'}
               name="description"
               required={true}
               value={formik.values.description}
@@ -44,6 +44,21 @@ export const StructureMetadataEditor: React.FC<Props> = ({ structure, onSave }) 
             />
           </label>
         </StyledForm.Field>
+
+        {formik.values.type === 'model' ? (
+          <StyledForm.Field>
+            <label>
+              Crowdsourcing Instructions
+              <StyledForm.Input
+                as={'textarea'}
+                name="instructions"
+                required={true}
+                value={formik.values.instructions}
+                onChange={formik.handleChange}
+              />
+            </label>
+          </StyledForm.Field>
+        ) : null}
       </StyledForm>
       {formik.dirty ? (
         <Button type="submit" color="blue" size="small">

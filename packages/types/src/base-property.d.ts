@@ -7,6 +7,7 @@ export interface BaseProperty {
   term?: string;
   revision?: string;
   labelledBy?: string;
+  pluralLabel?: string;
   revises?: string;
   selector?: BaseSelector;
   allowMultiple?: boolean;

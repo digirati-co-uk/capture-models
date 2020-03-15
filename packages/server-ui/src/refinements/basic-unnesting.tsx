@@ -25,6 +25,8 @@ registerRefinement({
         path={[...actions.path, [keys[0], onlyEntity.id]]}
         goBack={actions.goBack}
         readOnly={actions.readOnly}
+        hideSplash={actions.hideSplash}
+        hideCard={actions.hideCard}
       >
         {children}
       </VerboseEntityPage>

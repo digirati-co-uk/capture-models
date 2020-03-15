@@ -14,6 +14,7 @@ export async function toDocument(doc: Document, parentRootProperties?: Property[
     description,
     nestedProperties: rootNestedProperties,
     label,
+    pluralLabel,
     revisionId,
     revisesId,
   } = doc;
@@ -22,6 +23,7 @@ export async function toDocument(doc: Document, parentRootProperties?: Property[
     id,
     type: 'entity',
     label,
+    pluralLabel: pluralLabel ? pluralLabel : undefined,
     description: description ? description : undefined,
     allowMultiple: allowMultiple ? allowMultiple : undefined,
     labelledBy: labelledBy ? labelledBy : undefined,

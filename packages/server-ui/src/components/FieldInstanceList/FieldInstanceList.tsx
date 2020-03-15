@@ -31,10 +31,11 @@ export const FieldInstanceList: React.FC<{
   }
 
   const label = fields[0] ? fields[0].label : 'Untitled';
+  const pluralLabel = fields[0] ? fields[0].pluralLabel || label : label;
 
   return (
     <div>
-      <FieldHeaderComponent label={label} />
+      <FieldHeaderComponent label={fields.length > 1 ? pluralLabel : label} />
       {fields.map((field, idx) => {
         return (
           <RoundedCard

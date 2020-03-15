@@ -138,6 +138,14 @@ export const DocumentStore = createContextStore<
       resolveSubtree(state.subtreePath, state.document).allowMultiple = payload;
     }),
 
+    setPluralLabel: action((state, payload) => {
+      if (!payload) {
+        delete resolveSubtree(state.subtreePath, state.document).pluralLabel;
+      } else {
+        resolveSubtree(state.subtreePath, state.document).pluralLabel = payload;
+      }
+    }),
+
     setLabelledBy: action((state, payload) => {
       if (!payload) {
         delete resolveSubtree(state.subtreePath, state.document).labelledBy;

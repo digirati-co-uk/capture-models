@@ -62,7 +62,9 @@ export type CaptureModel = {
     | {
         type: 'model';
         fields: ModelFields;
+        instructions?: string;
         modelRoot?: string[];
+        pluralLabel?: string;
         forkValues?: boolean;
         editableAboveRoot?: boolean;
         preventAdditionsAdjacentToRoot?: boolean;

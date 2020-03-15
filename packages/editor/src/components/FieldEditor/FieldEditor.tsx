@@ -52,12 +52,6 @@ export const FieldEditor: React.FC<{
                   <Field as="textarea" name="description" />
                 </label>
               </StyledForm.Field>
-              <StyledForm.Field>
-                <label>
-                  <Field type="checkbox" name="allowMultiple" style={{ marginRight: 10 }} />
-                  Allow multiple instances
-                </label>
-              </StyledForm.Field>
               {onChangeFieldType ? (
                 <StyledForm.Field>
                   <label>
@@ -89,6 +83,18 @@ export const FieldEditor: React.FC<{
                       }
                     }}
                   />
+                </label>
+              </StyledForm.Field>
+              <StyledForm.Field>
+                <label>
+                  <Field type="checkbox" name="allowMultiple" style={{ marginRight: 10 }} />
+                  Allow multiple instances
+                </label>
+              </StyledForm.Field>
+              <StyledForm.Field>
+                <label>
+                  Plural label (used when referring to lists of this document)
+                  <Field type="text" name="pluralField" />
                 </label>
               </StyledForm.Field>
               {/* @todo hookup term/vocab selector when we implement JSON-LD Extension */}

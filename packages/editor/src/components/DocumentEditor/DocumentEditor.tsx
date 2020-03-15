@@ -13,7 +13,8 @@ export type DocumentEditorProps = {
   setLabel: (label: string) => void;
   setDescription: (label: string) => void;
   setAllowMultiple: (allow: boolean) => void;
-  setLabelledBy: (term: string) => void;
+  setLabelledBy: (label: string) => void;
+  setPluralLabel: (label: string) => void;
   selectField: (term: string) => void;
   popSubtree: (payload?: { count: number }) => void;
   pushSubtree: (term: string) => void;
@@ -32,6 +33,7 @@ export const DocumentEditor: React.FC<DocumentEditorProps> = ({
   selectField,
   deselectField,
   setAllowMultiple,
+  setPluralLabel,
   setLabelledBy,
   addField,
   popSubtree,
@@ -113,6 +115,19 @@ export const DocumentEditor: React.FC<DocumentEditorProps> = ({
                           />
                         </label>
                       </StyledForm.Field>
+                      {subtree.allowMultiple ? (
+                        <StyledForm.Field>
+                          <label>
+                            Plural label (used when referring to lists of this document)
+                            <StyledForm.Input
+                              type="textarea"
+                              name="pluralLabel"
+                              value={subtree.pluralLabel}
+                              onChange={e => setPluralLabel(e.currentTarget.value)}
+                            />
+                          </label>
+                        </StyledForm.Field>
+                      ) : null}
                     </>
                   )}
                   <StyledForm.Field>

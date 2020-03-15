@@ -19,6 +19,9 @@ export class Document {
   @Column('text')
   label: string;
 
+  @Column('text', { nullable: true })
+  pluralLabel?: string;
+
   @Column({ nullable: true })
   revisesId?: string;
 

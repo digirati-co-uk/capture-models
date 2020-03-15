@@ -27,6 +27,9 @@ export class Structure {
   @Column('text', { default: 'Untitled structure' })
   label: string;
 
+  @Column('text', { nullable: true })
+  instructions?: string;
+
   @Column('simple-array', { nullable: true })
   profile: string[];
 

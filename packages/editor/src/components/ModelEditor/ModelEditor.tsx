@@ -11,6 +11,7 @@ type Props = {
   model: StructureType<'model'>;
   modelFields: ModelFields;
   setDescription: (description: string) => void;
+  setInstructions: (instructions: string) => void;
   setModelFields: (fields: ModelFields) => void;
 
   initialPath?: number[];
@@ -32,6 +33,7 @@ export const ModelEditor: React.FC<Props> = ({
   modelFields,
   setLabel,
   setDescription,
+  setInstructions,
   initialPath = [],
   setModelFields,
 }) => {
@@ -63,11 +65,14 @@ export const ModelEditor: React.FC<Props> = ({
       </Card.Content>
       <Card.Content extra>
         <StructureMetadataEditor
-          key={`${model.label}${model.description}`}
+          key={`${model.label}${model.description}${model.instructions}`}
           structure={model}
           onSave={values => {
             setLabel(values.label);
             setDescription(values.description || '');
+            if (values.type === 'model') {
+              setInstructions(values.instructions || '');
+            }
           }}
         />
       </Card.Content>

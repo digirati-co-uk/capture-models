@@ -24,6 +24,7 @@ export type StructureModel = {
   removeStructureFromChoice: Action<StructureModel, { index: number[] }>;
   setStructureLabel: Action<StructureModel, { index: number[]; label: string }>;
   setStructureDescription: Action<StructureModel, { index: number[]; description: string }>;
+  setStructureInstructions: Action<StructureModel, { index: number[]; instructions: string }>;
   setStructureProfile: Action<StructureModel, { index: number[]; profile: string[] }>;
   setModelFields: Action<StructureModel, { index: number[]; fields: ModelFields }>;
   reorderChoices: Action<StructureModel, { index: number[]; startIndex: number; endIndex: number }>;

@@ -31,7 +31,8 @@ export type Refinement<Type, Subject, Context = {}, Actions = {}> = {
 export type EntityRefinement = Refinement<
   'entity',
   CaptureModel['document'],
-  { path: Array<[string, string]>; staticBreadcrumbs?: string[] }
+  { path: Array<[string, string]>; staticBreadcrumbs?: string[] },
+  { hideSplash?: boolean; hideCard?: boolean }
 >;
 
 export type EntityListRefinement = Refinement<
@@ -73,12 +74,23 @@ export type FieldInstanceListRefinement = Refinement<
 export type ChoiceRefinement = Refinement<
   'choice-navigation',
   CaptureModel['structure'],
-  { currentRevisionId?: string | null; structure: CaptureModel['structure'] },
+  {
+    currentRevisionId?: string | null;
+    structure: CaptureModel['structure'];
+    peek: () =>
+      | {
+          id: string;
+          structure: CaptureModel['structure'];
+          path: string[];
+        }
+      | undefined;
+  },
   {
     pop: () => void;
     push: (id: string) => void;
     idStack: string[];
     goTo: (id: string) => void;
+    onSaveRevision: (req: RevisionRequest) => Promise<void>;
   }
 >;
 
@@ -90,6 +102,7 @@ export type RevisionListRefinement = Refinement<
   },
   {
     goBack?: () => void;
+    unsavedIds?: string[];
     selectRevision: (options: { revisionId: string; readMode?: boolean }) => void;
     createRevision: (options: {
       revisionId: string;

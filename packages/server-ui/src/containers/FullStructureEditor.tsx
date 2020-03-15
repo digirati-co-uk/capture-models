@@ -11,6 +11,7 @@ export const FullStructureEditor: React.FC = () => {
   const {
     setLabel,
     setDescription,
+    setInstructions,
     addStructureToChoice,
     setModelFields,
     removeStructureFromChoice,
@@ -22,6 +23,7 @@ export const FullStructureEditor: React.FC = () => {
       document={document}
       setLabel={setLabel}
       setDescription={setDescription}
+      setInstructions={setInstructions}
       onAddChoice={addStructureToChoice}
       onAddModel={addStructureToChoice}
       pushFocus={focus.pushFocus}

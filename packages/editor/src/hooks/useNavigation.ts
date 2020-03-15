@@ -46,7 +46,7 @@ export function useNavigation(structure: CaptureModel['structure'], startId?: st
 
   const peek = useCallback(() => {
     if (idStack.length <= 1) {
-      return [null, null] as const;
+      return undefined;
     }
     const peekId = idStack[idStack.length - 2];
     return structureMap[peekId];

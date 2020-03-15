@@ -23,6 +23,7 @@ export function fromStructure(input: CaptureModel['structure'], rootChoice?: Str
     structure.editableAboveRoot = input.editableAboveRoot;
     structure.forkValues = input.forkValues;
     structure.modelRoot = input.modelRoot;
+    structure.instructions = input.instructions;
     structure.preventAdditionsAdjacentToRoot = input.preventAdditionsAdjacentToRoot;
   } else if (input.type === 'choice') {
     // A branch, so we need to traverse through the items.

@@ -935,4 +935,50 @@ describe('create revision', () => {
     test.todo('Check for when plugin does not exist for field, that it is filtered out');
     test.todo('Handling of parent branching and setting a new ID on the field as a result');
   });
+
+  describe('Revision with revised field', () => {
+    const multi = require('../../../fixtures/03-revisions/05-allow-multiple-transcriptions.json');
+    test('Canonical revision should contain both types', () => {
+      const [main] = captureModelToRevisionList(multi, true);
+
+      expect(main.document.properties.transcription).toHaveLength(3);
+    });
+    test('When forking a revision, only the canonical revisions should be used as a template (no revises)', () => {
+      const [main] = captureModelToRevisionList(multi, true);
+
+      expect(
+        forkDocument(main.document, {
+          modelRoot: main.modelRoot,
+          revisionId: 'REVISION-ID',
+          removeDefaultValues: true,
+        }).properties.transcription
+      ).toHaveLength(2);
+    });
+
+    test('Revising a revision that is not canonical should only return those fields with revises', () => {
+      const [, second] = captureModelToRevisionList(multi, true);
+
+      expect(
+        forkDocument(second.document, {
+          modelRoot: second.modelRoot,
+          revisionId: 'REVISION-ID',
+          removeDefaultValues: false,
+          removeValues: false,
+          addRevises: true, // <-- this will be the case when a revision is revised, this decides if its a new person, or editing of a person.
+        }).properties.transcription[0].revises
+      ).toEqual('2666cf79-ef2f-419f-a3f4-038216a89783');
+    });
+    test('There should be a way to create a new empty transcription using fork template', () => {
+      const [main] = captureModelToRevisionList(multi, true);
+
+      expect(
+        forkDocument(main.document, {
+          modelRoot: main.modelRoot,
+          revisionId: 'REVISION-ID',
+          removeDefaultValues: true,
+          addRevises: false,
+        }).properties.transcription
+      ).toHaveLength(1);
+    });
+  });
 });

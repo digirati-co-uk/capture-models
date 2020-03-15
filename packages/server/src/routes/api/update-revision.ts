@@ -17,8 +17,9 @@ export const updateRevisionApi: RouteMiddleware<{ id: string }, RevisionRequest>
   context.response.body = await context.db.api.updateRevision(revisionRequest, {
     context: context.state.jwt.context,
     allowDeletedFields: true,
+    allowReview: userCan('models.admin', context.state),
     user: context.state.jwt.user,
-    // allowUserMismatch: userCan('models.admin', context.state),
+    allowUserMismatch: userCan('models.admin', context.state),
   });
   context.status = 200;
 };

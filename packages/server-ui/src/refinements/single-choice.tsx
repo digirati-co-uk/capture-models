@@ -30,8 +30,8 @@ const SingleChoice: React.FC<any> = ({ navigation, actions }) => {
 registerRefinement({
   type: 'choice-navigation',
   name: 'Single top-level choice',
-  supports(navigation, { structure }) {
-    return structure.type === 'choice' && structure.items.length === 1;
+  supports(navigation, { structure, currentRevisionId }) {
+    return !currentRevisionId && structure.type === 'choice' && structure.items.length === 1;
   },
   refine(navigation, actions) {
     return <SingleChoice navigation={navigation} acionts={actions} />;

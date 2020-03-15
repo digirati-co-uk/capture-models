@@ -7,7 +7,7 @@ export const Choice: React.FC<{
   onBackButton: () => void;
   onChoice: (id: string) => void;
   choice: StructureType<'choice'>;
-}> = ({ choice, onChoice, showBackButton, onBackButton }) => {
+}> = ({ choice, onChoice, showBackButton, onBackButton, children }) => {
   return (
     <>
       {showBackButton ? <button onClick={onBackButton}>back</button> : null}
@@ -17,6 +17,7 @@ export const Choice: React.FC<{
             {item.description}
           </RoundedCard>
         ))}
+        {children}
       </BackgroundSplash>
     </>
   );

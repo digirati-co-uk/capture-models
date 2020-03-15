@@ -73,9 +73,10 @@ export type RevisionsModel = {
   persistRevision: Thunk<
     RevisionsModel,
     {
-      createRevision: (req: RevisionRequest) => Promise<RevisionRequest>;
-      updateRevision: (req: RevisionRequest) => Promise<RevisionRequest>;
+      createRevision: (req: RevisionRequest, status?: string) => Promise<RevisionRequest>;
+      updateRevision: (req: RevisionRequest, status?: string) => Promise<RevisionRequest>;
       revisionId?: string;
+      status?: string;
     }
   >;
   // Import will take in the persisted revision, or a full PUT
@@ -131,6 +132,7 @@ export type RevisionsModel = {
 export type EDIT_ALL_VALUES = 'EDIT_ALL_VALUES';
 export type FORK_ALL_VALUES = 'FORK_ALL_VALUES';
 export type FORK_TEMPLATE = 'FORK_TEMPLATE';
+export type FORK_INSTANCE = 'FORK_INSTANCE';
 
 export type REVISION_CLONE_MODE =
   // Editing all of the values will keep the IDs and when saving back will either
@@ -143,7 +145,8 @@ export type REVISION_CLONE_MODE =
   | FORK_ALL_VALUES
   // This will use an existing revision as a template, cloning all of the structure
   // and removing all of the values, selectors, following the template rules.
-  | FORK_TEMPLATE;
+  | FORK_TEMPLATE
+  | FORK_INSTANCE;
 // @todo some extensions to this model:
 // Same as above, but does not remove selectors. NOT YET SUPPORTED.
 //| 'FORK_TEMPLATE_WITH_SELECTORS'

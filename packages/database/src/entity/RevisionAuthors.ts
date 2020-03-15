@@ -10,7 +10,7 @@ export class RevisionAuthors {
   @ManyToOne(
     () => Revision,
     revision => revision.authors,
-    { onDelete: 'CASCADE' }
+    { onUpdate: 'CASCADE', onDelete: 'CASCADE' }
   )
   revision: Revision;
 
@@ -20,7 +20,7 @@ export class RevisionAuthors {
   @ManyToOne(
     () => Contributor,
     contributor => contributor.revisions,
-    { onDelete: 'CASCADE' }
+    { onUpdate: 'CASCADE', onDelete: 'CASCADE' }
   )
   contributor: Contributor;
 }

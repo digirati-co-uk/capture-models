@@ -27,6 +27,7 @@ const Inner = () => {
     setSelector: a.setSelector,
     setAllowMultiple: a.setAllowMultiple,
     setLabelledBy: a.setLabelledBy,
+    setPluralLabel: a.setPluralLabel,
   }));
 
   return (
@@ -39,6 +40,7 @@ const Inner = () => {
         setLabel={actions.setLabel}
         setAllowMultiple={actions.setAllowMultiple}
         setLabelledBy={actions.setLabelledBy}
+        setPluralLabel={actions.setPluralLabel}
         popSubtree={actions.popSubtree}
         pushSubtree={actions.pushSubtree}
         subtree={state.subtree}

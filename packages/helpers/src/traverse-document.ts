@@ -20,6 +20,13 @@ export function traverseDocument<TempEntityFields = any>(
         | (CaptureModel['document'] & { temp?: Partial<TempEntityFields> })
         | (BaseField & { temp?: Partial<TempEntityFields> })
     ) => void;
+    visitProperty?: (
+      property: string,
+      list:
+        | Array<BaseField & { temp?: Partial<TempEntityFields> }>
+        | Array<CaptureModel['document'] & { temp?: Partial<TempEntityFields> }>,
+      parent: CaptureModel['document'] & { temp?: Partial<TempEntityFields> }
+    ) => void;
     visitEntity?: (
       entity: CaptureModel['document'] & { temp?: Partial<TempEntityFields> },
       key?: string,
@@ -44,6 +51,9 @@ export function traverseDocument<TempEntityFields = any>(
   }
   for (const propKey of Object.keys(document.properties)) {
     const prop = document.properties[propKey];
+    if (transforms.visitProperty) {
+      transforms.visitProperty(propKey, prop, document);
+    }
     let first = true;
     for (const field of prop) {
       if (isEntity(field)) {

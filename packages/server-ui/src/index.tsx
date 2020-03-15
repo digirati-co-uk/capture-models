@@ -15,6 +15,7 @@ import './refinements/basic-unnesting';
 import './refinements/tabbed-navigation';
 import './refinements/single-choice';
 import './refinements/hide-empty-structure-revisions';
+import './refinements/single-choice-top-level';
 
 render(
   <ThemeProvider theme={defaultTheme}>

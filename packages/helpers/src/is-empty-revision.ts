@@ -5,7 +5,7 @@ export function isEmptyRevision(revision: RevisionRequest) {
   let isEmpty = true;
   traverseDocument(revision.document, {
     visitField(field) {
-      if (isEmpty && field.value !== null) {
+      if (isEmpty && field.value) {
         isEmpty = false;
       }
     },

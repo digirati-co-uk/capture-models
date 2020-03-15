@@ -77,6 +77,12 @@ export const StructureStore = createContextStore<
   setStructureDescription: action((state, { description, index }) => {
     itemFromIndex(state, index).description = description;
   }),
+  setStructureInstructions: action((state, { instructions, index }) => {
+    const item = itemFromIndex<'model'>(state, index);
+    if (item.type === 'model') {
+      item.instructions = instructions;
+    }
+  }),
   setStructureProfile: action((state, { profile, index }) => {
     itemFromIndex(state, index).profile = profile;
   }),
