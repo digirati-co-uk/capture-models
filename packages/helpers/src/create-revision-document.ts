@@ -4,7 +4,7 @@ import copy from 'fast-copy';
 import { filterDocumentGraph } from './filter-document-graph';
 import { formPropertyValue } from './fork-field';
 import { generateId } from './generate-id';
-import { isEntity } from './is-entity';
+import { isEntity, isEntityList } from './is-entity';
 import { splitDocumentByModelRoot } from './split-document-by-model-root';
 import { traverseDocument } from './traverse-document';
 
@@ -35,6 +35,7 @@ export function forkDocument<Fields extends string>(
     editableAboveRoot = true,
     preventAdditionsAdjacentToRoot = true,
     branchFromRoot = false,
+    addRevises = true,
   }: {
     revisionId?: string;
     modelMapping?: Partial<{ [key in Fields]: string }>;
@@ -45,6 +46,7 @@ export function forkDocument<Fields extends string>(
     editableAboveRoot?: boolean;
     preventAdditionsAdjacentToRoot?: boolean;
     branchFromRoot?: boolean;
+    addRevises?: boolean;
   }
 ) {
   // New document.
@@ -154,7 +156,25 @@ export function forkDocument<Fields extends string>(
     },
   };
 
-  traverseDocument<{ hasBranched?: boolean; parentRemoved?: boolean; parentKept?: boolean }>(document, {
+  traverseDocument<{
+    hasBranched?: boolean;
+    parentRemoved?: boolean;
+    parentKept?: boolean;
+  }>(document, {
+    visitProperty(property, items, parent) {
+      if (isEntityList(items)) {
+        return;
+      }
+      const toRemove: string[] = [];
+      for (const field of items) {
+        if (field.revises) {
+          toRemove.push(field.revises);
+        }
+      }
+      if (toRemove.length) {
+        parent.properties[property] = items.filter(item => toRemove.indexOf(item.id) === -1);
+      }
+    },
     visitField(field, key, parent) {
       // This is partially a validation step to ensure the plugin exists.
       const description = pluginStore.fields[field.type];
@@ -163,6 +183,7 @@ export function forkDocument<Fields extends string>(
         parent.properties[key] = [];
         return;
       }
+
       // If we're editing, nothing to do.
       if (editValues) {
         return;
@@ -176,12 +197,14 @@ export function forkDocument<Fields extends string>(
       formPropertyValue(field, {
         revision: !field.immutable ? revisionId : undefined,
         revisesFork:
-          !field.immutable && !actions.parentHasBranched(parent) && !(description.allowMultiple && field.allowMultiple),
+          !field.immutable &&
+          !actions.parentHasBranched(parent) &&
+          (!(description.allowMultiple && field.allowMultiple) || addRevises),
         forkValue: !(removeValues && (removeDefaultValues || field.revision)),
         clone: false,
       });
 
-      if (!field.immutable && actions.parentHasBranched(parent)) {
+      if (!field.immutable && (actions.parentHasBranched(parent) || !addRevises)) {
         parent.properties[key] = [field];
       }
     },

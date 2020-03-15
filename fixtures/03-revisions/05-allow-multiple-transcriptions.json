@@ -35,7 +35,7 @@
           "revises": "1615a172-b2c5-4192-bcc1-606a871b6230",
           "allowMultiple": true,
           "revision": "f496a9aa-25eb-4b1d-9d94-9cdcef03e527",
-          "value": "Person A created this one"
+          "value": "Person A created this one, which revises the original"
         },
         {
           "id": "1efd5946-a3a1-484f-a862-710741a3b682",
@@ -43,7 +43,7 @@
           "label": "Transcription",
           "allowMultiple": true,
           "revision": "daf3f9d9-2a16-4c1f-8657-3560775bd9eb",
-          "value": "Person B created this one, to override Person A's one"
+          "value": "Person B created this one, which is completely new"
         },
         {
           "id": "892f3abe-bbbe-4b1e-9167-a52ec76ea5c1",
@@ -52,6 +52,15 @@
           "allowMultiple": true,
           "revision": "bb5d55b1-6c38-4bb9-a6e6-ed236347671b",
           "value": "Person C created this one"
+        },
+        {
+          "id": "892f3abe-bbbe-4b1e-9167-a52ec76ea5c1",
+          "type": "text-field",
+          "label": "Transcription",
+          "allowMultiple": true,
+          "revises": "2666cf79-ef2f-419f-a3f4-038216a89783",
+          "revision": "p4",
+          "value": "Person D created this one, which overrides Person As one"
         }
       ]
     }
@@ -71,6 +80,11 @@
       "id": "bb5d55b1-6c38-4bb9-a6e6-ed236347671b",
       "type": "Person",
       "name": "Test person C"
+    },
+    "p4": {
+      "id": "p4",
+      "type": "Person",
+      "name": "Test person D"
     }
   },
   "revisions": [
@@ -85,8 +99,8 @@
     },
     {
       "id": "daf3f9d9-2a16-4c1f-8657-3560775bd9eb",
-      "status": "draft",
-      "revises": "f496a9aa-25eb-4b1d-9d94-9cdcef03e527",
+      "status": "accepted",
+      "approved": true,
       "structureId": "fd847948-11bf-42ca-bfdd-cab85ea818f3",
       "fields": [
         "transcription"
@@ -95,6 +109,15 @@
     {
       "id": "bb5d55b1-6c38-4bb9-a6e6-ed236347671b",
       "status": "submitted",
+      "structureId": "fd847948-11bf-42ca-bfdd-cab85ea818f3",
+      "fields": [
+        "transcription"
+      ]
+    },
+    {
+      "id": "p4",
+      "status": "submitted",
+      "revises": "f496a9aa-25eb-4b1d-9d94-9cdcef03e527",
       "structureId": "fd847948-11bf-42ca-bfdd-cab85ea818f3",
       "fields": [
         "transcription"

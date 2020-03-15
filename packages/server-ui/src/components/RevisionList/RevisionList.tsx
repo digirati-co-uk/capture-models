@@ -8,6 +8,7 @@ import {
 import { useRefinement } from '@capture-models/plugin-api';
 import { RevisionListRefinement, RevisionRequest, StructureType } from '@capture-models/types';
 import React from 'react';
+import { useCurrentUser } from '../../utility/user-context';
 
 export type RevisionListProps = {
   model: StructureType<'model'>;
@@ -29,6 +30,7 @@ export const RevisionList: React.FC<RevisionListProps> = ({
   selectRevision,
   createRevision,
 }) => {
+  const user = useCurrentUser();
   const refinement = useRefinement<RevisionListRefinement>(
     'revision-list',
     { instance: model, property: '' },
@@ -64,6 +66,11 @@ export const RevisionList: React.FC<RevisionListProps> = ({
   // Creator - revision.authors
   // Approved or not - revision.approved
   // Preview (refineable) - revision.document
+
+  const canonicalRevision = revisions.filter(rev => rev.source === 'canonical');
+  const myRevisions = revisions.filter(rev => (rev.revision.authors || []).indexOf(user.user.id) !== -1);
+
+  console.log({ canonicalRevision, myRevisions });
 
   return (
     <BackgroundSplash header={model.label} description={model.description}>
