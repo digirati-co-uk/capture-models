@@ -6,12 +6,15 @@ import { router } from './router';
 import '@capture-models/editor/lib/input-types/TextField';
 
 async function main() {
-  console.log('Connecting to database...', config);
+  console.log('Connecting to database...');
   const db = await CaptureModelDatabase.create(config);
   const app = await createApp(db, router);
 
   console.log('Synchronising database...');
   await db.synchronize();
+
+  console.log('Running migrations...');
+  await db.runMigrations();
 
   console.log(`Listening on port ${port}`);
   app.listen(port);
@@ -22,5 +25,6 @@ async function main() {
 }
 
 main().catch(err => {
-  throw err;
+  console.error(err);
+  process.exit(1);
 });

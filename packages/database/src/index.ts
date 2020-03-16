@@ -47,13 +47,26 @@ export class CaptureModelDatabase {
         subscribersDir: join(__dirname, 'subscriber'),
         ...(cli || {}),
       },
+      migrationsRun: true,
       ...config,
+    }).catch(err => {
+      throw err;
     });
+
+    console.log('Got past await?');
+
+    if (!connection.isConnected) {
+      throw new Error();
+    }
 
     return new CaptureModelDatabase(connection);
   }
 
   async synchronize(dropBeforeSync?: boolean) {
     return await this.connection.synchronize(dropBeforeSync);
+  }
+
+  async runMigrations() {
+    return await this.connection.runMigrations();
   }
 }
