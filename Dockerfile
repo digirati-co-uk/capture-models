@@ -3,8 +3,11 @@ FROM node:12 as build
 WORKDIR /home/node/app
 
 ADD ./packages/server/package.json /home/node/app/package.json
+COPY ./packages/server/pin-version.sh /home/node/app/pin-version.sh
 
 RUN yarn install --no-interactive
+
+RUN ./pin-version.sh "$PINNED_CAPTURE_MODEL_VERSION"
 
 COPY ./packages/server/src /home/node/app/src
 COPY ./packages/server/tsconfig.docker.json /home/node/app/tsconfig.json
