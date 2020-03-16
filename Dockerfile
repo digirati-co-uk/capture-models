@@ -20,8 +20,6 @@ FROM node:12
 
 WORKDIR /home/node/app
 
-RUN npm install -g nodemon
-
 COPY --from=build /home/node/app/package.json /home/node/app/package.json
 COPY --from=build /home/node/app/yarn.lock /home/node/app/yarn.lock
 COPY --from=build /home/node/app/lib /home/node/app/lib
