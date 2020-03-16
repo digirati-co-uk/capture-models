@@ -1,6 +1,6 @@
 {
   "name": "@capture-models/server-ui",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "license": "MIT",
   "main": "dist/umd/@capture-models/server-ui.js",
   "module": "lib/index.js",
@@ -21,10 +21,10 @@
     "prepare": "NODE_ENV=production fesk-build --cjs --umd && tsc -p ./ --emitDeclarationOnly"
   },
   "dependencies": {
-    "@capture-models/editor": "^0.0.2",
-    "@capture-models/helpers": "^0.0.2",
-    "@capture-models/plugin-api": "^0.0.2",
-    "@capture-models/types": "^0.0.2",
+    "@capture-models/editor": "^0.1.0",
+    "@capture-models/helpers": "^0.1.0",
+    "@capture-models/plugin-api": "^0.1.0",
+    "@capture-models/types": "^0.1.0",
     "@layouts/core": "^0.1.2",
     "history": "^5.0.0-beta.5",
     "react": "^16.12.0",
