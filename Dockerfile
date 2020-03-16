@@ -18,18 +18,7 @@ RUN yarn build
 
 FROM node:12
 
-WORKDIR /home/node/app
-
-COPY --from=build /home/node/app/package.json /home/node/app/package.json
-COPY --from=build /home/node/app/yarn.lock /home/node/app/yarn.lock
-COPY --from=build /home/node/app/lib /home/node/app/lib
-COPY ./packages/server/ecosystem.config.js /home/node/app/ecosystem.config.js
-COPY ./packages/server/pin-version.sh /home/node/app/pin-version.sh
-COPY ./fixtures /home/node/app/fixtures
-
-WORKDIR /home/node/app/
-
-RUN yarn install --no-dev --no-interactive --frozen-lockfile
+RUN npm install -g pm2
 
 ENV SERVER_PORT=3000
 ENV DATABASE_HOST=localhost
@@ -43,7 +32,16 @@ ARG PINNED_CAPTURE_MODEL_VERSION=default
 
 EXPOSE 3000
 
-RUN npm install -g pm2
+WORKDIR /home/node/app
+
+COPY ./packages/server/ecosystem.config.js /home/node/app/ecosystem.config.js
+COPY ./packages/server/pin-version.sh /home/node/app/pin-version.sh
+COPY ./fixtures /home/node/app/fixtures
+COPY --from=build /home/node/app/package.json /home/node/app/package.json
+COPY --from=build /home/node/app/yarn.lock /home/node/app/yarn.lock
+COPY --from=build /home/node/app/lib /home/node/app/lib
+
+RUN yarn install --no-dev --no-interactive --frozen-lockfile
 
 RUN ./pin-version.sh "$PINNED_CAPTURE_MODEL_VERSION"
 
