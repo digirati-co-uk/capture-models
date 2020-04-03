@@ -2,12 +2,14 @@ import 'reflect-metadata';
 import { join } from 'path';
 import { Connection, createConnection } from 'typeorm';
 import { CaptureModelRepository } from './repository';
+import {createPostgresPool} from './database/create-postgres-pool';
 
 export type ConnectionOptions = {
   host: string;
   port: number;
   name: string;
   username: string;
+  password: string;
   database: string;
   schema: string;
   logging?: boolean;
@@ -24,9 +26,10 @@ export class CaptureModelDatabase {
   connection: Connection;
   api: CaptureModelRepository;
 
-  constructor(connection: Connection) {
+  constructor(connection: Connection, pool) {
     this.connection = connection;
     this.api = connection.getCustomRepository(CaptureModelRepository);
+    this.api.setPool(pool);
   }
 
   async drop() {
@@ -53,13 +56,19 @@ export class CaptureModelDatabase {
       throw err;
     });
 
-    console.log('Got past await?');
+    const pool = createPostgresPool({
+      database: config.database,
+      host: config.host,
+      password: config.password,
+      port: config.port,
+      username: config.username,
+    });
 
     if (!connection.isConnected) {
       throw new Error();
     }
 
-    return new CaptureModelDatabase(connection);
+    return new CaptureModelDatabase(connection, pool);
   }
 
   async synchronize(dropBeforeSync?: boolean) {

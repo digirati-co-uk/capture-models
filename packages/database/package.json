@@ -18,11 +18,13 @@
       "@capture-models/types": "^0.1.0",
       "@types/node": "^8.0.29",
       "@types/uuid": "^3.4.7",
+      "@types/slonik": "^22.1.2",
       "ts-node": "3.3.0",
       "typescript": "^3.7.5"
    },
    "dependencies": {
       "@capture-models/helpers": "^0.1.0",
+      "slonik": "^22.4.4",
       "fast-copy": "^2.0.4",
       "fast-deep-equal": "^3.1.1",
       "pg": "^7.3.0",

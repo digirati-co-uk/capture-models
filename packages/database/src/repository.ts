@@ -35,10 +35,17 @@ import { documentToInserts } from './utility/document-to-inserts';
 import * as deepEqual from 'fast-deep-equal';
 import { fieldsToInserts } from './utility/fields-to-inserts';
 import { partialDocumentsToInserts } from './utility/partial-documents-to-inserts';
+import { DatabasePoolType, sql } from 'slonik';
 
 @EntityRepository()
 export class CaptureModelRepository {
+  private pool: DatabasePoolType;
+
   constructor(private manager: EntityManager) {}
+
+  setPool(pool: DatabasePoolType) {
+    this.pool = pool;
+  }
 
   async getCaptureModel(
     id: string,
