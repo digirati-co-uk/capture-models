@@ -36,6 +36,8 @@ import * as deepEqual from 'fast-deep-equal';
 import { fieldsToInserts } from './utility/fields-to-inserts';
 import { partialDocumentsToInserts } from './utility/partial-documents-to-inserts';
 import { DatabasePoolType, sql } from 'slonik';
+import { RevisionAuthors } from './entity/RevisionAuthors';
+import { diffAuthors } from './utility/diff-authors';
 
 @EntityRepository()
 export class CaptureModelRepository {
@@ -255,17 +257,31 @@ export class CaptureModelRepository {
 
         // Revision - depends on Contributors & Structures
         const mappedRevisions = (revisions || []).map(fromRevision);
+
         if (mappedRevisions) {
           for (const rev of mappedRevisions) {
-            const dbRevision = await manager.findOne(Revision, id);
+            const allAuthors = rev.authors || [];
+            const dbRevision = await manager.findOne(Revision, rev.id);
+
             if (dbRevision) {
-              await manager.merge(Revision, dbRevision, rev);
-              await manager.save(Revision, dbRevision);
-            } else {
+              // Find diff of authors.
+              const { toAdd, toRemove } = diffAuthors(dbRevision, rev);
+              // Then remove the authors field.
+              delete rev.authors;
+              // Merge and save the revision.
               await manager.save(Revision, rev);
+              // Save the new authors
+              await manager.save(toAdd);
+              // Remove the old authors.
+              await manager.remove(toRemove);
+            } else {
+              delete rev.authors;
+              await manager.save(Revision, rev);
+              await manager.save(allAuthors);
             }
           }
         }
+
         // Document - depends on revisions and itself.
         // Split the document into a list of inserts, in the correct order for saving.
         const dbInserts = documentToInserts(document);
@@ -516,7 +532,7 @@ export class CaptureModelRepository {
     const contributor = req.author ? fromContributor(req.author) : null;
 
     // Everything we need to add into the database.
-    const dbInserts: (Field | Document | Property | Contributor)[][] = [
+    const dbInserts: (Field | Document | Property | Contributor | RevisionAuthors)[][] = [
       // Map the documents, adding missing fields if required.
       ...partialDocumentsToInserts(docsToHydrate, entityMap, captureModel.document.id),
       // Map the fields
@@ -525,12 +541,20 @@ export class CaptureModelRepository {
 
     const revision = fromRevisionRequest(req);
 
+    if (contributor) {
+      const author = new RevisionAuthors();
+      author.revisionId = revision.id;
+      author.contributorId = contributor.id;
+      dbInserts.push([author]);
+    }
+
     // Save the revision.
     await this.manager.transaction(async manager => {
       if (contributor) {
         await manager.save(contributor);
       }
       const rev = await manager.save(revision);
+
       for (const insert of dbInserts) {
         // @todo change this to insert() and expand list of inserts to other entities.
         //   This will avoid updates and allow the whole list to be inserted flat.
