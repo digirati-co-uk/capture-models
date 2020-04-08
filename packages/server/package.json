@@ -6,7 +6,7 @@
   "private": true,
   "author": "Stephen Fraser <stephen.fraser@digirati.com>",
   "scripts": {
-    "start": "pm2 install typescript && pm2 start ecosystem.config.js --watch --only server-ui-dev --no-daemon",
+    "start": "pm2 install typescript && pm2 start ecosystem.config.js --watch --only server-ui-madoc-local --no-daemon",
     "build": "NODE_ENV=production tsc -p ."
   },
   "dependencies": {

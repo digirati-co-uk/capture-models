@@ -4,9 +4,13 @@ import React, { useMemo } from 'react';
 import { RevisionList, RevisionListProps } from '../components/RevisionList/RevisionList';
 
 const FilteredRevisionList: React.FC<RevisionListProps> = props => {
-  const filteredRevisions = useMemo(() => props.revisions.filter(revision => !isEmptyRevision(revision)), [
-    props.revisions,
-  ]);
+  const filteredRevisions = useMemo(
+    () =>
+      props.revisions.filter(
+        revision => !(revision.source === 'canonical' && revision.revision.approved && isEmptyRevision(revision))
+      ),
+    [props.revisions]
+  );
 
   return <RevisionList model={props.model} {...props} revisions={filteredRevisions} />;
 };
@@ -16,7 +20,7 @@ registerRefinement({
   type: 'revision-list',
   supports({ instance }, { revisions }) {
     for (const revision of revisions) {
-      if (isEmptyRevision(revision)) {
+      if (revision.source === 'canonical' && revision.revision.approved && isEmptyRevision(revision)) {
         return true;
       }
     }

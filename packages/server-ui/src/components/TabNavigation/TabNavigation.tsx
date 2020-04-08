@@ -9,15 +9,17 @@ export const TabNavigation: React.FC<{
 }> = ({ choice, onChoice, currentId }) => {
   React.useEffect(() => {
     onChoice(choice.items[0].id);
-  }, []);
+  }, [choice.items, onChoice]);
 
   return (
     <Menu pointing secondary>
-      {choice.items.map(model => {
+      {choice.items.map((model, key) => {
         // Possibly throw error.
         if (model.type !== 'model') return null;
 
-        return <Menu.Item name={model.label} active={currentId === model.id} onClick={() => onChoice(model.id)} />;
+        return (
+          <Menu.Item key={key} name={model.label} active={currentId === model.id} onClick={() => onChoice(model.id)} />
+        );
       })}
     </Menu>
   );

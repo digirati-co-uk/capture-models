@@ -37,7 +37,7 @@ export class Revision {
   @OneToMany(
     () => RevisionAuthors,
     ra => ra.revision,
-    { eager: true, cascade: true }
+    { eager: true }
   )
   authors?: RevisionAuthors[];
 

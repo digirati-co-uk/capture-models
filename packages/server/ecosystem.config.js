@@ -25,6 +25,22 @@ module.exports = {
       },
     },
     {
+      name: 'server-ui-madoc-local',
+      script: 'src/index.ts',
+      instances: 1,
+      autorestart: true,
+      watch: true,
+      env: {
+        NODE_ENV: 'development',
+        DATABASE_HOST: 'localhost',
+        DATABASE_NAME: 'model_api',
+        DATABASE_PORT: 5400,
+        DATABASE_USER: 'model_api',
+        DATABASE_SCHEMA: 'public',
+        DATABASE_PASSWORD: 'model_api_password',
+      }
+    },
+    {
       name: 'server-ui-prod',
       script: 'lib/index.js',
 

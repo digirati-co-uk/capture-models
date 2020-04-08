@@ -86,6 +86,7 @@ export type ChoiceRefinement = Refinement<
       | undefined;
   },
   {
+    readMode?: boolean;
     pop: () => void;
     push: (id: string) => void;
     idStack: string[];
