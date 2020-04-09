@@ -64,6 +64,6 @@ export async function toStructure(structure: Structure, root = true): Promise<Ca
   // Only the `root` needs to map the fields. At this point `structure.items` has been populated.
   return {
     ...baseFields,
-    items: await Promise.all(structure.items.map(field => toStructure(field, false))),
+    items: await Promise.all((structure.items || []).map(field => toStructure(field, false))),
   } as CaptureModel['structure'];
 }
