@@ -1,6 +1,6 @@
 {
   "name": "@capture-models/server",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "main": "index.js",
   "license": "MIT",
   "private": true,
@@ -10,7 +10,7 @@
     "build": "NODE_ENV=production tsc -p ."
   },
   "dependencies": {
-    "@capture-models/database": "^0.2.0",
+    "@capture-models/database": "^0.2.1",
     "@capture-models/server-ui": "^0.2.0",
     "@capture-models/types": "^0.2.0",
     "@koa/router": "^8.0.6",
