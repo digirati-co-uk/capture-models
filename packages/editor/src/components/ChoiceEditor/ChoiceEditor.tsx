@@ -12,9 +12,11 @@ type Props = {
   initialPath?: number[];
   setPath?: (ids: number[]) => void;
   setLabel: (value: string) => void;
+  setProfile: (profile: string[]) => void;
   setDescription: (value: string) => void;
   onAddChoice: (choice: StructureType<'choice'>) => void;
   onAddModel: (model: StructureType<'model'>) => void;
+  reorderChoices: (startIndex: number, endIndex: number) => void;
   onRemove: (id: number) => void;
   pushFocus: (idx: number) => void;
   popFocus: (payload?: any) => void;
@@ -29,6 +31,8 @@ export const ChoiceEditor: React.FC<Props> = ({
   setDescription,
   initialPath = [],
   setPath,
+  setProfile,
+  reorderChoices,
   pushFocus,
   popFocus,
 }) => {
@@ -63,14 +67,18 @@ export const ChoiceEditor: React.FC<Props> = ({
         <StructureMetadataEditor
           key={`${choice.label}${choice.description}`}
           structure={choice}
+          profiles={initialPath.length ? [] : ['tabs']}
           onSave={values => {
             setLabel(values.label);
             setDescription(values.description || '');
+            if (values.profile) {
+              setProfile(values.profile);
+            }
           }}
         />
       </Card.Content>
       <Card.Content extra>
-        <ChoiceList choice={choice} pushFocus={pushFocus} onRemove={onRemove} />
+        <ChoiceList choice={choice} pushFocus={pushFocus} onRemove={onRemove} onReorder={reorderChoices} />
       </Card.Content>
       {route === 'list' ? (
         <>

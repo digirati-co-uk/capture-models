@@ -1,14 +1,16 @@
-import { useFormik } from 'formik';
+import { Field, FieldArray, useFormik } from 'formik';
 import React from 'react';
-import { Button, Form as StyledForm } from 'semantic-ui-react';
+import { Button, Dropdown, Form as StyledForm } from 'semantic-ui-react';
 import { CaptureModel } from '@capture-models/types';
+import { DropdownItemProps } from 'semantic-ui-react/dist/commonjs/modules/Dropdown/DropdownItem';
 
 type Props = {
+  profiles?: string[];
   structure: CaptureModel['structure'];
   onSave: (structure: CaptureModel['structure']) => void;
 };
 
-export const StructureMetadataEditor: React.FC<Props> = ({ structure, onSave }) => {
+export const StructureMetadataEditor: React.FC<Props> = ({ profiles = [], structure, onSave }) => {
   const formik = useFormik({
     initialValues: structure,
     onSubmit: values => {
@@ -44,6 +46,35 @@ export const StructureMetadataEditor: React.FC<Props> = ({ structure, onSave }) 
             />
           </label>
         </StyledForm.Field>
+
+        {profiles.length ? (
+          <div style={{ color: '#000' }}>
+            <h4>Profiles</h4>
+            {profiles.map((prof, idx) => {
+              return (
+                <div key={idx}>
+                  {prof}{' '}
+                  {(formik.values.profile || []).indexOf(prof) === -1 ? (
+                    <button onClick={() => formik.setFieldValue('profile', [...(formik.values.profile || []), prof])}>
+                      enable
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() =>
+                        formik.setFieldValue(
+                          'profile',
+                          (formik.values.profile || []).filter(v => v !== prof)
+                        )
+                      }
+                    >
+                      disable
+                    </button>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        ) : null}
 
         {formik.values.type === 'model' ? (
           <StyledForm.Field>

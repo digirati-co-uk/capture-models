@@ -1,5 +1,5 @@
 import { CaptureModel, StructureType } from '@capture-models/types';
-import { createChoice, itemFromIndex } from '@capture-models/helpers';
+import { createChoice, itemFromIndex, traverseStructure } from '@capture-models/helpers';
 import { action, computed, createContextStore, thunkOn } from 'easy-peasy';
 import { structureToTree } from '../../core/structure-editor';
 import { StructureModel } from './structure-model';
@@ -86,11 +86,11 @@ export const StructureStore = createContextStore<
   setStructureProfile: action((state, { profile, index }) => {
     itemFromIndex(state, index).profile = profile;
   }),
+
   setModelFields: action((state, { index, fields }) => {
     itemFromIndex<'model'>(state, index).fields = fields;
   }),
   reorderChoices: action((state, { index, startIndex, endIndex }) => {
-    // @todo check if currently selected will be invalidated.
     const result = itemFromIndex(state, index);
     if (result.type !== 'choice' || !result.items[startIndex] || !result.items[endIndex]) {
       return;
@@ -105,6 +105,17 @@ export const StructureStore = createContextStore<
       return;
     }
     state.structure = payload.structure;
+  }),
+
+  removeField: action((state, { term }) => {
+    traverseStructure(state.structure, str => {
+      if (str.type === 'model') {
+        const idx = str.fields.indexOf(term);
+        if (idx !== -1) {
+          str.fields = str.fields.filter(f => f !== term);
+        }
+      }
+    });
   }),
 
   onStructureChange: thunkOn(

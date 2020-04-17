@@ -21,11 +21,16 @@ export const CaptureModelListing: React.FC = () => {
       <CardButton
         inline
         onClick={() => {
-          modelActions.create({
-            id: generateId(),
-            structure: createChoice({ label: 'Untitled model' }),
-            document: createDocument(),
-          });
+          const id = generateId();
+          modelActions
+            .create({
+              id,
+              structure: createChoice({ label: 'Untitled model' }),
+              document: createDocument(),
+            })
+            .then(() => {
+              history.push(`/editor/${id}`);
+            });
         }}
       >
         Add model

@@ -28,6 +28,7 @@ export type StructureModel = {
   setStructureProfile: Action<StructureModel, { index: number[]; profile: string[] }>;
   setModelFields: Action<StructureModel, { index: number[]; fields: ModelFields }>;
   reorderChoices: Action<StructureModel, { index: number[]; startIndex: number; endIndex: number }>;
+  removeField: Action<StructureModel, { term: string }>;
 
   onStructureChange: ThunkOn<StructureModel>;
 };

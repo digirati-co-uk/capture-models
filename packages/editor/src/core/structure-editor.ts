@@ -55,7 +55,7 @@ export function structureToFlatStructureDefinition(
     if (typeof field === 'string') {
       const fullFieldList = document.properties[field];
       // @todo validation?
-      if (!fullFieldList.length) return acc;
+      if (!fullFieldList || !fullFieldList.length) return acc;
       const fullField = fullFieldList[0];
       acc.push({
         key: [...keyScope, field],

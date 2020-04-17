@@ -8,7 +8,7 @@ export function useCaptureModelList() {
   const [captureModelList, _setCaptureModelList] = useState<{ id: string; label: string }[]>([]);
 
   function create(model: CaptureModel) {
-    fetch(`/api/crowdsourcing/model`, {
+    return fetch(`/api/crowdsourcing/model`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -27,7 +27,7 @@ export function useCaptureModelList() {
   }
 
   function remove(id: string) {
-    fetch(`/api/crowdsourcing/model/${id}`, {
+    return fetch(`/api/crowdsourcing/model/${id}`, {
       method: 'DELETE',
     })
       .then(() => {

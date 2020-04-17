@@ -1,4 +1,4 @@
-import { DocumentEditor, DocumentStore, FieldEditor } from '@capture-models/editor';
+import { DocumentEditor, DocumentStore, FieldEditor, StructureStore } from '@capture-models/editor';
 import { BaseField } from '@capture-models/types';
 import React from 'react';
 import { Grid, Header, Segment } from 'semantic-ui-react';
@@ -11,6 +11,7 @@ export const FullDocumentEditor: React.FC = () => {
     selectedField: s.selectedFieldKey,
   }));
   const actions = DocumentStore.useStoreActions(a => a);
+  const removeStructureField = StructureStore.useStoreActions(a => a.removeField);
 
   return (
     <Grid padded>
@@ -46,10 +47,20 @@ export const FullDocumentEditor: React.FC = () => {
                   defaults,
                 });
                 actions.deselectField();
+                if (state.selectedField) {
+                  actions.selectField(state.selectedField);
+                }
               }}
               onSubmit={field => {
                 actions.setField({ field });
                 actions.setFieldSelector({ selector: field.selector });
+                actions.deselectField();
+              }}
+              onDelete={() => {
+                if (state.selectedField) {
+                  actions.removeField(state.selectedField);
+                  removeStructureField({ term: state.selectedField });
+                }
                 actions.deselectField();
               }}
             />
