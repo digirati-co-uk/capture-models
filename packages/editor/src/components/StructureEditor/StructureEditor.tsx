@@ -13,6 +13,7 @@ type Props = {
   setPath?: (ids: number[]) => void;
   setLabel: (value: string) => void;
   setDescription: (value: string) => void;
+  setProfile: (value: string[]) => void;
   setInstructions: (value: string) => void;
   onAddChoice: (choice: StructureType<'choice'>) => void;
   onAddModel: (model: StructureType<'model'>) => void;
@@ -21,6 +22,7 @@ type Props = {
   setFocus: (idx: number[]) => void;
   popFocus: (payload?: any) => void;
   setModelFields: (fields: ModelFields) => void;
+  reorderChoices: (startIndex: number, endIndex: number) => void;
 };
 
 export const StructureEditor: React.FC<Props> = ({
@@ -32,8 +34,10 @@ export const StructureEditor: React.FC<Props> = ({
   setDescription,
   setInstructions,
   setLabel,
+  setProfile,
   setPath,
   popFocus,
+  reorderChoices,
   onRemove,
   pushFocus,
   onAddChoice,
@@ -60,6 +64,8 @@ export const StructureEditor: React.FC<Props> = ({
               setLabel={setLabel}
               setDescription={setDescription}
               initialPath={currentPath}
+              setProfile={setProfile}
+              reorderChoices={reorderChoices}
             />
           ) : structure.type === 'model' ? (
             <ModelEditor

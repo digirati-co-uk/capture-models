@@ -16,6 +16,7 @@ export const FullStructureEditor: React.FC = () => {
     setModelFields,
     removeStructureFromChoice,
     setProfile,
+    reorderChoices,
   } = useFocusedStructureEditor();
 
   return (
@@ -35,6 +36,7 @@ export const FullStructureEditor: React.FC = () => {
       setModelFields={setModelFields}
       structure={current as CaptureModel['structure']}
       setProfile={setProfile}
+      reorderChoices={reorderChoices}
     />
   );
 };
