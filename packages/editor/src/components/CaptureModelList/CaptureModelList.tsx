@@ -1,5 +1,6 @@
-import React from 'react';
-import { List, Card } from 'semantic-ui-react';
+import { Heading } from '@capture-models/editor';
+import { RoundedCard } from '../RoundedCard/RoundedCard';
+import React, { useMemo } from 'react';
 
 type Props = {
   captureModels: Array<{ id: string; label: string }>;
@@ -8,18 +9,21 @@ type Props = {
 };
 
 export const CaptureModelList: React.FC<Props> = ({ captureModels, onClick, onDelete }) => {
+  const orderedList = useMemo(() => {
+    return captureModels.sort((a, b) => {
+      return (a.label || 'Untitled').localeCompare(b.label || 'Untitled');
+    });
+  }, [captureModels]);
+
   return (
     <>
-      {captureModels.map(model => (
-        <Card key={model.id}>
-          <Card.Content>
-            <Card.Header>{model.label}</Card.Header>
-          </Card.Content>
-          <Card.Content extra>
-            <a onClick={() => onClick(model.id)}>Edit</a> | <a onClick={() => onDelete(model.id)}>Delete</a>
-          </Card.Content>
-        </Card>
-      ))}
+      <div style={{ maxWidth: 400 }}>
+        {orderedList.map(model => (
+          <RoundedCard key={model.id} interactive onClick={() => onClick(model.id)}>
+            <Heading size="small">{model.label}</Heading>
+          </RoundedCard>
+        ))}
+      </div>
     </>
   );
 };
