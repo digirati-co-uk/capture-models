@@ -4,6 +4,7 @@ import { Field, Form, Formik } from 'formik';
 import { Button, Form as StyledForm, Grid, Label, Segment } from 'semantic-ui-react';
 import { PluginContext } from '@capture-models/plugin-api';
 import { generateId } from '@capture-models/helpers';
+import { ConfirmButton } from '../../atoms/ConfirmButton';
 import { ChooseSelectorButton } from '../ChooseSelectorButton/ChooseSelectorButton';
 import { ChooseFieldButton } from '../ChooseFieldButton/ChooseFieldButton';
 import { BaseField, SelectorTypeMap, BaseSelector } from '@capture-models/types';
@@ -13,8 +14,9 @@ export const FieldEditor: React.FC<{
   field: BaseField;
   term?: string;
   onSubmit: (newProps: BaseField) => void;
+  onDelete: () => void;
   onChangeFieldType?: (type: string, defaults: any) => void;
-}> = ({ onSubmit, onChangeFieldType, field: props, term }) => {
+}> = ({ onSubmit, onDelete, onChangeFieldType, field: props, term }) => {
   const ctx = useContext(PluginContext);
   const { fields, selectors } = useContext(PluginContext);
   const [selector, setSelector] = useState<BaseSelector | undefined>(props.selector);
@@ -120,6 +122,11 @@ export const FieldEditor: React.FC<{
             <Button type="submit" primary>
               Save changes
             </Button>
+            <ConfirmButton message="Are you sure you want to remove this field?" onClick={() => onDelete()}>
+              <Button type="button" color="red">
+                Delete field
+              </Button>
+            </ConfirmButton>
           </div>
         </Form>
       </Formik>

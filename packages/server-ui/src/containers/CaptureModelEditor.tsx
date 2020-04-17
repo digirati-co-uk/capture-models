@@ -6,7 +6,7 @@ import { useDebouncedCallback } from 'use-debounce';
 import { useCaptureModelApi } from '../hooks/use-caputre-model-api';
 import { FullDocumentEditor } from './FullDocumentEditor';
 import { FullStructureEditor } from './FullStructureEditor';
-import { MenuItem } from '../components/MenuItem/MenuItem';
+import { DeleteModel } from '../components/DeleteModel/DeleteModel';
 import { Menu } from 'semantic-ui-react';
 
 export const CaptureModelEditor: React.FC<{ onUpdate: (id: string) => void }> = ({ onUpdate }) => {
@@ -74,6 +74,9 @@ export const CaptureModelEditor: React.FC<{ onUpdate: (id: string) => void }> = 
         <Menu.Item as={NavLink} to={`/editor/${id}/json`}>
           JSON
         </Menu.Item>
+        <Menu.Item as={NavLink} to={`/editor/${id}/delete`}>
+          Delete model
+        </Menu.Item>
       </Menu>
       <Switch>
         <Route path="/editor/:id/document" exact>
@@ -87,6 +90,11 @@ export const CaptureModelEditor: React.FC<{ onUpdate: (id: string) => void }> = 
             <code>
               <pre>{JSON.stringify(model, null, 4)}</pre>
             </code>
+          </div>
+        </Route>
+        <Route path="/editor/:id/delete" exact>
+          <div style={{ padding: 40 }}>
+            <DeleteModel id={id}/>
           </div>
         </Route>
         <Route path="/editor/:id" exact>
