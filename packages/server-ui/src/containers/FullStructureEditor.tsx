@@ -15,6 +15,7 @@ export const FullStructureEditor: React.FC = () => {
     addStructureToChoice,
     setModelFields,
     removeStructureFromChoice,
+    setProfile,
   } = useFocusedStructureEditor();
 
   return (
@@ -33,6 +34,7 @@ export const FullStructureEditor: React.FC = () => {
       currentPath={currentPath}
       setModelFields={setModelFields}
       structure={current as CaptureModel['structure']}
+      setProfile={setProfile}
     />
   );
 };
