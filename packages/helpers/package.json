@@ -1,6 +1,6 @@
 {
   "name": "@capture-models/helpers",
-  "version": "0.2.0",
+  "version": "0.2.2",
   "license": "MIT",
   "main": "dist/umd/@capture-models/helpers.js",
   "module": "lib/index.js",

@@ -1,6 +1,6 @@
 {
   "name": "@capture-models/editor",
-  "version": "0.2.0",
+  "version": "0.2.2",
   "license": "MIT",
   "files": [
     "dist",
@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "@canvas-panel/core": "^0.2.0",
-    "@capture-models/helpers": "^0.2.0",
+    "@capture-models/helpers": "^0.2.2",
     "@capture-models/plugin-api": "^0.2.0",
     "@capture-models/types": "^0.2.0",
     "easy-peasy": "^3.2.3",
@@ -39,6 +39,7 @@
     "immer": "^4.0.1",
     "prop-types": "^15.7.2",
     "react": "^16.10.2",
+    "react-beautiful-dnd": "^13.0.0",
     "react-dom": "^16.10.2",
     "react-draggable": "^4.2.0",
     "react-router-dom": "^5.1.2",
@@ -46,8 +47,7 @@
     "semantic-ui-react": "^0.88.1",
     "styled-components": "^5.0.1",
     "use-async-effect": "^2.2.1",
-    "use-debounce": "^3.3.0",
-    "react-beautiful-dnd": "^13.0.0"
+    "use-debounce": "^3.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.3",
@@ -64,10 +64,10 @@
     "@types/enzyme": "^3.10.3",
     "@types/jest": "^25.1.2",
     "@types/react": "^16.9.9",
+    "@types/react-beautiful-dnd": "^12.1.2",
     "@types/react-dom": "^16.9.2",
     "@types/react-router-dom": "^5.1.3",
     "@types/styled-components": "^4.4.3",
-    "@types/react-beautiful-dnd": "^12.1.2",
     "dotenv-webpack": "^1.7.0",
     "html-webpack-plugin": "^3.2.0",
     "jest": "^25.1.0",
