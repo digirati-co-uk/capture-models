@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { Label } from 'semantic-ui-react';
-import './FieldHeader.scss';
+import styled, { css } from 'styled-components';
 
 type FieldHeaderProps = {
   labelFor?: string;
@@ -12,6 +12,81 @@ type FieldHeaderProps = {
   onSelectorClose?: () => void;
   onSelectorOpen?: () => void;
 };
+
+const FieldHeader = styled.div`
+  font-family: -apple-system, 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans',
+    'Helvetica Neue', 'Icons16', sans-serif;
+  line-height: 1.4em;
+  margin: 0.3em 0;
+`;
+
+const FieldHeaderTop = styled.div`
+  display: flex;
+`;
+
+const FieldHeaderLeft = styled.div`
+  flex: 1 1 0px;
+`;
+
+const FieldHeaderTitle = styled.label`
+  letter-spacing: -0.3px;
+  font-weight: 500;
+  font-size: 1.3em;
+  .ui.tiny.label {
+    margin-left: 0.5em;
+  }
+`;
+
+const FieldHeaderSubtitle = styled.label`
+  letter-spacing: -0.25px;
+  font-size: 1em;
+  padding-bottom: 0.3em;
+  display: block;
+`;
+
+const FieldHeaderRight = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const FieldHeaderIcon = styled.div<{ open?: boolean }>`
+  padding: 0.5em 1em;
+  cursor: pointer;
+  margin-top: auto;
+  background: transparent;
+  color: #6041e2;
+  transition: transform 0.5s, background-color 0.5s, color 0.5s;
+  margin-bottom: 0.5em;
+  transform: translateY(0);
+  &:hover {
+    background: #eee;
+  }
+  ${props =>
+    props.open
+      ? css`
+          color: #fff;
+          background: #aaa7de;
+          transform: translateY(0.5em);
+          &:hover {
+            background: #aaa7de;
+          }
+        `
+      : ``}
+`;
+
+const FieldHeaderBottom = styled.div<{ open?: boolean }>`
+  transition: max-height 0.3s;
+  overflow: hidden;
+  height: auto;
+  ${props => (props.open ? `max-height: 500px;` : `max-height: 0;`)}
+`;
+
+const FieldHeaderBottomInner = styled.div`
+  background: #aaa7de;
+  color: #fff;
+  padding: 0.7em;
+  margin-bottom: 0.5em;
+`;
 
 export const FieldHeaderComponent: React.FC<FieldHeaderProps> = ({
   description,
@@ -40,29 +115,25 @@ export const FieldHeaderComponent: React.FC<FieldHeaderProps> = ({
   }, [onSelectorClose, onSelectorOpen, open]);
 
   return (
-    <div className={`field-header`}>
-      <div className={`field-header__top`}>
-        <div className={`field-header__left`}>
-          <label className={`field-header__title`} htmlFor={labelFor}>
+    <FieldHeader>
+      <FieldHeaderTop>
+        <FieldHeaderLeft>
+          <FieldHeaderTitle htmlFor={labelFor}>
             {label} {showTerm && term ? <Label size="tiny">{term}</Label> : null}
-          </label>
-          {description ? (
-            <label className={`field-header__subtitle`} htmlFor={labelFor}>
-              {description}
-            </label>
-          ) : null}
-        </div>
+          </FieldHeaderTitle>
+          {description ? <FieldHeaderSubtitle htmlFor={labelFor}>{description}</FieldHeaderSubtitle> : null}
+        </FieldHeaderLeft>
         {selectorComponent ? (
-          <div className={`field-header__right`} onClick={toggleSelector}>
-            <div className={`field-header__icon ${open ? 'field-header__icon--open' : ''}`}>Edit Selector</div>
-          </div>
+          <FieldHeaderRight onClick={toggleSelector}>
+            <FieldHeaderIcon open={open}>Edit Selector</FieldHeaderIcon>
+          </FieldHeaderRight>
         ) : null}
-      </div>
+      </FieldHeaderTop>
       {selectorComponent ? (
-        <div className={`field-header__bottom ${open ? 'field-header__bottom--open' : ''}`}>
-          <div className={`field-header__bottom-inner`}>{selectorComponent ? selectorComponent : null}</div>
-        </div>
+        <FieldHeaderBottom open={open}>
+          <FieldHeaderBottomInner>{selectorComponent ? selectorComponent : null}</FieldHeaderBottomInner>
+        </FieldHeaderBottom>
       ) : null}
-    </div>
+    </FieldHeader>
   );
 };

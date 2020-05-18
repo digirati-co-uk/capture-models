@@ -7,3 +7,8 @@ packages/types
 node_modules
 coverage
 .jest-cache
+.yarn
+lib
+dist
+tsconfig.tsbuildinfo
+*.log

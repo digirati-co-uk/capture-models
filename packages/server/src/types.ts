@@ -13,9 +13,10 @@ export type JWTScopes =
 
 export interface ApplicationState {
   jwt: {
+    mock?: boolean;
     context: string[];
     scope: JWTScopes[];
-    user: Contributor & { name: string };
+    user: Contributor & { service?: boolean; serviceId?: string; name: string };
   };
 }
 
