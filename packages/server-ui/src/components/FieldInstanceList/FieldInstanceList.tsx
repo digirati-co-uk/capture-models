@@ -1,4 +1,4 @@
-import { FieldHeaderComponent, FieldPreview, RoundedCard } from '@capture-models/editor';
+import { FieldHeader, FieldPreview, RoundedCard } from '@capture-models/editor';
 import { useRefinement } from '@capture-models/plugin-api';
 import { BaseField, EntityInstanceListRefinement, FieldInstanceListRefinement } from '@capture-models/types';
 import React from 'react';
@@ -35,7 +35,7 @@ export const FieldInstanceList: React.FC<{
 
   return (
     <div>
-      <FieldHeaderComponent label={fields.length > 1 ? pluralLabel : label} />
+      <FieldHeader label={fields.length > 1 ? pluralLabel : label} />
       {fields.map((field, idx) => {
         return (
           <RoundedCard

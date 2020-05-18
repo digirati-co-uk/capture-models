@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useField, useSelectorStatus } from '@capture-models/plugin-api';
-import { FieldHeaderComponent } from '../FieldHeader/FieldHeader-component';
+import { FieldHeader } from '../FieldHeader/FieldHeader';
 import { BaseField, BaseSelector } from '@capture-models/types';
 
 type Props<T extends BaseField = BaseField> = {
@@ -77,7 +77,7 @@ export const FieldWrapper: React.FC<Props> = ({
   return (
     <div style={{ marginBottom: 30 }}>
       {hideHeader ? null : (
-        <FieldHeaderComponent
+        <FieldHeader
           labelFor={field.id}
           label={field.label}
           description={field.description}

@@ -16,7 +16,7 @@ export * from './components/DocumentEditor/DocumentEditor';
 export * from './components/DocumentPreview/DocumentPreview';
 export * from './components/EditorContext/EditorContext';
 export * from './components/FieldEditor/FieldEditor';
-export * from './components/FieldHeader/FieldHeader-component';
+export * from './components/FieldHeader/FieldHeader';
 export * from './components/FieldSet/FieldSet';
 export * from './components/FieldPreview/FieldPreview';
 export * from './components/FieldWrapper/FieldWrapper';

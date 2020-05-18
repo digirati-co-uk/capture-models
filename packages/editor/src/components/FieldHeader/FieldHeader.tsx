@@ -13,7 +13,7 @@ type FieldHeaderProps = {
   onSelectorOpen?: () => void;
 };
 
-const FieldHeader = styled.div`
+const FieldHeaderWrapper = styled.div`
   font-family: -apple-system, 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans',
     'Helvetica Neue', 'Icons16', sans-serif;
   line-height: 1.4em;
@@ -88,7 +88,7 @@ const FieldHeaderBottomInner = styled.div`
   margin-bottom: 0.5em;
 `;
 
-export const FieldHeaderComponent: React.FC<FieldHeaderProps> = ({
+export const FieldHeader: React.FC<FieldHeaderProps> = ({
   description,
   term,
   selectorComponent,
@@ -115,7 +115,7 @@ export const FieldHeaderComponent: React.FC<FieldHeaderProps> = ({
   }, [onSelectorClose, onSelectorOpen, open]);
 
   return (
-    <FieldHeader>
+    <FieldHeaderWrapper>
       <FieldHeaderTop>
         <FieldHeaderLeft>
           <FieldHeaderTitle htmlFor={labelFor}>
@@ -134,6 +134,6 @@ export const FieldHeaderComponent: React.FC<FieldHeaderProps> = ({
           <FieldHeaderBottomInner>{selectorComponent ? selectorComponent : null}</FieldHeaderBottomInner>
         </FieldHeaderBottom>
       ) : null}
-    </FieldHeader>
+    </FieldHeaderWrapper>
   );
 };

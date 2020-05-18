@@ -1,6 +1,6 @@
 import { useRefinement } from '@capture-models/plugin-api';
 import React from 'react';
-import { FieldHeaderComponent, RoundedCard } from '@capture-models/editor';
+import { FieldHeader, RoundedCard } from '@capture-models/editor';
 import { BaseField, CaptureModel, FieldListRefinement } from '@capture-models/types';
 import { isEntityList } from '@capture-models/helpers/lib/is-entity';
 import { EntityInstanceList } from '../EntityInstanceList/EntityInstanceList';
@@ -30,7 +30,7 @@ export const FieldList: React.FC<{
           const singleEntity = instances[0];
           return (
             <div key={idx}>
-              <FieldHeaderComponent label={singleEntity.label || 'Untitled'} />
+              <FieldHeader label={singleEntity.label || 'Untitled'} />
               <EntityInstanceList
                 path={path}
                 entities={instances}

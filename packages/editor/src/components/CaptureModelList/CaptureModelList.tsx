@@ -1,6 +1,6 @@
-import { Heading } from '@capture-models/editor';
 import { RoundedCard } from '../RoundedCard/RoundedCard';
 import React, { useMemo } from 'react';
+import { Heading } from '../Heading/Heading';
 
 type Props = {
   captureModels: Array<{ id: string; label: string }>;
