@@ -1,4 +1,3 @@
-import './Heading.styles.scss';
 import styled, { css } from 'styled-components';
 
 export const Heading = styled.header<{ size: 'large' | 'medium' | 'small' }>`
