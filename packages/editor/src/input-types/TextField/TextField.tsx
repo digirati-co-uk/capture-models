@@ -1,6 +1,6 @@
 import { BaseField, FieldComponent } from '@capture-models/types';
 import React from 'react';
-import { Input } from 'semantic-ui-react';
+import { StyledFormInputElement } from '../../atoms/StyledForm';
 
 export interface TextFieldProps extends BaseField {
   id: string;
@@ -8,25 +8,18 @@ export interface TextFieldProps extends BaseField {
   placeholder?: string;
   required?: boolean;
   value: string;
-  icon?: string;
-  iconPosition?: 'left';
 }
 
 export const TextField: FieldComponent<TextFieldProps> = ({
   value,
   id,
-  icon,
   placeholder,
-  iconPosition,
   updateValue,
 }) => {
   return (
-    <Input
+    <StyledFormInputElement
       name={id}
       id={id}
-      icon={icon}
-      iconPosition={iconPosition}
-      fluid={true}
       placeholder={placeholder}
       value={value || ''}
       onChange={e => updateValue(e.currentTarget.value)}

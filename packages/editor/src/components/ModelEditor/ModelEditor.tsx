@@ -1,9 +1,15 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Button, Card, Grid, Icon, Label, List } from 'semantic-ui-react';
+import { Button } from '../../atoms/Button';
+import { Card, CardContent, CardMeta, CardHeader } from '../../atoms/Card';
+import { Grid, GridColumn } from '../../atoms/Grid';
+import { List, ListHeader, ListContent, ListItem } from '../../atoms/List';
 import { expandModelFields, mergeFlatKeys, structureToFlatStructureDefinition } from '../../core/structure-editor';
 import { SelectModelFields } from '../SelectModelFields/SelectModelFields';
 import { StructureMetadataEditor } from '../StructureMetadataEditor/StructureMetadataEditor';
 import { CaptureModel, ModelFields, StructureType } from '@capture-models/types';
+import { Box } from '@styled-icons/entypo/Box';
+import { Edit } from '@styled-icons/entypo/Edit';
+import { Tag } from '../../atoms/Tag';
 
 type Props = {
   document: CaptureModel['document'];
@@ -50,20 +56,20 @@ export const ModelEditor: React.FC<Props> = ({
 
   return (
     <Card fluid>
-      <Card.Content>
+      <CardContent>
         <Grid>
           {initialPath.length ? (
-            <Grid.Column width={2}>
-              <Button icon="left arrow" onClick={() => popFocus()} />
-            </Grid.Column>
+            <GridColumn>
+              <Button onClick={() => popFocus()}>back</Button>
+            </GridColumn>
           ) : null}
-          <Grid.Column width={13}>
-            <Card.Header>{model.label}</Card.Header>
-            <Card.Meta>Model</Card.Meta>
-          </Grid.Column>
+          <GridColumn fluid>
+            <CardHeader>{model.label}</CardHeader>
+            <CardMeta>Model</CardMeta>
+          </GridColumn>
         </Grid>
-      </Card.Content>
-      <Card.Content extra>
+      </CardContent>
+      <CardContent extra>
         <StructureMetadataEditor
           key={`${model.label}${model.description}${model.instructions}`}
           structure={model}
@@ -75,16 +81,19 @@ export const ModelEditor: React.FC<Props> = ({
             }
           }}
         />
-      </Card.Content>
-      <Card.Content>
-        <List size="large" verticalAlign="middle">
+      </CardContent>
+      <CardContent>
+        <List>
           {structureToFlatStructureDefinition(document, mergeFlatKeys(selected)).map((item, key) => (
-            <List.Item key={key}>
-              <List.Content floated="right">
-                <Label style={{ marginRight: 5 }}>{item.type}</Label>
+            <ListItem key={key}>
+              {item.type === 'entity' ? <Box size={16} /> : <Edit size={16} />}
+              <ListContent fluid>
+                <ListHeader>{item.label}</ListHeader>
+              </ListContent>
+              <ListContent>
+                <Tag style={{ marginRight: 5 }}>{item.type}</Tag>
                 <Button
-                  color="red"
-                  basic
+                  alert
                   size="mini"
                   onClick={() => {
                     // Remove the current item.
@@ -93,16 +102,12 @@ export const ModelEditor: React.FC<Props> = ({
                 >
                   Remove
                 </Button>
-              </List.Content>
-              <Icon name={item.type === 'entity' ? 'box' : 'tag'} />
-              <List.Content>
-                <List.Header>{item.label}</List.Header>
-              </List.Content>
-            </List.Item>
+              </ListContent>
+            </ListItem>
           ))}
         </List>
-      </Card.Content>
-      <Card.Content>
+      </CardContent>
+      <CardContent>
         {isSelecting ? (
           <React.Fragment>
             <SelectModelFields
@@ -119,10 +124,10 @@ export const ModelEditor: React.FC<Props> = ({
         ) : (
           <Button onClick={() => setIsSelecting(true)}>Add new field</Button>
         )}
-      </Card.Content>
-      <Card.Content extra>
+      </CardContent>
+      <CardContent extra>
         <pre>{JSON.stringify(mergeFlatKeys(selected), null, 2)}</pre>
-      </Card.Content>
+      </CardContent>
     </Card>
   );
 };

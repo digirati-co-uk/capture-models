@@ -7,7 +7,6 @@ import { useCaptureModelApi } from '../hooks/use-caputre-model-api';
 import { FullDocumentEditor } from './FullDocumentEditor';
 import { FullStructureEditor } from './FullStructureEditor';
 import { DeleteModel } from '../components/DeleteModel/DeleteModel';
-import { Menu } from 'semantic-ui-react';
 
 export const CaptureModelEditor: React.FC<{ onUpdate: (id: string) => void }> = ({ onUpdate }) => {
   const match = useRouteMatch<{ id: string }>();
@@ -58,26 +57,16 @@ export const CaptureModelEditor: React.FC<{ onUpdate: (id: string) => void }> = 
       onDocumentChange={doc => functions.current.onDocumentChange(doc)}
       onStructureChange={struct => functions.current.onStructureChange(struct)}
     >
-      <Menu secondary>
-        <Menu.Item>
+      <div>
+        <div>
           <strong>{model?.structure.label}</strong>
-        </Menu.Item>
-        <Menu.Item as={NavLink} to={`/editor/${id}/structure`}>
-          Structure
-        </Menu.Item>
-        <Menu.Item as={NavLink} to={`/editor/${id}/document`}>
-          Document
-        </Menu.Item>
-        <Menu.Item as={NavLink} to={`/viewer/${id}`}>
-          Open in viewer
-        </Menu.Item>
-        <Menu.Item as={NavLink} to={`/editor/${id}/json`}>
-          JSON
-        </Menu.Item>
-        <Menu.Item as={NavLink} to={`/editor/${id}/delete`}>
-          Delete model
-        </Menu.Item>
-      </Menu>
+        </div>
+        <NavLink to={`/editor/${id}/structure`}>Structure</NavLink>
+        <NavLink to={`/editor/${id}/document`}>Document</NavLink>
+        <NavLink to={`/viewer/${id}`}>Open in viewer</NavLink>
+        <NavLink to={`/editor/${id}/json`}>JSON</NavLink>
+        <NavLink to={`/editor/${id}/delete`}>Delete model</NavLink>
+      </div>
       <Switch>
         <Route path="/editor/:id/document" exact>
           <FullDocumentEditor />
@@ -94,7 +83,7 @@ export const CaptureModelEditor: React.FC<{ onUpdate: (id: string) => void }> = 
         </Route>
         <Route path="/editor/:id/delete" exact>
           <div style={{ padding: 40 }}>
-            <DeleteModel id={id}/>
+            <DeleteModel id={id} />
           </div>
         </Route>
         <Route path="/editor/:id" exact>

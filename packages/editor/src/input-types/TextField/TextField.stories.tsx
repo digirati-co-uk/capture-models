@@ -1,5 +1,4 @@
 import React from 'react';
-import { Form, Segment } from 'semantic-ui-react';
 import { FieldWrapper } from '../../components/FieldWrapper/FieldWrapper';
 import { PluginProvider } from '@capture-models/plugin-api';
 import { TextField } from './TextField';
@@ -12,7 +11,7 @@ export default { title: 'Input @types|TextField', decorators: [withKnobs] };
 export const Simple: React.FC = () => {
   const [value, setValue] = React.useState('');
   return (
-    <Form>
+    <form>
       <TextField
         id="1"
         label="Some label"
@@ -22,7 +21,7 @@ export const Simple: React.FC = () => {
         iconPosition={boolean('Left icon', false) ? 'left' : undefined}
         icon={select('Icon', ['', 'search', 'user'], '')}
       />
-    </Form>
+    </form>
   );
 };
 
@@ -46,7 +45,7 @@ export const WithFieldWrapper: React.FC = () => {
 export const TextFieldEditor: React.FC = () => {
   return (
     <PluginProvider>
-      <Segment padded style={{ margin: 40 }}>
+      <div style={{ margin: 40 }}>
         <FieldEditor
           field={{
             id: '1',
@@ -57,7 +56,7 @@ export const TextFieldEditor: React.FC = () => {
           }}
           onSubmit={newField => console.log(newField)}
         />
-      </Segment>
+      </div>
     </PluginProvider>
   );
 };

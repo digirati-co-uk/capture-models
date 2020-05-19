@@ -1,7 +1,9 @@
 import React, { useContext } from 'react';
 import { PluginContext } from '@capture-models/plugin-api';
-import { Button, Card, Label } from 'semantic-ui-react';
+import { Button } from '../../atoms/Button';
+import {Card, CardContent, CardHeader} from '../../atoms/Card';
 import { SelectorSpecification } from '@capture-models/types';
+import { Tag } from '../../atoms/Tag';
 
 export const ChooseSelector: React.FC<{
   handleChoice: (choice: SelectorSpecification) => void;
@@ -15,19 +17,19 @@ export const ChooseSelector: React.FC<{
         {Object.values(selectors).map(field =>
           field ? (
             <Card style={{ marginBottom: 20 }}>
-              <Card.Content>
-                <Card.Header>{field.label}</Card.Header>
+              <CardContent>
+                <CardHeader>{field.label}</CardHeader>
                 <p>{field.description}</p>
-              </Card.Content>
-              <Card.Content extra>
+              </CardContent>
+              <CardContent extra>
                 Supported content types
                 <div>
                   {field.supportedContentTypes.map(type => (
-                    <Label key={type}>{type}</Label>
+                    <Tag key={type}>{type}</Tag>
                   ))}
                 </div>
-              </Card.Content>
-              <Button primary onClick={() => handleChoice(field as any)}>
+              </CardContent>
+              <Button onClick={() => handleChoice(field as any)}>
                 Create {field.label}
               </Button>
             </Card>

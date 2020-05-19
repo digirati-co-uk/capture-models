@@ -1,7 +1,9 @@
 import copy from 'fast-copy';
 import React, { useContext, useState } from 'react';
 import { Field, Form, Formik } from 'formik';
-import { Button, Form as StyledForm, Grid, Label, Segment } from 'semantic-ui-react';
+import { Button } from '../../atoms/Button';
+import { Grid, GridColumn } from '../../atoms/Grid';
+import { Segment } from '../../atoms/Segment';
 import { PluginContext } from '@capture-models/plugin-api';
 import { generateId } from '@capture-models/helpers';
 import { ConfirmButton } from '../../atoms/ConfirmButton';
@@ -9,6 +11,13 @@ import { ChooseSelectorButton } from '../ChooseSelectorButton/ChooseSelectorButt
 import { ChooseFieldButton } from '../ChooseFieldButton/ChooseFieldButton';
 import { BaseField, SelectorTypeMap, BaseSelector } from '@capture-models/types';
 import { FormPreview } from '../FormPreview/FormPreview';
+import {
+  StyledFormField,
+  StyledFormLabel,
+  StyledFormInputElement,
+  StyledFormTextarea,
+  StyledCheckbox,
+} from '../../atoms/StyledForm';
 
 export const FieldEditor: React.FC<{
   field: BaseField;
@@ -39,34 +48,36 @@ export const FieldEditor: React.FC<{
           });
         }}
       >
-        <Form className="ui form">
-          <Grid columns={2}>
-            <Grid.Column>
-              <StyledForm.Field>
-                <label>
+        <Form>
+          <Grid>
+            <GridColumn half>
+              <StyledFormField>
+                <StyledFormLabel>
                   Label
-                  <Field type="text" name="label" required={true} />
-                </label>
-              </StyledForm.Field>
-              <StyledForm.Field>
-                <label>
+                  <Field as={StyledFormInputElement} type="text" name="label" required={true} />
+                </StyledFormLabel>
+              </StyledFormField>
+              <StyledFormField>
+                <StyledFormLabel>
                   Description
-                  <Field as="textarea" name="description" />
-                </label>
-              </StyledForm.Field>
+                  <Field as={StyledFormTextarea} name="description" />
+                </StyledFormLabel>
+              </StyledFormField>
               {onChangeFieldType ? (
-                <StyledForm.Field>
-                  <label>
+                <StyledFormField>
+                  <StyledFormLabel>
                     Field type
                     <ChooseFieldButton
                       fieldType={field.type}
-                      onChange={t => (fields[t] ? onChangeFieldType(t as any, (fields[t] as any).defaultProps) : null)}
+                      onChange={t =>
+                        t && fields[t] ? onChangeFieldType(t as any, (fields[t] as any).defaultProps) : null
+                      }
                     />
-                  </label>
-                </StyledForm.Field>
+                  </StyledFormLabel>
+                </StyledFormField>
               ) : null}
-              <StyledForm.Field>
-                <label>
+              <StyledFormField>
+                <StyledFormLabel>
                   Choose selector (optional)
                   <ChooseSelectorButton
                     value={props.selector ? props.selector.type : ''}
@@ -85,45 +96,42 @@ export const FieldEditor: React.FC<{
                       }
                     }}
                   />
-                </label>
-              </StyledForm.Field>
-              <StyledForm.Field>
-                <label>
-                  <Field type="checkbox" name="allowMultiple" style={{ marginRight: 10 }} />
+                </StyledFormLabel>
+              </StyledFormField>
+              <StyledFormField>
+                <StyledFormLabel>
+                  <Field as={StyledCheckbox} type="checkbox" name="allowMultiple" style={{ marginRight: 10 }} />
                   Allow multiple instances
-                </label>
-              </StyledForm.Field>
-              <StyledForm.Field>
-                <label>
+                </StyledFormLabel>
+              </StyledFormField>
+              <StyledFormField>
+                <StyledFormLabel>
                   Plural label (used when referring to lists of this document)
-                  <Field type="text" name="pluralField" />
-                </label>
-              </StyledForm.Field>
+                  <Field as={StyledFormInputElement} type="text" name="pluralField" />
+                </StyledFormLabel>
+              </StyledFormField>
               {/* @todo hookup term/vocab selector when we implement JSON-LD Extension */}
-              {/*<StyledForm.Field>*/}
-              {/*  <label>*/}
+              {/*<StyledFormField>*/}
+              {/*  <StyledFormLabel>*/}
               {/*    Term*/}
               {/*    <Field type="text" name="term" />*/}
               {/*  </label>*/}
-              {/*</StyledForm.Field>*/}
+              {/*</StyledFormField>*/}
               {/* @todo selector selector */}
               {editor}
-            </Grid.Column>
-            <Grid.Column>
-              <Segment padded color="orange" placeholder>
-                <Label attached="top right" color="orange">
-                  Preview
-                </Label>
+            </GridColumn>
+            <GridColumn half>
+              <Segment>
                 <FormPreview term={term} />
               </Segment>
-            </Grid.Column>
+            </GridColumn>
           </Grid>
           <div style={{ marginTop: 20 }}>
-            <Button type="submit" primary>
+            <Button type="submit" primary style={{ marginRight: '.5em' }}>
               Save changes
             </Button>
             <ConfirmButton message="Are you sure you want to remove this field?" onClick={() => onDelete()}>
-              <Button type="button" color="red">
+              <Button type="button" alert>
                 Delete field
               </Button>
             </ConfirmButton>

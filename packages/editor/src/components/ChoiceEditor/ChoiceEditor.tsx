@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
-import { Button, Card, Grid } from 'semantic-ui-react';
+import { Button } from '../../atoms/Button';
+import { Grid, GridColumn } from '../../atoms/Grid';
+import { Card, CardContent, CardHeader, CardMeta } from '../../atoms/Card';
 import { ChoiceList } from '../ChoiceList/ChoiceList';
 import { NewChoiceForm } from '../NewChoiceForm/NewChoiceForm';
 import { NewModelForm } from '../NewModelForm/NewModelForm';
@@ -48,22 +50,22 @@ export const ChoiceEditor: React.FC<Props> = ({
 
   return (
     <Card fluid={true}>
-      <Card.Content>
+      <CardContent>
         <Grid>
           {initialPath.length ? (
-            <Grid.Column width={2}>
-              <Button icon="left arrow" onClick={() => popFocus()} />
-            </Grid.Column>
+            <GridColumn>
+              <Button onClick={() => popFocus()}>back</Button>
+            </GridColumn>
           ) : null}
-          <Grid.Column width={13}>
-            <Card.Header>{choice.label}</Card.Header>
-            <Card.Meta>Choice</Card.Meta>
-            <Card.Header>{/*<SubtreeBreadcrumb popSubtree={popSubtree} subtreePath={subtreePath} />*/}</Card.Header>
+          <GridColumn fluid>
+            <CardHeader>{choice.label}</CardHeader>
+            <CardMeta>Choice</CardMeta>
+            <CardHeader>{/*<SubtreeBreadcrumb popSubtree={popSubtree} subtreePath={subtreePath} />*/}</CardHeader>
             {/*{subtree.description ? <Card.Meta>{subtree.description}</Card.Meta> : null}*/}
-          </Grid.Column>
+          </GridColumn>
         </Grid>
-      </Card.Content>
-      <Card.Content extra>
+      </CardContent>
+      <CardContent extra>
         <StructureMetadataEditor
           key={`${choice.label}${choice.description}`}
           structure={choice}
@@ -76,37 +78,37 @@ export const ChoiceEditor: React.FC<Props> = ({
             }
           }}
         />
-      </Card.Content>
-      <Card.Content extra>
+      </CardContent>
+      <CardContent extra>
         <ChoiceList choice={choice} pushFocus={pushFocus} onRemove={onRemove} onReorder={reorderChoices} />
-      </Card.Content>
+      </CardContent>
       {route === 'list' ? (
         <>
-          <Card.Content extra>
-            <Grid columns={2}>
-              <Grid.Column>
+          <CardContent extra>
+            <Grid>
+              <GridColumn half>
                 <Button fluid onClick={router.newChoice}>
                   Add Choice
                 </Button>
-              </Grid.Column>
-              <Grid.Column>
+              </GridColumn>
+              <GridColumn half>
                 <Button fluid onClick={router.newModel}>
                   Add Model
                 </Button>
-              </Grid.Column>
+              </GridColumn>
             </Grid>
-          </Card.Content>
+          </CardContent>
         </>
       ) : route === 'newChoice' ? (
         <>
-          <Card.Content>
+          <CardContent>
             <Grid>
-              <Grid.Column width={2}>
-                <Button icon="left arrow" onClick={router.list} />
-              </Grid.Column>
-              <Grid.Column width={13}>
-                <Card.Header>Create new choice</Card.Header>
-              </Grid.Column>
+              <GridColumn>
+                <Button onClick={router.list}>back</Button>
+              </GridColumn>
+              <GridColumn fluid>
+                <CardHeader>Create new choice</CardHeader>
+              </GridColumn>
             </Grid>
             <NewChoiceForm
               onSave={newChoice => {
@@ -116,18 +118,18 @@ export const ChoiceEditor: React.FC<Props> = ({
                 router.list();
               }}
             />
-          </Card.Content>
+          </CardContent>
         </>
       ) : route === 'newModel' ? (
         <>
-          <Card.Content>
+          <CardContent>
             <Grid>
-              <Grid.Column width={2}>
-                <Button icon="left arrow" onClick={router.list} />
-              </Grid.Column>
-              <Grid.Column width={13}>
-                <Card.Header>Create new model</Card.Header>
-              </Grid.Column>
+              <GridColumn>
+                <Button onClick={router.list}>back</Button>
+              </GridColumn>
+              <GridColumn fluid>
+                <CardHeader>Create new model</CardHeader>
+              </GridColumn>
             </Grid>
             <NewModelForm
               onSave={newModel => {
@@ -137,7 +139,7 @@ export const ChoiceEditor: React.FC<Props> = ({
                 router.list();
               }}
             />
-          </Card.Content>
+          </CardContent>
         </>
       ) : null}
     </Card>

@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
-import { Label } from 'semantic-ui-react';
 import styled, { css } from 'styled-components';
+import { Tag } from '../../atoms/Tag';
 
 type FieldHeaderProps = {
   labelFor?: string;
@@ -119,7 +119,7 @@ export const FieldHeader: React.FC<FieldHeaderProps> = ({
       <FieldHeaderTop>
         <FieldHeaderLeft>
           <FieldHeaderTitle htmlFor={labelFor}>
-            {label} {showTerm && term ? <Label size="tiny">{term}</Label> : null}
+            {label} {showTerm && term ? <Tag size="tiny">{term}</Tag> : null}
           </FieldHeaderTitle>
           {description ? <FieldHeaderSubtitle htmlFor={labelFor}>{description}</FieldHeaderSubtitle> : null}
         </FieldHeaderLeft>

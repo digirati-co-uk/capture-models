@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Button } from 'semantic-ui-react';
 import { useCaptureModelList } from '../../hooks/use-capture-model-list';
 
 export const DeleteModel: React.FC<{ id: string }> = ({ id }) => {
@@ -11,8 +10,7 @@ export const DeleteModel: React.FC<{ id: string }> = ({ id }) => {
   return (
     <div>
       <h3>Are you sure you want to delete this whole model?</h3>
-      <Button
-        color="red"
+      <button
         disabled={deleting}
         onClick={() => {
           setDeleting(true);
@@ -22,7 +20,7 @@ export const DeleteModel: React.FC<{ id: string }> = ({ id }) => {
         }}
       >
         Delete
-      </Button>
+      </button>
     </div>
   );
 };

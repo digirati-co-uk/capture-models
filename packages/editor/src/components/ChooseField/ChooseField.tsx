@@ -1,7 +1,9 @@
 import React, { useContext } from 'react';
 import { PluginContext } from '@capture-models/plugin-api';
-import { Button, Card, Grid } from 'semantic-ui-react';
+import { Button } from '../../atoms/Button';
+import { Card, CardContent } from '../../atoms/Card';
 import { BaseField } from '@capture-models/types';
+import {Grid, GridColumn, GridRow} from '../../atoms/Grid';
 
 export const ChooseField: React.FC<{
   handleChoice: (choice: BaseField) => void;
@@ -12,23 +14,23 @@ export const ChooseField: React.FC<{
     <div style={{ width: '100%' }}>
       <h2>Choose field</h2>
       <Grid>
-        <Grid.Row>
+        <GridRow>
           {Object.values(fields).map(field =>
             field ? (
-              <Grid.Column width={4}>
+              <GridColumn half>
                 <Card style={{ marginBottom: 20 }}>
-                  <Card.Content>
+                  <CardContent>
                     <h4>{field.label}</h4>
                     <p>{field.description}</p>
-                  </Card.Content>
-                  <Button primary onClick={() => handleChoice(field as any)}>
+                  </CardContent>
+                  <Button onClick={() => handleChoice(field as any)}>
                     Create {field.label}
                   </Button>
                 </Card>
-              </Grid.Column>
+              </GridColumn>
             ) : null
           )}
-        </Grid.Row>
+        </GridRow>
       </Grid>
     </div>
   );

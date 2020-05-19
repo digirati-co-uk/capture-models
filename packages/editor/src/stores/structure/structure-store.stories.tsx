@@ -1,6 +1,5 @@
 import { CaptureModel } from '@capture-models/types';
 import React from 'react';
-import { Breadcrumb } from 'semantic-ui-react';
 import { StructureStore } from './structure-store';
 import { useFocusedStructureEditor } from './use-focused-structure-editor';
 
@@ -21,13 +20,6 @@ const Test: React.FC = () => {
 
   return (
     <div>
-      <Breadcrumb
-        icon="right angle"
-        sections={breadcrumbs.map(bread => ({
-          key: `${bread.index.join('-')}`,
-          content: bread.label,
-        }))}
-      />
       <button onClick={() => setLabel('to something else')}>Set label</button>
       <button onClick={() => removeStructureFromChoice({ index: current.index })}>Remove</button>
       <button onClick={() => reorderChoices({ index: current.index, startIndex: 0, endIndex: 1 })}>

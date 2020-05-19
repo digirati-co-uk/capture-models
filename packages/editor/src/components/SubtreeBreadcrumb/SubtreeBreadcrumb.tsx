@@ -1,5 +1,5 @@
 import React from 'react';
-import { Breadcrumb } from 'semantic-ui-react';
+import { Breadcrumb, BreadcrumbDivider, BreadcrumbSection } from '../../atoms/Breadcrumb';
 
 type Props = {
   subtreePath: string[];
@@ -9,20 +9,20 @@ type Props = {
 export const SubtreeBreadcrumb: React.FC<Props> = ({ popSubtree, subtreePath }) => {
   return (
     <Breadcrumb>
-      <Breadcrumb.Section
+      <BreadcrumbSection
         onClick={subtreePath.length !== 0 ? () => popSubtree({ count: subtreePath.length }) : undefined}
       >
         Document root
-      </Breadcrumb.Section>
+      </BreadcrumbSection>
       {subtreePath.map((path, n) => (
         <>
-          {n !== subtreePath.length ? <Breadcrumb.Divider /> : null}
-          <Breadcrumb.Section
+          {n !== subtreePath.length ? <BreadcrumbDivider>/</BreadcrumbDivider> : null}
+          <BreadcrumbSection
             key={n}
             onClick={n !== subtreePath.length - 1 ? () => popSubtree({ count: subtreePath.length - n - 1 }) : undefined}
           >
             {path}
-          </Breadcrumb.Section>
+          </BreadcrumbSection>
         </>
       ))}
     </Breadcrumb>

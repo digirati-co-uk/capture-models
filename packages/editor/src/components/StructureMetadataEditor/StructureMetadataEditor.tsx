@@ -1,8 +1,14 @@
-import { Field, FieldArray, useFormik } from 'formik';
+import { useFormik } from 'formik';
 import React from 'react';
-import { Button, Dropdown, Form as StyledForm } from 'semantic-ui-react';
+import { Button } from '../../atoms/Button';
 import { CaptureModel } from '@capture-models/types';
-import { DropdownItemProps } from 'semantic-ui-react/dist/commonjs/modules/Dropdown/DropdownItem';
+import {
+  StyledForm,
+  StyledFormField,
+  StyledFormInputElement,
+  StyledFormLabel,
+  StyledFormTextarea,
+} from '../../atoms/StyledForm';
 
 type Props = {
   profiles?: string[];
@@ -19,83 +25,85 @@ export const StructureMetadataEditor: React.FC<Props> = ({ profiles = [], struct
   });
 
   return (
-    <form onSubmit={formik.handleSubmit}>
-      <StyledForm>
-        <StyledForm.Field>
-          <label>
-            Label
-            <StyledForm.Input
-              type="text"
-              name="label"
+    <StyledForm onSubmit={formik.handleSubmit}>
+      <StyledFormField>
+        <StyledFormLabel>
+          Label
+          <StyledFormInputElement
+            type="text"
+            name="label"
+            id="label"
+            required={true}
+            value={formik.values.label}
+            onChange={formik.handleChange}
+          />
+        </StyledFormLabel>
+      </StyledFormField>
+
+      <StyledFormField>
+        <StyledFormLabel>
+          Description
+          <StyledFormTextarea
+            name="description"
+            id="description"
+            required={true}
+            value={formik.values.description}
+            onChange={formik.handleChange}
+          />
+        </StyledFormLabel>
+      </StyledFormField>
+
+      {profiles.length ? (
+        <div style={{ color: '#000' }}>
+          <h4>Profiles</h4>
+          {profiles.map((prof, idx) => {
+            return (
+              <div key={idx}>
+                {prof}{' '}
+                {(formik.values.profile || []).indexOf(prof) === -1 ? (
+                  <button
+                    type="button"
+                    onClick={() => formik.setFieldValue('profile', [...(formik.values.profile || []), prof])}
+                  >
+                    enable
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() =>
+                      formik.setFieldValue(
+                        'profile',
+                        (formik.values.profile || []).filter(v => v !== prof)
+                      )
+                    }
+                  >
+                    disable
+                  </button>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      ) : null}
+
+      {formik.values.type === 'model' ? (
+        <StyledFormField>
+          <StyledFormLabel>
+            Crowdsourcing Instructions
+            <StyledFormTextarea
+              name="instructions"
               required={true}
-              value={formik.values.label}
+              value={formik.values.instructions}
               onChange={formik.handleChange}
             />
-          </label>
-        </StyledForm.Field>
-
-        <StyledForm.Field>
-          <label>
-            Description
-            <StyledForm.Input
-              as={'textarea'}
-              name="description"
-              required={true}
-              value={formik.values.description}
-              onChange={formik.handleChange}
-            />
-          </label>
-        </StyledForm.Field>
-
-        {profiles.length ? (
-          <div style={{ color: '#000' }}>
-            <h4>Profiles</h4>
-            {profiles.map((prof, idx) => {
-              return (
-                <div key={idx}>
-                  {prof}{' '}
-                  {(formik.values.profile || []).indexOf(prof) === -1 ? (
-                    <button onClick={() => formik.setFieldValue('profile', [...(formik.values.profile || []), prof])}>
-                      enable
-                    </button>
-                  ) : (
-                    <button
-                      onClick={() =>
-                        formik.setFieldValue(
-                          'profile',
-                          (formik.values.profile || []).filter(v => v !== prof)
-                        )
-                      }
-                    >
-                      disable
-                    </button>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        ) : null}
-
-        {formik.values.type === 'model' ? (
-          <StyledForm.Field>
-            <label>
-              Crowdsourcing Instructions
-              <StyledForm.Input
-                as={'textarea'}
-                name="instructions"
-                required={true}
-                value={formik.values.instructions}
-                onChange={formik.handleChange}
-              />
-            </label>
-          </StyledForm.Field>
-        ) : null}
-      </StyledForm>
+          </StyledFormLabel>
+        </StyledFormField>
+      ) : null}
       {formik.dirty ? (
         <Button type="submit" color="blue" size="small">
           Save
         </Button>
       ) : null}
-    </form>
+    </StyledForm>
   );
 };

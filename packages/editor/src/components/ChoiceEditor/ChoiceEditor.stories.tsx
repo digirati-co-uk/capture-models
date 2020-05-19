@@ -12,10 +12,12 @@ const SimpleInner: React.FC = () => {
   const focus = StructureStore.useStoreActions(act => act.focus);
   const current = StructureStore.useStoreState(state => state.focus.structure);
   const currentPath = StructureStore.useStoreState(state => state.focus.index);
-  const { setLabel, setDescription, addStructureToChoice, removeStructureFromChoice } = useFocusedStructureEditor();
+  const { setLabel, setDescription, setProfile, addStructureToChoice, removeStructureFromChoice, reorderChoices } = useFocusedStructureEditor();
 
   return (
     <ChoiceEditor
+      setProfile={setProfile}
+      reorderChoices={reorderChoices}
       setLabel={setLabel}
       setDescription={setDescription}
       choice={current as StructureType<'choice'>}

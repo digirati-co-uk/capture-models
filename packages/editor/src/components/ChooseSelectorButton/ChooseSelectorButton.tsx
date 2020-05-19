@@ -1,13 +1,12 @@
 import React, { useContext, useState } from 'react';
-import { Dropdown } from 'semantic-ui-react';
-import { DropdownItemProps } from 'semantic-ui-react/dist/commonjs/modules/Dropdown/DropdownItem';
+import { Dropdown, DropdownOption } from '../../atoms/Dropdown';
 import { PluginContext } from '@capture-models/plugin-api';
 // Pull in the build-in selectors.
 import '../../selector-types/BoxSelector/index';
 
 type Props = {
   value?: string;
-  onChange: (term: string) => void;
+  onChange: (term?: string) => void;
 };
 
 export const ChooseSelectorButton: React.FC<Props> = ({ value: initialValue, onChange }) => {
@@ -21,9 +20,9 @@ export const ChooseSelectorButton: React.FC<Props> = ({ value: initialValue, onC
         fluid
         selection
         value={value}
-        onChange={(_, ev) => {
-          onChange(ev.value as string);
-          setValue(ev.value as string);
+        onChange={val => {
+          onChange(val);
+          setValue(val);
         }}
         options={[
           {
@@ -42,7 +41,7 @@ export const ChooseSelectorButton: React.FC<Props> = ({ value: initialValue, onC
                   }
                 : null
             )
-            .filter(e => e !== null) as DropdownItemProps[]),
+            .filter(e => e !== null) as DropdownOption[]),
         ]}
       />
     </div>

@@ -1,5 +1,6 @@
 import React from 'react';
-import { Button, Card } from 'semantic-ui-react';
+import { Button } from '../../atoms/Button';
+import { Card, CardContent } from '../../atoms/Card';
 import { PluginProvider } from '@capture-models/plugin-api';
 import { FieldWrapper } from './FieldWrapper';
 // Import some plugins
@@ -11,8 +12,8 @@ export default { title: 'Components|Field Wrapper' };
 export const Simple: React.FC = () => {
   return (
     <PluginProvider>
-      <Card fluid={true} style={{ margin: '40px auto', maxWidth: 500 }}>
-        <Card.Content>
+      <Card fluid style={{ margin: '40px auto', maxWidth: 500 }}>
+        <CardContent>
           <FieldWrapper
             field={{
               id: '1',
@@ -47,12 +48,12 @@ export const Simple: React.FC = () => {
             term="description"
             onUpdateValue={val => console.log(val)}
           />
-        </Card.Content>
-        <Card.Content style={{ background: '#eee' }} extra textAlign={'right'}>
+        </CardContent>
+        <CardContent style={{ background: '#eee' }} extra textAlign={'right'}>
           <Button primary type="submit">
             Save
           </Button>
-        </Card.Content>
+        </CardContent>
       </Card>
     </PluginProvider>
   );

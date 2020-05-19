@@ -1,4 +1,4 @@
-import { Card } from 'semantic-ui-react';
+import { Card } from '../atoms/Card';
 import { CaptureModelProvider } from './capture-model-provider';
 import React from 'react';
 import { useCaptureModel } from './capture-model';

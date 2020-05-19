@@ -1,6 +1,10 @@
 import copy from 'fast-copy';
-import React, { useContext, useEffect, useState } from 'react';
-import { Button, Card, Dropdown, Form as StyledForm, Grid, Icon, Label, List } from 'semantic-ui-react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
+import { Button } from '../../atoms/Button';
+import { Card, CardHeader, CardContent, CardMeta } from '../../atoms/Card';
+import { Grid, GridColumn } from '../../atoms/Grid';
+import { List, ListItem, ListHeader, ListContent, ListDescription } from '../../atoms/List';
+import { Dropdown } from '../../atoms/Dropdown';
 import { PluginContext } from '@capture-models/plugin-api';
 import { useMiniRouter } from '../../hooks/useMiniRouter';
 import { ChooseSelectorButton } from '../ChooseSelectorButton/ChooseSelectorButton';
@@ -8,6 +12,10 @@ import { NewDocumentForm } from '../NewDocumentForm/NewDocumentForm';
 import { NewFieldForm } from '../NewFieldForm/NewFieldForm';
 import { SubtreeBreadcrumb } from '../SubtreeBreadcrumb/SubtreeBreadcrumb';
 import { CaptureModel, BaseField, SelectorTypeMap, BaseSelector } from '@capture-models/types';
+import { Box } from '@styled-icons/entypo/Box';
+import { Edit } from '@styled-icons/entypo/Edit';
+import { Tag } from '../../atoms/Tag';
+import { StyledForm, StyledFormField, StyledFormInput, StyledFormLabel, StyledCheckbox } from '../../atoms/StyledForm';
 
 export type DocumentEditorProps = {
   setLabel: (label: string) => void;
@@ -49,6 +57,22 @@ export const DocumentEditor: React.FC<DocumentEditorProps> = ({
   const isRoot = subtreePath.length === 0;
   const [metadataOpen, setMetadataOpen] = useState(false);
 
+  const subtreeFieldOptions = useMemo(
+    () => [
+      {
+        key: '',
+        value: '',
+        text: 'none',
+      },
+      ...subtreeFields.map(item => ({
+        key: item.term,
+        value: item.term,
+        text: item.value.label === item.term ? item.term : `${item.value.label} (${item.term})`,
+      })),
+    ],
+    [subtreeFields]
+  );
+
   useEffect(() => {
     if (route !== 'list') {
       deselectField();
@@ -60,104 +84,93 @@ export const DocumentEditor: React.FC<DocumentEditorProps> = ({
       <Card fluid={true}>
         {route === 'list' ? (
           <>
-            <Card.Content>
+            <CardContent>
               <Grid>
                 {subtreePath.length ? (
-                  <Grid.Column width={2}>
-                    <Button icon="left arrow" onClick={() => popSubtree()} />
-                  </Grid.Column>
+                  <GridColumn>
+                    <Button onClick={() => popSubtree()}>back</Button>
+                  </GridColumn>
                 ) : null}
-                <Grid.Column width={13}>
-                  <Card.Header>
+                <GridColumn fluid>
+                  <CardHeader>
                     <SubtreeBreadcrumb popSubtree={popSubtree} subtreePath={subtreePath} />
-                  </Card.Header>
-                  {subtree.description ? <Card.Meta>{subtree.description}</Card.Meta> : null}
-                </Grid.Column>
+                  </CardHeader>
+                  {subtree.description ? <CardMeta>{subtree.description}</CardMeta> : null}
+                </GridColumn>
               </Grid>
-            </Card.Content>
+            </CardContent>
             {metadataOpen ? (
-              <Card.Content extra>
+              <CardContent extra>
                 <StyledForm>
-                  <StyledForm.Field>
-                    <label>
+                  <StyledFormField>
+                    <StyledFormLabel>
                       Label
-                      <StyledForm.Input
+                      <StyledFormInput
                         type="text"
                         name="label"
                         required={true}
                         value={subtree.label}
                         onChange={e => setLabel(e.currentTarget.value)}
                       />
-                    </label>
-                  </StyledForm.Field>
-                  <StyledForm.Field>
-                    <label>
+                    </StyledFormLabel>
+                  </StyledFormField>
+                  <StyledFormField>
+                    <StyledFormLabel>
                       Description
-                      <StyledForm.Input
+                      <StyledFormInput
                         type="textarea"
                         name="description"
                         value={subtree.description}
                         onChange={e => setDescription(e.currentTarget.value)}
                       />
-                    </label>
-                  </StyledForm.Field>
+                    </StyledFormLabel>
+                  </StyledFormField>
                   {!isRoot && (
                     <>
-                      <StyledForm.Field>
-                        <label>
-                          Allow multiple instances
-                          <StyledForm.Input
+                      <StyledFormField>
+                        <StyledFormLabel>
+                          <StyledCheckbox
                             type="checkbox"
                             name="allowMultiple"
                             checked={!!subtree.allowMultiple}
-                            value={!!subtree.allowMultiple}
+                            value={!!subtree.allowMultiple as any}
                             onChange={e => setAllowMultiple(e.currentTarget.checked)}
                           />
-                        </label>
-                      </StyledForm.Field>
+                          Allow multiple instances
+                        </StyledFormLabel>
+                      </StyledFormField>
                       {subtree.allowMultiple ? (
-                        <StyledForm.Field>
-                          <label>
+                        <StyledFormField>
+                          <StyledFormLabel>
                             Plural label (used when referring to lists of this document)
-                            <StyledForm.Input
+                            <StyledFormInput
                               type="textarea"
                               name="pluralLabel"
                               value={subtree.pluralLabel}
                               onChange={e => setPluralLabel(e.currentTarget.value)}
                             />
-                          </label>
-                        </StyledForm.Field>
+                          </StyledFormLabel>
+                        </StyledFormField>
                       ) : null}
                     </>
                   )}
-                  <StyledForm.Field>
-                    <label>
+                  <StyledFormField>
+                    <StyledFormLabel>
                       Entity labelled by property
                       <Dropdown
                         placeholder="Choose property"
                         fluid
                         selection
                         value={subtree.labelledBy}
-                        onChange={(_, ev) => {
-                          setLabelledBy(ev.value as string);
+                        onChange={val => {
+                          setLabelledBy(val || '');
                         }}
-                        options={[
-                          {
-                            key: '',
-                            value: '',
-                            text: 'none',
-                          },
-                          ...subtreeFields.map(item => ({
-                            key: item.term,
-                            value: item.term,
-                            text: item.value.label === item.term ? item.term : `${item.value.label} (${item.term})`,
-                          })),
-                        ]}
+                        options={subtreeFieldOptions}
                       />
-                    </label>
-                  </StyledForm.Field>
-                  <StyledForm.Field>
-                    <label>
+                    </StyledFormLabel>
+                  </StyledFormField>
+                  <StyledFormField>
+                    <StyledFormLabel>
                       Choose selector (optional)
                       <ChooseSelectorButton
                         value={subtree.selector ? subtree.selector.type : ''}
@@ -177,24 +190,24 @@ export const DocumentEditor: React.FC<DocumentEditorProps> = ({
                           }
                         }}
                       />
-                    </label>
-                  </StyledForm.Field>
+                    </StyledFormLabel>
+                  </StyledFormField>
                 </StyledForm>
                 <Button size="tiny" onClick={() => setMetadataOpen(m => !m)}>
                   Close metadata
                 </Button>
-              </Card.Content>
+              </CardContent>
             ) : (
-              <Card.Content extra>
+              <CardContent extra>
                 <Button size="tiny" onClick={() => setMetadataOpen(m => !m)}>
                   Edit metadata
                 </Button>
-              </Card.Content>
+              </CardContent>
             )}
-            <Card.Content extra>
-              <List relaxed selection size="large">
+            <CardContent extra>
+              <List>
                 {subtreeFields.map(({ value: item, term }, key) => (
-                  <List.Item
+                  <ListItem
                     key={key}
                     style={{ background: term === selectedField ? '#cbd3ed' : undefined }}
                     onClick={() => {
@@ -205,19 +218,19 @@ export const DocumentEditor: React.FC<DocumentEditorProps> = ({
                       }
                     }}
                   >
-                    <List.Content floated="right">
-                      <Label>{item.type}</Label>
-                    </List.Content>
-                    <Icon name={item.type === 'entity' ? 'box' : 'tag'} />
-                    <List.Content>
-                      <List.Header>{item.label === term ? term : `${item.label} (${term})`}</List.Header>
-                      {item.description ? <List.Description>{item.description}</List.Description> : null}
-                    </List.Content>
-                  </List.Item>
+                    {item.type === 'entity' ? <Box size={16} /> : <Edit size={16} />}
+                    <ListContent fluid>
+                      <ListHeader>{item.label === term ? term : `${item.label} (${term})`}</ListHeader>
+                      {item.description ? <ListDescription>{item.description}</ListDescription> : null}
+                    </ListContent>
+                    <ListContent>
+                      <Tag>{item.type}</Tag>
+                    </ListContent>
+                  </ListItem>
                 ))}
               </List>
-            </Card.Content>
-            <Card.Content extra>
+            </CardContent>
+            <CardContent extra>
               <p>Add a new field</p>
               <NewFieldForm
                 key={Object.keys(subtree.properties).length}
@@ -243,21 +256,21 @@ export const DocumentEditor: React.FC<DocumentEditorProps> = ({
                   router.list();
                 }}
               />
-            </Card.Content>
+            </CardContent>
           </>
         ) : route === 'newField' ? (
           <>
-            <Card.Content>
+            <CardContent>
               <Grid>
-                <Grid.Column width={2}>
-                  <Button icon="left arrow" onClick={router.list} />
-                </Grid.Column>
-                <Grid.Column width={13}>
-                  <Card.Header>Create new field</Card.Header>
-                </Grid.Column>
+                <GridColumn>
+                  <Button onClick={router.list}>back</Button>
+                </GridColumn>
+                <GridColumn fluid>
+                  <CardHeader>Create new field</CardHeader>
+                </GridColumn>
               </Grid>
-            </Card.Content>
-            <Card.Content extra>
+            </CardContent>
+            <CardContent extra>
               <NewFieldForm
                 existingTerms={Object.keys(subtree.properties)}
                 onSave={newField => {
@@ -281,22 +294,22 @@ export const DocumentEditor: React.FC<DocumentEditorProps> = ({
                   router.list();
                 }}
               />
-            </Card.Content>
+            </CardContent>
           </>
         ) : (
           <>
-            <Card.Content>
+            <CardContent>
               <Grid>
-                <Grid.Column width={2}>
-                  <Button icon="left arrow" onClick={router.list} />
-                </Grid.Column>
-                <Grid.Column width={13}>
-                  <Card.Header>Create new document</Card.Header>
-                </Grid.Column>
+                <GridColumn>
+                  <Button onClick={router.list}>back</Button>
+                </GridColumn>
+                <GridColumn fluid>
+                  <CardHeader>Create new document</CardHeader>
+                </GridColumn>
               </Grid>
-            </Card.Content>
+            </CardContent>
 
-            <Card.Content extra>
+            <CardContent extra>
               <NewDocumentForm
                 existingTerms={Object.keys(subtree.properties)}
                 onSave={newDoc => {
@@ -319,15 +332,15 @@ export const DocumentEditor: React.FC<DocumentEditorProps> = ({
                   router.list();
                 }}
               />
-            </Card.Content>
+            </CardContent>
           </>
         )}
-        <Card.Content extra>
+        <CardContent extra>
           <p>Add an nested entity field</p>
           <Button fluid onClick={router.newDocument}>
             Add Entity
           </Button>
-        </Card.Content>
+        </CardContent>
       </Card>
     </div>
   );

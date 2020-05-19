@@ -1,6 +1,6 @@
 import { CaptureModel, BaseField } from '@capture-models/types';
 import React from 'react';
-import { Grid, Header, Segment } from 'semantic-ui-react';
+import { Grid, GridColumn } from '../../atoms/Grid';
 import { DocumentStore } from './document-store';
 import { DocumentEditor } from '../../components/DocumentEditor/DocumentEditor';
 import { FieldEditor } from '../../components/FieldEditor/FieldEditor';
@@ -21,7 +21,7 @@ const Test: React.FC = () => {
 
   return (
     <Grid padded>
-      <Grid.Column width={6}>
+      <GridColumn>
         <DocumentEditor
           setSelector={actions.setSelector}
           selectField={actions.selectField}
@@ -38,8 +38,8 @@ const Test: React.FC = () => {
           subtreePath={state.subtreePath}
           addField={actions.addField}
         />
-      </Grid.Column>
-      <Grid.Column width={10}>
+      </GridColumn>
+      <GridColumn fluid>
         {state.selectedField ? (
           <div>
             <FieldEditor
@@ -52,11 +52,11 @@ const Test: React.FC = () => {
             />
           </div>
         ) : (
-          <Segment placeholder>
-            <Header icon>No field selected</Header>
-          </Segment>
+          <div placeholder>
+            <div>No field selected</div>
+          </div>
         )}
-      </Grid.Column>
+      </GridColumn>
     </Grid>
   );
 };

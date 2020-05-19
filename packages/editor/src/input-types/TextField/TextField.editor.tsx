@@ -1,6 +1,6 @@
 import { Field } from 'formik';
 import React from 'react';
-import { Form } from 'semantic-ui-react';
+import { StyledFormField, StyledFormInputElement, StyledFormLabel } from '../../atoms/StyledForm';
 
 type Props = {
   placeholder?: string;
@@ -12,12 +12,12 @@ type Props = {
 const TextFieldEditor: React.FC<Props> = ({ children, ...props }) => {
   return (
     <>
-      <Form.Field>
-        <label>
+      <StyledFormField>
+        <StyledFormLabel>
           Placeholder
-          <Field type="text" name="placeholder" required={false} />
-        </label>
-      </Form.Field>
+          <Field as={StyledFormInputElement} type="text" name="placeholder" value={props.placeholder} required={false} />
+        </StyledFormLabel>
+      </StyledFormField>
     </>
   );
 };

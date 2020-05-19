@@ -18,7 +18,6 @@ export const indexPage: RouteMiddleware = async (ctx, next) => {
     <head>
     <title>Crowdsourcing Editor</title>
       <link rel="stylesheet" href="${base}${ctx.routes.url('assets', appCss)}" />
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" />
     </head>
     <body>
       <div id="root"></div>

@@ -1,5 +1,4 @@
 import { StructureType } from '@capture-models/types';
-import { Menu } from 'semantic-ui-react';
 import React from 'react';
 
 export const TabNavigation: React.FC<{
@@ -12,15 +11,21 @@ export const TabNavigation: React.FC<{
   }, [choice.items, onChoice]);
 
   return (
-    <Menu pointing secondary>
+    <div style={{ display: 'flex' }}>
       {choice.items.map((model, key) => {
         // Possibly throw error.
         if (model.type !== 'model') return null;
 
         return (
-          <Menu.Item key={key} name={model.label} active={currentId === model.id} onClick={() => onChoice(model.id)} />
+          <div
+            key={key}
+            style={{ borderBottom: currentId === model.id ? '2px solid #333' : '2px solid transparent', padding: 5 }}
+            onClick={() => onChoice(model.id)}
+          >
+            {model.label}
+          </div>
         );
       })}
-    </Menu>
+    </div>
   );
 };

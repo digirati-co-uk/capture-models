@@ -1,8 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, Form as StyledForm, Message } from 'semantic-ui-react';
+import { Button } from '../../atoms/Button';
 import { PluginContext } from '@capture-models/plugin-api';
 import { ChooseSelectorButton } from '../ChooseSelectorButton/ChooseSelectorButton';
 import { SelectorSpecification } from '@capture-models/types';
+import { ErrorMessage } from '../../atoms/Message';
+import { StyledForm, StyledFormField, StyledFormInput } from '../../atoms/StyledForm';
 
 type Props = {
   existingTerms: string[];
@@ -15,7 +17,8 @@ export const NewDocumentForm: React.FC<Props> = ({ existingTerms, onSave }) => {
   const { selectors } = useContext(PluginContext);
   const [selectorType, setSelectorType] = useState<keyof typeof selectors | ''>('');
 
-  const onSubmit = () => {
+  const onSubmit = (e: any) => {
+    e.preventDefault();
     const selector = selectorType ? selectors[selectorType] : undefined;
     onSave({
       term,
@@ -34,10 +37,10 @@ export const NewDocumentForm: React.FC<Props> = ({ existingTerms, onSave }) => {
 
   return (
     <StyledForm onSubmit={onSubmit} autoComplete="off">
-      <StyledForm.Field>
+      <StyledFormField>
         <label>
           JSON Key / Term
-          <StyledForm.Input
+          <StyledFormInput
             type="text"
             name="term"
             required={true}
@@ -45,14 +48,14 @@ export const NewDocumentForm: React.FC<Props> = ({ existingTerms, onSave }) => {
             onChange={e => setTerm(e.currentTarget.value)}
           />
         </label>
-      </StyledForm.Field>
-      <StyledForm.Field>
+      </StyledFormField>
+      <StyledFormField>
         <label>
           Choose selector (optional)
           <ChooseSelectorButton onChange={t => setSelectorType(t as any)} />
         </label>
-      </StyledForm.Field>
-      {error ? <Message negative>{error}</Message> : null}
+      </StyledFormField>
+      {error ? <ErrorMessage>{error}</ErrorMessage> : null}
       <Button disabled={error !== '' || term === ''} primary>
         Save
       </Button>

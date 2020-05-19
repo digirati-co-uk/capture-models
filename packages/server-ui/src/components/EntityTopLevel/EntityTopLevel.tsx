@@ -1,8 +1,7 @@
-import { BackgroundSplash, CardButton, RoundedCard } from '@capture-models/editor';
+import { BackgroundSplash, CardButton } from '@capture-models/editor';
 import { useRefinement } from '@capture-models/plugin-api';
 import { BaseField, CaptureModel, EntityRefinement } from '@capture-models/types';
 import React from 'react';
-import { Breadcrumb } from 'semantic-ui-react';
 import { FieldList } from '../FieldList/FieldList';
 import { VerboseSelector } from '../VerboseSelector/VerboseSelector';
 
@@ -82,19 +81,20 @@ export const EntityTopLevel: React.FC<{
     return body;
   }
 
+  // @todo breadcrumbs.
   return (
     <BackgroundSplash
       header={title || entity.instance.label || 'New revision'}
       description={description || entity.instance.description}
     >
-      {staticBreadcrumbs ? (
-        <RoundedCard size={'small'}>
-          <Breadcrumb
-            icon="right angle"
-            sections={staticBreadcrumbs.map((content, key) => ({ key, content, link: false }))}
-          />
-        </RoundedCard>
-      ) : null}
+      {/*{staticBreadcrumbs ? (*/}
+      {/*  <RoundedCard size={'small'}>*/}
+      {/*    <Breadcrumb*/}
+      {/*      icon="right angle"*/}
+      {/*      sections={staticBreadcrumbs.map((content, key) => ({ key, content, link: false }))}*/}
+      {/*    />*/}
+      {/*  </RoundedCard>*/}
+      {/*) : null}*/}
       {body}
       {goBack ? <CardButton onClick={goBack}>{readOnly ? 'Go back' : 'Finish and save'}</CardButton> : null}
       {children}

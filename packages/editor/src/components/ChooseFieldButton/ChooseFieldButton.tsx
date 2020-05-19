@@ -1,10 +1,9 @@
 import React, { useContext, useState } from 'react';
-import { Dropdown } from 'semantic-ui-react';
-import { DropdownItemProps } from 'semantic-ui-react/dist/commonjs/modules/Dropdown/DropdownItem';
+import { Dropdown } from '../../atoms/Dropdown';
 import { PluginContext } from '@capture-models/plugin-api';
 
 type Props = {
-  onChange: (term: string) => void;
+  onChange: (term?: string) => void;
   fieldType?: string;
 };
 
@@ -22,9 +21,9 @@ export const ChooseFieldButton: React.FC<Props> = ({ onChange, fieldType }) => {
       fluid
       selection
       value={value}
-      onChange={(_, ev) => {
-        onChange(ev.value as string);
-        setValue(ev.value as string);
+      onChange={v => {
+        onChange(v);
+        setValue(v);
       }}
       options={
         Object.values(fields)
@@ -38,7 +37,7 @@ export const ChooseFieldButton: React.FC<Props> = ({ onChange, fieldType }) => {
                 }
               : null
           )
-          .filter(e => e !== null) as DropdownItemProps[]
+          .filter(e => e !== null) as any[]
       }
     />
   );

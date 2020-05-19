@@ -1,7 +1,20 @@
+// Atoms
+export * from './atoms/Breadcrumb';
+export * from './atoms/Button';
+export * from './atoms/Card';
+export * from './atoms/ConfirmButton';
+export * from './atoms/Dropdown';
+export * from './atoms/Grid';
+export * from './atoms/Input';
+export * from './atoms/List';
+export * from './atoms/Message';
+export * from './atoms/Segment';
+export * from './atoms/StyledForm';
+export * from './atoms/Tag';
+
 // Components
 export * from './components/BackgroundSplash/BackgroundSplash';
 export * from './components/CaptureModelList/CaptureModelList';
-export * from './components/CaptureModelSetup/CaptureModelSetup';
 export * from './components/CardButton/CardButton';
 export * from './components/CardButtonGroup/CardButtonGroup';
 export * from './components/CardDropdown/CardDropdown';

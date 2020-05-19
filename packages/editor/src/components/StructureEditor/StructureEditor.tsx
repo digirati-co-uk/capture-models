@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Segment } from 'semantic-ui-react';
+import { Grid, GridColumn } from '../../atoms/Grid';
 import { ChoiceEditor } from '../ChoiceEditor/ChoiceEditor';
 import { ModelEditor } from '../ModelEditor/ModelEditor';
 import { CaptureModel, ModelFields, StructureType } from '@capture-models/types';
@@ -47,10 +47,10 @@ export const StructureEditor: React.FC<Props> = ({
   console.log(tree);
   return (
     <Grid padded>
-      <Grid.Column width={6}>
+      <GridColumn>
         <Tree tree={tree[0]} onClick={({ key }) => setFocus(key)} />
-      </Grid.Column>
-      <Grid.Column width={10}>
+      </GridColumn>
+      <GridColumn fluid>
         {structure ? (
           structure.type === 'choice' ? (
             <ChoiceEditor
@@ -84,9 +84,9 @@ export const StructureEditor: React.FC<Props> = ({
             <div>Unknown type</div>
           )
         ) : (
-          <Segment placeholder>empty</Segment>
+          <div>empty</div>
         )}
-      </Grid.Column>
+      </GridColumn>
     </Grid>
   );
 };

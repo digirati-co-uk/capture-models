@@ -1,5 +1,4 @@
 import { registerRefinement } from '@capture-models/plugin-api';
-import { Message } from 'semantic-ui-react';
 import React from 'react';
 
 registerRefinement({
@@ -10,10 +9,10 @@ registerRefinement({
   },
   refine() {
     return (
-      <Message negative>
-        <Message.Header>Invalid model</Message.Header>
+      <div>
+        <h3>Invalid model</h3>
         <p>This capture model has no fields configured.</p>
-      </Message>
+      </div>
     );
   },
 });

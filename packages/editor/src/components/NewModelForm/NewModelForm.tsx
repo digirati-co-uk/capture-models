@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Button, Form as StyledForm } from 'semantic-ui-react';
+import { Button } from '../../atoms/Button';
 import { createModel } from '@capture-models/helpers';
 import { StructureType } from '@capture-models/types';
+import { StyledForm, StyledFormField, StyledFormInput } from '../../atoms/StyledForm';
 
 type Props = {
   onSave: (choice: StructureType<'model'>) => void;
@@ -10,7 +11,8 @@ type Props = {
 export const NewModelForm: React.FC<Props> = ({ onSave }) => {
   const [label, setLabel] = useState('');
 
-  const onSubmit = () => {
+  const onSubmit = (e: any) => {
+    e.preventDefault();
     if (!label) return;
     onSave(
       createModel({
@@ -21,10 +23,10 @@ export const NewModelForm: React.FC<Props> = ({ onSave }) => {
 
   return (
     <StyledForm onSubmit={onSubmit} autoComplete="off">
-      <StyledForm.Field>
+      <StyledFormField>
         <label>
           Label
-          <StyledForm.Input
+          <StyledFormInput
             type="text"
             name="term"
             required={true}
@@ -33,10 +35,10 @@ export const NewModelForm: React.FC<Props> = ({ onSave }) => {
             onChange={e => setLabel(e.currentTarget.value)}
           />
         </label>
-        <Button disabled={label === ''} primary>
-          Save
-        </Button>
-      </StyledForm.Field>
+      </StyledFormField>
+      <Button disabled={label === ''} primary>
+        Save
+      </Button>
     </StyledForm>
   );
 };

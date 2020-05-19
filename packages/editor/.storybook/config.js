@@ -6,8 +6,10 @@ configure(
   module
 );
 
-import 'semantic-ui-css/semantic.min.css';
 import { setConsoleOptions } from '@storybook/addon-console';
+
+import 'normalize.css/normalize.css';
+import './reset.css';
 
 setConsoleOptions({
   panelExclude: [],

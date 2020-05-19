@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { Button } from 'semantic-ui-react';
+import { Button } from './Button';
 import styled from 'styled-components';
 
 const Portal = styled.div`

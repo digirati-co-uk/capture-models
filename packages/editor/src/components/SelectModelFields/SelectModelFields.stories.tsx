@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { Button, Card, Label } from 'semantic-ui-react';
+import { Button } from '../../atoms/Button';
+import { Card, CardContent } from '../../atoms/Card';
 import { mergeFlatKeys, structureToFlatStructureDefinition } from '../../core/structure-editor';
 import { SelectModelFields } from './SelectModelFields';
 import { CaptureModel } from '@capture-models/types';
+import { Tag } from '../../atoms/Tag';
 
 export default { title: 'Components|Select Model Fields' };
 
@@ -25,29 +27,32 @@ export const Simple: React.FC = () => {
             }}
           />
           <br />
-          <Button intent="danger" minimal={true} onClick={() => setIsSelecting(false)}>
+          <Button alert onClick={() => setIsSelecting(false)}>
             Cancel
           </Button>
         </React.Fragment>
       ) : (
         <Button onClick={() => setIsSelecting(true)}>Add new</Button>
       )}
-      <Card style={{ marginTop: 20 }}>
-        {structureToFlatStructureDefinition(model.document, mergeFlatKeys(selected)).map((struct, key) => (
-          <div key={key} style={{ margin: 5 }}>
-            {struct.label}
-            <Label color="blue" style={{ marginRight: 5, marginLeft: 5 }}>
-              {struct.type}
-            </Label>
-            {struct.key.map((s: string) => (
-              <Label key={s} style={{ marginRight: 5 }}>
-                {s}
-              </Label>
-            ))}
-          </div>
-        ))}
-        <br />
-        <pre>{JSON.stringify(mergeFlatKeys(selected), null, 2)}</pre>
+      <Card fluid style={{ marginTop: 20 }}>
+        <CardContent>
+          {structureToFlatStructureDefinition(model.document, mergeFlatKeys(selected)).map((struct, key) => (
+            <div key={key} style={{ margin: 5 }}>
+              {struct.label}
+              <Tag blue style={{ marginRight: 5, marginLeft: 5 }}>
+                {struct.type}
+              </Tag>
+              {struct.key.map((s: string) => (
+                <Tag key={s} style={{ marginRight: 5 }}>
+                  {s}
+                </Tag>
+              ))}
+            </div>
+          ))}
+        </CardContent>
+        <CardContent extra>
+          <pre>{JSON.stringify(mergeFlatKeys(selected), null, 2)}</pre>
+        </CardContent>
       </Card>
     </div>
   );

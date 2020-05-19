@@ -1,7 +1,8 @@
 import { useFormik } from 'formik';
 import React from 'react';
-import { Button, Form as StyledForm } from 'semantic-ui-react';
+import { Button } from '../../atoms/Button';
 import { CaptureModel } from '@capture-models/types';
+import { StyledForm, StyledFormField, StyledFormInput } from '../../atoms/StyledForm';
 
 type Props = {
   structure: CaptureModel['structure'];
@@ -19,10 +20,10 @@ export const ModelMetadataEditor: React.FC<Props> = ({ structure, onSave }) => {
   return (
     <form onSubmit={formik.handleSubmit}>
       <StyledForm>
-        <StyledForm.Field>
+        <StyledFormField>
           <label>
             Label
-            <StyledForm.Input
+            <StyledFormInput
               type="text"
               name="label"
               required={true}
@@ -30,12 +31,12 @@ export const ModelMetadataEditor: React.FC<Props> = ({ structure, onSave }) => {
               onChange={formik.handleChange}
             />
           </label>
-        </StyledForm.Field>
+        </StyledFormField>
 
-        <StyledForm.Field>
+        <StyledFormField>
           <label>
             Description
-            <StyledForm.Input
+            <StyledFormInput
               type="text"
               name="description"
               required={true}
@@ -43,11 +44,11 @@ export const ModelMetadataEditor: React.FC<Props> = ({ structure, onSave }) => {
               onChange={formik.handleChange}
             />
           </label>
-        </StyledForm.Field>
+        </StyledFormField>
       </StyledForm>
 
       {formik.dirty ? (
-        <Button type="submit" color="blue" size="small">
+        <Button type="submit" primary size="small">
           Save
         </Button>
       ) : null}

@@ -1,7 +1,11 @@
 import React from 'react';
-import { Button, Icon, Label, List } from 'semantic-ui-react';
+import { Button } from '../../atoms/Button';
+import { List, ListContent, ListDescription, ListHeader, ListItem } from '../../atoms/List';
+import { Folder } from '@styled-icons/entypo/Folder'
+import { List as ListIcon } from '@styled-icons/entypo/List'
 import { StructureType } from '@capture-models/types';
 import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
+import { Tag } from '../../atoms/Tag';
 
 type Props = {
   choice: StructureType<'choice'>;
@@ -24,12 +28,11 @@ export const ChoiceList: React.FC<Props> = ({ onRemove, choice, onReorder, pushF
       <Droppable droppableId="droppable">
         {provided => (
           <div {...provided.droppableProps} ref={provided.innerRef}>
-            <List relaxed selection size="large">
+            <List>
               {choice.items.map((item, key) => (
                 <Draggable key={item.id} draggableId={item.id} index={key}>
                   {innerProvided => (
-                    <div
-                      className="item"
+                    <ListItem
                       ref={innerProvided.innerRef}
                       {...innerProvided.draggableProps}
                       {...innerProvided.dragHandleProps}
@@ -37,10 +40,14 @@ export const ChoiceList: React.FC<Props> = ({ onRemove, choice, onReorder, pushF
                         pushFocus(key);
                       }}
                     >
-                      <List.Content floated="right">
+                      {item.type === 'model' ? <ListIcon size={15} /> : <Folder size={15} />}
+                      <ListContent fluid>
+                        <ListHeader>{item.label}</ListHeader>
+                        {item.description ? <ListDescription>{item.description}</ListDescription> : null}
+                      </ListContent>
+                      <ListContent>
                         <Button
-                          color="red"
-                          basic
+                          alert
                           size="mini"
                           onClick={e => {
                             e.preventDefault();
@@ -51,14 +58,9 @@ export const ChoiceList: React.FC<Props> = ({ onRemove, choice, onReorder, pushF
                         >
                           Remove
                         </Button>
-                        <Label>{item.type}</Label>
-                      </List.Content>
-                      <Icon name={item.type === 'model' ? 'tasks' : 'folder'} />
-                      <List.Content>
-                        <List.Header>{item.label}</List.Header>
-                        {item.description ? <List.Description>{item.description}</List.Description> : null}
-                      </List.Content>
-                    </div>
+                        <Tag>{item.type}</Tag>
+                      </ListContent>
+                    </ListItem>
                   )}
                 </Draggable>
               ))}

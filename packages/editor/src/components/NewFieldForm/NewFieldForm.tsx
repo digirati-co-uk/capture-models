@@ -1,9 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, Form as StyledForm, Message } from 'semantic-ui-react';
+import { Button } from '../../atoms/Button';
 import { PluginContext } from '@capture-models/plugin-api';
 import { ChooseFieldButton } from '../ChooseFieldButton/ChooseFieldButton';
 import { ChooseSelectorButton } from '../ChooseSelectorButton/ChooseSelectorButton';
-import { FieldSpecification, FieldTypeMap, FieldTypes, SelectorSpecification } from '@capture-models/types';
+import { FieldSpecification, SelectorSpecification } from '@capture-models/types';
+import { ErrorMessage } from '../../atoms/Message';
+import { StyledForm, StyledFormField, StyledFormInput, StyledFormLabel } from '../../atoms/StyledForm';
 
 type Props = {
   existingTerms: string[];
@@ -47,34 +49,34 @@ export const NewFieldForm: React.FC<Props> = ({ existingTerms, onSave }) => {
 
   return (
     <StyledForm onSubmit={onSubmit} autoComplete="off">
-      <StyledForm.Field>
-        <label>
+      <StyledFormField>
+        <StyledFormLabel>
           Choose field type
           <ChooseFieldButton onChange={t => setFieldType(t as any)} />
-        </label>
-      </StyledForm.Field>
-      <StyledForm.Field>
-        <label>
+        </StyledFormLabel>
+      </StyledFormField>
+      <StyledFormField>
+        <StyledFormLabel>
           Choose selector (optional)
           <ChooseSelectorButton onChange={t => setSelectorType(t as any)} />
-        </label>
-      </StyledForm.Field>
-      <StyledForm.Field>
-        <label>
+        </StyledFormLabel>
+      </StyledFormField>
+      <StyledFormField>
+        <StyledFormLabel>
           JSON Key / Term
-          <StyledForm.Input
+          <StyledFormInput
             type="text"
             name="term"
             required={true}
             value={term}
             onChange={e => setTerm(e.currentTarget.value)}
           />
-        </label>
-        {error ? <Message negative>{error}</Message> : null}
-        <Button disabled={error !== '' || term === ''} primary>
-          Save
-        </Button>
-      </StyledForm.Field>
+        </StyledFormLabel>
+      </StyledFormField>
+      {error ? <ErrorMessage>{error}</ErrorMessage> : null}
+      <Button disabled={error !== '' || term === ''} primary>
+        Save
+      </Button>
     </StyledForm>
   );
 };

@@ -3,4 +3,4 @@ import { ChooseSelectorButton } from './ChooseSelectorButton';
 
 export default { title: 'Components|Choose Selector Button' };
 
-export const Simple: React.FC = () => <ChooseSelectorButton onChange={t => console.log(t)} />;
+export const Simple: React.FC = () => <ChooseSelectorButton value="box-selector" onChange={t => console.log(t)} />;

@@ -1,7 +1,6 @@
-import { DocumentEditor, DocumentStore, FieldEditor, StructureStore } from '@capture-models/editor';
+import { DocumentEditor, DocumentStore, FieldEditor, StructureStore, Grid, GridColumn } from '@capture-models/editor';
 import { BaseField } from '@capture-models/types';
 import React from 'react';
-import { Grid, Header, Segment } from 'semantic-ui-react';
 
 export const FullDocumentEditor: React.FC = () => {
   const state = DocumentStore.useStoreState(s => ({
@@ -15,7 +14,7 @@ export const FullDocumentEditor: React.FC = () => {
 
   return (
     <Grid padded>
-      <Grid.Column width={6}>
+      <GridColumn>
         <DocumentEditor
           selectField={actions.selectField}
           setDescription={actions.setDescription}
@@ -33,8 +32,8 @@ export const FullDocumentEditor: React.FC = () => {
           addField={actions.addField}
           setSelector={actions.setSelector}
         />
-      </Grid.Column>
-      <Grid.Column width={10}>
+      </GridColumn>
+      <GridColumn>
         {state.selectedField ? (
           <div>
             <FieldEditor
@@ -66,11 +65,11 @@ export const FullDocumentEditor: React.FC = () => {
             />
           </div>
         ) : (
-          <Segment placeholder>
-            <Header icon>No field selected</Header>
-          </Segment>
+          <div>
+            <div>No field selected</div>
+          </div>
         )}
-      </Grid.Column>
+      </GridColumn>
     </Grid>
   );
 };

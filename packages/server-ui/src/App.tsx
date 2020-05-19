@@ -9,7 +9,6 @@ import { RevisionsManager } from './containers/RevisionsManager';
 import { CaptureModelEditor } from './containers/CaptureModelEditor';
 import { useApiModel } from './utility/useModels';
 import { useCurrentUser } from './utility/user-context';
-import { Menu } from 'semantic-ui-react';
 
 export const App: React.FC = () => {
   const [selectedContent, setSelectedContent] = useState<{ label: string; manifest: string; thumbnail?: string }>();
@@ -20,27 +19,19 @@ export const App: React.FC = () => {
   return (
     <Revisions.Provider captureModel={captureModel}>
       <div style={{ display: 'flex', flexDirection: 'column', maxHeight: '100vh', height: '100vh' }}>
-        <Menu inverted compact={true} attached={true}>
-          <Menu.Item>
-            <NavLink to="/">Crowdsourcing editor</NavLink>
-          </Menu.Item>
+        <div>
+          <NavLink to="/">Crowdsourcing editor</NavLink>
 
-          <Menu.Item as={NavLink} to="/fixtures">
-            Fixtures
-          </Menu.Item>
+          <NavLink to="/fixtures">Fixtures</NavLink>
 
-          <Menu.Item as={NavLink} to="/viewer">
-            Viewer
-          </Menu.Item>
+          <NavLink to="/viewer">Viewer</NavLink>
 
-          <Menu.Item as={NavLink} to="/editor">
-            Editor
-          </Menu.Item>
+          <NavLink to="/editor">Editor</NavLink>
 
-          <Menu.Item position="right">
+          <div>
             <strong>{user.name}</strong>
-          </Menu.Item>
-        </Menu>
+          </div>
+        </div>
         <Switch>
           <Route path="/" exact>
             <Homepage />
@@ -78,7 +69,7 @@ export const App: React.FC = () => {
             <CaptureModelEditor
               onUpdate={id => {
                 if (id === selectedCaptureModelId) {
-                  console.log('refresh?')
+                  console.log('refresh?');
                   refresh();
                 }
               }}

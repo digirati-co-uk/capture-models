@@ -2,7 +2,6 @@ import { CaptureModelList, CardButton } from '@capture-models/editor';
 import { createChoice, createDocument, generateId } from '@capture-models/helpers';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { Card } from 'semantic-ui-react';
 import { useCaptureModelList } from '../hooks/use-capture-model-list';
 
 export const CaptureModelListing: React.FC = () => {
