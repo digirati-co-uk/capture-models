@@ -44,7 +44,7 @@
     "react-beautiful-dnd": "^13.0.0",
     "react-dom": "^16.10.2",
     "react-draggable": "^4.2.0",
-    "react-functional-select": "^2.3.4",
+    "react-functional-select": "^2.3.5",
     "react-router-dom": "^5.1.2",
     "react-window": "^1.8.5",
     "styled-components": "^5.0.1",
