@@ -23,7 +23,8 @@
     "build-storybook": "build-storybook",
     "build-types": "tsc -p ./ --emitDeclarationOnly",
     "build-ts": "tsc -p ./",
-    "build:prod": "NODE_ENV=production fesk-build --umd && tsc -p ./ --emitDeclarationOnly && build-storybook"
+    "build:prod": "NODE_ENV=production fesk-build --umd && tsc -p ./ --emitDeclarationOnly && build-storybook",
+    "prepare": "NODE_ENV=production fesk-build --umd && tsc -p ./ --emitDeclarationOnly"
   },
   "publishConfig": {
     "access": "public"
