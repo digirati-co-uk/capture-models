@@ -12,7 +12,7 @@ runBuild {
     }
 
     stage('test') {
-        sh('yarn run test')
+        sh('yarn run test --runInBand')
     }
 
 // Commenting out until I can figure out auth.
