@@ -1,4 +1,8 @@
 runBuild {
+    stage('info') {
+        sh('node -v');
+    }
+
     stage ('install') {
         sh('yarn install --frozen-lockfile --non-interactive')
     }
