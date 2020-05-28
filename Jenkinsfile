@@ -12,7 +12,7 @@ runBuild {
     }
 
     stage('test') {
-        sh('yarn run test --runInBand')
+        sh('yarn run test --reporters=jest-junit')
     }
 
 // Commenting out until I can figure out auth.
