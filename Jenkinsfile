@@ -15,7 +15,7 @@ runBuild {
         sh('yarn run test --runInBand')
     }
 
-// Commenting out until I can figure out auth. 
+// Commenting out until I can figure out auth.
 //    stage('publish') {
 //         if(publish()) {
 //               sh("npm version jenkins-${env.BUILD_NUMBER} --no-git-tag-version")
