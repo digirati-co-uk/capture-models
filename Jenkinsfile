@@ -11,9 +11,9 @@ runBuild {
         sh('yarn run build')
     }
 
-   stage('build') {
+    stage('test') {
         sh('yarn run test')
-   }
+    }
 
 // Commenting out until I can figure out auth.
 //    stage('publish') {
