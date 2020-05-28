@@ -13,6 +13,7 @@ runBuild {
 
     stage('test') {
         sh('yarn run test --reporters=jest-junit')
+        junitReports './**/*-junit.xml'
     }
 
 // Commenting out until I can figure out auth.
