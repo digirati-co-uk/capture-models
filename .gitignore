@@ -10,3 +10,4 @@ var
 **/src/**/*.js
 **/src/**/*.js.map
 .jest-cache
+junit.xml
