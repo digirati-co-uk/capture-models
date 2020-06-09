@@ -1,6 +1,6 @@
 {
    "name": "@capture-models/database",
-   "version": "0.3.4-alpha.0+c7cf114",
+   "version": "0.3.4-alpha.5+ffa1216",
    "description": "Capture model database with TypeORM.",
    "main": "lib/index.js",
    "module": "lib/index.js",
@@ -15,7 +15,7 @@
       "directory": "packages/database"
    },
    "devDependencies": {
-      "@capture-models/types": "^0.3.4-alpha.0+c7cf114",
+      "@capture-models/types": "^0.3.4-alpha.5+ffa1216",
       "@types/node": "^8.0.29",
       "@types/slonik": "^22.1.2",
       "@types/uuid": "^3.4.7",
@@ -23,7 +23,7 @@
       "typescript": "^3.7.5"
    },
    "dependencies": {
-      "@capture-models/helpers": "^0.3.4-alpha.0+c7cf114",
+      "@capture-models/helpers": "^0.3.4-alpha.5+ffa1216",
       "fast-copy": "^2.0.4",
       "fast-deep-equal": "^3.1.1",
       "pg": "^7.3.0",
@@ -40,5 +40,5 @@
       "typeorm": "ts-node ../../node_modules/typeorm/cli.js",
       "prepare": "NODE_ENV=production tsc -p ."
    },
-   "gitHead": "c7cf11466bf8c12ff01f3e8a2930aaaedcb52b26"
+   "gitHead": "ffa12167877ba0ef163bc34042fd4a22362f03ee"
 }

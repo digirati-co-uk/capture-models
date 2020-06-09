@@ -6,8 +6,6 @@ import { router } from './router';
 // @ts-ignore
 global.window = typeof global.window === 'undefined' ? {} : global.window;
 
-import '@capture-models/editor';
-
 async function main() {
   console.log('Connecting to database...');
   const db = await CaptureModelDatabase.create(config);

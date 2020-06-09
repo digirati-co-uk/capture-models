@@ -1,4 +1,3 @@
-import { assets } from './middleware/assets';
 import { captureModelExport } from './routes/api/capture-model-export';
 import { captureModelListApi } from './routes/api/caputre-model-list';
 import { choiceRevisionApi } from './routes/api/choice-revision';
@@ -14,14 +13,12 @@ import { updateRevisionApi } from './routes/api/update-revision';
 import { TypedRouter } from './utility/typed-router';
 import { captureModelApi } from './routes/api/capture-model';
 import { revisionApi } from './routes/api/revision';
-import { fixtures, testFixture } from './routes/fixtures';
-import { indexPage, redirectToIndexPage } from './routes/view';
 
 export const router = new TypedRouter({
   // Page routes.
-  'index-page': [TypedRouter.GET, '/crowdsourcing-editor/', indexPage],
-  assets: [TypedRouter.GET, '/crowdsourcing-editor/assets/:folder/:assetName', assets()],
-  'assets-sub': [TypedRouter.GET, '/crowdsourcing-editor/assets/:folder/:subFolder/:assetName', assets()],
+  // 'index-page': [TypedRouter.GET, '/crowdsourcing-editor/', indexPage],
+  // assets: [TypedRouter.GET, '/crowdsourcing-editor/assets/:folder/:assetName', assets()],
+  // 'assets-sub': [TypedRouter.GET, '/crowdsourcing-editor/assets/:folder/:subFolder/:assetName', assets()],
 
   // API Routes.
   'list-capture-models': [TypedRouter.GET, '/api/crowdsourcing/model', captureModelListApi],
@@ -44,14 +41,14 @@ export const router = new TypedRouter({
   'revision-list': [TypedRouter.GET, '/api/crowdsourcing/revision', revisionListApi],
 
   // Fixture routes.
-  'test-fixture': [TypedRouter.GET, '/crowdsourcing-editor/test-fixture/:name/:file', testFixture],
-  fixtures: [TypedRouter.GET, '/crowdsourcing-editor/api/fixtures', fixtures],
+  // 'test-fixture': [TypedRouter.GET, '/crowdsourcing-editor/test-fixture/:name/:file', testFixture],
+  // fixtures: [TypedRouter.GET, '/crowdsourcing-editor/api/fixtures', fixtures],
 
-  // Fallback.
-  'fallback-local-root': [TypedRouter.GET, '/:path', indexPage],
-  'fallback-root': [TypedRouter.GET, '/crowdsourcing-editor/:path', indexPage],
-  'fallback-editor': [TypedRouter.GET, '/crowdsourcing-editor/editor/:id', indexPage],
-  'fallback-viewer': [TypedRouter.GET, '/crowdsourcing-editor/viewer/:id', indexPage],
-  'fallback-editor-path': [TypedRouter.GET, '/crowdsourcing-editor/editor/:id/:path', indexPage],
-  root: [TypedRouter.GET, '/', redirectToIndexPage],
+  // // Fallback.
+  // 'fallback-local-root': [TypedRouter.GET, '/:path', indexPage],
+  // 'fallback-root': [TypedRouter.GET, '/crowdsourcing-editor/:path', indexPage],
+  // 'fallback-editor': [TypedRouter.GET, '/crowdsourcing-editor/editor/:id', indexPage],
+  // 'fallback-viewer': [TypedRouter.GET, '/crowdsourcing-editor/viewer/:id', indexPage],
+  // 'fallback-editor-path': [TypedRouter.GET, '/crowdsourcing-editor/editor/:id/:path', indexPage],
+  // root: [TypedRouter.GET, '/', redirectToIndexPage],
 });

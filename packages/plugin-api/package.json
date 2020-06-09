@@ -1,6 +1,6 @@
 {
   "name": "@capture-models/plugin-api",
-  "version": "0.3.4-alpha.0+c7cf114",
+  "version": "0.3.4-alpha.5+ffa1216",
   "license": "MIT",
   "main": "dist/umd/@capture-models/plugin-api.js",
   "module": "lib/index.js",
@@ -24,7 +24,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@capture-models/types": "^0.3.4-alpha.0+c7cf114",
+    "@capture-models/types": "^0.3.4-alpha.5+ffa1216",
     "react": "^16.12.0"
   },
   "fesk": {
@@ -33,5 +33,5 @@
   "devDependencies": {
     "@fesk/scripts": "1.4.0-pr.a95f698d"
   },
-  "gitHead": "c7cf11466bf8c12ff01f3e8a2930aaaedcb52b26"
+  "gitHead": "ffa12167877ba0ef163bc34042fd4a22362f03ee"
 }
