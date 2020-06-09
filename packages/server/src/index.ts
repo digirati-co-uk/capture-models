@@ -6,7 +6,7 @@ import { router } from './router';
 // @ts-ignore
 global.window = typeof global.window === 'undefined' ? {} : global.window;
 
-import '@capture-models/editor/lib/input-types/TextField';
+import '@capture-models/editor';
 
 async function main() {
   console.log('Connecting to database...');
