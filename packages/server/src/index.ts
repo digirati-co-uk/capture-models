@@ -3,7 +3,7 @@ import { createApp } from './app';
 import { config, port } from './config';
 import { router } from './router';
 
-import '@capture-models/editor/lib/input-types/TextField';
+import '@capture-models/editor';
 
 async function main() {
   console.log('Connecting to database...');
