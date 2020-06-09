@@ -49,6 +49,7 @@ export * from './components/SubtreeBreadcrumb/SubtreeBreadcrumb';
 
 // Default content types.
 import './content-types/CanvasPanel';
+import './content-types/CanvasPanel/CanvasPanel';
 
 // Default input types.
 import './input-types/TextField';

@@ -12,3 +12,4 @@ var
 .jest-cache
 junit.xml
 stats.html
+stats.umd.html

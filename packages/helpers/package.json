@@ -1,6 +1,6 @@
 {
   "name": "@capture-models/helpers",
-  "version": "0.3.0",
+  "version": "0.3.4-alpha.0+c7cf114",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "web": "dist/index.umd.js",
@@ -21,8 +21,8 @@
     "access": "public"
   },
   "dependencies": {
-    "@capture-models/plugin-api": "^0.3.0",
-    "@capture-models/types": "^0.3.0",
+    "@capture-models/plugin-api": "^0.3.4-alpha.0+c7cf114",
+    "@capture-models/types": "^0.3.4-alpha.0+c7cf114",
     "fast-copy": "^2.0.4",
     "immer": "^4.0.1",
     "react": "^16.10.2",
@@ -32,5 +32,6 @@
     "@types/jest": "^25.1.2",
     "@types/react": "^16.9.9",
     "@types/uuid": "^3.4.7"
-  }
+  },
+  "gitHead": "c7cf11466bf8c12ff01f3e8a2930aaaedcb52b26"
 }

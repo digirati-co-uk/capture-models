@@ -1,6 +1,6 @@
 {
   "name": "@capture-models/editor",
-  "version": "0.3.2",
+  "version": "0.3.4-alpha.0+c7cf114",
   "license": "MIT",
   "files": [
     "dist"
@@ -29,14 +29,14 @@
     "access": "public"
   },
   "dependencies": {
-    "@capture-models/helpers": "^0.3.0",
-    "@capture-models/plugin-api": "^0.3.0",
-    "@capture-models/types": "^0.3.0",
-    "@styled-icons/styled-icon": "^10.0.0",
+    "@capture-models/helpers": "^0.3.4-alpha.0+c7cf114",
+    "@capture-models/plugin-api": "^0.3.4-alpha.0+c7cf114",
+    "@capture-models/types": "^0.3.4-alpha.0+c7cf114",
     "@styled-icons/entypo": "^10.0.0",
+    "@styled-icons/styled-icon": "^10.0.0",
+    "canvas-panel-beta": "2.0.0",
     "easy-peasy": "^3.2.3",
     "fast-copy": "^2.0.4",
-    "canvas-panel-beta": "2.0.0",
     "formik": "^2.0.6",
     "immer": "^4.0.1",
     "manifesto.js": "4.0.4",
@@ -83,5 +83,6 @@
     "typescript": "^3.7.5",
     "url-loader": "^3.0.0",
     "webpack-dev-middleware": "^3.7.2"
-  }
+  },
+  "gitHead": "c7cf11466bf8c12ff01f3e8a2930aaaedcb52b26"
 }

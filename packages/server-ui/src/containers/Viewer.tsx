@@ -1,5 +1,5 @@
 import { CardButton, Heading, Revisions, RoundedCard } from '@capture-models/editor';
-import { CanvasPanel } from '@capture-models/editor/lib/content-types/CanvasPanel/CanvasPanel';
+import { CanvasPanel } from '@capture-models/editor';
 import { useContentType } from '@capture-models/plugin-api';
 import { ContentLayout, RootLayout } from '@layouts/core';
 import React, { Suspense, useEffect } from 'react';
