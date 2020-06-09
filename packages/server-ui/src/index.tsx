@@ -1,3 +1,6 @@
+// @ts-ignore
+global.window = global.window ? global.window : {};
+
 import React from 'react';
 import { render } from 'react-dom';
 import { defaultTheme } from '@capture-models/editor';
