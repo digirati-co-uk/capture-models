@@ -379,6 +379,7 @@ export class CaptureModelRepository {
       },
     });
 
+    model.id = generateId();
     model.revisions = [];
     model.contributors = creator ? { [creator.id]: creator } : {};
     model.derivedFrom = id;
