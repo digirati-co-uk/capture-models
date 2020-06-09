@@ -1,10 +1,9 @@
-function _isEntity(input: any) {
+import { CaptureModel } from '@capture-models/types';
+
+export function isEntity(input: any): input is CaptureModel['document'] {
   return input.type === 'entity';
 }
 
-function _isEntityList(input: any[]) {
+export function isEntityList(input: any[]): input is CaptureModel['document'][] {
   return input && input[0] && input[0].type === 'entity';
 }
-
-export const isEntity: import('./invalid-babel-types').IsEntity = _isEntity as any;
-export const isEntityList: import('./invalid-babel-types').IsEntityList = _isEntityList as any;

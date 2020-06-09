@@ -23,7 +23,7 @@ export const FieldEditor: React.FC<{
   field: BaseField;
   term?: string;
   onSubmit: (newProps: BaseField) => void;
-  onDelete: () => void;
+  onDelete?: () => void;
   onChangeFieldType?: (type: string, defaults: any) => void;
 }> = ({ onSubmit, onDelete, onChangeFieldType, field: props, term }) => {
   const ctx = useContext(PluginContext);
@@ -130,11 +130,13 @@ export const FieldEditor: React.FC<{
             <Button type="submit" primary style={{ marginRight: '.5em' }}>
               Save changes
             </Button>
-            <ConfirmButton message="Are you sure you want to remove this field?" onClick={() => onDelete()}>
-              <Button type="button" alert>
-                Delete field
-              </Button>
-            </ConfirmButton>
+            {onDelete ? (
+              <ConfirmButton message="Are you sure you want to remove this field?" onClick={() => onDelete()}>
+                <Button type="button" alert>
+                  Delete field
+                </Button>
+              </ConfirmButton>
+            ) : null}
           </div>
         </Form>
       </Formik>

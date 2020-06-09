@@ -4,7 +4,7 @@ type Props = {
   allowedTags?: string[];
 };
 
-const HTMLFieldEditor: React.FC<Props> = () => {
+const HTMLFieldEditor: React.FC<any> = () => {
   return <div>Editor.</div>;
 };
 

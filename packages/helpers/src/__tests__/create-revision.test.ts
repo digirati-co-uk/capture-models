@@ -4,10 +4,10 @@
 
 import React from 'react';
 import { CaptureModel } from '@capture-models/types';
-import { captureModelToRevisionList } from './capture-model-to-revision-list';
-import { forkDocument } from './create-revision-document';
-import { filterDocumentGraph } from './filter-document-graph';
-import { splitDocumentByModelRoot } from './split-document-by-model-root';
+import { captureModelToRevisionList } from '../capture-model-to-revision-list';
+import { forkDocument } from '../create-revision-document';
+import { filterDocumentGraph } from '../filter-document-graph';
+import { splitDocumentByModelRoot } from '../split-document-by-model-root';
 import { registerField } from '@capture-models/plugin-api';
 
 // Mocked field.

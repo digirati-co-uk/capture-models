@@ -1,15 +1,15 @@
 import { CaptureModel } from '@capture-models/types';
-import { captureModelToRevisionList } from './capture-model-to-revision-list';
+import { captureModelToRevisionList } from '../capture-model-to-revision-list';
 // @ts-ignore
-import single01 from '../../../fixtures/03-revisions/01-single-field-with-revision.json';
+import single01 from '../../../../fixtures/03-revisions/01-single-field-with-revision.json';
 // @ts-ignore
-import single02 from '../../../fixtures/03-revisions/02-single-field-with-multiple-revisions.json';
+import single02 from '../../../../fixtures/03-revisions/02-single-field-with-multiple-revisions.json';
 // @ts-ignore
-import single03 from '../../../fixtures/03-revisions/03-nested-revision.json';
+import single03 from '../../../../fixtures/03-revisions/03-nested-revision.json';
 // @ts-ignore
-import single04 from '../../../fixtures/03-revisions/04-dual-transcription.json';
+import single04 from '../../../../fixtures/03-revisions/04-dual-transcription.json';
 // @ts-ignore
-import single05 from '../../../fixtures/03-revisions/05-allow-multiple-transcriptions.json';
+import single05 from '../../../../fixtures/03-revisions/05-allow-multiple-transcriptions.json';
 
 describe('capture model to revision list', () => {
   test('single-field-with-revision', () => {

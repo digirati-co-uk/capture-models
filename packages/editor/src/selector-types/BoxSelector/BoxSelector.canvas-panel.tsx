@@ -1,8 +1,7 @@
 import { SelectorComponent } from '@capture-models/types';
 import React, { useEffect, useState } from 'react';
 import { BoxSelectorProps } from './BoxSelector';
-// @ts-ignore
-import EditableAnnotation from '@canvas-panel/core/es/components/EditableAnnotation/EditableAnnotation';
+import { EditableAnnotation } from 'canvas-panel-beta';
 import { useViewer } from '../../content-types/CanvasPanel/CanvasPanel';
 
 const BoxSelectorCanvasPanel: SelectorComponent<BoxSelectorProps> = props => {

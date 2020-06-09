@@ -37,6 +37,7 @@ const Test: React.FC = () => {
           selectedField={state.selectedField}
           subtreePath={state.subtreePath}
           addField={actions.addField}
+          setPluralLabel={actions.setPluralLabel}
         />
       </GridColumn>
       <GridColumn fluid>
@@ -52,7 +53,7 @@ const Test: React.FC = () => {
             />
           </div>
         ) : (
-          <div placeholder>
+          <div>
             <div>No field selected</div>
           </div>
         )}

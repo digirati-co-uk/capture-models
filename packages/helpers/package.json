@@ -1,25 +1,21 @@
 {
   "name": "@capture-models/helpers",
   "version": "0.3.0",
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
+  "web": "dist/index.umd.js",
+  "typings": "dist/types/index.d.ts",
+  "author": "Stephen Fraser <stephen.fraser@digirati.com>",
   "license": "MIT",
-  "main": "dist/umd/@capture-models/helpers.js",
-  "module": "lib/index.js",
-  "typings": "lib/index.d.ts",
   "files": [
-    "lib",
     "dist"
   ],
-  "sideEffects": false,
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/digirati-co-uk/capture-models.git",
-    "directory": "packages/helpers"
-  },
   "scripts": {
-    "build": "fesk-build --cjs --umd && cp ./src/invalid-babel-types.d.ts ./lib/invalid-babel-types.d.ts && tsc -p ./ --emitDeclarationOnly",
-    "start": "fesk-start --cjs --umd --noServer",
-    "build-types": "tsc -p ./ --emitDeclarationOnly",
-    "prepare": "NODE_ENV=production fesk-build --umd --cjs && tsc -p ./ --emitDeclarationOnly"
+    "build": "rollup -c && tsc -p ./tsconfig.types.json",
+    "start": "rollup -c --watch",
+    "test": "jest",
+    "build-types": "tsc -p ./tsconfig.types.json",
+    "prepare": "NODE_ENV=production rollup -c && tsc -p ./tsconfig.types.json"
   },
   "publishConfig": {
     "access": "public"
@@ -32,11 +28,7 @@
     "react": "^16.10.2",
     "uuid": "^3.4.0"
   },
-  "fesk": {
-    "typescript": true
-  },
   "devDependencies": {
-    "@fesk/scripts": "1.4.0-pr.a95f698d",
     "@types/jest": "^25.1.2",
     "@types/react": "^16.9.9",
     "@types/uuid": "^3.4.7"

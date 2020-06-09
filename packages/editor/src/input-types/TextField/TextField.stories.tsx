@@ -12,15 +12,7 @@ export const Simple: React.FC = () => {
   const [value, setValue] = React.useState('');
   return (
     <form>
-      <TextField
-        id="1"
-        label="Some label"
-        type="text-field"
-        value={value}
-        updateValue={setValue}
-        iconPosition={boolean('Left icon', false) ? 'left' : undefined}
-        icon={select('Icon', ['', 'search', 'user'], '')}
-      />
+      <TextField id="1" label="Some label" type="text-field" value={value} updateValue={setValue} />
     </form>
   );
 };
@@ -53,6 +45,9 @@ export const TextFieldEditor: React.FC = () => {
             value: 'value 2',
             description: 'Some other longer description',
             label: 'Another field',
+          }}
+          onDelete={() => {
+            console.log('deleted');
           }}
           onSubmit={newField => console.log(newField)}
         />

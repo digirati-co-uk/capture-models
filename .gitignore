@@ -11,3 +11,4 @@ var
 **/src/**/*.js.map
 .jest-cache
 junit.xml
+stats.html
