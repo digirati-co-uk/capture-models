@@ -21,15 +21,15 @@ registerField({
   label: '',
 });
 
-jest.mock('./generate-id');
-const { generateId } = require('./generate-id');
+jest.mock('../generate-id');
+const { generateId } = require('../generate-id');
 
 const GENERATED_ID = '[--------GENERATED-ID--------]';
 
 generateId.mockImplementation(() => GENERATED_ID);
 
 describe('hydratePartialDocument', () => {
-  const captureModel: CaptureModel = require('../../../fixtures/03-revisions/06-model-root.json');
+  const captureModel: CaptureModel = require('../../../../fixtures/03-revisions/06-model-root.json');
   const [
     createFieldA,
     editModelA,

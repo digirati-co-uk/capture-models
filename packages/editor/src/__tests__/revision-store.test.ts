@@ -6,14 +6,14 @@ import { createRevisionStore } from '../stores/revisions/revisions-store';
 import { CaptureModel, StructureType } from '@capture-models/types';
 
 const models: () => any[] = () => [
-  require('../../../../../fixtures/03-revisions/01-single-field-with-revision.json'),
-  require('../../../../../fixtures/03-revisions/02-single-field-with-multiple-revisions.json'),
-  require('../../../../../fixtures/03-revisions/03-nested-revision.json'),
-  require('../../../../../fixtures/03-revisions/04-dual-transcription.json'),
-  require('../../../../../fixtures/03-revisions/05-allow-multiple-transcriptions.json'),
-  require('../../../../../fixtures/04-selectors/01-simple-selector.json'),
-  require('../../../../../fixtures/04-selectors/02-multiple-selectors.json'),
-  require('../../../../../fixtures/04-selectors/03-nested-selector.json'),
+  require('../../../../fixtures/03-revisions/01-single-field-with-revision.json'),
+  require('../../../../fixtures/03-revisions/02-single-field-with-multiple-revisions.json'),
+  require('../../../../fixtures/03-revisions/03-nested-revision.json'),
+  require('../../../../fixtures/03-revisions/04-dual-transcription.json'),
+  require('../../../../fixtures/03-revisions/05-allow-multiple-transcriptions.json'),
+  require('../../../../fixtures/04-selectors/01-simple-selector.json'),
+  require('../../../../fixtures/04-selectors/02-multiple-selectors.json'),
+  require('../../../../fixtures/04-selectors/03-nested-selector.json'),
 ];
 
 describe('Revision store', () => {
