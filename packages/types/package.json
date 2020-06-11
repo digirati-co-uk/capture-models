@@ -1,6 +1,6 @@
 {
   "name": "@capture-models/types",
-  "version": "0.3.0",
+  "version": "0.3.4-alpha.7+34cc778",
   "license": "MIT",
   "types": "src/index.d.ts",
   "repository": {
@@ -19,5 +19,6 @@
   },
   "include": [
     "src/index.d.ts"
-  ]
+  ],
+  "gitHead": "34cc778d1865ae1c0f717b80a39a59143c030f23"
 }

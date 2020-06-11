@@ -5,8 +5,8 @@
 import { registerField } from '@capture-models/plugin-api';
 import { CaptureModel } from '@capture-models/types';
 import React from 'react';
-import { captureModelToRevisionList } from './capture-model-to-revision-list';
-import { hydratePartialDocument } from './hydrate-partial-document';
+import { captureModelToRevisionList } from '../capture-model-to-revision-list';
+import { hydratePartialDocument } from '../hydrate-partial-document';
 
 // Mocked field.
 registerField({

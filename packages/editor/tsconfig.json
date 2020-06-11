@@ -1,29 +1,37 @@
 {
-  "extends": "../../tsconfig.json",
-  "include": [
-    "src/**/*",
-    "../../fixtures/**/*"
-  ],
   "compilerOptions": {
-    "rootDir": "src",
-    "noEmitOnError": false,
-    "declarationDir": "lib",
-    "sourceMap": false,
-    "declarationMap": false
+    "baseUrl": ".",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "allowJs": false,
+    "checkJs": false,
+    "declaration": false,
+    "downlevelIteration": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "importHelpers": true,
+    "skipLibCheck": true,
+    "noEmitHelpers": true,
+    "lib": ["dom", "esnext"],
+    "jsx": "react",
+    "target": "es2015",
+    "module": "es2015",
+    "moduleResolution": "node",
+    "noEmitOnError": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": false,
+    "traceResolution": false,
+    "strict": true,
+    "strictNullChecks": true,
+    "pretty": false,
+    "removeComments": true,
+    "sourceMap": true,
+    "resolveJsonModule": true
   },
-  // Dependencies must be declared in references.
-  "references": [
-    { "path": "../types" },
-    { "path": "../plugin-api" },
-    { "path": "../helpers" }
-  ],
-  "exclude": [
-    "src/stores/revisions/utility",
-    "src/utility",
-    "node_modules",
-    "dist",
-    "lib",
-    "**/*.stories.tsx",
-    "**/*.test.ts"
-  ]
+  "include": ["./src/**/*", "./src/*", "../../fixtures/**/*"],
+  "exclude": ["node_modules", "dist", "lib"]
 }

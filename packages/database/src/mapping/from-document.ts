@@ -1,5 +1,5 @@
 import { BaseField, CaptureModel } from '@capture-models/types';
-import { isEntityList } from '@capture-models/helpers/lib/is-entity';
+import { isEntityList } from '@capture-models/helpers';
 import { Document } from '../entity/Document';
 import { Property } from '../entity/Property';
 import { fromField } from './from-field';

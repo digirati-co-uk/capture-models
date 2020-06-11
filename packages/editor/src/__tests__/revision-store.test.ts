@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { createRevisionStore } from './revisions-store';
+import { createRevisionStore } from '../stores/revisions/revisions-store';
 import { CaptureModel, StructureType } from '@capture-models/types';
 
 const models: () => any[] = () => [

@@ -8,8 +8,7 @@ import {
   OpenSeadragonViewport,
   SingleTileSource,
   Viewport,
-  // @ts-ignore
-} from '@canvas-panel/core';
+} from 'canvas-panel-beta';
 
 export default { title: 'Selectors|Box Selector' };
 

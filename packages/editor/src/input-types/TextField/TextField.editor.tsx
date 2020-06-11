@@ -9,13 +9,19 @@ type Props = {
   iconPosition?: 'left';
 };
 
-const TextFieldEditor: React.FC<Props> = ({ children, ...props }) => {
+const TextFieldEditor: React.FC<any> = ({ children, ...props }) => {
   return (
     <>
       <StyledFormField>
         <StyledFormLabel>
           Placeholder
-          <Field as={StyledFormInputElement} type="text" name="placeholder" value={props.placeholder} required={false} />
+          <Field
+            as={StyledFormInputElement}
+            type="text"
+            name="placeholder"
+            value={props.placeholder}
+            required={false}
+          />
         </StyledFormLabel>
       </StyledFormField>
     </>

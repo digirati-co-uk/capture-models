@@ -29,6 +29,9 @@ export const Simple: React.FC = withStructure(() => {
     addStructureToChoice,
     setModelFields,
     removeStructureFromChoice,
+    setProfile,
+    setInstructions,
+    reorderChoices,
   } = useFocusedStructureEditor();
 
   return (
@@ -39,6 +42,9 @@ export const Simple: React.FC = withStructure(() => {
       setDescription={setDescription}
       onAddChoice={addStructureToChoice}
       onAddModel={addStructureToChoice}
+      setProfile={setProfile}
+      reorderChoices={reorderChoices}
+      setInstructions={setInstructions}
       pushFocus={focus.pushFocus}
       popFocus={focus.popFocus}
       setFocus={focus.setFocus}

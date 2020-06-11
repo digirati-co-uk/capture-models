@@ -3,7 +3,8 @@ import { createApp } from './app';
 import { config, port } from './config';
 import { router } from './router';
 
-import '@capture-models/editor/lib/input-types/TextField';
+// @ts-ignore
+global.window = typeof global.window === 'undefined' ? {} : global.window;
 
 async function main() {
   console.log('Connecting to database...');

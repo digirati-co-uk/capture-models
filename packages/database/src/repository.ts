@@ -362,6 +362,8 @@ export class CaptureModelRepository {
   ): Promise<CaptureModelType> {
     const model = await this.getCaptureModel(id, { context });
 
+    // { context, user }: { context?: string[]; user?: ContributorType } = {}
+
     // This might be able to check if a field exists at a target, but that is for the
     // application calling to decide. It's valid in here to have 2 capture models that are
     // derived form the same model against the same target.
@@ -385,7 +387,7 @@ export class CaptureModelRepository {
     model.derivedFrom = id;
     model.target = target;
 
-    return await this.saveCaptureModel(model);
+    return await this.saveCaptureModel(model, { user: creator, context });
   }
 
   async getRevision(id: string, context?: string[]): Promise<RevisionRequest> {

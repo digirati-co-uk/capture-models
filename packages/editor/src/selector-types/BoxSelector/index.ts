@@ -3,6 +3,7 @@ import React from 'react';
 import { BoxSelector, BoxSelectorProps } from './BoxSelector';
 import { registerSelector } from '@capture-models/plugin-api';
 import '../../content-types/CanvasPanel/index';
+import BoxSelectorCanvasPanel from './BoxSelector.canvas-panel';
 
 declare module '@capture-models/types' {
   export interface SelectorTypeMap {
@@ -18,7 +19,8 @@ const specification: SelectorSpecification<BoxSelectorProps, 'canvas-panel'> = {
   defaultState: null,
   supportedContentTypes: ['canvas-panel'],
   contentComponents: {
-    'canvas-panel': React.lazy(() => import(/* webpackChunkName: "content" */ './BoxSelector.canvas-panel')),
+    // 'canvas-panel': React.lazy(() => import(/* webpackChunkName: "content" */ './BoxSelector.canvas-panel')),
+    'canvas-panel': BoxSelectorCanvasPanel,
   },
 };
 

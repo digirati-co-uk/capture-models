@@ -1,17 +1,11 @@
 {
   "extends": "../../tsconfig.json",
-  "include": [
-    "src/**/*"
-  ],
+  "include": ["src/**/*"],
   "compilerOptions": {
     "rootDir": "src",
     "noEmitOnError": true,
     "declarationDir": "lib"
   },
   // Dependencies must be declared in references.
-  "references": [
-    { "path": "../editor" },
-    { "path": "../plugin-api" },
-    { "path": "../types" }
-  ]
+  "references": [{ "path": "../plugin-api" }, { "path": "../types" }]
 }

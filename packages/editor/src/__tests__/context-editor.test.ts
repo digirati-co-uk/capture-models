@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { addContext, addDefaultContext, removeContext, removeDefaultContext } from './context-editor';
+import { addContext, addDefaultContext, removeContext, removeDefaultContext } from '../core/context-editor';
 import { CaptureModel } from '@capture-models/types';
 
 describe('document editor', () => {

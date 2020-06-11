@@ -1,4 +1,4 @@
-import { createFormFieldReducer } from './current-form';
+import { createFormFieldReducer } from '../core/current-form';
 import { CaptureModel } from '@capture-models/types';
 
 describe('current form', () => {

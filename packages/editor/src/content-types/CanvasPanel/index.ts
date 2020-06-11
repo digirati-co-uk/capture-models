@@ -1,6 +1,6 @@
 import React from 'react';
 import { registerContent } from '@capture-models/plugin-api';
-import { CanvasPanelProps } from './CanvasPanel';
+import CanvasPanel, { CanvasPanelProps } from './CanvasPanel';
 import { ContentSpecification } from '@capture-models/types';
 
 declare module '@capture-models/types' {
@@ -50,7 +50,8 @@ const specification: ContentSpecification<CanvasPanelProps> = {
     canvasId: '',
     manifestId: '',
   },
-  DefaultComponent: React.lazy(() => import(/* webpackChunkName: "content" */ './CanvasPanel')),
+  // DefaultComponent: React.lazy(() => import(/* webpackChunkName: "content" */ './CanvasPanel')),
+  DefaultComponent: CanvasPanel,
 };
 
 registerContent(specification);

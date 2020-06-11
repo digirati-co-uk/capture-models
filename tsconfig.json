@@ -40,23 +40,14 @@
       "@capture-models/*": ["packages/*/src"]
     }
   },
-  "include": [
-    "packages/**/*",
-    "jest.setup.ts"
-  ],
+  "include": ["packages/**/*", "jest.setup.ts"],
   // Need to be manually added for each package.
   "references": [
     { "path": "packages/types" },
     { "path": "packages/database" },
-    { "path": "packages/editor" },
     { "path": "packages/server" },
     { "path": "packages/server-ui" },
     { "path": "packages/plugin-api" }
   ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "lib",
-    "__mocks__"
-  ]
+  "exclude": ["node_modules", "dist", "lib", "__mocks__"]
 }

@@ -9,7 +9,7 @@ import {
   getDocumentFields,
   mergeFlatKeys,
   structureToFlatStructureDefinition,
-} from './structure-editor';
+} from '../core/structure-editor';
 import '../input-types/TextField';
 
 describe('structure editor', () => {

@@ -1,14 +1,10 @@
 {
   "name": "@capture-models/editor",
-  "version": "0.3.2",
+  "version": "0.3.4-alpha.7+34cc778",
   "license": "MIT",
   "files": [
-    "dist",
-    "lib"
+    "dist"
   ],
-  "main": "dist/umd/@capture-models/editor.js",
-  "module": "lib/index.js",
-  "typings": "lib/index.d.ts",
   "author": "Stephen Fraser <stephen.fraser@digirati.com>",
   "sideEffects": false,
   "repository": {
@@ -16,29 +12,34 @@
     "url": "https://github.com/digirati-co-uk/capture-models.git",
     "directory": "packages/editor"
   },
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
+  "web": "dist/index.umd.js",
+  "typings": "dist/types/index.d.ts",
   "scripts": {
-    "build": "fesk-build --umd --cjs && tsc -p ./ --emitDeclarationOnly",
-    "start": "fesk-start --cjs --umd --noServer",
+    "build": "rollup -c && tsc -p ./tsconfig.types.json",
+    "start": "rollup -c --watch",
+    "test": "jest",
+    "build-types": "tsc -p ./tsconfig.types.json",
+    "prepare": "NODE_ENV=production rollup -c && tsc -p ./tsconfig.types.json",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
-    "build-types": "tsc -p ./ --emitDeclarationOnly",
-    "build-ts": "tsc -p ./",
-    "build:prod": "NODE_ENV=production fesk-build --umd && tsc -p ./ --emitDeclarationOnly && build-storybook",
-    "prepare": "NODE_ENV=production fesk-build --umd && tsc -p ./ --emitDeclarationOnly"
+    "build-storybook": "build-storybook"
   },
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "@canvas-panel/core": "^0.2.0",
-    "@capture-models/helpers": "^0.3.0",
-    "@capture-models/plugin-api": "^0.3.0",
-    "@capture-models/types": "^0.3.0",
+    "@capture-models/helpers": "^0.3.4-alpha.7+34cc778",
+    "@capture-models/plugin-api": "^0.3.4-alpha.7+34cc778",
+    "@capture-models/types": "^0.3.4-alpha.7+34cc778",
     "@styled-icons/entypo": "^10.0.0",
+    "@styled-icons/styled-icon": "^10.0.0",
+    "canvas-panel-beta": "2.0.0",
     "easy-peasy": "^3.2.3",
     "fast-copy": "^2.0.4",
     "formik": "^2.0.6",
     "immer": "^4.0.1",
+    "manifesto.js": "4.0.4",
     "normalize.css": "^8.0.1",
     "prop-types": "^15.7.2",
     "react": "^16.10.2",
@@ -56,7 +57,6 @@
     "@babel/core": "^7.8.3",
     "@babel/plugin-syntax-jsx": "^7.8.3",
     "@babel/plugin-transform-modules-commonjs": "^7.8.3",
-    "@fesk/scripts": "1.4.0-pr.a95f698d",
     "@storybook/addon-actions": "^5.2.8",
     "@storybook/addon-console": "^1.2.1",
     "@storybook/addon-knobs": "^5.2.4",
@@ -84,7 +84,5 @@
     "url-loader": "^3.0.0",
     "webpack-dev-middleware": "^3.7.2"
   },
-  "fesk": {
-    "typescript": true
-  }
+  "gitHead": "34cc778d1865ae1c0f717b80a39a59143c030f23"
 }

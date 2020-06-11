@@ -2,7 +2,7 @@ import { useRefinement } from '@capture-models/plugin-api';
 import React from 'react';
 import { FieldHeader, RoundedCard } from '@capture-models/editor';
 import { BaseField, CaptureModel, FieldListRefinement } from '@capture-models/types';
-import { isEntityList } from '@capture-models/helpers/lib/is-entity';
+import { isEntityList } from '@capture-models/helpers';
 import { EntityInstanceList } from '../EntityInstanceList/EntityInstanceList';
 import { FieldInstanceList } from '../FieldInstanceList/FieldInstanceList';
 

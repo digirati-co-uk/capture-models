@@ -6,8 +6,7 @@ import {
   OpenSeadragonViewport,
   SingleTileSource,
   Viewport,
-  // @ts-ignore
-} from '@canvas-panel/core';
+} from 'canvas-panel-beta';
 import { createContext } from '@capture-models/helpers';
 import { BaseContent } from '@capture-models/types';
 import React, { Suspense, useEffect, useRef, useState } from 'react';
