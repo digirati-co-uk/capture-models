@@ -20,6 +20,7 @@ export * from './fork-field';
 export * from './fork-existing-revision';
 export * from './get-revision-field-from-path';
 export * from './generate-id';
+export * from './get-label';
 export * from './hydrate-partial-document';
 export * from './is-entity';
 export * from './item-from-index';
