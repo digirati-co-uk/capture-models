@@ -1,6 +1,6 @@
 {
   "name": "@capture-models/editor",
-  "version": "0.3.4-alpha.7+34cc778",
+  "version": "0.4.0",
   "license": "MIT",
   "files": [
     "dist"
@@ -29,9 +29,9 @@
     "access": "public"
   },
   "dependencies": {
-    "@capture-models/helpers": "^0.3.4-alpha.7+34cc778",
-    "@capture-models/plugin-api": "^0.3.4-alpha.7+34cc778",
-    "@capture-models/types": "^0.3.4-alpha.7+34cc778",
+    "@capture-models/helpers": "^0.4.0",
+    "@capture-models/plugin-api": "^0.4.0",
+    "@capture-models/types": "^0.4.0",
     "@styled-icons/entypo": "^10.0.0",
     "@styled-icons/styled-icon": "^10.0.0",
     "canvas-panel-beta": "2.0.0",
