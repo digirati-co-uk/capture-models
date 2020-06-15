@@ -57,7 +57,7 @@
     "use-debounce": "^3.3.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.8.3",
+    "@babel/core": "^7.8.7",
     "@babel/plugin-syntax-jsx": "^7.8.3",
     "@babel/plugin-transform-modules-commonjs": "^7.8.3",
     "@fesk/scripts": "1.4.0-pr.a95f698d",
