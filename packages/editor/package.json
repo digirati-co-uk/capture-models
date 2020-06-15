@@ -3,7 +3,8 @@
   "version": "0.4.3",
   "license": "MIT",
   "files": [
-    "dist"
+    "dist",
+    "lib"
   ],
   "author": "Stephen Fraser <stephen.fraser@digirati.com>",
   "sideEffects": false,

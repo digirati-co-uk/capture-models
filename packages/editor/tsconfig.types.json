@@ -1,7 +1,7 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "./dist/types",
+    "outDir": "./lib",
     "declaration": true,
     "module": "esnext",
     "emitDeclarationOnly": true,
