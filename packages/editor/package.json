@@ -1,6 +1,6 @@
 {
   "name": "@capture-models/editor",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "license": "MIT",
   "files": [
     "dist"
@@ -34,9 +34,9 @@
     "@capture-models/helpers": "^0.4.0",
     "@capture-models/plugin-api": "^0.4.0",
     "@capture-models/types": "^0.4.0",
+    "@iiif/vocabulary": "1.0.17",
     "@styled-icons/entypo": "^10.0.0",
     "@styled-icons/styled-icon": "^10.0.0",
-    "@iiif/vocabulary": "1.0.17",
     "canvas-panel-beta": "2.0.0",
     "easy-peasy": "^3.2.3",
     "fast-copy": "^2.0.4",
