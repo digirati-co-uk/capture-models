@@ -14,7 +14,7 @@
   },
   "main": "dist/umd/@capture-models/editor.js",
   "module": "lib/index.js",
-  "typings": "lib/index.d.ts",
+  "typings": "dist/types/index.d.ts",
   "scripts": {
     "build": "fesk-build --umd --cjs && tsc -p ./tsconfig.types.json",
     "start": "fesk-start --cjs --umd --noServer",
