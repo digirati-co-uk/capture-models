@@ -16,7 +16,7 @@
     "lib": ["dom", "esnext"],
     "jsx": "react",
     "target": "es2015",
-    "module": "es2015",
+    "module": "esnext",
     "moduleResolution": "node",
     "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,

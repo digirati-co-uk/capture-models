@@ -1,6 +1,5 @@
 import React from 'react';
 import { HTMLField, HTMLFieldProps } from './HTMLField';
-import HTMLEditor from './HTMLField.editor';
 import { registerField } from '@capture-models/plugin-api';
 import { FieldSpecification } from '@capture-models/types';
 
@@ -19,8 +18,8 @@ const specification: FieldSpecification<HTMLFieldProps> = {
   TextPreview: () => React.createElement(React.Fragment, {}, ['Not yet implemented']),
   description: 'HTML WYSIWYG Editor for rich text, with custom HTML tag options',
   Component: HTMLField,
-  Editor: HTMLEditor,
-  // Editor: React.lazy(() => import(/* webpackChunkName: "editors" */ './HTMLField.editor')),
+  // Editor: HTMLEditor,
+  Editor: React.lazy(() => import(/* webpackChunkName: "editors" */ './HTMLField.editor')),
 };
 
 registerField(specification);
