@@ -1,6 +1,6 @@
 {
   "name": "@capture-models/editor",
-  "version": "0.4.6",
+  "version": "0.4.3",
   "license": "MIT",
   "files": [
     "dist",
@@ -15,7 +15,7 @@
   },
   "main": "dist/umd/@capture-models/editor.js",
   "module": "lib/index.js",
-  "typings": "dist/types/index.d.ts",
+  "typings": "lib/index.d.ts",
   "scripts": {
     "build": "fesk-build --umd --cjs && tsc -p ./tsconfig.types.json",
     "start": "fesk-start --cjs --umd --noServer",
