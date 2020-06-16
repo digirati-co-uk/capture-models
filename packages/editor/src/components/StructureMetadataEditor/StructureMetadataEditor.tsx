@@ -46,7 +46,6 @@ export const StructureMetadataEditor: React.FC<Props> = ({ profiles = [], struct
           <StyledFormTextarea
             name="description"
             id="description"
-            required={true}
             value={formik.values.description}
             onChange={formik.handleChange}
           />
@@ -90,12 +89,7 @@ export const StructureMetadataEditor: React.FC<Props> = ({ profiles = [], struct
         <StyledFormField>
           <StyledFormLabel>
             Crowdsourcing Instructions
-            <StyledFormTextarea
-              name="instructions"
-              required={true}
-              value={formik.values.instructions}
-              onChange={formik.handleChange}
-            />
+            <StyledFormTextarea name="instructions" value={formik.values.instructions} onChange={formik.handleChange} />
           </StyledFormLabel>
         </StyledFormField>
       ) : null}
