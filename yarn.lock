@@ -1886,36 +1886,6 @@
     screenfull "^3.3.2"
     whatwg-fetch "^3.0.0"
 
-"@capture-models/editor@^0.4.6":
-  version "0.4.6"
-  resolved "https://registry.yarnpkg.com/@capture-models/editor/-/editor-0.4.6.tgz#49fe9549203b081b466d30beb0b63f705b9e8a88"
-  integrity sha512-hrIHAeVTpCRz1Yn/9R8KGatDB9eREz2gYDrrfEw14i1UfFgWvrxCfoNiuPDFr44ZewOZWel3/lcGmujlaa7UfQ==
-  dependencies:
-    "@capture-models/helpers" "^0.4.0"
-    "@capture-models/plugin-api" "^0.4.0"
-    "@capture-models/types" "^0.4.0"
-    "@iiif/vocabulary" "1.0.17"
-    "@styled-icons/entypo" "^10.0.0"
-    "@styled-icons/styled-icon" "^10.0.0"
-    canvas-panel-beta "2.0.0"
-    easy-peasy "^3.2.3"
-    fast-copy "^2.0.4"
-    formik "^2.0.6"
-    immer "^4.0.1"
-    manifesto.js "4.1.0"
-    normalize.css "^8.0.1"
-    prop-types "^15.7.2"
-    react "^16.10.2"
-    react-beautiful-dnd "^13.0.0"
-    react-dom "^16.10.2"
-    react-draggable "^4.2.0"
-    react-functional-select "^2.3.5"
-    react-router-dom "^5.1.2"
-    react-window "^1.8.5"
-    styled-components "^5.0.1"
-    use-async-effect "^2.2.1"
-    use-debounce "^3.3.0"
-
 "@chromaui/localtunnel@1.10.1":
   version "1.10.1"
   resolved "https://registry.yarnpkg.com/@chromaui/localtunnel/-/localtunnel-1.10.1.tgz#34da7dab7055a16b1b9034a9eb7e3054ebec4b98"
