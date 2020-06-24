@@ -734,6 +734,7 @@ export class CaptureModelRepository {
             {
               label: req.revision.label,
               status: req.revision.status,
+              approved: req.revision.status === 'accepted',
             }
           );
         }
