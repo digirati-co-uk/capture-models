@@ -31,9 +31,9 @@ export const BoxSelector: SelectorComponent<BoxSelectorProps> = ({
   ...props
 }) => {
   if (props.selectorPreview) {
-    const preview: BoxSelectorPreview = props.selectorPreview;
-    console.log(preview.thumbnail);
     // @todo thumbnail?
+    // const preview: BoxSelectorPreview = props.selectorPreview;
+    // console.log(preview.thumbnail);
   }
 
   const isSelecting = props.currentSelectorId === props.id;

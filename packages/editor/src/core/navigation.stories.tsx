@@ -1,4 +1,6 @@
 import React from 'react';
+import { Button } from '../atoms/Button';
+import { Choice } from '../components/Choice/Choice';
 import { CaptureModelProvider } from './capture-model-provider';
 import { useNavigation as legacyUseNavigation } from './navigation';
 import { ThemeProvider } from 'styled-components';
@@ -10,16 +12,35 @@ import { useNavigation } from '../hooks/useNavigation';
 const simple = require('../../../../fixtures/simple.json');
 
 const withSimpleCaptureModel = (Component: React.FC): React.FC => () => (
-  <CaptureModelProvider captureModel={simple}>
-    <Component />
-  </CaptureModelProvider>
+  <ThemeProvider theme={defaultTheme}>
+    <CaptureModelProvider captureModel={simple}>
+      <Component />
+    </CaptureModelProvider>
+  </ThemeProvider>
 );
 
 export default {
   title: 'Core|Navigation',
 };
 
-export const Nested: React.FC = withSimpleCaptureModel(() => {
+export const UsingComponent: React.FC = withSimpleCaptureModel(() => {
+  const [currentView, { pop, push, idStack }] = useNavigation(simple.structure);
+
+  if (currentView.type !== 'choice') {
+    return (
+      <RoundedCard>
+        <h3>
+          We are on <strong>{currentView.label}</strong>
+        </h3>
+        <Button onClick={pop}>go back</Button>
+      </RoundedCard>
+    );
+  }
+
+  return <Choice onChoice={push} choice={currentView} showBackButton={!!idStack.length} onBackButton={pop} />;
+});
+
+export const LegacyHook: React.FC = withSimpleCaptureModel(() => {
   const { currentView, pushPath, currentPath, popPath } = legacyUseNavigation();
 
   if (!currentView) {
@@ -43,28 +64,3 @@ export const Nested: React.FC = withSimpleCaptureModel(() => {
     </ThemeProvider>
   );
 });
-
-export const NewHook: React.FC = () => {
-  const [currentView, { pop, push, idStack }] = useNavigation(simple.structure);
-
-  if (!currentView) {
-    return null;
-  }
-
-  return (
-    <ThemeProvider theme={defaultTheme}>
-      {idStack.length ? <button onClick={pop}>back</button> : null}
-      <BackgroundSplash header={currentView.label} description={currentView.description}>
-        {currentView.type === 'choice' ? (
-          currentView.items.map((item, idx) => (
-            <RoundedCard label={item.label} interactive key={idx} onClick={() => push(item.id)}>
-              {item.description}
-            </RoundedCard>
-          ))
-        ) : (
-          <RoundedCard>We are on a form!</RoundedCard>
-        )}
-      </BackgroundSplash>
-    </ThemeProvider>
-  );
-};

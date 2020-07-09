@@ -1,7 +1,7 @@
 import { CaptureModel } from '@capture-models/types';
 import { isEntity } from './is-entity';
 
-export function getLabel(document: CaptureModel['document']) {
+export function getLabel(document: CaptureModel['document'], defaultLabel?: string) {
   if (
     document.labelledBy &&
     document.properties[document.labelledBy] &&
@@ -12,5 +12,10 @@ export function getLabel(document: CaptureModel['document']) {
       return field.value;
     }
   }
-  return `Field number (type: ${document.type})`;
+
+  if (defaultLabel) {
+    return defaultLabel;
+  }
+
+  return `${document.label} (type: ${document.type})`;
 }

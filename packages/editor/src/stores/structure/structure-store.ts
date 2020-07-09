@@ -130,7 +130,6 @@ export const StructureStore = createContextStore<
       actions.reorderChoices,
     ],
     async (_, payload, store) => {
-      console.log('onStructureChange');
       if (initial && initial.onStructureChange) {
         const state = store.getStoreState() as StructureModel;
         initial.onStructureChange(state.structure);

@@ -31,7 +31,6 @@ export function createSelectorStore(document?: CaptureModel['document']): Select
         if (parent && parent.temp) {
           // We have the path to the selector here: parent.temp.path
           // Now we just need to store this in the state.
-          // console.log(parent.temp);
           selectorPaths[selector.id] = parent.temp.path || [];
         }
         selectors.push(selector);

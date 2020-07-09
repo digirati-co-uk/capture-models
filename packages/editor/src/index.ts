@@ -18,6 +18,7 @@ export * from './components/CaptureModelList/CaptureModelList';
 export * from './components/CardButton/CardButton';
 export * from './components/CardButtonGroup/CardButtonGroup';
 export * from './components/CardDropdown/CardDropdown';
+export * from './components/Choice/Choice';
 export * from './components/ChoiceEditor/ChoiceEditor';
 export * from './components/ChoiceList/ChoiceList';
 export * from './components/ChooseField/ChooseField';

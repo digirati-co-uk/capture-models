@@ -1,5 +1,6 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
+import { getCard, getTheme } from '../../themes';
 
 export type CardSize = 'large' | 'medium' | 'small';
 
@@ -15,14 +16,14 @@ export type RoundedCardProps = {
 
 const CardLabel = styled.label`
   display: block;
-  font-size: ${props => props.theme.sizes.headingMd};
+  font-size: ${props => getTheme(props).sizes.headingMd};
   color: #000;
   flex: 1 1 0px;
   align-self: center;
 `;
 
 const CardBody = styled.div`
-  font-size: ${props => props.theme.sizes.text};
+  font-size: ${props => getTheme(props).sizes.text};
   color: #000;
 `;
 
@@ -30,10 +31,10 @@ const CardWrapper = styled.article<{ size: CardSize; interactive: boolean }>`
   position: relative;
   box-sizing: border-box;
   background: #fff;
-  padding: ${props => props.theme.card[props.size].padding};
-  border-radius: ${props => props.theme.card[props.size].radius};
-  margin-bottom: ${props => props.theme.card[props.size].margin};
-  box-shadow: ${props => props.theme.card.shadow};
+  padding: ${props => getCard(props, 'padding')};
+  border-radius: ${props => getCard(props, 'radius')};
+  margin-bottom: ${props => getCard(props, 'margin')};
+  box-shadow: ${props => getTheme(props).card.shadow};
   border: 2px solid transparent;
   z-index: 2;
   ${props =>
@@ -45,15 +46,15 @@ const CardWrapper = styled.article<{ size: CardSize; interactive: boolean }>`
       }
     `}
   &:hover {
-    border: 2px solid ${props => (props.interactive ? props.theme.colors.primary : 'transparent')};
+    border: 2px solid ${props => (props.interactive ? getTheme(props).colors.primary : 'transparent')};
   }
 `;
 
 const CardCount = styled.div`
-  background: ${props => props.theme.colors.mutedPrimary};
-  color: ${props => props.theme.colors.textOnMutedPrimary};
+  background: ${props => getTheme(props).colors.mutedPrimary};
+  color: ${props => getTheme(props).colors.textOnMutedPrimary};
   border-radius: 12px;
-  border: 1px solid ${props => props.theme.colors.textOnMutedPrimary};
+  border: 1px solid ${props => getTheme(props).colors.textOnMutedPrimary};
   font-size: 12px;
   padding: 0 8px;
   font-weight: 600;

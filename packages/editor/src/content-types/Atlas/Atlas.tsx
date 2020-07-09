@@ -30,7 +30,7 @@ function useSafeImageService() {
   }
 }
 
-const Canvas: React.FC = ({ children }) => {
+const Canvas: React.FC<{ isEditing?: boolean }> = ({ isEditing, children }) => {
   const canvas = useCanvas();
   const { data: service } = useSafeImageService() as { data?: ImageService };
 
@@ -61,7 +61,7 @@ const Canvas: React.FC = ({ children }) => {
 
   return (
     <div>
-      <Atlas width={800} height={600}>
+      <Atlas width={800} height={600} mode={isEditing ? 'sketch' : 'explore'}>
         <world>
           <worldObject height={canvas.height} width={canvas.width} x={0} y={0}>
             <compositeImage key={service.id} width={canvas.width} height={canvas.height}>
@@ -86,13 +86,11 @@ const Canvas: React.FC = ({ children }) => {
 };
 
 export const AtlasViewer: React.FC<AtlasViewerProps> = props => {
-  const { manifest, isLoaded } = useExternalManifest(props.state.manifestId);
+  const { isLoaded } = useExternalManifest(props.state.manifestId);
   const currentSelector = useCurrentSelector('atlas', undefined);
   const [displayIds, displaySelectors, topLevelSelectors] = useDisplaySelectors('atlas');
   const [actions, availableSelectors] = useSelectorActions();
-  const state = useStoreState(s => s);
 
-  console.log({ displaySelectors });
   useEffect(() => {
     // @todo UI to toggle these on and off and props to control this behaviour.
     if (actions && availableSelectors && displayIds && displayIds.length === 0) {
@@ -121,7 +119,7 @@ export const AtlasViewer: React.FC<AtlasViewerProps> = props => {
 
   return (
     <CanvasContext canvas={props.state.canvasId}>
-      <Canvas>
+      <Canvas isEditing={!!currentSelector}>
         {displaySelectors}
         {topLevelSelectors}
         {currentSelector}

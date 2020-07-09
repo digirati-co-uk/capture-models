@@ -1,6 +1,4 @@
-import { DefaultTheme } from 'styled-components';
-
-export const defaultTheme: DefaultTheme = {
+export const defaultTheme = {
   colors: {
     primary: '#5F40E1',
     textOnPrimary: '#fff',
@@ -34,4 +32,28 @@ export const defaultTheme: DefaultTheme = {
       margin: '20px',
     },
   },
+};
+
+export const getTheme = (props: any) => {
+  if (!props) {
+    return defaultTheme;
+  }
+  if (!props.theme) {
+    return defaultTheme;
+  }
+
+  if (Object.keys(props.theme).length === 0) {
+    return defaultTheme;
+  }
+
+  return props.theme as typeof defaultTheme;
+};
+
+export const getCard = (props: any, property: keyof typeof defaultTheme.card.medium) => {
+  const theme = getTheme(props);
+  const card: typeof theme.card.medium = (theme.card as any)[props.size]
+    ? (theme.card as any)[props.size]
+    : theme.card.medium;
+
+  return card[property];
 };

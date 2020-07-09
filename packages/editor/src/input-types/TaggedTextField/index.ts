@@ -17,7 +17,9 @@ const specification: FieldSpecification<TaggedTextFieldProps> = {
   Component: TaggedTextField,
   defaultValue: '',
   allowMultiple: true,
-  defaultProps: {},
+  defaultProps: {
+    preset: 'bentham',
+  },
   Editor: React.lazy(() => import(/* webpackChunkName: "editors" */ './TaggedTextField.editor')),
   TextPreview: () => React.createElement(React.Fragment, {}, ['Not yet implemented']),
 };
