@@ -1,15 +1,14 @@
 import { Field } from 'formik';
 import React from 'react';
-import { StyledFormField, StyledFormInputElement, StyledFormLabel } from '../../atoms/StyledForm';
+import { StyledCheckbox, StyledFormField, StyledFormInputElement, StyledFormLabel } from '../../atoms/StyledForm';
 
 type Props = {
   placeholder?: string;
   required?: boolean;
-  icon?: string;
-  iconPosition?: 'left';
+  multiline?: boolean;
 };
 
-const TextFieldEditor: React.FC<any> = ({ children, ...props }) => {
+const TextFieldEditor: React.FC<Props> = ({ children, ...props }) => {
   return (
     <>
       <StyledFormField>
@@ -22,6 +21,12 @@ const TextFieldEditor: React.FC<any> = ({ children, ...props }) => {
             value={props.placeholder}
             required={false}
           />
+        </StyledFormLabel>
+      </StyledFormField>
+      <StyledFormField>
+        <StyledFormLabel>
+          <Field as={StyledCheckbox} type="checkbox" name="multiline" value={props.multiline} required={false} />
+          Allow multiline input
         </StyledFormLabel>
       </StyledFormField>
     </>

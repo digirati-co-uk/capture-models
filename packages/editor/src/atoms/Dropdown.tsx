@@ -4,17 +4,19 @@ import { Select } from 'react-functional-select';
 import { Tag } from './Tag';
 
 export type DropdownOption = {
-  key: string;
+  key?: string;
   value: string;
   text: string;
   label?: string;
 };
 
 export type DropdownProps = {
+  id?: string;
   placeholder?: string;
   fluid?: boolean;
   disabled?: boolean;
   selection?: boolean;
+  isClearable?: boolean;
   value?: string;
   options: Array<DropdownOption>;
   onChange: (value?: string) => void;
@@ -24,10 +26,10 @@ function getValue(option: DropdownOption) {
   return option.value;
 }
 
-function getOptionLabel(option: DropdownOption) {
+export function renderOptionLabel(option: DropdownOption) {
   return (
     <>
-      <strong style={{ lineHeight: '1.2em', verticalAlign: 'middle' }}>{option.text}</strong>
+      <strong style={{ lineHeight: '1.8em', verticalAlign: 'middle' }}>{option.text}</strong>
       {option.label ? <Tag style={{ float: 'right', marginLeft: 10 }}>{option.label}</Tag> : null}
     </>
   );
@@ -37,7 +39,15 @@ function getLabel(option: DropdownOption) {
   return option.text;
 }
 
-export const Dropdown: React.FC<DropdownProps> = ({ placeholder, value, disabled, fluid, options, onChange }) => {
+export const Dropdown: React.FC<DropdownProps> = ({
+  id,
+  placeholder,
+  isClearable,
+  value,
+  disabled,
+  options,
+  onChange,
+}) => {
   const onOptionChange = useCallback((option: DropdownOption | null): void => {
     if (option) {
       onChange(option ? option.value : undefined);
@@ -51,15 +61,27 @@ export const Dropdown: React.FC<DropdownProps> = ({ placeholder, value, disabled
 
   return (
     <Select
+      themeConfig={{
+        color: {
+          primary: '#005cc5',
+        },
+        control: {
+          boxShadow: '0 0 0 0',
+          focusedBorderColor: '#005cc5',
+          selectedBgColor: '#005cc5',
+          backgroundColor: '#fff',
+        },
+      }}
+      inputId={id}
       initialValue={initialValue}
       placeholder={placeholder}
       options={options}
       isDisabled={disabled}
-      isClearable={false}
+      isClearable={isClearable}
       onOptionChange={onOptionChange}
       getOptionValue={getValue}
       getOptionLabel={getLabel}
-      renderOptionLabel={getOptionLabel}
+      renderOptionLabel={renderOptionLabel}
     />
   );
 };

@@ -1,9 +1,11 @@
 import styled, { css } from 'styled-components';
 import React, { useState } from 'react';
+import Textarea from 'react-textarea-autosize';
 
 export const StyledForm = styled.form`
   margin-bottom: 1em;
 `;
+
 export const StyledFormLabel = styled.label`
   font-weight: bold;
   font-size: 0.9em;
@@ -47,14 +49,34 @@ export const StyledFormInputElement = styled.input`
   ${inputCss}
 `;
 
+export const StyledFormMultilineInputElement = styled(Textarea)`
+  ${inputCss}
+`;
+
 export const StyledFormInput: React.FC<React.DetailedHTMLProps<
   React.InputHTMLAttributes<HTMLInputElement>,
   HTMLInputElement
->> = props => {
+> & { multiline?: boolean }> = ({ multiline, ...props }) => {
   const [value, setValue] = useState<string>(props.value as string);
+
+  if (multiline) {
+    return (
+      <StyledFormMultilineInputElement
+        {...(props as any)}
+        value={value}
+        onChange={e => {
+          setValue(e.currentTarget.value);
+          if (props.onChange) {
+            props.onChange(e as any);
+          }
+        }}
+      />
+    );
+  }
+
   return (
     <StyledFormInputElement
-      type={props.type}
+      {...(props as any)}
       value={value}
       onChange={e => {
         setValue(e.currentTarget.value);

@@ -13,7 +13,13 @@ export function useSelectors<T extends BaseSelector>(
     defaultState?: any;
   }
 ) {
-  const { updateSelector = null, selectorPreview = null, readOnly = false, defaultState = null, isTopLevel = false } = customOptions;
+  const {
+    updateSelector = null,
+    selectorPreview = null,
+    readOnly = false,
+    defaultState = null,
+    isTopLevel = false,
+  } = customOptions;
   const ctx = useContext(PluginContext);
 
   if (!selectorProps) {

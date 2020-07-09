@@ -54,6 +54,10 @@ import './content-types/CanvasPanel/CanvasPanel';
 // Default input types.
 import './input-types/TextField';
 import './input-types/HTMLField';
+import './input-types/TaggedTextField';
+import './input-types/AutocompleteField';
+import './input-types/CheckboxField';
+import './input-types/DropdownField';
 
 // Structure editor
 export * from './core/structure-editor';
