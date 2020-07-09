@@ -50,6 +50,7 @@ export * from './components/SubtreeBreadcrumb/SubtreeBreadcrumb';
 // Default content types.
 import './content-types/CanvasPanel';
 import './content-types/CanvasPanel/CanvasPanel';
+import './content-types/Atlas';
 
 // Default input types.
 import './input-types/TextField';
@@ -58,6 +59,9 @@ import './input-types/TaggedTextField';
 import './input-types/AutocompleteField';
 import './input-types/CheckboxField';
 import './input-types/DropdownField';
+
+// Default selectors
+import './selector-types/BoxSelector';
 
 // Structure editor
 export * from './core/structure-editor';

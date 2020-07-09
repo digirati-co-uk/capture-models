@@ -11,15 +11,16 @@ declare module '@capture-models/types' {
   }
 }
 
-const specification: SelectorSpecification<BoxSelectorProps, 'canvas-panel'> = {
+const specification: SelectorSpecification<BoxSelectorProps, 'canvas-panel' | 'atlas'> = {
   label: 'Box Selector',
   type: 'box-selector',
   description: 'Supports selecting a region of a IIIF image.',
   FormComponent: BoxSelector,
   defaultState: null,
-  supportedContentTypes: ['canvas-panel'],
+  supportedContentTypes: ['canvas-panel', 'atlas'],
   contentComponents: {
     'canvas-panel': React.lazy(() => import(/* webpackChunkName: "content" */ './BoxSelector.canvas-panel')),
+    atlas: React.lazy(() => import(/* webpackChunkName: "content" */ './BoxSelector.atlas')),
     // 'canvas-panel': BoxSelectorCanvasPanel,
   },
 };

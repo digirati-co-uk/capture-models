@@ -9,8 +9,7 @@ import {
 } from 'canvas-panel-beta';
 import { createContext } from '@capture-models/helpers';
 import { BaseContent } from '@capture-models/types';
-import React, { Suspense, useEffect, useRef, useState } from 'react';
-// import { Content } from '@capture-models/plugin-api';
+import React, { Suspense, useEffect, useState } from 'react';
 import { useCurrentSelector, useDisplaySelectors, useSelectorActions } from '../../stores/selectors/selector-hooks';
 
 export interface CanvasPanelProps extends BaseContent {
