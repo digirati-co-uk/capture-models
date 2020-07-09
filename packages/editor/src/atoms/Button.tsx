@@ -9,7 +9,7 @@ export const Button = styled.button<{ primary?: boolean; fluid?: boolean, alert?
   border-radius: 3px;
   cursor: pointer;
   display: inline-block;
-  margin: 0 .14285714em;
+  margin: .14285714em;
 
   &:hover {
     background: #ddd;

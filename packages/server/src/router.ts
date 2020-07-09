@@ -39,16 +39,4 @@ export const router = new TypedRouter({
   'delete-revision': [TypedRouter.DELETE, '/api/crowdsourcing/revision/:id', deleteRevisionApi],
   revision: [TypedRouter.GET, '/api/crowdsourcing/revision/:id', revisionApi],
   'revision-list': [TypedRouter.GET, '/api/crowdsourcing/revision', revisionListApi],
-
-  // Fixture routes.
-  // 'test-fixture': [TypedRouter.GET, '/crowdsourcing-editor/test-fixture/:name/:file', testFixture],
-  // fixtures: [TypedRouter.GET, '/crowdsourcing-editor/api/fixtures', fixtures],
-
-  // // Fallback.
-  // 'fallback-local-root': [TypedRouter.GET, '/:path', indexPage],
-  // 'fallback-root': [TypedRouter.GET, '/crowdsourcing-editor/:path', indexPage],
-  // 'fallback-editor': [TypedRouter.GET, '/crowdsourcing-editor/editor/:id', indexPage],
-  // 'fallback-viewer': [TypedRouter.GET, '/crowdsourcing-editor/viewer/:id', indexPage],
-  // 'fallback-editor-path': [TypedRouter.GET, '/crowdsourcing-editor/editor/:id/:path', indexPage],
-  // root: [TypedRouter.GET, '/', redirectToIndexPage],
 });

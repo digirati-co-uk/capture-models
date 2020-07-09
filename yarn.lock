@@ -4448,6 +4448,21 @@
     "@types/keygrip" "*"
     "@types/node" "*"
 
+"@types/draft-js@*", "@types/draft-js@^0.10.43":
+  version "0.10.43"
+  resolved "https://registry.yarnpkg.com/@types/draft-js/-/draft-js-0.10.43.tgz#6b1ed4b848ae0a169e3343b5923e013e3bfc29d0"
+  integrity sha512-vy6hVgA/6uZhqBCinYw4lGVsjL/GnqwYTl2zUC8lMAHanwK9/tcVVDApWPf2GFvU/Nd986nVbUXPHDbKMrdSug==
+  dependencies:
+    "@types/react" "*"
+    immutable "~3.7.4"
+
+"@types/draftjs-to-html@^0.8.0":
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/@types/draftjs-to-html/-/draftjs-to-html-0.8.0.tgz#17b1c3f19847710e52367277578a6c50e311c87a"
+  integrity sha512-XiuzaCE088fhtlDi4GM6w2lzqAe2ZHjc7AqenU3LS6/j0Kmhgx7Gfw9NBVsp9KEG1beBqcFLaRbzjZsF15/rBA==
+  dependencies:
+    "@types/draft-js" "*"
+
 "@types/enzyme@^3.10.3":
   version "3.10.4"
   resolved "https://registry.yarnpkg.com/@types/enzyme/-/enzyme-3.10.4.tgz#dd4961042381a7c0f6637ce25fec3f773ce489dd"
@@ -4724,6 +4739,14 @@
   integrity sha512-PZtnBuyfL07sqCJvGg3z+0+kt6fobc/xmle08jBiezLS8FrmGeiGkJnuxL/8Zgy9L83ypUhniV5atZn/L8n9MQ==
   dependencies:
     "@types/history" "*"
+    "@types/react" "*"
+
+"@types/react-rte@^0.16.1":
+  version "0.16.1"
+  resolved "https://registry.yarnpkg.com/@types/react-rte/-/react-rte-0.16.1.tgz#f4a8355208b81ef89d9e010ce94ba2e9fdd3b72e"
+  integrity sha512-yg+wskX1KdUY3N/40b81Dw3ue7Kx1vuw9hJpdcAN4DFQWcNc0Qr5DLLLYzSBanlSkq+EbMr35zTMnvdtVVgGcg==
+  dependencies:
+    "@types/draft-js" "*"
     "@types/react" "*"
 
 "@types/react-syntax-highlighter@11.0.2":
@@ -6733,7 +6756,7 @@ babel-register@^6.26.0:
     mkdirp "^0.5.1"
     source-map-support "^0.4.15"
 
-babel-runtime@^6.18.0, babel-runtime@^6.22.0, babel-runtime@^6.25.0, babel-runtime@^6.26.0:
+babel-runtime@^6.18.0, babel-runtime@^6.22.0, babel-runtime@^6.23.0, babel-runtime@^6.25.0, babel-runtime@^6.26.0:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.26.0.tgz#965c7058668e82b55d7bfe04ff2337bc8b5647fe"
   integrity sha1-llxwWGaOgrVde/4E/yM3vItWR/4=
@@ -7740,6 +7763,11 @@ cipher-base@^1.0.0, cipher-base@^1.0.1, cipher-base@^1.0.3:
     inherits "^2.0.1"
     safe-buffer "^5.0.1"
 
+class-autobind@^0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/class-autobind/-/class-autobind-0.1.4.tgz#34516c49167cf8d3f639ddc186bcfa2268afff34"
+  integrity sha1-NFFsSRZ8+NP2Od3Bhrz6Imiv/zQ=
+
 class-utils@^0.3.5:
   version "0.3.6"
   resolved "https://registry.yarnpkg.com/class-utils/-/class-utils-0.3.6.tgz#f93369ae8b9a7ce02fd41faad0ca83033190c463"
@@ -8427,7 +8455,7 @@ core-js@^1.0.0:
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-1.2.7.tgz#652294c14651db28fa93bd2d5ff2983a4f08c636"
   integrity sha1-ZSKUwUZR2yj6k70tX/KYOk8IxjY=
 
-core-js@^2.4.0, core-js@^2.5.0, core-js@^2.5.3:
+core-js@^2.4.0, core-js@^2.4.1, core-js@^2.5.0, core-js@^2.5.3:
   version "2.6.11"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.11.tgz#38831469f9922bded8ee21c9dc46985e0399308c"
   integrity sha512-5wjnpaT/3dV+XB4borEsnAYQchn00XSgTAWKDkEqv+K8KevjbzmofK6hfJ9TZIlpj2N0xQpazy7PiRQiWHqzWg==
@@ -9498,6 +9526,57 @@ download@^7.1.0:
     p-event "^2.1.0"
     pify "^3.0.0"
 
+draft-js-export-html@>=0.6.0, draft-js-export-html@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/draft-js-export-html/-/draft-js-export-html-1.4.1.tgz#7cdad970c6f7f2cdd19ce4c1f5073fdf0f313b4d"
+  integrity sha512-G4VGBSalPowktIE4wp3rFbhjs+Ln9IZ2FhXeHjsZDSw0a2+h+BjKu5Enq+mcsyVb51RW740GBK8Xbf7Iic51tw==
+  dependencies:
+    draft-js-utils "^1.4.0"
+
+draft-js-export-markdown@>=0.3.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/draft-js-export-markdown/-/draft-js-export-markdown-1.4.0.tgz#783731a0aaba4a5962d1d6a37293df7926ea6e45"
+  integrity sha512-blfAvlhGhjVlHNaZ5WJKlrXhcftnwwC5VC+Eu3ztOGpGLaOom4hxhBjbKEWjvbQZJ9zL+xo57ukm39prYZMG5Q==
+  dependencies:
+    draft-js-utils "^1.4.0"
+
+draft-js-import-element@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/draft-js-import-element/-/draft-js-import-element-1.4.0.tgz#8760acbfeb60ed824a1c8319ec049f702681df66"
+  integrity sha512-WmYT5PrCm47lGL5FkH6sRO3TTAcn7qNHsD3igiPqLG/RXrqyKrqN4+wBgbcT2lhna/yfWTRtgzAbQsSJoS1Meg==
+  dependencies:
+    draft-js-utils "^1.4.0"
+    synthetic-dom "^1.4.0"
+
+draft-js-import-html@>=0.4.0, draft-js-import-html@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/draft-js-import-html/-/draft-js-import-html-1.4.1.tgz#c222a3a40ab27dee5874fcf78526b64734fe6ea4"
+  integrity sha512-KOZmtgxZriCDgg5Smr3Y09TjubvXe7rHPy/2fuLSsL+aSzwUDwH/aHDA/k47U+WfpmL4qgyg4oZhqx9TYJV0tg==
+  dependencies:
+    draft-js-import-element "^1.4.0"
+
+draft-js-import-markdown@>=0.3.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/draft-js-import-markdown/-/draft-js-import-markdown-1.4.0.tgz#745ab87e8e38436de65be0472c946108dadcc778"
+  integrity sha512-mpKUxzDM+x7W+eCZegCAxl3QJzNGA3Y+DbBMMekzCdPHONLJAZ1QYYjegbXa6+pZGq8FAIhgWaVbfKWMb8M8dQ==
+  dependencies:
+    draft-js-import-element "^1.4.0"
+    synthetic-dom "^1.4.0"
+
+draft-js-utils@>=0.2.0, draft-js-utils@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/draft-js-utils/-/draft-js-utils-1.4.0.tgz#c60af198108f69b0f1df3572555b23836819d1cf"
+  integrity sha512-8s9FFuKC+lOWGwJ0b3om2PF+uXrqQPaEQlPJI7UxdzxTYGMeKouMPA9+YlPn52zcAVElIZtd2tXj6eQmvlKelw==
+
+draft-js@>=0.10.0, draft-js@^0.11.6:
+  version "0.11.6"
+  resolved "https://registry.yarnpkg.com/draft-js/-/draft-js-0.11.6.tgz#a2b54c211674d10ed65a2234c2ddd12f824cc709"
+  integrity sha512-H8OaophZecxm0L/C0LvOo6IZrbMb+s0txPXF7DW3E2oUjSo5ufvWvWb3B/0K2wRqBnwJrRxApqljD899i0fZMA==
+  dependencies:
+    fbjs "^1.0.0"
+    immutable "~3.7.4"
+    object-assign "^4.1.1"
+
 duplexer3@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/duplexer3/-/duplexer3-0.1.4.tgz#ee01dd1cac0ed3cbc7fdbea37dc0a8f1ce002ce2"
@@ -10555,12 +10634,31 @@ fb-watchman@^2.0.0:
   dependencies:
     bser "2.1.1"
 
+fbjs-css-vars@^1.0.0:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/fbjs-css-vars/-/fbjs-css-vars-1.0.2.tgz#216551136ae02fe255932c3ec8775f18e2c078b8"
+  integrity sha512-b2XGFAFdWZWg0phtAWLHCk836A1Xann+I+Dgd3Gk64MHKZO44FfoD1KxyvbSh0qZsIoXQGGlVztIY+oitJPpRQ==
+
 fbjs@^0.8.0:
   version "0.8.17"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.17.tgz#c4d598ead6949112653d6588b01a5cdcd9f90fdd"
   integrity sha1-xNWY6taUkRJlPWWIsBpc3Nn5D90=
   dependencies:
     core-js "^1.0.0"
+    isomorphic-fetch "^2.1.1"
+    loose-envify "^1.0.0"
+    object-assign "^4.1.0"
+    promise "^7.1.1"
+    setimmediate "^1.0.5"
+    ua-parser-js "^0.7.18"
+
+fbjs@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-1.0.0.tgz#52c215e0883a3c86af2a7a776ed51525ae8e0a5a"
+  integrity sha512-MUgcMEJaFhCaF1QtWGnmq9ZDRAzECTCRAF7O6UZIlAlkTs1SasiX9aP0Iw7wfD2mJ7wDTNfg2w7u5fSCwJk1OA==
+  dependencies:
+    core-js "^2.4.1"
+    fbjs-css-vars "^1.0.0"
     isomorphic-fetch "^2.1.1"
     loose-envify "^1.0.0"
     object-assign "^4.1.0"
@@ -12342,6 +12440,16 @@ immer@^4.0.0, immer@^4.0.1:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/immer/-/immer-4.0.2.tgz#9ff0fcdf88e06f92618a5978ceecb5884e633559"
   integrity sha512-Q/tm+yKqnKy4RIBmmtISBlhXuSDrB69e9EKTYiIenIKQkXBQir43w+kN/eGiax3wt1J0O1b2fYcNqLSbEcXA7w==
+
+immutable@^3.8.1:
+  version "3.8.2"
+  resolved "https://registry.yarnpkg.com/immutable/-/immutable-3.8.2.tgz#c2439951455bb39913daf281376f1530e104adf3"
+  integrity sha1-wkOZUUVbs5kT2vKBN28VMOEErfM=
+
+immutable@~3.7.4:
+  version "3.7.6"
+  resolved "https://registry.yarnpkg.com/immutable/-/immutable-3.7.6.tgz#13b4d3cb12befa15482a26fe1b2ebae640071e4b"
+  integrity sha1-E7TTyxK++hVIKib+Gy665kAHHks=
 
 import-cwd@^2.0.0:
   version "2.1.0"
@@ -18642,6 +18750,22 @@ react-router@5.1.2, react-router@^5.1.2:
     tiny-invariant "^1.0.2"
     tiny-warning "^1.0.0"
 
+react-rte@^0.16.1:
+  version "0.16.1"
+  resolved "https://registry.yarnpkg.com/react-rte/-/react-rte-0.16.1.tgz#e345664c87e992d15ec053b406f51ffac6e86622"
+  integrity sha512-CD5kf+6CHqOgJ1yB0i9tkMMch13wOXW5/FQx60gb7nzhXC1ZeFJjtW9dYfCVlfw1AvksHf+lMmKTjhIwyfZR7w==
+  dependencies:
+    babel-runtime "^6.23.0"
+    class-autobind "^0.1.4"
+    classnames "^2.2.5"
+    draft-js ">=0.10.0"
+    draft-js-export-html ">=0.6.0"
+    draft-js-export-markdown ">=0.3.0"
+    draft-js-import-html ">=0.4.0"
+    draft-js-import-markdown ">=0.3.0"
+    draft-js-utils ">=0.2.0"
+    immutable "^3.8.1"
+
 react-select@^3.0.8:
   version "3.0.8"
   resolved "https://registry.yarnpkg.com/react-select/-/react-select-3.0.8.tgz#06ff764e29db843bcec439ef13e196865242e0c1"
@@ -18694,6 +18818,15 @@ react-textarea-autosize@^7.1.0:
   dependencies:
     "@babel/runtime" "^7.1.2"
     prop-types "^15.6.0"
+
+react-textarea-autosize@^8.2.0:
+  version "8.2.0"
+  resolved "https://registry.yarnpkg.com/react-textarea-autosize/-/react-textarea-autosize-8.2.0.tgz#fae38653f5ec172a855fd5fffb39e466d56aebdb"
+  integrity sha512-grajUlVbkx6VdtSxCgzloUIphIZF5bKr21OYMceWPKkniy7H0mRAT/AXPrRtObAe+zUePnNlBwUc4ivVjUGIjw==
+  dependencies:
+    "@babel/runtime" "^7.10.2"
+    use-composed-ref "^1.0.0"
+    use-latest "^1.0.0"
 
 react-transition-group@^2.2.1:
   version "2.9.0"
@@ -20862,6 +20995,11 @@ symbol.prototype.description@^1.0.0:
     es-abstract "^1.17.0-next.1"
     has-symbols "^1.0.1"
 
+synthetic-dom@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/synthetic-dom/-/synthetic-dom-1.4.0.tgz#d988d7a4652458e2fc8706a875417af913e4dd34"
+  integrity sha512-mHv51ZsmZ+ShT/4s5kg+MGUIhY7Ltq4v03xpN1c8T1Krb5pScsh/lzEjyhrVD0soVDbThbd2e+4dD9vnDG4rhg==
+
 systeminformation@^4.14.16:
   version "4.23.1"
   resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-4.23.1.tgz#03dcc16570adfa1e0b6ceb871aad8f34c9ae8014"
@@ -21351,6 +21489,11 @@ ts-dedent@^1.1.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/ts-dedent/-/ts-dedent-1.1.1.tgz#68fad040d7dbd53a90f545b450702340e17d18f3"
   integrity sha512-UGTRZu1evMw4uTPyYF66/KFd22XiU+jMaIuHrkIHQ2GivAXVlLV0v/vHrpOuTRf9BmpNHi/SO7Vd0rLu0y57jg==
+
+ts-essentials@^2.0.3:
+  version "2.0.12"
+  resolved "https://registry.yarnpkg.com/ts-essentials/-/ts-essentials-2.0.12.tgz#c9303f3d74f75fa7528c3d49b80e089ab09d8745"
+  integrity sha512-3IVX4nI6B5cc31/GFFE+i8ey/N2eA0CZDbo6n0yrz0zDX8ZJ8djmU1p+XRz7G3is0F3bB3pu2pAroFdAWQKU3w==
 
 ts-jest@^25.2.0:
   version "25.2.0"
@@ -21860,6 +22003,13 @@ use-callback-ref@^1.2.1:
   resolved "https://registry.yarnpkg.com/use-callback-ref/-/use-callback-ref-1.2.1.tgz#898759ccb9e14be6c7a860abafa3ffbd826c89bb"
   integrity sha512-C3nvxh0ZpaOxs9RCnWwAJ+7bJPwQI8LHF71LzbQ3BvzH5XkdtlkMadqElGevg5bYBDFip4sAnD4m06zAKebg1w==
 
+use-composed-ref@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/use-composed-ref/-/use-composed-ref-1.0.0.tgz#bb13e8f4a0b873632cde4940abeb88b92d03023a"
+  integrity sha512-RVqY3NFNjZa0xrmK3bIMWNmQ01QjKPDc7DeWR3xa/N8aliVppuutOE5bZzPkQfvL+5NRWMMp0DJ99Trd974FIw==
+  dependencies:
+    ts-essentials "^2.0.3"
+
 use-debounce@^3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/use-debounce/-/use-debounce-3.3.0.tgz#f9c1f09d40ddbdf4306b80066b04bb5d46b6a904"
@@ -21869,6 +22019,18 @@ use-debounce@^3.4.0:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/use-debounce/-/use-debounce-3.4.0.tgz#e61653fd4daad9beaa6e4695bc1d3fbd35f7e5b3"
   integrity sha512-FSUfs/x7eJUusqvbk/UboMlWKQFBEGTegqK2tvm8+59bcbs77f0DeAy4MuychfxN7E+6rxXDpbv41Kq+aSJPow==
+
+use-isomorphic-layout-effect@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/use-isomorphic-layout-effect/-/use-isomorphic-layout-effect-1.0.0.tgz#f56b4ed633e1c21cd9fc76fe249002a1c28989fb"
+  integrity sha512-JMwJ7Vd86NwAt1jH7q+OIozZSIxA4ND0fx6AsOe2q1H8ooBUp5aN6DvVCqZiIaYU6JaMRJGyR0FO7EBCIsb/Rg==
+
+use-latest@^1.0.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/use-latest/-/use-latest-1.1.0.tgz#7bf9684555869c3f5f37e10d0884c8accf4d3aa6"
+  integrity sha512-gF04d0ZMV3AMB8Q7HtfkAWe+oq1tFXP6dZKwBHQF5nVXtGsh2oAYeeqma5ZzxtlpOcW8Ro/tLcfmEodjDeqtuw==
+  dependencies:
+    use-isomorphic-layout-effect "^1.0.0"
 
 use-memo-one@^1.1.1:
   version "1.1.1"

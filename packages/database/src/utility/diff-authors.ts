@@ -8,8 +8,6 @@ export function diffAuthors(originalRev: Revision, newRev: Revision) {
   const toAdd = newAuthors.filter(a => originalAuthors.indexOf(a) === -1);
   const toRemove = originalAuthors.filter(a => newAuthors.indexOf(a) === -1);
 
-  console.log({toAdd, toRemove});
-
   return {
     toAdd: toAdd.map(id => {
       const ra = new RevisionAuthors();

@@ -38,6 +38,7 @@ module.exports = {
         DATABASE_USER: 'model_api',
         DATABASE_SCHEMA: 'public',
         DATABASE_PASSWORD: 'model_api_password',
+        MOCK_JWT: true,
       }
     },
     {

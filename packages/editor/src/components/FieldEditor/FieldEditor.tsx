@@ -35,17 +35,27 @@ export const FieldEditor: React.FC<{
     throw new Error('Plugin does not exist');
   }
 
-  const editor = React.createElement(field.Editor, props as any);
+  const editorProps = field.mapEditorProps ? field.mapEditorProps(props) : props;
+  const editor = React.createElement(field.Editor, editorProps as any);
 
   return (
     <React.Suspense fallback="loading...">
       <Formik
         initialValues={props}
         onSubmit={newProps => {
-          onSubmit({
-            ...newProps,
-            selector,
-          });
+          if (field.onEditorSubmit) {
+            onSubmit(
+              field.onEditorSubmit({
+                ...newProps,
+                selector,
+              })
+            );
+          } else {
+            onSubmit({
+              ...newProps,
+              selector,
+            });
+          }
         }}
       >
         <Form>
@@ -122,7 +132,7 @@ export const FieldEditor: React.FC<{
             </GridColumn>
             <GridColumn half>
               <Segment>
-                <FormPreview term={term} />
+                <FormPreview term={term} mapValues={field.onEditorSubmit} />
               </Segment>
             </GridColumn>
           </Grid>

@@ -27,6 +27,8 @@ export type FieldSpecification<Props extends BaseField = BaseField> = {
   Component: FC<Props & InjectedFieldProps<Props['value']>>;
   TextPreview: FC<Props>;
   Editor: FC<Required<Omit<Props, 'value' | 'selector'>> & Pick<Props, 'selector'>>;
+  mapEditorProps?: (props: any) => any;
+  onEditorSubmit?: (props: any) => any;
 };
 
 export type NestedField<Doc extends CaptureModel['document']> = Array<
