@@ -403,6 +403,7 @@ export const TaggedTextField: FieldComponent<TaggedTextFieldProps> = ({
       <div>
         {blocks.map(block => (
           <Button
+            type="button"
             size="tiny"
             key={block.tag}
             style={{ color: block.tag === currentBlockType ? '#000' : '#999' }}
@@ -415,6 +416,7 @@ export const TaggedTextField: FieldComponent<TaggedTextFieldProps> = ({
       <div>
         {tags.map(tag => (
           <Button
+            type="button"
             size="tiny"
             key={tag.tag}
             style={{ color: tag.tag === tagName ? '#000' : '#999' }}

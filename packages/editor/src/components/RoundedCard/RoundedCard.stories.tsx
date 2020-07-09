@@ -7,19 +7,14 @@ import { CardButton } from '../CardButton/CardButton';
 export default { title: 'Form UI|Rounded Card' };
 
 export const Default: React.FC = () => (
-  <ThemeProvider theme={defaultTheme}>
-    <div style={{ background: '#FAFCFF', minHeight: '100vh', boxSizing: 'border-box' }}>
-      <RoundedCard label="Person">
-        Move the red box to highlight one person, and enter information about them below. You can repeat this for as
-        many people as you recognise.
-      </RoundedCard>
-      <CardButton size="large">
-        Create new
-      </CardButton>
-    </div>
-  </ThemeProvider>
+  <div style={{ background: '#FAFCFF', minHeight: '100vh', boxSizing: 'border-box' }}>
+    <RoundedCard label="Person">
+      Move the red box to highlight one person, and enter information about them below. You can repeat this for as many
+      people as you recognise.
+    </RoundedCard>
+    <CardButton size="large">Create new</CardButton>
+  </div>
 );
-
 
 export const Interactive: React.FC = () => (
   <ThemeProvider theme={defaultTheme}>

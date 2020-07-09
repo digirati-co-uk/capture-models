@@ -13,11 +13,11 @@ type FieldHeaderProps = {
   onSelectorOpen?: () => void;
 };
 
-const FieldHeaderWrapper = styled.div`
+export const FieldHeaderWrapper = styled.div`
   font-family: -apple-system, 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans',
     'Helvetica Neue', 'Icons16', sans-serif;
-  line-height: 1.4em;
-  margin: 0.3em 0;
+  line-height: 1.8em;
+  margin: 0.5em 0;
 `;
 
 const FieldHeaderTop = styled.div`
@@ -28,7 +28,7 @@ const FieldHeaderLeft = styled.div`
   flex: 1 1 0px;
 `;
 
-const FieldHeaderTitle = styled.label`
+export const FieldHeaderTitle = styled.label`
   letter-spacing: -0.3px;
   font-weight: 500;
   font-size: 1.3em;

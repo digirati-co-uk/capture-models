@@ -18,6 +18,7 @@ export * from './components/CaptureModelList/CaptureModelList';
 export * from './components/CardButton/CardButton';
 export * from './components/CardButtonGroup/CardButtonGroup';
 export * from './components/CardDropdown/CardDropdown';
+export * from './components/Choice/Choice';
 export * from './components/ChoiceEditor/ChoiceEditor';
 export * from './components/ChoiceList/ChoiceList';
 export * from './components/ChooseField/ChooseField';
@@ -50,6 +51,7 @@ export * from './components/SubtreeBreadcrumb/SubtreeBreadcrumb';
 // Default content types.
 import './content-types/CanvasPanel';
 import './content-types/CanvasPanel/CanvasPanel';
+import './content-types/Atlas';
 
 // Default input types.
 import './input-types/TextField';
@@ -58,6 +60,9 @@ import './input-types/TaggedTextField';
 import './input-types/AutocompleteField';
 import './input-types/CheckboxField';
 import './input-types/DropdownField';
+
+// Default selectors
+import './selector-types/BoxSelector';
 
 // Structure editor
 export * from './core/structure-editor';

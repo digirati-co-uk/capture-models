@@ -44,7 +44,6 @@ export const StructureEditor: React.FC<Props> = ({
   onAddModel,
   setModelFields,
 }) => {
-  console.log(tree);
   return (
     <Grid padded>
       <GridColumn>

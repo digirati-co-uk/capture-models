@@ -17,7 +17,7 @@
   "module": "lib/index.js",
   "typings": "lib/index.d.ts",
   "scripts": {
-    "build": "fesk-build --umd --cjs && tsc -p ./tsconfig.types.json",
+    "build": "fesk-build --umd --cjs && tsc -p ./tsconfig.types.json && build-storybook",
     "start": "fesk-start --cjs --umd --noServer",
     "test": "jest",
     "build-types": "tsc -p ./tsconfig.types.json",
@@ -25,6 +25,11 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
+  "sideEffects": [
+    "./src/input-types/*/index.ts",
+    "./src/selector-types/*/index.ts",
+    "./src/content-types/*/index.ts"
+  ],
   "publishConfig": {
     "access": "public"
   },
@@ -35,6 +40,9 @@
     "@capture-models/helpers": "^0.4.0",
     "@capture-models/plugin-api": "^0.4.0",
     "@capture-models/types": "^0.4.0",
+    "@atlas-viewer/atlas": "^1.0.0-alpha.7",
+    "@hyperion-framework/react-vault": "^1.0.0-alpha.10",
+    "@hyperion-framework/types": "^1.0.0-alpha.10",
     "@iiif/vocabulary": "1.0.17",
     "@styled-icons/entypo": "^10.0.0",
     "@styled-icons/styled-icon": "^10.0.0",
