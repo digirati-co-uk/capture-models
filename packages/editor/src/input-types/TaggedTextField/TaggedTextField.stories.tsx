@@ -12,7 +12,14 @@ export const Simple: React.FC = () => {
   const [value, setValue] = React.useState('');
   return (
     <form>
-      <TaggedTextField id="1" label="Some label" type="text-field" value={value} updateValue={setValue} />
+      <TaggedTextField
+        id="1"
+        label="Some label"
+        preset={'bentham'}
+        type="text-field"
+        value={value}
+        updateValue={setValue}
+      />
     </form>
   );
 };

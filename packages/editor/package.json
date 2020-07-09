@@ -25,6 +25,11 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
+  "sideEffects": [
+    "./src/input-types/*/index.ts",
+    "./src/selector-types/*/index.ts",
+    "./src/content-types/*/index.ts"
+  ],
   "publishConfig": {
     "access": "public"
   },

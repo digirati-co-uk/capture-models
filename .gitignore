@@ -13,3 +13,5 @@ var
 junit.xml
 stats.html
 stats.umd.html
+# Local Netlify folder
+.netlify
