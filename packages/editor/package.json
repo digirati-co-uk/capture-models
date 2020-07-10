@@ -104,7 +104,10 @@
     "ts-jest": "^25.2.0",
     "typescript": "^3.7.5",
     "url-loader": "^3.0.0",
-    "webpack-dev-middleware": "^3.7.2"
+    "webpack-dev-middleware": "^3.7.2",
+    "clean-webpack-plugin": "^3.0.0",
+    "@fesk/plugin-metalsmith": "^1.2.1",
+    "webpack-visualizer-plugin": "^0.1.11"
   },
   "fesk": {
     "typescript": true

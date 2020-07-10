@@ -18,7 +18,7 @@ const specification: FieldSpecification<DropdownFieldProps> = {
   TextPreview: () => React.createElement(React.Fragment, {}, ['Not yet implemented']),
   description: 'Simple list of static values',
   Component: DropdownField,
-  Editor: React.lazy(() => import(/* webpackChunkName: "editors" */ './DropdownField.editor')) as any,
+  Editor: React.lazy(() => import(/* webpackChunkName: "field-editors" */ './DropdownField.editor')) as any,
   mapEditorProps: (props: DropdownFieldProps) => {
     return {
       ...props,

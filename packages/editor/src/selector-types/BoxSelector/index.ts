@@ -19,8 +19,8 @@ const specification: SelectorSpecification<BoxSelectorProps, 'canvas-panel' | 'a
   defaultState: null,
   supportedContentTypes: ['canvas-panel', 'atlas'],
   contentComponents: {
-    'canvas-panel': React.lazy(() => import(/* webpackChunkName: "content" */ './BoxSelector.canvas-panel')),
-    atlas: React.lazy(() => import(/* webpackChunkName: "content" */ './BoxSelector.atlas')),
+    'canvas-panel': React.lazy(() => import(/* webpackChunkName: "canvas-panel" */ './BoxSelector.canvas-panel')),
+    atlas: React.lazy(() => import(/* webpackChunkName: "atlas" */ './BoxSelector.atlas')),
     // 'canvas-panel': BoxSelectorCanvasPanel,
   },
 };

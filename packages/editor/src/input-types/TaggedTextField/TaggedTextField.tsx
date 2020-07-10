@@ -438,3 +438,5 @@ export const TaggedTextField: FieldComponent<TaggedTextFieldProps> = ({
     </MainContainer>
   );
 };
+
+export default TaggedTextField;

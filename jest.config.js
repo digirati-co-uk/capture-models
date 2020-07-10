@@ -17,9 +17,6 @@ module.exports = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   moduleNameMapper: {
     '\\.(css|scss)$': '<rootDir>/__mocks__/styleMock.ts',
-  },
-  globals: {
-    window: {},
-    self: {},
+    '@capture-models/helpers': '<rootDir>/packages/helpers/src/index.ts',
   },
 };

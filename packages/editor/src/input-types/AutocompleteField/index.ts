@@ -18,7 +18,7 @@ const specification: FieldSpecification<AutocompleteFieldProps> = {
   TextPreview: () => React.createElement(React.Fragment, {}, ['Not yet implemented']),
   description: 'Dynamic autocomplete driven by endpoint',
   Component: AutocompleteField,
-  Editor: React.lazy(() => import(/* webpackChunkName: "editors" */ './AutocompleteField.editor')) as any,
+  Editor: React.lazy(() => import(/* webpackChunkName: "field-editors" */ './AutocompleteField.editor')) as any,
 };
 
 registerField(specification);

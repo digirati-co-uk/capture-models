@@ -1,11 +1,10 @@
 import React from 'react';
 import { registerContent } from '@capture-models/plugin-api';
-import { CanvasPanelProps } from './CanvasPanel';
 import { ContentSpecification } from '@capture-models/types';
 
 declare module '@capture-models/types' {
   export interface ContentTypeMap {
-    'canvas-panel': CanvasPanelProps;
+    'canvas-panel': import('./CanvasPanel').CanvasPanelProps;
   }
 }
 
@@ -25,7 +24,7 @@ declare module '@capture-models/types' {
  *
  *  So long as the last 2 items are a manifest and then a canvas (most specific)
  */
-const specification: ContentSpecification<CanvasPanelProps> = {
+const specification: ContentSpecification<import('./CanvasPanel').CanvasPanelProps> = {
   label: 'Canvas Panel',
   type: 'canvas-panel',
   supports: target => {
@@ -50,7 +49,7 @@ const specification: ContentSpecification<CanvasPanelProps> = {
     canvasId: '',
     manifestId: '',
   },
-  DefaultComponent: React.lazy(() => import(/* webpackChunkName: "content" */ './CanvasPanel')),
+  DefaultComponent: React.lazy(() => import(/* webpackChunkName: "canvas-panel" */ './CanvasPanel')),
   // DefaultComponent: CanvasPanel,
 };
 

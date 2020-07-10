@@ -18,7 +18,7 @@ const specification: FieldSpecification<CheckboxFieldProps> = {
   TextPreview: () => React.createElement(React.Fragment, {}, ['Not yet implemented']),
   description: 'Simple checkbox boolean value',
   Component: CheckboxField,
-  Editor: React.lazy(() => import(/* webpackChunkName: "editors" */ './CheckboxField.editor')),
+  Editor: React.lazy(() => import(/* webpackChunkName: "field-editors" */ './CheckboxField.editor')),
 };
 
 registerField(specification);

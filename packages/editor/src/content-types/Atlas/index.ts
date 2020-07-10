@@ -34,8 +34,7 @@ const specification: ContentSpecification<AtlasViewerProps> = {
     canvasId: '',
     manifestId: '',
   },
-  DefaultComponent: React.lazy(() => import(/* webpackChunkName: "content" */ './Atlas')),
-  // DefaultComponent: CanvasPanel,
+  DefaultComponent: React.lazy(() => import(/* webpackChunkName: "atlas" */ './Atlas')),
 };
 
 registerContent(specification);
