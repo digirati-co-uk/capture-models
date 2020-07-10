@@ -1,6 +1,6 @@
 {
   "name": "@capture-models/editor",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "license": "MIT",
   "files": [
     "dist",
@@ -75,6 +75,7 @@
     "@babel/core": "^7.8.7",
     "@babel/plugin-syntax-jsx": "^7.8.3",
     "@babel/plugin-transform-modules-commonjs": "^7.8.3",
+    "@fesk/plugin-metalsmith": "^1.2.1",
     "@fesk/scripts": "1.4.0-pr.a95f698d",
     "@storybook/addon-actions": "^5.2.8",
     "@storybook/addon-console": "^1.2.1",
@@ -93,6 +94,7 @@
     "@types/react-router-dom": "^5.1.3",
     "@types/react-rte": "^0.16.1",
     "@types/styled-components": "^4.4.3",
+    "clean-webpack-plugin": "^3.0.0",
     "dotenv-webpack": "^1.7.0",
     "html-webpack-plugin": "^3.2.0",
     "jest": "^25.1.0",
@@ -105,8 +107,6 @@
     "typescript": "^3.7.5",
     "url-loader": "^3.0.0",
     "webpack-dev-middleware": "^3.7.2",
-    "clean-webpack-plugin": "^3.0.0",
-    "@fesk/plugin-metalsmith": "^1.2.1",
     "webpack-visualizer-plugin": "^0.1.11"
   },
   "fesk": {
