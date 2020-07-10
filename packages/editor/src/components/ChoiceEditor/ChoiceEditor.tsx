@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { Button } from '../../atoms/Button';
 import { Grid, GridColumn } from '../../atoms/Grid';
 import { Card, CardContent, CardHeader, CardMeta } from '../../atoms/Card';
-import { ChoiceList } from '../ChoiceList/ChoiceList';
 import { NewChoiceForm } from '../NewChoiceForm/NewChoiceForm';
 import { NewModelForm } from '../NewModelForm/NewModelForm';
 import { useMiniRouter } from '../../hooks/useMiniRouter';
@@ -23,6 +22,8 @@ type Props = {
   pushFocus: (idx: number) => void;
   popFocus: (payload?: any) => void;
 };
+
+export const ChoiceList = React.lazy(() => import(/* webpackChunkName: "choice-list" */ '../ChoiceList/ChoiceList'));
 
 export const ChoiceEditor: React.FC<Props> = ({
   choice,
@@ -80,7 +81,9 @@ export const ChoiceEditor: React.FC<Props> = ({
         />
       </CardContent>
       <CardContent extra>
-        <ChoiceList choice={choice} pushFocus={pushFocus} onRemove={onRemove} onReorder={reorderChoices} />
+        <React.Suspense fallback={'loading...'}>
+          <ChoiceList choice={choice} pushFocus={pushFocus} onRemove={onRemove} onReorder={reorderChoices} />
+        </React.Suspense>
       </CardContent>
       {route === 'list' ? (
         <>

@@ -92,3 +92,5 @@ export const HTMLField: FieldComponent<HTMLFieldProps> = ({
     />
   );
 };
+
+export default HTMLField;

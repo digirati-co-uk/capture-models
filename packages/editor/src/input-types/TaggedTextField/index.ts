@@ -1,7 +1,6 @@
 import React from 'react';
 import { registerField } from '@capture-models/plugin-api';
-import { TaggedTextField, TaggedTextFieldProps } from './TaggedTextField';
-// import TextFieldEditor from './TextField.editor';
+import { TaggedTextFieldProps } from './TaggedTextField';
 import { FieldSpecification } from '@capture-models/types';
 
 declare module '@capture-models/types' {
@@ -14,13 +13,13 @@ const specification: FieldSpecification<TaggedTextFieldProps> = {
   label: 'Tagged text field',
   type: 'tagged-text-field',
   description: 'Text field with custom tags you can apply to text',
-  Component: TaggedTextField,
+  Component: React.lazy(() => import(/* webpackChunkName: "fields" */ './TaggedTextField')),
   defaultValue: '',
   allowMultiple: true,
   defaultProps: {
     preset: 'bentham',
   },
-  Editor: React.lazy(() => import(/* webpackChunkName: "editors" */ './TaggedTextField.editor')),
+  Editor: React.lazy(() => import(/* webpackChunkName: "field-editors" */ './TaggedTextField.editor')),
   TextPreview: () => React.createElement(React.Fragment, {}, ['Not yet implemented']),
 };
 

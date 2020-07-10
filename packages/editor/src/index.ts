@@ -20,7 +20,6 @@ export * from './components/CardButtonGroup/CardButtonGroup';
 export * from './components/CardDropdown/CardDropdown';
 export * from './components/Choice/Choice';
 export * from './components/ChoiceEditor/ChoiceEditor';
-export * from './components/ChoiceList/ChoiceList';
 export * from './components/ChooseField/ChooseField';
 export * from './components/ChooseFieldButton/ChooseFieldButton';
 export * from './components/ChooseSelector/ChooseSelector';
@@ -50,7 +49,6 @@ export * from './components/SubtreeBreadcrumb/SubtreeBreadcrumb';
 
 // Default content types.
 import './content-types/CanvasPanel';
-import './content-types/CanvasPanel/CanvasPanel';
 import './content-types/Atlas';
 
 // Default input types.

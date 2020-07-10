@@ -1,8 +1,8 @@
 import React from 'react';
 import { Button } from '../../atoms/Button';
 import { List, ListContent, ListDescription, ListHeader, ListItem } from '../../atoms/List';
-import { Folder } from '@styled-icons/entypo/Folder'
-import { List as ListIcon } from '@styled-icons/entypo/List'
+import { Folder } from '@styled-icons/entypo/Folder';
+import { List as ListIcon } from '@styled-icons/entypo/List';
 import { StructureType } from '@capture-models/types';
 import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
 import { Tag } from '../../atoms/Tag';
@@ -72,3 +72,5 @@ export const ChoiceList: React.FC<Props> = ({ onRemove, choice, onReorder, pushF
     </DragDropContext>
   );
 };
+
+export default ChoiceList;
