@@ -24,7 +24,6 @@ export const FieldEditor: React.FC<{
   term?: string;
   onSubmit: (newProps: BaseField) => void;
   onDelete?: () => void;
-  onChangeDefaultValue?: (value: any) => void;
   onChangeFieldType?: (type: string, defaults: any) => void;
 }> = ({ onSubmit, onDelete, onChangeFieldType, field: props, term }) => {
   const ctx = useContext(PluginContext);

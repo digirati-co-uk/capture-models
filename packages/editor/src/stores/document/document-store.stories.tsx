@@ -57,9 +57,6 @@ const Test: React.FC = () => {
                   actions.selectField(state.selectedField);
                 }
               }}
-              onChangeDefaultValue={value => {
-                actions.setFieldValue({ value });
-              }}
               onSubmit={field => {
                 actions.setField({ field });
                 actions.setFieldSelector({ selector: field.selector });
