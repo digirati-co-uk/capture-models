@@ -2,10 +2,11 @@ import React from 'react';
 import { registerField } from '@capture-models/plugin-api';
 import { FieldSpecification } from '@capture-models/types';
 import { DropdownField, DropdownFieldProps } from './DropdownField';
+import { DropdownFieldPreview } from './DropdownField.preview';
 
 declare module '@capture-models/types' {
   export interface FieldTypeMap {
-    'Dropdown-field': DropdownFieldProps;
+    'dropdown-field': DropdownFieldProps;
   }
 }
 
@@ -15,7 +16,7 @@ const specification: FieldSpecification<DropdownFieldProps> = {
   label: 'Dropdown Field',
   defaultProps: {},
   allowMultiple: true,
-  TextPreview: () => React.createElement(React.Fragment, {}, ['Not yet implemented']),
+  TextPreview: DropdownFieldPreview,
   description: 'Simple list of static values',
   Component: DropdownField,
   Editor: React.lazy(() => import(/* webpackChunkName: "field-editors" */ './DropdownField.editor')) as any,

@@ -8,7 +8,7 @@ type FieldInstanceListProps = {
   fields: Array<BaseField>;
   property: string;
   fallbackLabel?: string;
-  chooseField: (field: { property: string; instance: BaseField }) => void;
+  chooseField?: (field: { property: string; instance: BaseField }) => void;
 };
 
 export const FieldInstanceList: React.FC<FieldInstanceListProps> = ({
@@ -21,20 +21,20 @@ export const FieldInstanceList: React.FC<FieldInstanceListProps> = ({
   const pluralLabel = fields[0] ? fields[0].pluralLabel || label : label;
 
   return (
-    <div style={{ padding: '100px' }}>
+    <>
       <FieldHeader label={fields.length > 1 ? pluralLabel : label} />
       {fields.map((field, idx) => {
         return (
           <RoundedCard
             key={idx}
             size="small"
-            interactive={true}
-            onClick={() => chooseField({ instance: field, property })}
+            interactive={!!chooseField}
+            onClick={chooseField ? () => chooseField({ instance: field, property }) : undefined}
           >
             <FieldPreview field={field} />
           </RoundedCard>
         );
       })}
-    </div>
+    </>
   );
 };

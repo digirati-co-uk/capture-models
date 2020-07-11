@@ -2,6 +2,7 @@ import React from 'react';
 import { registerField } from '@capture-models/plugin-api';
 import { TaggedTextFieldProps } from './TaggedTextField';
 import { FieldSpecification } from '@capture-models/types';
+import { TaggedTextFieldPreview } from './TaggedTextField.preview';
 
 declare module '@capture-models/types' {
   export interface FieldTypeMap {
@@ -20,7 +21,7 @@ const specification: FieldSpecification<TaggedTextFieldProps> = {
     preset: 'bentham',
   },
   Editor: React.lazy(() => import(/* webpackChunkName: "field-editors" */ './TaggedTextField.editor')),
-  TextPreview: () => React.createElement(React.Fragment, {}, ['Not yet implemented']),
+  TextPreview: TaggedTextFieldPreview,
 };
 
 registerField(specification);

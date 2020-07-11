@@ -10,11 +10,13 @@ const simple = require('../../../../../fixtures/01-basic/05-multiple-fields-mult
 export const SimpleExample: React.FC = () => {
   return (
     <ThemeProvider theme={defaultTheme}>
-      <FieldInstanceList
-        chooseField={field => console.log('choose field', field)}
-        fields={simple.document.properties.name}
-        property={'name'}
-      />
+      <div style={{ padding: '100px' }}>
+        <FieldInstanceList
+          chooseField={field => console.log('choose field', field)}
+          fields={simple.document.properties.name}
+          property={'name'}
+        />
+      </div>
     </ThemeProvider>
   );
 };

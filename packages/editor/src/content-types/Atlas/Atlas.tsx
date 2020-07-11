@@ -2,7 +2,6 @@ import { ImageService } from '@hyperion-framework/types';
 import React, { useEffect, Suspense } from 'react';
 import { BaseContent } from '@capture-models/types';
 import { useCurrentSelector, useDisplaySelectors, useSelectorActions } from '../../stores/selectors/selector-hooks';
-import { useStoreState } from '../../stores/revisions/revisions-provider';
 import {
   useExternalManifest,
   CanvasContext,
@@ -16,9 +15,9 @@ export interface AtlasViewerProps extends BaseContent {
   id: string;
   type: string;
   state: {
-    maxHeight?: number;
     canvasId: string;
     manifestId: string;
+    imageService?: string;
   };
 }
 
@@ -129,8 +128,11 @@ export const AtlasViewer: React.FC<AtlasViewerProps> = props => {
 };
 
 const WrappedViewer: React.FC<AtlasViewerProps> = props => {
+  const customFetcher =
+    props.options.custom && props.options.custom.customFetcher ? props.options.custom.customFetcher : undefined;
+
   return (
-    <VaultProvider>
+    <VaultProvider vaultOptions={{ customFetcher } as any}>
       <AtlasViewer {...props}>{props.children}</AtlasViewer>
     </VaultProvider>
   );

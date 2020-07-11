@@ -165,15 +165,15 @@ function getEntityAtCursor(editorState: EditorState): EntityDescription | null {
 
 const Block = styled.div<{ tag: string }>`
   position: relative;
-  background: #eee;
+  background: rgba(5,42,68,0.05);
   padding: 28px 10px 10px;
   border-radius: 5px;
   margin: 5px 0;
   overflow: hidden;
   &:before {
     position: absolute;
-    background: #ddd;
-    color: #999;
+    background: rgba(5,42,68,0.1);
+    color: rgba(5,42,68,0.7);
     top: 0px;
     left: 0px;
     padding: 4px 6px;
@@ -184,7 +184,7 @@ const Block = styled.div<{ tag: string }>`
 
 const MainContainer = styled.div`
   background: #fff;
-  border: 1px solid #ddd;
+  border: 1px solid rgba(5, 42, 68, 0.2);
   border-radius: 3px;
   font-size: 14px;
   padding: 0.6em;
@@ -404,9 +404,10 @@ export const TaggedTextField: FieldComponent<TaggedTextFieldProps> = ({
         {blocks.map(block => (
           <Button
             type="button"
-            size="tiny"
+            size="mini"
             key={block.tag}
-            style={{ color: block.tag === currentBlockType ? '#000' : '#999' }}
+            selected={block.tag === currentBlockType}
+            // style={{ color: block.tag === currentBlockType ? '#000' : '#999' }}
             onClick={blockActionCreator(block.tag)}
           >
             {block.label}
@@ -417,9 +418,10 @@ export const TaggedTextField: FieldComponent<TaggedTextFieldProps> = ({
         {tags.map(tag => (
           <Button
             type="button"
-            size="tiny"
+            size="mini"
             key={tag.tag}
-            style={{ color: tag.tag === tagName ? '#000' : '#999' }}
+            selected={tag.tag === tagName}
+            // style={{ color: tag.tag === tagName ? '#000' : '#999' }}
             onClick={tagActionCreator(tag.tag)}
           >
             {tag.label}

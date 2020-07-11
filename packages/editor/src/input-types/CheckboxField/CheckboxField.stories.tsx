@@ -1,4 +1,5 @@
 import React from 'react';
+import { FieldInstanceList } from '../../components/FieldInstanceList/FieldInstanceList';
 import { FieldWrapper } from '../../components/FieldWrapper/FieldWrapper';
 import { PluginProvider } from '@capture-models/plugin-api';
 import { CheckboxField } from './CheckboxField';
@@ -48,6 +49,44 @@ export const WithFieldWrapper: React.FC = () => {
           } as any
         }
         onUpdateValue={value => console.log(value)}
+      />
+    </PluginProvider>
+  );
+};
+export const WithFieldWrapperNoLabel: React.FC = () => {
+  return (
+    <PluginProvider>
+      <FieldWrapper
+        field={
+          {
+            id: '1',
+            type: 'checkbox-field',
+            value: 'value 2',
+            description: 'Some other longer description',
+            label: 'Another field',
+          } as any
+        }
+        onUpdateValue={value => console.log(value)}
+      />
+    </PluginProvider>
+  );
+};
+
+export const WithPreview: React.FC = () => {
+  return (
+    <PluginProvider>
+      <FieldInstanceList
+        property="test"
+        fields={[
+          {
+            id: '1',
+            type: 'checkbox-field',
+            value: 'value 2',
+            description: 'Some other longer description',
+            inlineLabel: 'Confirm this thing',
+            label: 'Another field',
+          } as any,
+        ]}
       />
     </PluginProvider>
   );

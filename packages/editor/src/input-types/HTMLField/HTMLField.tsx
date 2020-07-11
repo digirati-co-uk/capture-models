@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { BaseField, FieldComponent } from '@capture-models/types';
 import RichTextEditor, { EditorValue } from 'react-rte';
+import styled from 'styled-components';
 import { useDebouncedCallback } from 'use-debounce';
 
 export interface HTMLFieldProps extends BaseField {
@@ -11,6 +12,7 @@ export interface HTMLFieldProps extends BaseField {
   enableHistory?: boolean;
   enableExternalImages?: boolean;
   enableLinks?: boolean;
+  enableStylesDropdown?: boolean;
 }
 
 const INLINE_STYLE_BUTTONS = [
@@ -35,15 +37,29 @@ const BLOCK_TYPE_BUTTONS = [
 ];
 
 const defaultEditorToolbarConfig: any = {
-  display: [
-    'BLOCK_TYPE_DROPDOWN',
-    'INLINE_STYLE_BUTTONS',
-    'BLOCK_TYPE_BUTTONS',
-  ],
+  display: ['INLINE_STYLE_BUTTONS', 'BLOCK_TYPE_BUTTONS'],
   INLINE_STYLE_BUTTONS,
   BLOCK_TYPE_DROPDOWN,
   BLOCK_TYPE_BUTTONS,
 };
+
+const StyledRichTextEditor = styled(RichTextEditor)`
+  border-color: rgba(5, 42, 68, 0.2);
+  font-family: inherit;
+  [class^='IconButton__root'] {
+    border-color: rgba(5, 42, 68, 0.2);
+    background: rgba(5, 42, 68, 0.05);
+    &:hover {
+      background: rgba(5, 42, 68, 0.2);
+    }
+    span {
+      color: rgba(5, 42, 68, 0.9);
+    }
+  }
+  [class*='IconButton__isActive'] {
+    background: rgba(5, 42, 68, 0.2);
+  }
+`;
 
 export const HTMLField: FieldComponent<HTMLFieldProps> = ({
   value,
@@ -52,13 +68,14 @@ export const HTMLField: FieldComponent<HTMLFieldProps> = ({
   enableExternalImages,
   enableHistory,
   enableLinks,
+  enableStylesDropdown,
 }) => {
   const [initialValue, setValue] = React.useState<EditorValue>(() =>
     RichTextEditor.createValueFromString(value, format)
   );
 
   const toolbarConfig = useMemo(() => {
-    const display = ['BLOCK_TYPE_DROPDOWN', 'INLINE_STYLE_BUTTONS', 'BLOCK_TYPE_BUTTONS'];
+    const display = ['INLINE_STYLE_BUTTONS', 'BLOCK_TYPE_BUTTONS'];
 
     if (enableExternalImages) {
       display.push('IMAGE_BUTTON');
@@ -72,19 +89,22 @@ export const HTMLField: FieldComponent<HTMLFieldProps> = ({
       display.push('LINK_BUTTONS');
     }
 
+    if (enableStylesDropdown) {
+      display.push('BLOCK_TYPE_DROPDOWN');
+    }
+
     return { ...defaultEditorToolbarConfig, display };
-  }, [enableExternalImages, enableHistory, enableLinks]);
+  }, [enableExternalImages, enableHistory, enableLinks, enableStylesDropdown]);
 
   const [updateExternalValue] = useDebouncedCallback((v: EditorValue) => {
     updateValue(v.toString(format));
   }, 200);
 
   return (
-    <RichTextEditor
-
+    <StyledRichTextEditor
       toolbarConfig={toolbarConfig}
       value={initialValue}
-      editorStyle={{ fontFamily: 'sans-serif' }}
+      editorStyle={{ fontFamily: 'inherit', fontSize: 'inherit' }}
       onChange={e => {
         setValue(e);
         updateExternalValue(e);
