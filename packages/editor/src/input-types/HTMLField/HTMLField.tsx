@@ -45,7 +45,7 @@ const defaultEditorToolbarConfig: any = {
 
 const StyledRichTextEditor = styled(RichTextEditor)`
   border-color: rgba(5, 42, 68, 0.2);
-  font-family: inherit;
+  font-family: inherit !important;
   [class^='IconButton__root'] {
     border-color: rgba(5, 42, 68, 0.2);
     background: rgba(5, 42, 68, 0.05);
