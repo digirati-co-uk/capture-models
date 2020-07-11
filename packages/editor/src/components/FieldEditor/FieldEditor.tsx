@@ -30,6 +30,7 @@ export const FieldEditor: React.FC<{
   const { fields, selectors } = useContext(PluginContext);
   const [selector, setSelector] = useState<BaseSelector | undefined>(props.selector);
   const field = ctx.fields[props.type];
+  const [defaultValue, setDefaultValue] = useState<any>(props.value);
 
   if (!field) {
     throw new Error('Plugin does not exist');
@@ -47,13 +48,17 @@ export const FieldEditor: React.FC<{
             onSubmit(
               field.onEditorSubmit({
                 ...newProps,
+                type: props.type,
                 selector,
+                value: defaultValue,
               })
             );
           } else {
             onSubmit({
               ...newProps,
+              type: props.type,
               selector,
+              value: defaultValue,
             });
           }
         }}
@@ -132,7 +137,14 @@ export const FieldEditor: React.FC<{
             </GridColumn>
             <GridColumn half>
               <Segment>
-                <FormPreview term={term} mapValues={field.onEditorSubmit} />
+                <FormPreview
+                  key={`${props.type}-${term}`}
+                  type={props.type}
+                  term={term}
+                  defaultValue={defaultValue}
+                  setDefaultValue={setDefaultValue}
+                  mapValues={field.onEditorSubmit}
+                />
               </Segment>
             </GridColumn>
           </Grid>

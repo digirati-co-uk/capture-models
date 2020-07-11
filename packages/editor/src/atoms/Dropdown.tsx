@@ -70,6 +70,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
           focusedBorderColor: '#005cc5',
           selectedBgColor: '#005cc5',
           backgroundColor: '#fff',
+          borderRadius: '3px',
         },
       }}
       inputId={id}

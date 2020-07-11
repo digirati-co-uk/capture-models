@@ -12,6 +12,9 @@ interface BaseContent {
   // Any state attached to the content, such as fetched resources, defined
   // by each individual content type.
   state: any;
+
+  // Some options.
+  options: ContentOptions;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -19,15 +22,28 @@ export interface ContentTypeMap {}
 
 export type ContentTypes = MapValues<ContentTypeMap>;
 
+export type ContentOptions = {
+  legacy?: boolean;
+  interactive?: boolean;
+  autoWidth?: boolean;
+  autoHeight?: boolean;
+  maxHeight?: number;
+  maxWidth?: number;
+  height?: number;
+  width?: number;
+  custom?: any;
+  targetOverride?: any;
+};
+
 export type ContentSpecification<T extends BaseContent = BaseContent> = {
   label: string;
   type: T['type'];
   description: string;
   defaultState: T['state'];
-  supports: (target: Target[]) => boolean;
-  targetToState: (target: Target[]) => T['state']; // @todo make promise compatible.
+  supports: (target: Target[], options: ContentOptions) => boolean;
+  targetToState: (target: Target[], options: ContentOptions) => T['state']; // @todo make promise compatible.
   // @todo in the future this could be used to switch between content @types.
   // supports: (t: any) => boolean;
   // This is a reference implementation of the view.
-  DefaultComponent: FC<T>;
+  DefaultComponent: FC<T & { options: ContentOptions }>;
 };

@@ -27,7 +27,10 @@ declare module '@capture-models/types' {
 const specification: ContentSpecification<import('./CanvasPanel').CanvasPanelProps> = {
   label: 'Canvas Panel',
   type: 'canvas-panel',
-  supports: target => {
+  supports: (target, options) => {
+    if (!options.legacy) {
+      return false;
+    }
     if (target.length < 2) {
       return false;
     }

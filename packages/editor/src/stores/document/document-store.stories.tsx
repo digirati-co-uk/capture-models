@@ -45,9 +45,28 @@ const Test: React.FC = () => {
           <div>
             <FieldEditor
               key={state.selectedField}
+              term={state.selectedField}
               field={state.subtree.properties[state.selectedField][0] as BaseField}
+              onChangeFieldType={(type, defaults) => {
+                actions.setFieldType({
+                  type,
+                  defaults,
+                });
+                actions.deselectField();
+                if (state.selectedField) {
+                  actions.selectField(state.selectedField);
+                }
+              }}
               onSubmit={field => {
                 actions.setField({ field });
+                actions.setFieldSelector({ selector: field.selector });
+                actions.deselectField();
+              }}
+              onDelete={() => {
+                if (state.selectedField) {
+                  actions.removeField(state.selectedField);
+                  // removeStructureField({ term: state.selectedField });
+                }
                 actions.deselectField();
               }}
             />

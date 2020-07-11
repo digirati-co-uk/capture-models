@@ -2,6 +2,7 @@ import React from 'react';
 import { registerField } from '@capture-models/plugin-api';
 import { FieldSpecification } from '@capture-models/types';
 import { CheckboxField, CheckboxFieldProps } from './CheckboxField';
+import { CheckboxFieldPreview } from './CheckboxField.preview';
 
 declare module '@capture-models/types' {
   export interface FieldTypeMap {
@@ -15,7 +16,7 @@ const specification: FieldSpecification<CheckboxFieldProps> = {
   label: 'Checkbox Field',
   defaultProps: {},
   allowMultiple: true,
-  TextPreview: () => React.createElement(React.Fragment, {}, ['Not yet implemented']),
+  TextPreview: CheckboxFieldPreview,
   description: 'Simple checkbox boolean value',
   Component: CheckboxField,
   Editor: React.lazy(() => import(/* webpackChunkName: "field-editors" */ './CheckboxField.editor')),
