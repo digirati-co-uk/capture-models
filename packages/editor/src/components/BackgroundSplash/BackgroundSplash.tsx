@@ -4,15 +4,15 @@ import { getTheme } from '../../themes';
 
 const Background = styled.div`
   background: ${props => getTheme(props).colors.primary};
-  padding: 40px 30px 80px 30px;
-  margin-bottom: -40px;
+  padding: 1em 2em 1em 2em;
+  margin-bottom: 1em;
 `;
 
 const BackgroundHeader = styled.h1`
   font-size: ${props => getTheme(props).sizes.headingLg};
   margin-top: 0.3em;
   margin-bottom: 0.3em;
-  font-weight: 600;
+  font-weight: 500;
   color: ${props => getTheme(props).colors.textOnPrimary};
 `;
 
@@ -22,7 +22,7 @@ const BackgroundDescription = styled.p`
   opacity: 0.9;
 `;
 const BackgroundBody = styled.div`
-  margin: 0 30px;
+  margin: 0 20px;
 `;
 
 type BackgroundSplashProps = {

@@ -24,6 +24,7 @@ const CardLabel = styled.label`
 
 const CardBody = styled.div`
   font-size: ${props => getTheme(props).sizes.text};
+  line-height: 1.4em;
   color: #000;
 `;
 
