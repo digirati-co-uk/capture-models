@@ -25,7 +25,9 @@ const BoxSelectorAtlas: SelectorComponent<BoxSelectorProps> = props => {
           props.updateSelector(box);
         }
       }}
-      onClick={() => {}}
+      onClick={() => {
+        // no-op
+      }}
     />
   );
 };
