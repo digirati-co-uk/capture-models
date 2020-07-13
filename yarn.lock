@@ -23,10 +23,10 @@
     magic-string "0.25.7"
     uuid "8.1.0"
 
-"@atlas-viewer/atlas@^1.0.0-alpha.7":
-  version "1.0.0-alpha.7"
-  resolved "https://registry.yarnpkg.com/@atlas-viewer/atlas/-/atlas-1.0.0-alpha.7.tgz#b574001dc53f043cb442cd9bd4aa4d0053ae5cfa"
-  integrity sha512-lq+S0D/Mof5DerDcatju1W2LHcJhVPO1dxMaAgBzI0JWEzHk81b7Jf2WNjWKZ7kSpUKBfe8w0KRFsNgoHr+o/A==
+"@atlas-viewer/atlas@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@atlas-viewer/atlas/-/atlas-1.0.0.tgz#ea7e6340aafed0bf5096284dd9bc4c1c36697c4c"
+  integrity sha512-CmCrtGX/wHQ/VtXuie96DTu69A2BizqDqq+0o1/2Q7WukfpOhip6eI3uVWnKFrJRrjj1W7+dfW/AGaBEuqWuoA==
   dependencies:
     "@atlas-viewer/dna" "^0.5.0"
     "@atlas-viewer/iiif-image-api" "^1.0.9"
@@ -42,6 +42,7 @@
     react-reconciler "^0.25.1"
     react-spring "^8.0.27"
     react-use-gesture "^7.0.15"
+    react-use-measure "^2.0.1"
     scheduler "^0.19.1"
     stats.js "^0.17.0"
     style-value-types "^3.1.7"
@@ -19226,6 +19227,13 @@ react-use-gesture@^7.0.15:
   version "7.0.15"
   resolved "https://registry.yarnpkg.com/react-use-gesture/-/react-use-gesture-7.0.15.tgz#93c651e916a31cfb12d079e7fa1543d5b0511e07"
   integrity sha512-vHQkaa7oUbSDTAcFk9huQXa7E8KPrZH91erPuOMoqZT513qvtbb/SzTQ33lHc71/kOoJkMbzOkc4uoA4sT7Ogg==
+
+react-use-measure@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/react-use-measure/-/react-use-measure-2.0.1.tgz#4f23f94c832cd4512da55acb300d1915dcbf3ae8"
+  integrity sha512-lFfHiqcXbJ2/6aUkZwt8g5YYM7EGqNVxJhMqMPqv1BVXRKp8D7jYLlmma0SvhRY4WYxxkZpCdbJvhDylb5gcEA==
+  dependencies:
+    debounce "^1.2.0"
 
 react-window@^1.8.5:
   version "1.8.5"

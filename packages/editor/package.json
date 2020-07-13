@@ -22,7 +22,7 @@
   "typings": "lib/index.d.ts",
   "scripts": {
     "build": "fesk-build --umd --cjs && tsc -p ./tsconfig.types.json && build-storybook",
-    "start": "fesk-start --cjs --umd --noServer",
+    "start": "fesk-start --cjs --umd  --noServer",
     "test": "jest",
     "build-types": "tsc -p ./tsconfig.types.json",
     "prepare": "NODE_ENV=production fesk-build --umd && tsc -p ./tsconfig.types.json",
@@ -36,7 +36,7 @@
     "@iiif/vocabulary": "1.0.17"
   },
   "dependencies": {
-    "@atlas-viewer/atlas": "^1.0.0-alpha.7",
+    "@atlas-viewer/atlas": "^1.0.0",
     "@capture-models/helpers": "^0.5.2",
     "@capture-models/plugin-api": "^0.5.2",
     "@capture-models/types": "^0.5.2",
