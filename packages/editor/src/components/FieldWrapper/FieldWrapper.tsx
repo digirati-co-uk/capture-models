@@ -10,7 +10,7 @@ type Props<T extends BaseField = BaseField> = {
   showTerm?: boolean;
   onUpdateValue: (value: T['value']) => void;
   hideHeader?: boolean;
-
+  fallback?: any;
   chooseSelector?: (payload: { selectorId: string }) => void;
   currentSelectorId?: string | null;
   clearSelector?: () => void;
@@ -30,6 +30,7 @@ export const FieldWrapper: React.FC<Props> = ({
   showTerm,
   selector,
   hideHeader,
+  fallback,
   chooseSelector,
   currentSelectorId,
   clearSelector,
@@ -75,24 +76,26 @@ export const FieldWrapper: React.FC<Props> = ({
   useEffect(() => componentWillUnmount, [componentWillUnmount]);
 
   return (
-    <div style={{ marginBottom: 30 }}>
-      {hideHeader ? null : (
-        <FieldHeader
-          labelFor={field.id}
-          label={field.label}
-          description={field.description}
-          selectorComponent={selectorComponent}
-          showTerm={showTerm}
-          onSelectorOpen={() => {
-            if (chooseSelector && selector) {
-              chooseSelector({ selectorId: selector.id });
-            }
-          }}
-          onSelectorClose={clearSelector}
-          term={term}
-        />
-      )}
-      <div>{fieldComponent || ''}</div>
-    </div>
+    <React.Suspense fallback={() => (typeof fallback !== 'undefined' ? fallback : 'loading...')}>
+      <div style={{ marginBottom: 30 }}>
+        {hideHeader ? null : (
+          <FieldHeader
+            labelFor={field.id}
+            label={field.label}
+            description={field.description}
+            selectorComponent={selectorComponent}
+            showTerm={showTerm}
+            onSelectorOpen={() => {
+              if (chooseSelector && selector) {
+                chooseSelector({ selectorId: selector.id });
+              }
+            }}
+            onSelectorClose={clearSelector}
+            term={term}
+          />
+        )}
+        <div>{fieldComponent || ''}</div>
+      </div>
+    </React.Suspense>
   );
 };
