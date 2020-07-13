@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components';
 import React, { useState } from 'react';
-import Textarea from 'react-textarea-autosize';
+
+const Textarea = React.lazy(() => /* webpackChunkName: "browser" */ import('react-textarea-autosize'));
 
 export const StyledForm = styled.form`
   margin-bottom: 1em;
@@ -63,16 +64,18 @@ export const StyledFormInput: React.FC<React.DetailedHTMLProps<
 
   if (multiline) {
     return (
-      <StyledFormMultilineInputElement
-        {...(props as any)}
-        value={value}
-        onChange={e => {
-          setValue(e.currentTarget.value);
-          if (props.onChange) {
-            props.onChange(e as any);
-          }
-        }}
-      />
+      <React.Suspense fallback={null}>
+        <StyledFormMultilineInputElement
+          {...(props as any)}
+          value={value}
+          onChange={e => {
+            setValue(e.currentTarget.value);
+            if (props.onChange) {
+              props.onChange(e as any);
+            }
+          }}
+        />
+      </React.Suspense>
     );
   }
 
