@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 
-import { presets, TagDefinition, TaggedTextFieldProps } from './TaggedTextField';
+import { presets } from './TaggedTextField.presets';
+import { TagDefinition, TaggedTextFieldProps } from './TaggedTextField';
 import { HTMLPreviewContainer } from '../HTMLField/HTMLField.preview';
 
 function parseTags(prefix: string, tags: TagDefinition) {
