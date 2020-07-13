@@ -1,9 +1,9 @@
 export const defaultTheme = {
   colors: {
-    primary: '#5F40E1',
+    primary: '#333',
     textOnPrimary: '#fff',
     mutedPrimary: '#E3DDFD',
-    textOnMutedPrimary: '#5F40E1',
+    textOnMutedPrimary: '#444',
   },
   sizes: {
     text: '13px',
@@ -27,9 +27,9 @@ export const defaultTheme = {
       margin: '25px',
     },
     small: {
-      padding: '15px',
-      radius: '8px',
-      margin: '20px',
+      padding: '12px',
+      radius: '6px',
+      margin: '16px',
     },
   },
 };

@@ -8,8 +8,23 @@ import { BackBanner } from '../BackBanner/BackBanner';
 
 export default { title: 'Form UI|Background Splash' };
 
+const Container: React.FC = ({ children }) => {
+  return (
+    <ThemeProvider theme={defaultTheme}>
+      <div style={{ maxWidth: 1280, margin: 'auto' }}>
+        <div style={{ display: 'flex' }}>
+          <div style={{ width: '67%', display: 'flex', background: '#eee' }}>
+            <div style={{ margin: 'auto' }}>- viewer -</div>
+          </div>
+          <div style={{ width: '33%' }}>{children}</div>
+        </div>
+      </div>
+    </ThemeProvider>
+  );
+};
+
 export const Default: React.FC = () => (
-  <ThemeProvider theme={defaultTheme}>
+  <Container>
     <div style={{ background: '#FAFCFF', minHeight: '100vh' }}>
       <BackgroundSplash header="Choose what you want to tag">
         <RoundedCard label="Person">
@@ -19,11 +34,11 @@ export const Default: React.FC = () => (
         <CardButton size="large">Create new</CardButton>
       </BackgroundSplash>
     </div>
-  </ThemeProvider>
+  </Container>
 );
 
 export const WithDescription: React.FC = () => (
-  <ThemeProvider theme={defaultTheme}>
+  <Container>
     <div style={{ background: '#FAFCFF', minHeight: '100vh' }}>
       <BackgroundSplash
         header="Person"
@@ -36,15 +51,13 @@ export const WithDescription: React.FC = () => (
         <CardButton size="large">Create new</CardButton>
       </BackgroundSplash>
     </div>
-  </ThemeProvider>
+  </Container>
 );
 
 export const WithInteractiveCards: React.FC = () => (
-  <ThemeProvider theme={defaultTheme}>
+  <Container>
     <div style={{ background: '#FAFCFF', minHeight: '100vh' }}>
-      <BackBanner>
-        Some text at the top.
-      </BackBanner>
+      <BackBanner>Some text at the top.</BackBanner>
       <BackgroundSplash header="Choose what you want to tag">
         <RoundedCard interactive label="Whole Photograph">
           Enter whatever information you have about this photograph
@@ -60,5 +73,5 @@ export const WithInteractiveCards: React.FC = () => (
         </RoundedCard>
       </BackgroundSplash>
     </div>
-  </ThemeProvider>
+  </Container>
 );

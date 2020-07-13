@@ -13,6 +13,7 @@ export * from './atoms/StyledForm';
 export * from './atoms/Tag';
 
 // Components
+export * from './components/BackBanner/BackBanner';
 export * from './components/BackgroundSplash/BackgroundSplash';
 export * from './components/CaptureModelList/CaptureModelList';
 export * from './components/CardButton/CardButton';
@@ -29,9 +30,11 @@ export * from './components/DocumentEditor/DocumentEditor';
 export * from './components/DocumentPreview/DocumentPreview';
 export * from './components/EditorContext/EditorContext';
 export * from './components/FieldEditor/FieldEditor';
+export * from './components/FieldInstanceReadOnly/FieldInstanceReadOnly';
 export * from './components/FieldHeader/FieldHeader';
-export * from './components/FieldSet/FieldSet';
+export * from './components/FieldInstanceList/FieldInstanceList';
 export * from './components/FieldPreview/FieldPreview';
+export * from './components/FieldSet/FieldSet';
 export * from './components/FieldWrapper/FieldWrapper';
 export * from './components/FormPreview/FormPreview';
 export * from './components/Heading/Heading';
@@ -41,23 +44,28 @@ export * from './components/NewChoiceForm/NewChoiceForm';
 export * from './components/NewDocumentForm/NewDocumentForm';
 export * from './components/NewFieldForm/NewFieldForm';
 export * from './components/NewModelForm/NewModelForm';
+export * from './components/RevisionSummary/RevisionSummary';
 export * from './components/RoundedCard/RoundedCard';
 export * from './components/SelectModelFields/SelectModelFields';
 export * from './components/StructureEditor/StructureEditor';
 export * from './components/StructureMetadataEditor/StructureMetadataEditor';
 export * from './components/SubtreeBreadcrumb/SubtreeBreadcrumb';
+export * from './components/Tree/Tree';
+
+// Connected components
+export * from './connected-components/FieldInstance';
 
 // Default content types.
 import './content-types/CanvasPanel';
 import './content-types/Atlas';
 
 // Default input types.
-import './input-types/TextField';
-import './input-types/HTMLField';
-import './input-types/TaggedTextField';
 import './input-types/AutocompleteField';
 import './input-types/CheckboxField';
 import './input-types/DropdownField';
+import './input-types/HTMLField';
+import './input-types/TaggedTextField';
+import './input-types/TextField';
 
 // Default selectors
 import './selector-types/BoxSelector';
@@ -73,7 +81,6 @@ export * from './hooks/useChoiceRevisions';
 
 // Stores
 export * from './stores/revisions';
-
 export * from './stores/document/document-store';
 export * from './stores/document/document-model';
 export * from './stores/selectors/selector-hooks';

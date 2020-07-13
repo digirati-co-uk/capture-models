@@ -4,7 +4,8 @@ import {
   StyledFormField,
   StyledFormLabel,
   StyledFormInputElement,
-  StyledCheckbox, StyledFormInput,
+  StyledCheckbox,
+  StyledFormInput,
 } from '../../atoms/StyledForm';
 
 type Props = {
@@ -19,13 +20,7 @@ const AutocompleteFieldEditor: React.FC<Props> = props => {
       <StyledFormField>
         <StyledFormLabel>
           Data source
-          <Field
-            as={StyledFormInput}
-            type="text"
-            name="dataSource"
-            value={props.dataSource}
-            required={true}
-          />
+          <Field as={StyledFormInput} type="text" name="dataSource" value={props.dataSource} required={true} />
         </StyledFormLabel>
       </StyledFormField>
       <StyledFormField>

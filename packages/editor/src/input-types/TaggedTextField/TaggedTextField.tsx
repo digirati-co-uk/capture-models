@@ -37,7 +37,7 @@ export type TagDefinition = {
   isHTML?: boolean;
 };
 
-const presets: { [name: string]: { blocks: TagDefinition[]; tags: TagDefinition[] } } = {
+export const presets: { [name: string]: { blocks: TagDefinition[]; tags: TagDefinition[] } } = {
   // http://transcribe-bentham.ucl.ac.uk/td/Help:Transcription_Guidelines
   bentham: {
     blocks: [
