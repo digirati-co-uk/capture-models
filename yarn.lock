@@ -23,10 +23,10 @@
     magic-string "0.25.7"
     uuid "8.1.0"
 
-"@atlas-viewer/atlas@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@atlas-viewer/atlas/-/atlas-1.0.0.tgz#ea7e6340aafed0bf5096284dd9bc4c1c36697c4c"
-  integrity sha512-CmCrtGX/wHQ/VtXuie96DTu69A2BizqDqq+0o1/2Q7WukfpOhip6eI3uVWnKFrJRrjj1W7+dfW/AGaBEuqWuoA==
+"@atlas-viewer/atlas@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@atlas-viewer/atlas/-/atlas-1.0.1.tgz#3088d58ccf8fe692701e4847e36953bb8279a183"
+  integrity sha512-YuMCc9xDXMFyW5w8YvK9JoxR1Wzw3gkj458Qxtw1If2hsbZe18Tb7BOtL6gR40YtQffvON0j0UgzJ0+gxhwepg==
   dependencies:
     "@atlas-viewer/dna" "^0.5.0"
     "@atlas-viewer/iiif-image-api" "^1.0.9"

@@ -36,7 +36,7 @@
     "@iiif/vocabulary": "1.0.17"
   },
   "dependencies": {
-    "@atlas-viewer/atlas": "^1.0.0",
+    "@atlas-viewer/atlas": "^1.0.1",
     "@capture-models/helpers": "^0.5.2",
     "@capture-models/plugin-api": "^0.5.2",
     "@capture-models/types": "^0.5.2",
