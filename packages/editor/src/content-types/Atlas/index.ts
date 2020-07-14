@@ -19,7 +19,12 @@ const specification: ContentSpecification<AtlasViewerProps> = {
     const canvas = target[target.length - 1];
     const manifest = target[target.length - 2];
 
-    return manifest && manifest.type === 'manifest' && canvas && canvas.type === 'canvas';
+    return (
+      manifest &&
+      (manifest.type || '').toLowerCase() === 'manifest' &&
+      canvas &&
+      (canvas.type || '').toLowerCase() === 'canvas'
+    );
   },
   targetToState: (target, options) => {
     if (options.targetOverride) {
