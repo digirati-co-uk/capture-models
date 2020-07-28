@@ -23,3 +23,12 @@ export const Interactive: React.FC = () => (
     </div>
   </ThemeProvider>
 );
+
+export const InteractiveRemove: React.FC = () => (
+  <RoundedCard
+    label="Interactive example"
+    interactive
+    onClick={() => alert('clicked')}
+    onRemove={() => alert('remove')}
+  />
+);

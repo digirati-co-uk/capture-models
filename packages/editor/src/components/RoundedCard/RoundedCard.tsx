@@ -1,5 +1,6 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
+import { ConfirmButton } from '../../atoms/ConfirmButton';
 import { getCard, getTheme } from '../../themes';
 
 export type CardSize = 'large' | 'medium' | 'small';
@@ -12,6 +13,8 @@ export type RoundedCardProps = {
   image?: string;
   interactive?: boolean;
   onClick?: any;
+  onRemove?: () => void;
+  removeMessage?: string;
 };
 
 const CardLabel = styled.label`
@@ -51,6 +54,13 @@ const CardWrapper = styled.article<{ size: CardSize; interactive: boolean }>`
   }
 `;
 
+const DeleteIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+    <path d="M0 0h24v24H0z" fill="none" />
+    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+  </svg>
+);
+
 const CardCount = styled.div`
   background: ${props => getTheme(props).colors.mutedPrimary};
   color: ${props => getTheme(props).colors.textOnMutedPrimary};
@@ -77,24 +87,71 @@ const CardImage = styled.img`
   margin-right: 10px;
 `;
 
+const RemoveIcon = styled.div<{ size: CardSize }>`
+  position: absolute;
+  ${props =>
+    props.size === 'small'
+      ? css`
+          top: 0.4em;
+          right: 0.4em;
+        `
+      : css`
+          top: 1em;
+          right: 1em;
+        `};
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  border-radius: 50%;
+  svg {
+    margin: auto;
+  }
+  box-shadow: none;
+  transition: box-shadow 0.4s, background-color 0.4s;
+  &:hover {
+    background: #ffac9d;
+    box-shadow: 0px 4px 10px 0 rgba(0, 0, 0, 0.3);
+  }
+`;
+
 export const RoundedCard: React.FC<RoundedCardProps> = ({
   size = 'large',
   onClick,
+  onRemove,
+  removeMessage,
   count,
   label,
   labelFor,
   interactive = !!onClick,
   children,
   image,
-}) => (
-  <CardWrapper interactive={interactive} size={size} onClick={onClick}>
-    {image || label || count ? (
-      <CardLayout showMargin={!!children}>
-        {image ? <CardImage src={image} /> : null}
-        {label ? <CardLabel htmlFor={labelFor}>{label}</CardLabel> : null}
-        {count ? <CardCount>{count}</CardCount> : null}
-      </CardLayout>
-    ) : null}
-    {children ? <CardBody>{children}</CardBody> : null}
-  </CardWrapper>
-);
+}) => {
+  return (
+    <CardWrapper interactive={interactive} size={size} onClick={onClick}>
+      {onRemove ? (
+        <ConfirmButton
+          defaultButton
+          message={removeMessage ? removeMessage : 'Are you sure you want to remove this?'}
+          onClick={() => {
+            onRemove();
+          }}
+        >
+          <RemoveIcon size={size}>
+            <DeleteIcon />
+          </RemoveIcon>
+        </ConfirmButton>
+      ) : null}
+      {image || label || count ? (
+        <CardLayout showMargin={!!children}>
+          {image ? <CardImage src={image} /> : null}
+          {label ? <CardLabel htmlFor={labelFor}>{label}</CardLabel> : null}
+          {count ? <CardCount>{count}</CardCount> : null}
+        </CardLayout>
+      ) : null}
+      {children ? <CardBody>{children}</CardBody> : null}
+    </CardWrapper>
+  );
+};
