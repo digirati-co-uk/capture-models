@@ -1,17 +1,29 @@
 import { CaptureModel, BaseField, BaseSelector } from '@capture-models/types';
-import { action, computed, createStore, thunk } from 'easy-peasy';
-import { original } from 'immer';
-import { pluginStore } from '@capture-models/plugin-api';
+import { action, computed, createStore, debug, thunk } from 'easy-peasy';
 import { RevisionsModel } from './revisions-model';
-import { createSelectorStore } from '../selectors/selector-store';
+import { createSelectorStore, updateSelectorStore } from '../selectors/selector-store';
 import {
-  copyOriginal,
   createRevisionDocument,
   generateId,
   createRevisionRequest,
   captureModelToRevisionList,
   getRevisionFieldFromPath,
+  createNewFieldInstance,
+  createNewEntityInstance,
+  isEntity,
+  traverseStructure,
 } from '@capture-models/helpers';
+
+function resolveSubtreeWithIds(subtreePath: [string, string, boolean?][], document: CaptureModel['document']) {
+  return subtreePath.reduce((acc, [term, id]) => {
+    const propValue = acc.properties[term];
+    const singleModel = (propValue as CaptureModel['document'][]).find(value => value.id === id);
+    if (!propValue.length || !singleModel || !isEntity(singleModel)) {
+      throw Error(`Invalid prop: ${term} with id ${id} in list ${subtreePath.join(',')}`);
+    }
+    return singleModel as CaptureModel['document'];
+  }, document);
+}
 
 export const revisionStore: RevisionsModel = {
   // Can we safely assume the structure won't change in this store? - I think so.
@@ -31,10 +43,190 @@ export const revisionStore: RevisionsModel = {
   unsavedRevisionIds: [],
   currentRevisionReadMode: false,
 
+  // Revision fields.
+  revisionSubtreePath: [], // Path to current entity.
+  revisionSelectedFieldProperty: null,
+  revisionSelectedFieldInstance: null, // ID of selected field instance.
+  revisionSubtree: computed(
+    [
+      // Subtree path string[]
+      state => state.revisionSubtreePath,
+      // Current revision document
+      state => {
+        if (!state.currentRevisionId) {
+          return undefined;
+        }
+        return state.revisions[state.currentRevisionId].document;
+      },
+    ],
+    (subtreePath, document) => {
+      if (!document) {
+        return undefined;
+      }
+
+      return resolveSubtreeWithIds(subtreePath, document);
+    }
+  ),
+  revisionSubtreeField: computed(
+    [
+      state => state.revisionSubtree,
+      state => state.revisionSelectedFieldProperty,
+      state => state.revisionSelectedFieldInstance,
+    ],
+    (subtree, property, id) => {
+      if (!subtree || !property || !id) {
+        return undefined;
+      }
+      const prop = subtree.properties[property];
+
+      if (!prop) {
+        return undefined;
+      }
+
+      return (prop as any[]).find(e => e.id === id);
+    }
+  ),
+  revisionSubtreeFieldKeys: computed([state => state.revisionSubtree], subtree =>
+    subtree ? Object.keys(subtree.properties) : []
+  ),
+  revisionSubtreeFields: computed(
+    [state => state.revisionSubtreeFieldKeys, state => state.revisionSubtree],
+    (keys: string[], subtree: CaptureModel['document'] | undefined) => {
+      if (!subtree) {
+        return [];
+      }
+      return keys.map(key => {
+        const item = subtree.properties[key];
+
+        return { term: key, value: item as Array<BaseField | CaptureModel['document']> };
+      });
+    }
+  ),
+
+  // Subtree actions
+  revisionSetSubtree: action((state, terms) => {
+    state.revisionSelectedFieldProperty = null;
+    state.revisionSelectedFieldInstance = null;
+    state.revisionSubtreePath = terms;
+  }),
+
+  // A helper to push a new subtree path, useful for navigation.
+  revisionPushSubtree: action((state, { term, id, skip = false }) => {
+    state.revisionSelectedFieldProperty = null;
+    state.revisionSelectedFieldInstance = null;
+    state.revisionSubtreePath.push([term, id, skip]);
+  }),
+
+  // A helper to pop the last subtree path, useful for navigation.
+  revisionPopSubtree: action(state => {
+    state.revisionSelectedFieldProperty = null;
+    state.revisionSelectedFieldInstance = null;
+
+    const path = debug(state.revisionSubtreePath);
+    const lastIndex = path.length - 1;
+    let toSlice = 0;
+    for (let i = lastIndex; i >= 0; i--) {
+      toSlice++;
+      const skip = path[lastIndex][2];
+      if (!skip) break;
+    }
+
+    state.revisionSubtreePath = path.slice(0, path.length - toSlice);
+  }),
+
+  revisionPopTo: action((state, payload) => {
+    state.revisionSelectedFieldProperty = null;
+    state.revisionSelectedFieldInstance = null;
+
+    const path = debug(state.revisionSubtreePath);
+    const lastIndex = path.length - 1;
+    let toSlice = 0;
+    for (let i = lastIndex; i >= 0; i--) {
+      toSlice++;
+      const upToId = path[lastIndex][1] === payload.id;
+      if (upToId) break;
+    }
+
+    state.revisionSubtreePath = path.slice(0, path.length - toSlice);
+  }),
+
+  // A way to set the selected field.
+  revisionSelectField: action((state, { term, id }) => {
+    if (!state.currentRevisionId) {
+      throw new Error('No revision selected');
+    }
+    const revisionDocument = state.revisions[state.currentRevisionId].document;
+
+    if (resolveSubtreeWithIds(state.revisionSubtreePath, revisionDocument).properties[term]) {
+      state.revisionSelectedFieldProperty = term;
+      state.revisionSelectedFieldInstance = id;
+    }
+  }),
+
+  // A simple way to deselect all fields.
+  revisionDeselectField: action(state => {
+    state.revisionSelectedFieldProperty = null;
+    state.revisionSelectedFieldInstance = null;
+  }),
+
+  // Structure navigation.
+  structure: undefined,
+  idStack: [],
+  isThankYou: false,
+  isPreviewing: false,
+
+  structureMap: computed([state => state.structure], structure => {
+    const map: { [id: string]: any } = {};
+    if (structure) {
+      traverseStructure(structure, (item, path) => {
+        map[item.id] = {
+          id: item.id,
+          structure: item,
+          path,
+        };
+      });
+    }
+    return map;
+  }),
+  currentStructureId: computed([state => state.idStack, state => state.structure], (idStack, structure) => {
+    return idStack[idStack.length - 1] ? idStack[idStack.length - 1] : structure ? structure.id : undefined;
+  }),
+  currentStructure: computed(
+    [state => state.currentStructureId, state => state.structureMap],
+    (currentId, structureMap) => {
+      if (!currentId) {
+        return undefined;
+      }
+      return structureMap[currentId].structure;
+    }
+  ),
+  choiceStack: computed([state => state.idStack, state => state.structureMap], (idStack, structureMap) => {
+    return idStack.map(id => structureMap[id]);
+  }),
+  goToStructure: action((state, id) => {
+    const nextStructure = state.structureMap[id];
+    if (nextStructure) {
+      state.idStack = nextStructure.path;
+    }
+  }),
+  pushStructure: action((state, id) => {
+    if (state.structureMap[id]) {
+      state.idStack.push(id);
+    }
+  }),
+  popStructure: action(state => {
+    state.idStack = state.idStack.slice(0, -1);
+  }),
+  setIsThankYou: action((state, payload) => {
+    state.isThankYou = payload;
+  }),
+  setIsPreviewing: action((state, payload) => {
+    state.isPreviewing = payload;
+  }),
+
   // Empty state for selectors. This will be populated when you select a revision and be reset when you deselect one.
   // It contains the basic state for what's currently selected.
   selector: createSelectorStore(),
-
   setCaptureModel: action((state, payload) => {
     const revisions = captureModelToRevisionList(payload.captureModel, !payload.excludeStructures).reduce(
       (mapOfRevisions, nextRevision) => {
@@ -54,6 +246,7 @@ export const revisionStore: RevisionsModel = {
       state.selector = createSelectorStore();
     }
 
+    state.structure = payload.captureModel.structure;
     state.revisions = revisions;
     state.unsavedRevisionIds = [];
   }),
@@ -66,7 +259,7 @@ export const revisionStore: RevisionsModel = {
   clearSelector: action(state => {
     state.selector.currentSelectorId = null;
   }),
-  clearTopLevelSelector: action((state, payload) => {
+  clearTopLevelSelector: action(state => {
     state.selector.topLevelSelector = null;
   }),
   setTopLevelSelector: action((state, payload) => {
@@ -112,6 +305,85 @@ export const revisionStore: RevisionsModel = {
     }
   }),
 
+  // Future options:
+  // - Show only focused annotations
+  // - Hide current entity
+  // - Show all annotations below
+  visibleCurrentLevelSelectorIds: computed(state => {
+    // By default if you were on a paragraph, this would return the paragraph and all of the lines.
+    // It would be up to some external configuration to not show the paragraph if desired. Perhaps a configuration
+    // in here in the future, or configuration in the viewer.
+    const currentSubtree = state.revisionSubtree;
+    if (!currentSubtree) {
+      return [];
+    }
+    const selectors = [];
+
+    if (currentSubtree.selector) {
+      selectors.push(currentSubtree.selector.id);
+    }
+    const props = Object.keys(currentSubtree.properties);
+    for (const prop of props) {
+      const fields = currentSubtree.properties[prop];
+      for (const field of fields) {
+        if (field.selector) {
+          selectors.push(field.selector.id);
+        }
+      }
+    }
+
+    return selectors;
+  }),
+
+  revisionAdjacentSubtreeFields: computed(
+    [
+      // Subtree path string[]
+      state => state.revisionSubtreePath,
+      // Current revision document
+      state => {
+        if (!state.currentRevisionId) {
+          return undefined;
+        }
+        return state.revisions[state.currentRevisionId].document;
+      },
+    ],
+    (subtreePath, document) => {
+      if (!document) {
+        return { fields: [], currentId: undefined };
+      }
+
+      if (subtreePath.length === 0) {
+        return { fields: [], currentId: undefined };
+      }
+
+      const [property, currentId] = subtreePath[subtreePath.length - 1];
+      const adj = resolveSubtreeWithIds(subtreePath.slice(0, -1), document);
+
+      return {
+        fields: (adj.properties[property] || []) as any[],
+        currentId,
+      };
+    }
+  ),
+
+  visibleAdjacentSelectorIds: computed(
+    [
+      // Subtree path string[]
+      state => state.revisionAdjacentSubtreeFields,
+    ],
+    ({ fields, currentId }) => {
+      const adjacentFields = (fields as any[]).filter(field => field.id !== currentId);
+
+      const selectors = [];
+      for (const adjacentField of adjacentFields) {
+        if (adjacentField.selector) {
+          selectors.push(adjacentField.selector.id);
+        }
+      }
+      return selectors;
+    }
+  ),
+
   // This method assumes we have the latest capture model available, which may not
   // be the case. This needs to be more generic.
   createRevision: action<RevisionsModel>((state, { revisionId, readMode, cloneMode, modelMapping }) => {
@@ -128,12 +400,11 @@ export const revisionStore: RevisionsModel = {
     // Create document
     const newDocument = createRevisionDocument(
       newRevisionId,
-      original(documentToClone) as CaptureModel['document'],
+      debug(documentToClone) as CaptureModel['document'],
       cloneMode,
       baseRevision.modelRoot,
       modelMapping
     );
-
     // Add new revision request
     const newRevisionRequest = createRevisionRequest(
       baseRevision.captureModelId as string,
@@ -205,13 +476,17 @@ export const revisionStore: RevisionsModel = {
       state.currentRevisionId = revisionId;
       state.currentRevisionReadMode = !!readMode;
       // Set up our selector store.
-      state.selector = createSelectorStore(original(state.revisions[revisionId].document) as CaptureModel['document']);
+      state.selector = createSelectorStore(debug(state.revisions[revisionId].document) as CaptureModel['document']);
     }
   }),
   deselectRevision: action(state => {
     state.currentRevisionId = null;
     state.currentRevisionReadMode = false;
     state.selector = createSelectorStore();
+    state.revisionSelectedFieldInstance = null;
+    state.revisionSelectedFieldProperty = null;
+    state.revisionSubtreePath = [];
+    state.currentRevisionReadMode = false;
   }),
 
   // These will probably have to walk through the revision.
@@ -240,46 +515,77 @@ export const revisionStore: RevisionsModel = {
     if (!entity) {
       throw new Error('invalid entity');
     }
-    // Grab the property itself from the entity.
-    const prop = entity.properties[property];
-    if (!prop || prop.length <= 0) {
-      throw new Error('invalid property');
+
+    // Fork a new field from what already exists.
+    const newField = createNewFieldInstance(debug(entity), property);
+
+    // Push it onto the properties.
+    (entity.properties[property] as BaseField[]).push(newField);
+    // Track selector.
+    if (newField.selector) {
+      state.selector.availableSelectors.push(newField.selector);
+      state.selector.selectorPaths[newField.selector.id] = [...path, [property, newField.id]];
     }
-
-    // Grab the template value (first) and ensure it allows multiple instances
-    const template = prop[0];
-    if (template.allowMultiple) {
-      throw new Error('field does not support multiple values.');
-    }
-
-    // Clone the template field.
-    const newField = copyOriginal<BaseField>(template);
-    const description = pluginStore.fields[newField.type];
-    if (!description) {
-      throw new Error(`field plugin not found of type ${newField.type}`);
-    }
-
-    // Modify the new field with defaults form the plugin store
-    newField.id = generateId();
-    newField.value = copyOriginal(description.defaultValue);
-
-    // @todo nuke selector.. maybe
-    entity.properties[property].push(newField as any);
   }),
-  createNewEntityInstance: action((state, { path, revisionId }) => {
-    // @todo this will be much the same as adding a new field instance, but instead it will
-    //   have to recurse through all of the properties and apply the same logic as the field logic.
-    //   This is probably the point where that logic will have to be split out.
-    //   Moving the nuking code to the plugin store will make sense I think.
-    return null as any;
+  createNewEntityInstance: action((state, { property, path, revisionId }) => {
+    // - @todo maybe an option for "number of instances" to create
+    // - @todo Respect model root option
+    // - @todo add model root to UI editor.
+
+    // Grab the parent entity where we want to add a new field.
+    const entity = getRevisionFieldFromPath<CaptureModel['document']>(state, path, revisionId);
+    if (!entity) {
+      throw new Error('invalid entity');
+    }
+
+    // Fork a new field from what already exists.
+    const newField = createNewEntityInstance(debug(entity), property);
+
+    const { availableSelectors, selectorPaths } = updateSelectorStore(newField, [...path, [property, newField.id]]);
+
+    if (availableSelectors.length) {
+      state.selector.availableSelectors.push(...availableSelectors);
+      const keys = Object.keys(selectorPaths);
+      for (const key of keys) {
+        state.selector.selectorPaths[key] = selectorPaths[key];
+      }
+    }
+
+    // Push it onto the properties.
+    (entity.properties[property] as CaptureModel['document'][]).push(newField);
   }),
   removeInstance: action((state, { path, revisionId }) => {
     const [fieldProp, fieldId] = path.slice(-1)[0];
     const pathToResource = path.slice(0, -1);
+    // console.log('removing instance', pathToResource, fieldProp, fieldId);
     const entity = getRevisionFieldFromPath<CaptureModel['document']>(state, pathToResource, revisionId);
+    const fields = entity ? entity.properties[fieldProp] : undefined;
+    if (entity && fields) {
+      if (fields.length === 1) {
+        throw new Error('Cannot delete last item');
+      }
+      const fieldOrEntity = (debug(fields) as any[]).find(f => f.id === fieldId);
+      if (fieldOrEntity.type === 'entity') {
+        const { availableSelectors } = updateSelectorStore(fieldOrEntity);
+        if (availableSelectors.length) {
+          const availableSelectorIds = availableSelectors.map(f => f.id);
+          state.selector.availableSelectors = state.selector.availableSelectors.filter(
+            s => availableSelectorIds.indexOf(s.id) === -1
+          );
+          for (const sId of availableSelectorIds) {
+            delete state.selector.selectorPaths[sId];
+          }
+        }
+      } else {
+        if (fieldOrEntity.selector) {
+          state.selector.availableSelectors = state.selector.availableSelectors.filter(
+            s => s.id !== fieldOrEntity.selector.id
+          );
+          delete state.selector.selectorPaths[fieldOrEntity.selector];
+        }
+      }
 
-    if (entity && entity.properties[fieldProp]) {
-      entity.properties[fieldProp] = (entity.properties[fieldProp] as any[]).filter(field => field.id !== fieldId);
+      entity.properties[fieldProp] = (fields as any[]).filter(f => f.id !== fieldId);
     }
   }),
 };
