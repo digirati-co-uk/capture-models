@@ -1,4 +1,3 @@
-import { debug } from 'easy-peasy';
 
 export function getRevisionFieldFromPath<T extends any = any, State extends any = any>(
   state: State,
@@ -12,7 +11,7 @@ export function getRevisionFieldFromPath<T extends any = any, State extends any 
     return null;
   }
 
-  let current = debug(state.revisions[revisionId].document);
+  let current = (state.revisions[revisionId].document);
 
   if (!current) {
     // Error?
