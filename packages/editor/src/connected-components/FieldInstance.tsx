@@ -7,17 +7,20 @@ import { useFieldSelector } from '../stores/selectors/selector-hooks';
 
 export const FieldInstance: React.FC<{
   field: BaseField;
+  property: string;
   path: Array<[string, string]>;
   hideHeader?: boolean;
-}> = ({ field, path, hideHeader }) => {
+}> = ({ field, property, path, hideHeader }) => {
   const updateFieldValue = Revisions.useStoreActions(a => a.updateFieldValue);
   const chooseSelector = Revisions.useStoreActions(a => a.chooseSelector);
   const currentSelectorId = Revisions.useStoreState(s => s.selector.currentSelectorId);
   const clearSelector = Revisions.useStoreActions(a => a.clearSelector) as any;
+  const previewData = Revisions.useStoreState(s => s.selector.selectorPreviewData);
+
   const selector = useFieldSelector(field);
 
   const [updateValue] = useDebouncedCallback(newValue => {
-    updateFieldValue({ value: newValue, path });
+    updateFieldValue({ value: newValue, path: [...path, [property, field.id]] });
   }, 100);
 
   return (
@@ -29,6 +32,7 @@ export const FieldInstance: React.FC<{
       chooseSelector={chooseSelector}
       clearSelector={clearSelector as any}
       currentSelectorId={currentSelectorId}
+      selectorPreview={selector ? previewData[selector.id] : undefined}
     />
   );
 };
