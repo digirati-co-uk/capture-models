@@ -1,5 +1,5 @@
 import { useSelectors } from './use-selectors';
-import { BaseSelector } from '@capture-models/types';
+import { BaseSelector, InjectedSelectorProps } from '@capture-models/types';
 
 export function useSelector<T extends BaseSelector>(
   selectorProps: T | undefined,
@@ -7,9 +7,12 @@ export function useSelector<T extends BaseSelector>(
   customOptions: {
     updateSelector?: any;
     selectorPreview?: any;
+    updateSelectorPreview?: (value: any) => void;
     readOnly?: boolean;
     defaultState?: any;
     isTopLevel?: boolean;
+    isAdjacent?: boolean;
+    onClick?: (selector: T & InjectedSelectorProps<T['state']>) => void;
   }
 ) {
   const selectors = useSelectors(selectorProps ? [selectorProps] : [], contentType, customOptions);
