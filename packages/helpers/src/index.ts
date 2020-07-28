@@ -5,6 +5,8 @@ export * from './create-context';
 export * from './create-document';
 export * from './create-field';
 export * from './create-model';
+export * from './create-new-field-instance';
+export * from './create-new-entity-instance';
 export * from './create-revision-document';
 export * from './create-revision-request';
 export * from './capture-model-to-revision-list';
