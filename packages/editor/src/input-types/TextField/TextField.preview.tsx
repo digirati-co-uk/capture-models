@@ -1,10 +1,17 @@
 import React from 'react';
 import { TextFieldProps } from './TextField';
 
-export const TextFieldPreview: React.FC<TextFieldProps> = ({ value }) => {
+export const TextFieldPreview: React.FC<TextFieldProps> = ({ value, previewInline }) => {
   if (!value) {
-    return <span style={{ color: '#999' }}>No value</span>;
+    if (previewInline) {
+      return <span style={{ color: '#999', marginRight: '.5em' }}>No value</span>;
+    }
+    return <div style={{ color: '#999' }}>No value</div>;
   }
 
-  return <>{value}</>;
+  if (previewInline) {
+    return <span style={{ marginRight: '.5em' }}>{value}</span>;
+  }
+
+  return <div>{value}</div>;
 };
