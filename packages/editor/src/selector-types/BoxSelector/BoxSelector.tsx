@@ -30,12 +30,6 @@ export const BoxSelector: SelectorComponent<BoxSelectorProps> = ({
   readOnly,
   ...props
 }) => {
-  if (props.selectorPreview) {
-    // @todo thumbnail?
-    // const preview: BoxSelectorPreview = props.selectorPreview;
-    // console.log(preview.thumbnail);
-  }
-
   const isSelecting = props.currentSelectorId === props.id;
 
   if (isSelecting) {
@@ -54,7 +48,16 @@ export const BoxSelector: SelectorComponent<BoxSelectorProps> = ({
   if (props.state) {
     return (
       <div>
-        You selected a thing at {props.state.x}, {props.state.y}, {props.state.width}, {props.state.height}
+        {props.selectorPreview ? (
+          <img
+            src={props.selectorPreview}
+            alt={`You selected a region at ${props.state.x}, ${props.state.y}, ${props.state.width}, ${props.state.height}`}
+          />
+        ) : (
+          <>
+            You selected a region at {props.state.x}, {props.state.y}, {props.state.width}, {props.state.height}{' '}
+          </>
+        )}
         <br />
         {chooseSelector && !readOnly ? (
           <SelectorButton inline={true} size="small" onClick={() => chooseSelector(props.id)}>
