@@ -77,13 +77,6 @@ export type ChoiceRefinement = Refinement<
   {
     currentRevisionId?: string | null;
     structure: CaptureModel['structure'];
-    peek: () =>
-      | {
-          id: string;
-          structure: CaptureModel['structure'];
-          path: string[];
-        }
-      | undefined;
   },
   {
     readMode?: boolean;
