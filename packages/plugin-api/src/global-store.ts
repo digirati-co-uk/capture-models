@@ -29,6 +29,9 @@ export function registerSelector<Props extends BaseSelector>(specification: Sele
 }
 
 export function registerRefinement<Ref extends UnknownRefinement = UnknownRefinement>(refinement: Ref) {
+
+  // @ts-ignore
+  refinement.refine.displayName = `refinement(${refinement.name})`;
   pluginStore.refinements.push(refinement);
 }
 
