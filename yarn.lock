@@ -23,15 +23,15 @@
     magic-string "0.25.7"
     uuid "8.1.0"
 
-"@atlas-viewer/atlas@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@atlas-viewer/atlas/-/atlas-1.0.1.tgz#3088d58ccf8fe692701e4847e36953bb8279a183"
-  integrity sha512-YuMCc9xDXMFyW5w8YvK9JoxR1Wzw3gkj458Qxtw1If2hsbZe18Tb7BOtL6gR40YtQffvON0j0UgzJ0+gxhwepg==
+"@atlas-viewer/atlas@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@atlas-viewer/atlas/-/atlas-1.0.2.tgz#1ed0be0b6fbad0a269486bbd3b9b0e411cee840a"
+  integrity sha512-FP5uSzb3z/H+iHIv69fC4wjUDiKzhDTOrLBJxo1hcB/uM4RpUZ5DaEPD6u6Uwa0AGNMreB93XpFx8mBu7MjjmQ==
   dependencies:
     "@atlas-viewer/dna" "^0.5.0"
-    "@atlas-viewer/iiif-image-api" "^1.0.9"
-    "@hyperion-framework/types" "1.0.0-alpha.10"
-    "@hyperion-framework/vault" "1.0.0-alpha.10"
+    "@atlas-viewer/iiif-image-api" "^1.2.0"
+    "@hyperion-framework/types" "1.0.0-alpha.14"
+    "@hyperion-framework/vault" "1.0.0-alpha.15"
     "@popmotion/popcorn" "^0.4.4"
     canvas-text-wrapper "^0.10.2"
     framesync "^4.0.2"
@@ -54,12 +54,12 @@
   resolved "https://registry.yarnpkg.com/@atlas-viewer/dna/-/dna-0.5.0.tgz#aab824540b59dc3897e2ba4cdb51a53e47ed3311"
   integrity sha512-vHyMwXoCFq6ymk+wOVIkMphUo+I+wBRoA2tBf1AIUZWJMsk51cBtO2qzOaZQUh/TmrzrqEY5aEAtgBj52LVRUg==
 
-"@atlas-viewer/iiif-image-api@^1.0.9", "@atlas-viewer/iiif-image-api@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@atlas-viewer/iiif-image-api/-/iiif-image-api-1.1.0.tgz#b982cc0069017bbb4de5a32bab88ecb2837ee381"
-  integrity sha512-y5Eul2163Iy0r8ddSp/9n65diuHcbPiKoETMAYorYzHBP9toyQhFL/EyWgVgoolIaeSMavKUcyAqejuShAhwDQ==
+"@atlas-viewer/iiif-image-api@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@atlas-viewer/iiif-image-api/-/iiif-image-api-1.2.0.tgz#3c3309dd8dc8ad443fceba4725d5f240f52bfbf4"
+  integrity sha512-J7ult1uGp6E/dip31Y0PwudnInTc/7ZX8pcLPtRxb301/2c+MyseCc8eRxCHyyaJIEiHguKgmLyfgZL284aIIQ==
   dependencies:
-    "@hyperion-framework/types" "^1.0.0-alpha.0"
+    "@hyperion-framework/types" "^1.0.0-alpha.14"
 
 "@babel/cli@^7.8.4":
   version "7.8.4"
@@ -2425,70 +2425,71 @@
   dependencies:
     "@hapi/hoek" "^8.3.0"
 
-"@hyperion-framework/parser@^1.0.0-alpha.10":
-  version "1.0.0-alpha.10"
-  resolved "https://registry.yarnpkg.com/@hyperion-framework/parser/-/parser-1.0.0-alpha.10.tgz#7be47fee95c5a972c6822b4ed5f486ca39ea31d3"
-  integrity sha512-Pbgm/1qD1taiTrxGm2dMmRemvlN3oWk9o9g/TbPiWJdiOQcT45gG//1SaZFjpAoZSjz3Jdohrl1FRNl5hOv7jA==
+"@hyperion-framework/parser@^1.0.0-alpha.15":
+  version "1.0.0-alpha.15"
+  resolved "https://registry.yarnpkg.com/@hyperion-framework/parser/-/parser-1.0.0-alpha.15.tgz#3b8de00b2ca86c046e6ece410642f0f6d4dbb1c5"
+  integrity sha512-HmdKALLWBxifaDtNDIduflJ+thZUGYpkSPV7Al+6KbKhdj1Iw/eY9AOIpd5V9WPbVrp+VVM5zfidaqikHbd69A==
   dependencies:
-    "@hyperion-framework/presentation-2-parser" "^1.0.0-alpha.10"
-    "@hyperion-framework/types" "^1.0.0-alpha.10"
+    "@hyperion-framework/presentation-2-parser" "^1.0.0-alpha.15"
+    "@hyperion-framework/types" "^1.0.0-alpha.14"
 
-"@hyperion-framework/presentation-2-parser@^1.0.0-alpha.10":
-  version "1.0.0-alpha.10"
-  resolved "https://registry.yarnpkg.com/@hyperion-framework/presentation-2-parser/-/presentation-2-parser-1.0.0-alpha.10.tgz#92d98b7b6cb2005fcc7c54b006f7d54c52ca485b"
-  integrity sha512-jtwlOQdipW7CaxPKiyb4LWfesXZ3ers/KQcZCSd1E/C1Tp0eOgQEstjwxNuidCU2tS/Lstg0ucY3G1zqn1xMyw==
+"@hyperion-framework/presentation-2-parser@^1.0.0-alpha.15":
+  version "1.0.0-alpha.15"
+  resolved "https://registry.yarnpkg.com/@hyperion-framework/presentation-2-parser/-/presentation-2-parser-1.0.0-alpha.15.tgz#2f9b3376ce956d924daf91ed6e2964db401ebbd5"
+  integrity sha512-DgZkmGIfkPjgpXI9k2rsCLAk+Ag+qLQjcB4IMPBo4jthuVCoSoQ86lGTaQineTBuIFUK4TFCk6qUeg6w65Sk1Q==
   dependencies:
-    "@atlas-viewer/iiif-image-api" "^1.1.0"
-    "@hyperion-framework/presentation-2" "^1.0.0-alpha.10"
+    "@atlas-viewer/iiif-image-api" "^1.2.0"
+    "@hyperion-framework/presentation-2" "^1.0.0-alpha.14"
 
-"@hyperion-framework/presentation-2@^1.0.0-alpha.10":
-  version "1.0.0-alpha.10"
-  resolved "https://registry.yarnpkg.com/@hyperion-framework/presentation-2/-/presentation-2-1.0.0-alpha.10.tgz#3a0e699b4cafb256df7da965ae5ec6c8ea6311b8"
-  integrity sha512-q3AiR/GJFgw+TbxXFDYartTGnOwt2AfY5zuuYQ70BXIqzhoSPgatBiJ8uZ7H7H5TxnWXgIMjl2qoFXSa3v/0Gg==
+"@hyperion-framework/presentation-2@^1.0.0-alpha.14":
+  version "1.0.0-alpha.14"
+  resolved "https://registry.yarnpkg.com/@hyperion-framework/presentation-2/-/presentation-2-1.0.0-alpha.14.tgz#90f2347035183b924855b93c31341263c65a0165"
+  integrity sha512-AEIbQ2mKHyoCN2cBEr1GgCDjnZ7TOLjUgH3Bcb7jiI/g0slP8pC7TGmL9jl7ciCjJ1W5vpg8TfE+yZbzKIIqSA==
   dependencies:
-    "@hyperion-framework/types" "^1.0.0-alpha.10"
+    "@hyperion-framework/types" "^1.0.0-alpha.14"
 
-"@hyperion-framework/react-vault@^1.0.0-alpha.10":
-  version "1.0.0-alpha.10"
-  resolved "https://registry.yarnpkg.com/@hyperion-framework/react-vault/-/react-vault-1.0.0-alpha.10.tgz#e0cf0c41408233ea9106fc50241ef634d65f7991"
-  integrity sha512-yY/7ri5BHlx/z4zD5/aS0aU5KheA1X0yKxuRhiVRq9dG/GebHZx2SwKFFA5qFUviLSTpBkuqQTxA/3B0wizGSw==
+"@hyperion-framework/react-vault@^1.0.0-alpha.15":
+  version "1.0.0-alpha.15"
+  resolved "https://registry.yarnpkg.com/@hyperion-framework/react-vault/-/react-vault-1.0.0-alpha.15.tgz#c70aee9efc0a2886e4f08e840dc084a294e6661e"
+  integrity sha512-Zy8s2x9saz9a4UGDBWMhZoXa0N7nwiWZjHDv2XzLqdCHAc7M/HD8iVe3V/9h8S8NTedHPYyuih92DDNcQfe/YQ==
   dependencies:
-    "@atlas-viewer/iiif-image-api" "^1.1.0"
-    "@hyperion-framework/store" "^1.0.0-alpha.10"
-    "@hyperion-framework/vault" "^1.0.0-alpha.10"
+    "@atlas-viewer/iiif-image-api" "^1.2.0"
+    "@hyperion-framework/store" "^1.0.0-alpha.15"
+    "@hyperion-framework/vault" "^1.0.0-alpha.15"
     react "^16.8.6"
     react-dom "^16.8.6"
     react-query "^1.5.2"
     redux "^4.0.5"
     redux-react-hook "^3.2.0"
 
-"@hyperion-framework/store@^1.0.0-alpha.10":
-  version "1.0.0-alpha.10"
-  resolved "https://registry.yarnpkg.com/@hyperion-framework/store/-/store-1.0.0-alpha.10.tgz#508421f190e5e95838bb82d398cf456f0415f87e"
-  integrity sha512-YJKTSgp3ctotz9k7tTWd519MxB+NGI6V7Dan1E+LdVMPii+9WoKtWjsAz3w0TH034+LlD+zmLCacpaRwJ5I7jQ==
+"@hyperion-framework/store@^1.0.0-alpha.15":
+  version "1.0.0-alpha.15"
+  resolved "https://registry.yarnpkg.com/@hyperion-framework/store/-/store-1.0.0-alpha.15.tgz#1f9e2c80a5f6818a8ba11567680ecf353ba3173d"
+  integrity sha512-uw8q5ijLPtSHgSVhKxeoJCnRIMRD1pnswwcQuGTnfe5itGJ8vmYGtBKZLRGSWTajm1AdRw4HcjP9d9cP2KIZ8g==
   dependencies:
-    "@hyperion-framework/parser" "^1.0.0-alpha.10"
-    "@hyperion-framework/types" "^1.0.0-alpha.10"
+    "@hyperion-framework/parser" "^1.0.0-alpha.15"
+    "@hyperion-framework/types" "^1.0.0-alpha.14"
     immer "^6.0.8"
     redux "^4.0.5"
     typesafe-actions "^5.1.0"
 
-"@hyperion-framework/types@1.0.0-alpha.10", "@hyperion-framework/types@^1.0.0-alpha.0", "@hyperion-framework/types@^1.0.0-alpha.10":
-  version "1.0.0-alpha.10"
-  resolved "https://registry.yarnpkg.com/@hyperion-framework/types/-/types-1.0.0-alpha.10.tgz#b445106caaac747d2a46aa0bbe3910715045b7f5"
-  integrity sha512-iMJ6FJ95nJqR97TSEB1J8ot2e7jHqRoQk4BV5M2tYqVVTBOU1RYVOaeIMkt2cpUiiesNgNijsNmu0ZxQ40eStQ==
+"@hyperion-framework/types@1.0.0-alpha.14", "@hyperion-framework/types@^1.0.0-alpha.14":
+  version "1.0.0-alpha.14"
+  resolved "https://registry.yarnpkg.com/@hyperion-framework/types/-/types-1.0.0-alpha.14.tgz#192c9c2596411a396467965c84d9d815c4fe78ca"
+  integrity sha512-72VmMWbvtX1c2GlndSuawJ3WUXtqCg8O1XK1E19FXe1/BTiTghXNblmrW3rSgMXjzmkg2F+rILqmsztUxX9xOg==
   dependencies:
     "@types/geojson" "^7946.0.7"
 
-"@hyperion-framework/vault@1.0.0-alpha.10", "@hyperion-framework/vault@^1.0.0-alpha.10":
-  version "1.0.0-alpha.10"
-  resolved "https://registry.yarnpkg.com/@hyperion-framework/vault/-/vault-1.0.0-alpha.10.tgz#80c3eb88415f02dcb70747478762e2cede5110fd"
-  integrity sha512-RDV1R6ziUjDvh8hFJ5fUUk0LQcgcXIvpNKci1zrp37XHSO3az7tM1gUzXWaPLqFp0oaoE1IkvZSMoYMs6FaonA==
+"@hyperion-framework/vault@1.0.0-alpha.15", "@hyperion-framework/vault@^1.0.0-alpha.15":
+  version "1.0.0-alpha.15"
+  resolved "https://registry.yarnpkg.com/@hyperion-framework/vault/-/vault-1.0.0-alpha.15.tgz#b7f4457cc37dd35e31ff6d5e4c7bf917ba8fd693"
+  integrity sha512-JblXhS6b4APDoNOrRsDYEeiGyxdTQvYQQ11GyXRCb5yC0RDw6AdhjnpcJNwSBUkiBW2gPGx3PGwsvyjac7i2iw==
   dependencies:
-    "@atlas-viewer/iiif-image-api" "^1.1.0"
-    "@hyperion-framework/parser" "^1.0.0-alpha.10"
-    "@hyperion-framework/store" "^1.0.0-alpha.10"
-    "@hyperion-framework/types" "^1.0.0-alpha.10"
+    "@atlas-viewer/iiif-image-api" "^1.2.0"
+    "@hyperion-framework/parser" "^1.0.0-alpha.15"
+    "@hyperion-framework/store" "^1.0.0-alpha.15"
+    "@hyperion-framework/types" "^1.0.0-alpha.14"
+    "@types/geojson" "^7946.0.7"
     mitt "^1.2.0"
 
 "@icons/material@^0.2.4":
@@ -2509,10 +2510,10 @@
   resolved "https://registry.yarnpkg.com/@iiif/vocabulary/-/vocabulary-1.0.16.tgz#63f5898318688d46d9a444fee68b6d10ef746709"
   integrity sha512-DI9KeHu78BplPrBWnDlDDxw+5pHWHN7oAMa1bCKtHCzeU+upxk0htREYE4f7f3zK2fEpEWnrCQUmGwVueutTJw==
 
-"@iiif/vocabulary@1.0.17":
-  version "1.0.17"
-  resolved "https://registry.yarnpkg.com/@iiif/vocabulary/-/vocabulary-1.0.17.tgz#117c3fcf65215a92b8d3ddcf08491632fe2b6303"
-  integrity sha512-p0BlsdLeD28a0xny6OgOHEg18uCElsSlvX5KzQnltdWvRlwi9R5HdfAxfAuzHog4jE3YuR2xsAgcQh/jcoMN6A==
+"@iiif/vocabulary@1.0.18":
+  version "1.0.18"
+  resolved "https://registry.yarnpkg.com/@iiif/vocabulary/-/vocabulary-1.0.18.tgz#e0af74436d431d482986dc8041779a8f04a605dc"
+  integrity sha512-OV7NNmnTvtX4Zja8LevLMGaXiwvq8hzPHGa3hUlF5LjLa6fOuZhDC+ADCReHejEf30abTx/g5cnNAf3s5S/Brg==
 
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.0.0"
@@ -9583,20 +9584,20 @@ duplexify@^3.4.2, duplexify@^3.6.0:
     readable-stream "^2.0.0"
     stream-shift "^1.0.0"
 
-easy-peasy@^3.2.3:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/easy-peasy/-/easy-peasy-3.3.0.tgz#1ae7cbaa834dad5aa404f1437726fb8c0eed3cef"
-  integrity sha512-wkTDAG+nRy+4g8Z3/k1vuTyrhxet19oY5MCmuRgOObm8dtZ2m+g5Mk/sdf3UWPuyx/sKIYH5Fy/HXab8iNKjTQ==
+easy-peasy@^3.4.0-beta.1:
+  version "3.4.0-beta.1"
+  resolved "https://registry.yarnpkg.com/easy-peasy/-/easy-peasy-3.4.0-beta.1.tgz#4e5ea1523519ef928ac84df30cb29b504fc9ae9b"
+  integrity sha512-NL2gpt4e3nhIM8w9UBJm2RznhGKTnn/YSdVNEfgTD2RexnnrDZOEWoqi0bygcJeP05JXdDrVWHq0tKvK5K+Ktw==
   dependencies:
     debounce "^1.2.0"
-    immer-peasy "3.1.3"
+    immer "7.0.1"
     is-plain-object "^3.0.0"
     memoizerific "^1.11.3"
-    prop-types "^15.6.2"
     redux "^4.0.5"
     redux-thunk "^2.3.0"
     symbol-observable "^1.2.0"
-    ts-toolbelt "^6.1.6"
+    ts-toolbelt "^6.9.4"
+    use-memo-one "^1.1.1"
 
 ecc-jsbn@~0.1.1:
   version "0.1.2"
@@ -12425,15 +12426,15 @@ img-loader@^3.0.1:
   dependencies:
     loader-utils "^1.1.0"
 
-immer-peasy@3.1.3:
-  version "3.1.3"
-  resolved "https://registry.yarnpkg.com/immer-peasy/-/immer-peasy-3.1.3.tgz#d0ea8d388f47ec6b15ab2ca19ffb9f0bf4310110"
-  integrity sha512-WzoZ96A93jOmcDOLNChMWAqy+ZU8vEYQx2DcKjgo7P5SToiJs+GL+5yQbWzH8X02Lhvv6xrGgVNa1xbki66Eow==
-
 immer@1.10.0:
   version "1.10.0"
   resolved "https://registry.yarnpkg.com/immer/-/immer-1.10.0.tgz#bad67605ba9c810275d91e1c2a47d4582e98286d"
   integrity sha512-O3sR1/opvCDGLEVcvrGTMtLac8GJ5IwZC4puPrLuRj3l7ICKvkmA0vGuU9OW8mV9WIBRnaxp5GJh9IEAaNOoYg==
+
+immer@7.0.1:
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/immer/-/immer-7.0.1.tgz#830f44a36c4181c0eca4385e7782e164e5eb9249"
+  integrity sha512-DpWL/ES2Ba8KwW+A5AgNRoJPZP8LxdHejKXar1VfbF5a7ATvvekzmmNSQxje+WG0DIhuanvFEumFffVqyCLmBQ==
 
 immer@^4.0.0, immer@^4.0.1:
   version "4.0.2"
@@ -12444,6 +12445,11 @@ immer@^6.0.8:
   version "6.0.9"
   resolved "https://registry.yarnpkg.com/immer/-/immer-6.0.9.tgz#b9dd69b8e69b3a12391e87db1e3ff535d1b26485"
   integrity sha512-SyCYnAuiRf67Lvk0VkwFvwtDoEiCMjeamnHvRfnVDyc7re1/rQrNxuL+jJ7lA3WvdC4uznrvbmm+clJ9+XXatg==
+
+immer@^7.0.5:
+  version "7.0.5"
+  resolved "https://registry.yarnpkg.com/immer/-/immer-7.0.5.tgz#8af347db5b60b40af8ae7baf1784ea4d35b5208e"
+  integrity sha512-TtRAKZyuqld2eYjvWgXISLJ0ZlOl1OOTzRmrmiY8SlB0dnAhZ1OiykIDL5KDFNaPHDXiLfGQFNJGtet8z8AEmg==
 
 immutable@^3.8.1:
   version "3.8.2"
@@ -21713,11 +21719,6 @@ ts-pnp@^1.1.2:
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/ts-pnp/-/ts-pnp-1.1.5.tgz#840e0739c89fce5f3abd9037bb091dbff16d9dec"
   integrity sha512-ti7OGMOUOzo66wLF3liskw6YQIaSsBgc4GOAlWRnIEj8htCxJUxskanMUoJOD6MDCRAXo36goXJZch+nOS0VMA==
-
-ts-toolbelt@^6.1.6:
-  version "6.1.6"
-  resolved "https://registry.yarnpkg.com/ts-toolbelt/-/ts-toolbelt-6.1.6.tgz#2485059771e450048debd1d2300212da3e4ddadb"
-  integrity sha512-zrLyrOg3LQlRi40hP8MHEXXlqkejYjBkX6U3ATY/NyBt0IRbYAJs8QG2meHV1HoRiTBMIgMav8ICu/IxOK4QCQ==
 
 ts-toolbelt@^6.9.4:
   version "6.10.2"
