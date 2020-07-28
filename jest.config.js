@@ -19,4 +19,9 @@ module.exports = {
     '\\.(css|scss)$': '<rootDir>/__mocks__/styleMock.ts',
     '@capture-models/helpers': '<rootDir>/packages/helpers/src/index.ts',
   },
+  globals: {
+    'ts-jest': {
+      isolatedModules: true,
+    }
+  }
 };
