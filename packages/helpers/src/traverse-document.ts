@@ -49,7 +49,7 @@ export function traverseDocument<TempEntityFields = any>(
   if (transforms.beforeVisitEntity) {
     transforms.beforeVisitEntity(document, key, rootParent);
   }
-  for (const propKey of Object.keys(document.properties)) {
+  for (const propKey of Object.keys(document.properties || {})) {
     const prop = document.properties[propKey];
     if (transforms.visitProperty) {
       transforms.visitProperty(propKey, prop, document);
