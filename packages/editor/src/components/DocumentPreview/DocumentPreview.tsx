@@ -13,7 +13,13 @@ export const DocumentPreview: React.FC<{
         return <>{children}</>;
       }
 
-      return <DocumentPreview entity={entity.properties[entity.labelledBy][0] as any} />;
+      return (
+        <>
+          {(entity.properties[entity.labelledBy] as any[]).map((m: any) => (
+            <DocumentPreview key={m.id} entity={m} />
+          ))}
+        </>
+      );
     }
     return <>{children}</>;
   }
