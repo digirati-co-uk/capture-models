@@ -28,7 +28,7 @@ export type InjectedSelectorProps<T> = {
   readOnly?: boolean;
   // Selector preview can be set and passed to the rendering components.
   selectorPreview?: any;
-  setSelectorPreview?: (newValue: any) => void;
+  updateSelectorPreview?: (data: { selectorId: string; preview: string }) => void;
   // For the form.
   chooseSelector?: (selectorId: string) => void;
   clearSelector?: () => void;
@@ -37,6 +37,8 @@ export type InjectedSelectorProps<T> = {
   hideSelector?: (selectorId: string) => void;
   currentSelectorId?: string;
   isTopLevel?: boolean;
+  isAdjacent?: boolean;
+  onClick?: (selector: BaseSelector & InjectedSelectorProps<any>) => void;
 };
 
 export type SelectorTypes<Type extends SelectorTypeMap = SelectorTypeMap> = MapValues<Type>;

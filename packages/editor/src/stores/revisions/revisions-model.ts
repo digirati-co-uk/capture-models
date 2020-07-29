@@ -1,4 +1,4 @@
-import { BaseSelector, CaptureModel, RevisionRequest } from '@capture-models/types';
+import { BaseField, BaseSelector, CaptureModel, RevisionRequest } from '@capture-models/types';
 import { Action, Computed, Thunk } from 'easy-peasy';
 import { SelectorModel } from '../selectors/selector-model';
 
@@ -60,6 +60,57 @@ export type RevisionsModel = {
   currentRevisionReadMode: boolean;
   unsavedRevisionIds: string[];
 
+  // Revision fields.
+  revisionSubtreePath: [string, string, boolean][];
+  revisionSelectedFieldProperty: string | null;
+  revisionSelectedFieldInstance: string | null;
+  revisionSubtreeField: Computed<RevisionsModel, CaptureModel['document'] | BaseField | undefined>;
+  revisionSubtree: Computed<RevisionsModel, CaptureModel['document'] | undefined>;
+  revisionSubtreeFieldKeys: Computed<RevisionsModel, string[]>;
+  revisionSubtreeFields: Computed<
+    RevisionsModel,
+    Array<{ term: string; value: Array<CaptureModel['document'] | BaseField> }>
+  >;
+  revisionSetSubtree: Action<RevisionsModel, [string, string, boolean][]>;
+  revisionPushSubtree: Action<RevisionsModel, { term: string; id: string; skip?: boolean }>;
+  revisionPopSubtree: Action<RevisionsModel, { count: number } | undefined>;
+  revisionSelectField: Action<RevisionsModel, { term: string; id: string }>;
+  revisionDeselectField: Action<RevisionsModel>;
+  revisionPopTo: Action<RevisionsModel, { id: string }>;
+
+  // Structure navigation
+  structure: CaptureModel['structure'] | undefined;
+  idStack: string[];
+  isThankYou: boolean;
+  isPreviewing: boolean;
+
+  goToStructure: Action<RevisionsModel, string>;
+  pushStructure: Action<RevisionsModel, string>;
+  popStructure: Action<RevisionsModel>;
+  setIsThankYou: Action<RevisionsModel, boolean>;
+  setIsPreviewing: Action<RevisionsModel, boolean>;
+
+  structureMap: Computed<
+    RevisionsModel,
+    {
+      [id: string]: {
+        id: string;
+        structure: CaptureModel['structure'];
+        path: string[];
+      };
+    }
+  >;
+  currentStructureId: Computed<RevisionsModel, string | undefined>;
+  currentStructure: Computed<RevisionsModel, CaptureModel['structure'] | undefined>;
+  choiceStack: Computed<
+    RevisionsModel,
+    Array<{
+      id: string;
+      structure: CaptureModel['structure'];
+      path: string[];
+    }>
+  >;
+
   // A slightly split out model for the selectors.
   selector: SelectorModel;
 
@@ -118,6 +169,15 @@ export type RevisionsModel = {
   // And some computed values. (Removed for now)
   // currentSelector: Computed<RevisionsModel, SelectorTypes | null>;
   // visibleSelectors: Computed<RevisionsModel, SelectorTypes[]>;
+  // currentRevisionSelectors: Computed<RevisionsModel, BaseSelector[]>;
+  visibleCurrentLevelSelectorIds: Computed<RevisionsModel, string[]>;
+  visibleAdjacentSelectorIds: Computed<RevisionsModel, string[]>;
+  revisionAdjacentSubtreeFields: Computed<
+    RevisionsModel,
+    { fields: Array<BaseField | CaptureModel['document']>[]; currentId: undefined | string }
+  >;
+  //visibleCurrentLevelBelowSelectors: Computed<RevisionsModel, BaseSelector[]>;
+
   setCaptureModel: Action<
     RevisionsModel,
     {

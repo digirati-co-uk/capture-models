@@ -10,6 +10,7 @@ import {
   VaultProvider,
 } from '@hyperion-framework/react-vault';
 import { AtlasAuto } from '@atlas-viewer/atlas';
+import { ImageServiceContext } from './Atlas.helpers';
 
 export interface AtlasViewerProps extends BaseContent {
   id: string;
@@ -21,17 +22,9 @@ export interface AtlasViewerProps extends BaseContent {
   };
 }
 
-function useSafeImageService() {
-  try {
-    return useImageService();
-  } catch (e) {
-    return { data: undefined };
-  }
-}
-
 const Canvas: React.FC<{ isEditing?: boolean; onDeselect?: () => void }> = ({ isEditing, onDeselect, children }) => {
   const canvas = useCanvas();
-  const { data: service } = useSafeImageService() as { data?: ImageService };
+  const { data: service } = useImageService() as { data?: ImageService };
 
   if (!service || !canvas) {
     return null;
@@ -40,22 +33,24 @@ const Canvas: React.FC<{ isEditing?: boolean; onDeselect?: () => void }> = ({ is
   return (
     <AtlasAuto mode={isEditing ? 'sketch' : 'explore'}>
       <world onClick={onDeselect}>
-        <worldObject height={canvas.height} width={canvas.width} x={0} y={0}>
-          <compositeImage key={service.id} width={canvas.width} height={canvas.height}>
-            {(service.tiles || []).map(tile =>
-              (tile.scaleFactors || []).map(size => (
-                <tiledImage
-                  key={`${tile}-${size}`}
-                  uri={service.id}
-                  display={{ width: canvas.width, height: canvas.height }}
-                  tile={tile}
-                  scaleFactor={size}
-                />
-              ))
-            )}
-          </compositeImage>
-        </worldObject>
+        <ImageServiceContext value={service}>
+          <worldObject height={canvas.height} width={canvas.width} x={0} y={0}>
+            <compositeImage key={service.id} width={canvas.width} height={canvas.height}>
+              {(service.tiles || []).map(tile =>
+                (tile.scaleFactors || []).map(size => (
+                  <tiledImage
+                    key={`${tile}-${size}`}
+                    uri={service.id}
+                    display={{ width: canvas.width, height: canvas.height }}
+                    tile={tile}
+                    scaleFactor={size}
+                  />
+                ))
+              )}
+            </compositeImage>
+          </worldObject>
         <Suspense fallback={null}>{children}</Suspense>
+        </ImageServiceContext>
       </world>
     </AtlasAuto>
   );
@@ -64,7 +59,7 @@ const Canvas: React.FC<{ isEditing?: boolean; onDeselect?: () => void }> = ({ is
 export const AtlasViewer: React.FC<AtlasViewerProps> = props => {
   const { isLoaded } = useExternalManifest(props.state.manifestId);
   const currentSelector = useCurrentSelector('atlas', undefined);
-  const [displayIds, displaySelectors, topLevelSelectors] = useDisplaySelectors('atlas');
+  const [displayIds, displaySelectors, topLevelSelectors, adjacentSelectors] = useDisplaySelectors('atlas');
   const [actions, availableSelectors] = useSelectorActions();
 
   useEffect(() => {
@@ -105,8 +100,9 @@ export const AtlasViewer: React.FC<AtlasViewerProps> = props => {
             }
           }}
         >
-          {displaySelectors}
+          {adjacentSelectors}
           {topLevelSelectors}
+          {displaySelectors}
           {currentSelector}
         </Canvas>
       </CanvasContext>

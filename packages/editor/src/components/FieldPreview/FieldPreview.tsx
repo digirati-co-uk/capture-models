@@ -5,8 +5,8 @@ import React, { ComponentClass, FunctionComponent } from 'react';
 export const FieldPreview: React.FC<{
   field: BaseField;
   as?: FunctionComponent<any> | ComponentClass<any> | string;
-}> = ({ field, as = 'div' }) => {
+}> = ({ field, as = 'span' }) => {
   const preview = useFieldPreview(field);
 
-  return React.createElement(as, {}, preview);
+  return React.createElement(React.Fragment, {}, preview);
 };

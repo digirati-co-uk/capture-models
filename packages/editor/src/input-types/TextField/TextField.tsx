@@ -8,6 +8,7 @@ export interface TextFieldProps extends BaseField {
   placeholder?: string;
   required?: boolean;
   multiline?: boolean;
+  previewInline?: boolean;
   value: string;
 }
 

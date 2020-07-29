@@ -8,20 +8,25 @@ export function useSelectors<T extends BaseSelector>(
   customOptions: {
     updateSelector?: any;
     selectorPreview?: any;
+    updateSelectorPreview?: (data: { selectorId: string; preview: string }) => void;
     readOnly?: boolean;
     isTopLevel?: boolean;
+    isAdjacent?: boolean;
     defaultState?: any;
+    onClick?: (selector: T & InjectedSelectorProps<T['state']>) => void;
   }
 ) {
   const {
     updateSelector = null,
     selectorPreview = null,
+    updateSelectorPreview,
     readOnly = false,
     defaultState = null,
     isTopLevel = false,
+    isAdjacent = false,
+    onClick,
   } = customOptions;
   const ctx = useContext(PluginContext);
-
   if (!selectorProps) {
     return [];
   }
@@ -38,18 +43,21 @@ export function useSelectors<T extends BaseSelector>(
       props.state = defaultState;
     }
 
-    if (props.state) {
-      returnSelectors.push([
-        React.createElement(selector.contentComponents[contentType], {
-          ...props,
-          key: props.id,
-          readOnly,
-          selectorPreview,
-          updateSelector,
-          isTopLevel,
-        } as T & InjectedSelectorProps<T>),
-      ]);
-    }
+    // if (props.state) {
+    returnSelectors.push([
+      React.createElement(selector.contentComponents[contentType], {
+        ...props,
+        key: props.id,
+        readOnly,
+        updateSelectorPreview,
+        selectorPreview,
+        updateSelector,
+        isTopLevel,
+        isAdjacent,
+        onClick,
+      } as T & InjectedSelectorProps<T>),
+    ]);
+    // }
   }
 
   return returnSelectors;

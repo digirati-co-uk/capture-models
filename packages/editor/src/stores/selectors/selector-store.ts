@@ -2,8 +2,8 @@ import { CaptureModel, BaseSelector } from '@capture-models/types';
 import { SelectorModel } from './selector-model';
 import { traverseDocument } from '@capture-models/helpers';
 
-export function createSelectorStore(document?: CaptureModel['document']): SelectorModel {
-  // @todo create revisionSelectorMap with a path that can be used.
+export function updateSelectorStore(document?: CaptureModel['document'], prefixPath: [string, string][] = []) {
+  const selectorIds: string[] = [];
   const selectors: BaseSelector[] = [];
   const selectorPaths: { [id: string]: Array<[string, string]> } = {};
 
@@ -18,7 +18,7 @@ export function createSelectorStore(document?: CaptureModel['document']): Select
         if (parent && parent.temp && parent.temp.path) {
           field.temp.path = [...parent.temp.path];
         } else {
-          field.temp.path = [];
+          field.temp.path = [...prefixPath];
         }
       }
 
@@ -33,7 +33,10 @@ export function createSelectorStore(document?: CaptureModel['document']): Select
           // Now we just need to store this in the state.
           selectorPaths[selector.id] = parent.temp.path || [];
         }
-        selectors.push(selector);
+        if (selectorIds.indexOf(selector.id) === -1) {
+          selectors.push(selector);
+          selectorIds.push(selector.id)
+        }
       },
       visitField: recordPath,
       beforeVisitEntity: recordPath,
@@ -42,6 +45,15 @@ export function createSelectorStore(document?: CaptureModel['document']): Select
 
   return {
     availableSelectors: selectors,
+    selectorPaths,
+  };
+}
+
+export function createSelectorStore(document?: CaptureModel['document']): SelectorModel {
+  const { availableSelectors, selectorPaths } = updateSelectorStore(document);
+
+  return {
+    availableSelectors,
     currentSelectorId: null,
     selectorPreviewData: {},
     currentSelectorState: null,

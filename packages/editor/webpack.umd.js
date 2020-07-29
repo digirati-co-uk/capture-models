@@ -45,6 +45,7 @@ config.externals = {
   'react-dom': 'react-dom',
   'react-reconciler': 'react-reconciler',
   'styled-components': 'styled-components',
+  '@atlas-viewer/atlas': '@atlas-viewer/atlas',
 };
 
 module.exports = config;

@@ -34,6 +34,10 @@ export const CardButton = styled.button<{ size?: 'large' | 'medium' | 'small'; s
   cursor: pointer;
   transition: transform 0.2s;
   box-shadow: ${props => getTheme(props).card.shadow};
+  &:disabled {
+    opacity: .5;
+    cursor: initial;
+  }
   &:hover {
     transform: translateY(-2px);
   }

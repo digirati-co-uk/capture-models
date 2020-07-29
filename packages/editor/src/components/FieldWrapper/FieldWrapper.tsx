@@ -14,6 +14,7 @@ type Props<T extends BaseField = BaseField> = {
   chooseSelector?: (payload: { selectorId: string }) => void;
   currentSelectorId?: string | null;
   clearSelector?: () => void;
+  selectorPreview?: any;
 
   // @todo other things for the selector.
   // onChooseSelector()
@@ -34,6 +35,7 @@ export const FieldWrapper: React.FC<Props> = ({
   chooseSelector,
   currentSelectorId,
   clearSelector,
+  selectorPreview,
 }) => {
   const [value, setValue] = useState(field.value);
 
@@ -57,6 +59,7 @@ export const FieldWrapper: React.FC<Props> = ({
     chooseSelector: chooseSelector ? (selectorId: string) => chooseSelector({ selectorId }) : undefined,
     clearSelector,
     currentSelectorId: currentSelectorId ? currentSelectorId : undefined,
+    selectorPreview,
   });
 
   const componentWillUnmount = useCallback(() => {
@@ -76,7 +79,7 @@ export const FieldWrapper: React.FC<Props> = ({
   useEffect(() => componentWillUnmount, [componentWillUnmount]);
 
   return (
-    <React.Suspense fallback={() => (typeof fallback !== 'undefined' ? fallback : 'loading...')}>
+    <React.Suspense fallback={typeof fallback !== 'undefined' ? fallback : 'loading...'}>
       <div style={{ marginBottom: 30 }}>
         {hideHeader ? null : (
           <FieldHeader

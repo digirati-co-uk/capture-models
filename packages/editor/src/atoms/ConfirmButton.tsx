@@ -32,7 +32,12 @@ const Modal = styled.div`
   border-radius: 4px;
 `;
 
-export const ConfirmButton: React.FC<{ message: string; onClick: () => void }> = ({ message, onClick, children }) => {
+export const ConfirmButton: React.FC<{ message: string; defaultButton?: boolean; onClick: () => void }> = ({
+  message,
+  defaultButton,
+  onClick,
+  children,
+}) => {
   const portalEl = useRef<HTMLElement>();
   const [ready, setIsReady] = useState(false);
   const containerRef = useRef<any>();
@@ -57,6 +62,8 @@ export const ConfirmButton: React.FC<{ message: string; onClick: () => void }> =
               <ModalContainer
                 ref={containerRef}
                 onClick={e => {
+                  e.stopPropagation();
+                  e.preventDefault();
                   if (e.target !== containerRef.current) {
                     return;
                   }
@@ -65,14 +72,54 @@ export const ConfirmButton: React.FC<{ message: string; onClick: () => void }> =
               >
                 <Modal>
                   <h3>{message}</h3>
-                  <span onClick={onClick}>{children}</span> <Button onClick={() => setIsReady(false)}>Cancel</Button>
+                  {defaultButton ? (
+                    <Button
+                      primary
+                      onClick={e => {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        onClick();
+                        setIsReady(false);
+                      }}
+                    >
+                      Remove
+                    </Button>
+                  ) : (
+                    <span
+                      onClick={e => {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        onClick();
+                        setIsReady(false);
+                      }}
+                    >
+                      {children}
+                    </span>
+                  )}
+                  <Button
+                    onClick={e => {
+                      e.stopPropagation();
+                      e.preventDefault();
+                      setIsReady(false);
+                    }}
+                  >
+                    Cancel
+                  </Button>
                 </Modal>
               </ModalContainer>
             </>,
             portalEl.current
           )
         : null}
-      <span onClick={() => setIsReady(true)}>{children}</span>
+      <span
+        onClick={e => {
+          e.stopPropagation();
+          e.preventDefault();
+          setIsReady(true);
+        }}
+      >
+        {children}
+      </span>
     </>
   );
 };
