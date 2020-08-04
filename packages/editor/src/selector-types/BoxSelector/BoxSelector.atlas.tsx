@@ -1,5 +1,5 @@
 import { SelectorComponent } from '@capture-models/types';
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useCroppedRegion } from '../../content-types/Atlas/Atlas.helpers';
 import { BoxSelectorProps } from './BoxSelector';
 import { DrawBox, RegionHighlight } from '@atlas-viewer/atlas';
@@ -17,20 +17,21 @@ const BoxSelectorAtlas: SelectorComponent<BoxSelectorProps> = props => {
     }
   }, [generatePreview, updateSelectorPreview, state, id]);
 
+  const onSave = useCallback(
+    (box: any) => {
+      if (updateSelector) {
+        updateSelector(box);
+      }
+    },
+    [updateSelector]
+  );
+
   if (!state) {
     if (readOnly) {
       return null;
     }
 
-    return (
-      <DrawBox
-        onCreate={box => {
-          if (updateSelector) {
-            updateSelector(box);
-          }
-        }}
-      />
-    );
+    return <DrawBox onCreate={onSave} />;
   }
 
   return (
@@ -48,11 +49,7 @@ const BoxSelectorAtlas: SelectorComponent<BoxSelectorProps> = props => {
           : 'rgba(252,141,98, .4)'
       }
       border={isTopLevel ? '5px solid #000' : '5px solid rgba(5, 42, 68, 0.2)'}
-      onSave={box => {
-        if (updateSelector) {
-          updateSelector(box);
-        }
-      }}
+      onSave={onSave}
       onClick={() => (onClick ? onClick(props) : undefined)}
     />
   );
