@@ -12,6 +12,7 @@ import {
   createNewEntityInstance,
   isEntity,
   traverseStructure,
+  filterEmptyStructures,
 } from '@capture-models/helpers';
 
 function resolveSubtreeWithIds(subtreePath: [string, string, boolean?][], document: CaptureModel['document']) {
@@ -246,7 +247,13 @@ export const revisionStore: RevisionsModel = {
       state.selector = createSelectorStore();
     }
 
-    state.structure = payload.captureModel.structure;
+    // @todo error handling - tiny case where there is a null structure?
+    state.structure =
+      filterEmptyStructures(payload.captureModel) ||
+      ({
+        type: 'choice',
+        items: [],
+      } as any);
     state.revisions = revisions;
     state.unsavedRevisionIds = [];
   }),

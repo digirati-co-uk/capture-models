@@ -4,7 +4,7 @@
     "id": "d09d9b0c-c465-4777-b102-f54398982b78",
     "type": "choice",
     "description": "test",
-    "label": "My great crowdsourcing project",
+    "label": "selectors - hocr output",
     "items": [
       {
         "id": "b65179f7-08fa-46b0-95dd-ceec9387de4c",
@@ -164,8 +164,8 @@
     }
   ],
   "contributors": {
-    "urn:madoc:user:1": {
-      "id": "urn:madoc:user:1",
+    "8ec9ed91-22a3-4e5c-bc67-0684173c4a7c": {
+      "id": "8ec9ed91-22a3-4e5c-bc67-0684173c4a7c",
       "type": "Person",
       "name": "Madoc TS"
     }
