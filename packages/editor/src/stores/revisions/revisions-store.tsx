@@ -372,7 +372,7 @@ export const revisionStore: RevisionsModel = {
       state => state.revisionAdjacentSubtreeFields,
     ],
     ({ fields, currentId }) => {
-      const adjacentFields = (fields as any[]).filter(field => field.id !== currentId);
+      const adjacentFields = fields.filter(field => field.id !== currentId);
 
       const selectors = [];
       for (const adjacentField of adjacentFields) {

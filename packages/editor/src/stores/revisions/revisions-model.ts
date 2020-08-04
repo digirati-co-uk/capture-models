@@ -174,7 +174,7 @@ export type RevisionsModel = {
   visibleAdjacentSelectorIds: Computed<RevisionsModel, string[]>;
   revisionAdjacentSubtreeFields: Computed<
     RevisionsModel,
-    { fields: Array<BaseField | CaptureModel['document']>[]; currentId: undefined | string }
+    { fields: Array<BaseField | CaptureModel['document']>; currentId: undefined | string }
   >;
   //visibleCurrentLevelBelowSelectors: Computed<RevisionsModel, BaseSelector[]>;
 
