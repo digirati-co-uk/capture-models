@@ -23,36 +23,39 @@
     magic-string "0.25.7"
     uuid "8.1.0"
 
-"@atlas-viewer/atlas@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@atlas-viewer/atlas/-/atlas-1.0.2.tgz#1ed0be0b6fbad0a269486bbd3b9b0e411cee840a"
-  integrity sha512-FP5uSzb3z/H+iHIv69fC4wjUDiKzhDTOrLBJxo1hcB/uM4RpUZ5DaEPD6u6Uwa0AGNMreB93XpFx8mBu7MjjmQ==
+"@atlas-viewer/atlas@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@atlas-viewer/atlas/-/atlas-1.0.3.tgz#14d846f2f2845c9fe2e24c670aac8e5cb8387bf9"
+  integrity sha512-IVsbCW4qyjiAdWIRxQHToZ0cu3t5C8PLZpqrdGydByOfGsQdtSj1JRjMqcCI/oTOnu+s4RUIoWfZJliO9O/WMw==
   dependencies:
     "@atlas-viewer/dna" "^0.5.0"
-    "@atlas-viewer/iiif-image-api" "^1.2.0"
+    "@atlas-viewer/iiif-image-api" "1.2.1"
     "@hyperion-framework/types" "1.0.0-alpha.14"
-    "@hyperion-framework/vault" "1.0.0-alpha.15"
+    "@hyperion-framework/vault" "1.0.0-alpha.19"
     "@popmotion/popcorn" "^0.4.4"
-    canvas-text-wrapper "^0.10.2"
-    framesync "^4.0.2"
     nanoid "^3.1.9"
+    normalize-wheel "^1.0.1"
     popmotion "^8.6.8"
     react "^16.12.0"
     react-dom "^16.12.0"
     react-reconciler "^0.25.1"
-    react-spring "^8.0.27"
-    react-use-gesture "^7.0.15"
     react-use-measure "^2.0.1"
     scheduler "^0.19.1"
     stats.js "^0.17.0"
     style-value-types "^3.1.7"
     typescript-memoize "^1.0.0-alpha.3"
-    use-resize-observer "^6.1.0"
 
 "@atlas-viewer/dna@^0.5.0":
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/@atlas-viewer/dna/-/dna-0.5.0.tgz#aab824540b59dc3897e2ba4cdb51a53e47ed3311"
   integrity sha512-vHyMwXoCFq6ymk+wOVIkMphUo+I+wBRoA2tBf1AIUZWJMsk51cBtO2qzOaZQUh/TmrzrqEY5aEAtgBj52LVRUg==
+
+"@atlas-viewer/iiif-image-api@1.2.1", "@atlas-viewer/iiif-image-api@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@atlas-viewer/iiif-image-api/-/iiif-image-api-1.2.1.tgz#44cd37e1381639267ee5fb887886d70d6d4942e4"
+  integrity sha512-MJ74O4uenouCe/oBr8INWLDfpct47gaUp5SK9J2t3hk3RDTUv2oTOSuu+BaehsmjY4SNVItRPH2/5hilLKiG9Q==
+  dependencies:
+    "@hyperion-framework/types" "^1.0.0-alpha.14"
 
 "@atlas-viewer/iiif-image-api@^1.2.0":
   version "1.2.0"
@@ -2480,7 +2483,19 @@
   dependencies:
     "@types/geojson" "^7946.0.7"
 
-"@hyperion-framework/vault@1.0.0-alpha.15", "@hyperion-framework/vault@^1.0.0-alpha.15":
+"@hyperion-framework/vault@1.0.0-alpha.19":
+  version "1.0.0-alpha.19"
+  resolved "https://registry.yarnpkg.com/@hyperion-framework/vault/-/vault-1.0.0-alpha.19.tgz#e35fd0689fc1e4c6a7635958856cb32698270eaf"
+  integrity sha512-ls+oS+VmqZpHAZ7ezTy3erbFPE/Y0PhIv1m9dJFdmCnqwLpXKKIqXJJMuG3N3a08YwlbA1Kw6TenExOz+QJ/nA==
+  dependencies:
+    "@atlas-viewer/iiif-image-api" "^1.2.1"
+    "@hyperion-framework/parser" "^1.0.0-alpha.15"
+    "@hyperion-framework/store" "^1.0.0-alpha.15"
+    "@hyperion-framework/types" "^1.0.0-alpha.14"
+    "@types/geojson" "^7946.0.7"
+    mitt "^1.2.0"
+
+"@hyperion-framework/vault@^1.0.0-alpha.15":
   version "1.0.0-alpha.15"
   resolved "https://registry.yarnpkg.com/@hyperion-framework/vault/-/vault-1.0.0-alpha.15.tgz#b7f4457cc37dd35e31ff6d5e4c7bf917ba8fd693"
   integrity sha512-JblXhS6b4APDoNOrRsDYEeiGyxdTQvYQQ11GyXRCb5yC0RDw6AdhjnpcJNwSBUkiBW2gPGx3PGwsvyjac7i2iw==
@@ -4687,10 +4702,17 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-dom@^16.9.1", "@types/react-dom@^16.9.2", "@types/react-dom@^16.9.5":
+"@types/react-dom@^16.9.1":
   version "16.9.5"
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-16.9.5.tgz#5de610b04a35d07ffd8f44edad93a71032d9aaa7"
   integrity sha512-BX6RQ8s9D+2/gDhxrj8OW+YD4R+8hj7FEM/OJHGNR0KipE1h1mSsf39YeyC81qafkq+N3rU3h3RFbLSwE5VqUg==
+  dependencies:
+    "@types/react" "*"
+
+"@types/react-dom@^16.9.8":
+  version "16.9.8"
+  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-16.9.8.tgz#fe4c1e11dfc67155733dfa6aa65108b4971cb423"
+  integrity sha512-ykkPQ+5nFknnlU6lDd947WbQ6TE3NNzbQAkInC2EKY1qeYdTKp7onFusmYZb+ityzx2YviqT6BXSu+LyWWJwcA==
   dependencies:
     "@types/react" "*"
 
@@ -4747,7 +4769,7 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@^16.9.19", "@types/react@^16.9.2", "@types/react@^16.9.9":
+"@types/react@*", "@types/react@16.9.19", "@types/react@^16.9.2":
   version "16.9.19"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.19.tgz#c842aa83ea490007d29938146ff2e4d9e4360c40"
   integrity sha512-LJV97//H+zqKWMms0kvxaKYJDG05U2TtQB3chRLF8MPNs+MQh/H1aGlyDUxjaHvu08EAGerdX2z4LTBc7ns77A==
@@ -7502,11 +7524,6 @@ canvas-panel-beta@2.0.0:
     manifesto.js "^4.0.0"
     react "^16.10.2"
     react-dom "^16.10.2"
-
-canvas-text-wrapper@^0.10.2:
-  version "0.10.2"
-  resolved "https://registry.yarnpkg.com/canvas-text-wrapper/-/canvas-text-wrapper-0.10.2.tgz#cf00996c131c0eac3de25cbf4a56d07d1da2b0c3"
-  integrity sha512-nFnN8q8ydtkBUWVn/dAdetpwNOkz3KtyD6jTI2HGD43ant2FQcnLugAVaGLJloyRTNK/exn7efpYy2zPV5bHiQ==
 
 capture-exit@^2.0.0:
   version "2.0.0"
@@ -11061,7 +11078,7 @@ fragment-cache@^0.2.1:
   dependencies:
     map-cache "^0.2.2"
 
-framesync@^4.0.0, framesync@^4.0.1, framesync@^4.0.2:
+framesync@^4.0.0, framesync@^4.0.1:
   version "4.0.4"
   resolved "https://registry.yarnpkg.com/framesync/-/framesync-4.0.4.tgz#79c42c0118f26821c078570db0ff81fb863516a2"
   integrity sha512-mdP0WvVHe0/qA62KG2LFUAOiWLng5GLpscRlwzBxu2VXOp6B8hNs5C5XlFigsMgrfDrr2YbqTsgdWZTc4RXRMQ==
@@ -16259,6 +16276,11 @@ normalize-url@^3.0.0, normalize-url@^3.3.0:
   resolved "https://registry.yarnpkg.com/normalize-url/-/normalize-url-3.3.0.tgz#b2e1c4dc4f7c6d57743df733a4f5978d18650559"
   integrity sha512-U+JJi7duF1o+u2pynbp2zXDW2/PADgC30f0GsHZtRh+HOcXHnw137TrNlyxxRvWW5fjKd3bcLHPxofWuCjaeZg==
 
+normalize-wheel@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/normalize-wheel/-/normalize-wheel-1.0.1.tgz#aec886affdb045070d856447df62ecf86146ec45"
+  integrity sha1-rsiGr/2wRQcNhWRH32Ls+GFG7EU=
+
 normalize.css@^8.0.1:
   version "8.0.1"
   resolved "https://registry.yarnpkg.com/normalize.css/-/normalize.css-8.0.1.tgz#9b98a208738b9cc2634caacbc42d131c97487bf3"
@@ -18667,7 +18689,7 @@ react-dom@^16.10.2, react-dom@^16.12.0, react-dom@^16.3.2, react-dom@^16.8.3, re
     prop-types "^15.6.2"
     scheduler "^0.18.0"
 
-react-dom@^16.8.6:
+react-dom@^16.13.1, react-dom@^16.8.6:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.13.1.tgz#c1bd37331a0486c078ee54c4740720993b2e0e7f"
   integrity sha512-81PIMmVLnCNLO/fFOQxdQkvEq/+Hfpv24XNJfpyZhTRfO0QcmQIF/PgCa1zCOj2w1hrn12MFLyaJ/G0+Mxtfag==
@@ -18899,14 +18921,6 @@ react-sizeme@^2.6.7:
     shallowequal "^1.1.0"
     throttle-debounce "^2.1.0"
 
-react-spring@^8.0.27:
-  version "8.0.27"
-  resolved "https://registry.yarnpkg.com/react-spring/-/react-spring-8.0.27.tgz#97d4dee677f41e0b2adcb696f3839680a3aa356a"
-  integrity sha512-nDpWBe3ZVezukNRandTeLSPcwwTMjNVu1IDq9qA/AMiUqHuRN4BeSWvKr3eIxxg1vtiYiOLy4FqdfCP5IoP77g==
-  dependencies:
-    "@babel/runtime" "^7.3.1"
-    prop-types "^15.5.8"
-
 react-syntax-highlighter@^11.0.2:
   version "11.0.2"
   resolved "https://registry.yarnpkg.com/react-syntax-highlighter/-/react-syntax-highlighter-11.0.2.tgz#4e3f376e752b20d2f54e4c55652fd663149e4029"
@@ -18955,11 +18969,6 @@ react-transition-group@^2.2.1:
     prop-types "^15.6.2"
     react-lifecycles-compat "^3.0.4"
 
-react-use-gesture@^7.0.15:
-  version "7.0.15"
-  resolved "https://registry.yarnpkg.com/react-use-gesture/-/react-use-gesture-7.0.15.tgz#93c651e916a31cfb12d079e7fa1543d5b0511e07"
-  integrity sha512-vHQkaa7oUbSDTAcFk9huQXa7E8KPrZH91erPuOMoqZT513qvtbb/SzTQ33lHc71/kOoJkMbzOkc4uoA4sT7Ogg==
-
 react-use-measure@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/react-use-measure/-/react-use-measure-2.0.1.tgz#4f23f94c832cd4512da55acb300d1915dcbf3ae8"
@@ -18984,7 +18993,7 @@ react@^16.10.2, react@^16.12.0, react@^16.3.2, react@^16.8.3, react@^16.9.0:
     object-assign "^4.1.1"
     prop-types "^15.6.2"
 
-react@^16.8.6:
+react@^16.13.1, react@^16.8.6:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react/-/react-16.13.1.tgz#2e818822f1a9743122c063d6410d85c1e3afe48e"
   integrity sha512-YMZQQq32xHLX0bz5Mnibv1/LHb3Sqzngu7xstSM+vrkE5Kzr9xE0yMByK5kMoTK30YVJE61WfbxIFFvfeDKT1w==
@@ -22225,13 +22234,6 @@ use-memo-one@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/use-memo-one/-/use-memo-one-1.1.1.tgz#39e6f08fe27e422a7d7b234b5f9056af313bd22c"
   integrity sha512-oFfsyun+bP7RX8X2AskHNTxu+R3QdE/RC5IefMbqptmACAA/gfol1KDD5KRzPsGMa62sWxGZw+Ui43u6x4ddoQ==
-
-use-resize-observer@^6.1.0:
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/use-resize-observer/-/use-resize-observer-6.1.0.tgz#d4d267a940dbf9c326da6042f8a4bb8c89d29729"
-  integrity sha512-SiPcWHiIQ1CnHmb6PxbYtygqiZXR0U9dNkkbpX9VYnlstUwF8+QqpUTrzh13pjPwcjMVGR+QIC+nvF5ujfFNng==
-  dependencies:
-    resize-observer-polyfill "^1.5.1"
 
 use-sidecar@^1.0.1:
   version "1.0.2"
