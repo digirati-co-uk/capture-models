@@ -19,7 +19,7 @@ function resolveSubtreeWithIds(subtreePath: [string, string, boolean?][], docume
   return subtreePath.reduce((acc, [term, id]) => {
     const propValue = acc.properties[term];
     const singleModel = (propValue as CaptureModel['document'][]).find(value => value.id === id);
-    if (!propValue.length || !singleModel || !isEntity(singleModel)) {
+    if (!propValue.length || !singleModel) {
       throw Error(`Invalid prop: ${term} with id ${id} in list ${subtreePath.join(',')}`);
     }
     return singleModel as CaptureModel['document'];
@@ -75,9 +75,10 @@ export const revisionStore: RevisionsModel = {
       state => state.revisionSelectedFieldInstance,
     ],
     (subtree, property, id) => {
-      if (!subtree || !property || !id) {
+      if (!subtree || !property || !id || !isEntity(subtree)) {
         return undefined;
       }
+
       const prop = subtree.properties[property];
 
       if (!prop) {
@@ -88,12 +89,12 @@ export const revisionStore: RevisionsModel = {
     }
   ),
   revisionSubtreeFieldKeys: computed([state => state.revisionSubtree], subtree =>
-    subtree ? Object.keys(subtree.properties) : []
+    subtree && isEntity(subtree) ? Object.keys(subtree.properties) : []
   ),
   revisionSubtreeFields: computed(
     [state => state.revisionSubtreeFieldKeys, state => state.revisionSubtree],
-    (keys: string[], subtree: CaptureModel['document'] | undefined) => {
-      if (!subtree) {
+    (keys: string[], subtree: CaptureModel['document'] | BaseField | undefined) => {
+      if (!subtree || !isEntity(subtree)) {
         return [];
       }
       return keys.map(key => {
@@ -329,12 +330,14 @@ export const revisionStore: RevisionsModel = {
     if (currentSubtree.selector) {
       selectors.push(currentSubtree.selector.id);
     }
-    const props = Object.keys(currentSubtree.properties);
-    for (const prop of props) {
-      const fields = currentSubtree.properties[prop];
-      for (const field of fields) {
-        if (field.selector) {
-          selectors.push(field.selector.id);
+    if (isEntity(currentSubtree)) {
+      const props = Object.keys(currentSubtree.properties);
+      for (const prop of props) {
+        const fields = currentSubtree.properties[prop];
+        for (const field of fields) {
+          if (field.selector) {
+            selectors.push(field.selector.id);
+          }
         }
       }
     }
