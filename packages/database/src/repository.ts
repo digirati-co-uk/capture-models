@@ -32,22 +32,15 @@ import { fromStructure } from './mapping/from-structure';
 import { toCaptureModel } from './mapping/to-capture-model';
 import { toRevision } from './mapping/to-revision';
 import { documentToInserts } from './utility/document-to-inserts';
-import * as deepEqual from 'fast-deep-equal';
+import deepEqual from 'fast-deep-equal';
 import { fieldsToInserts } from './utility/fields-to-inserts';
 import { partialDocumentsToInserts } from './utility/partial-documents-to-inserts';
-import { DatabasePoolType, sql } from 'slonik';
 import { RevisionAuthors } from './entity/RevisionAuthors';
 import { diffAuthors } from './utility/diff-authors';
 
 @EntityRepository()
 export class CaptureModelRepository {
-  private pool: DatabasePoolType;
-
   constructor(private manager: EntityManager) {}
-
-  setPool(pool: DatabasePoolType) {
-    this.pool = pool;
-  }
 
   async getCaptureModel(
     id: string,
@@ -81,7 +74,8 @@ export class CaptureModelRepository {
       .leftJoinAndSelect('di.selector', 'dis')
       .leftJoinAndSelect('fi.selector', 'fis')
       .leftJoinAndSelect('revision.authors', 'ri')
-      .where('doc.captureModelId = :id', { id });
+      .where('doc.captureModelId = :id', { id })
+      .addOrderBy('di.createdAt, fi.createdAt');
 
     if (context) {
       builder.andWhere('model.context ?& array[:...ctx]::TEXT[]', { ctx: context });

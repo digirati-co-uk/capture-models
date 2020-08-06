@@ -1,7 +1,15 @@
 import { ModelFields, StatusTypes } from '@capture-models/types';
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, VersionColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  VersionColumn,
+  UpdateDateColumn,
+  CreateDateColumn,
+} from 'typeorm';
 import { CaptureModel } from './CaptureModel';
-import { Contributor } from './Contributor';
 import { Field } from './Field';
 import { RevisionAuthors } from './RevisionAuthors';
 import { Structure } from './Structure';
@@ -71,4 +79,12 @@ export class Revision {
 
   @VersionColumn()
   version?: number;
+
+  @Column({ type: 'datetime', default: 'CURRENT_TIMESTAMP', nullable: true })
+  @CreateDateColumn()
+  createdAt?: Date;
+
+  @Column({ type: 'datetime', default: 'CURRENT_TIMESTAMP', nullable: true })
+  @UpdateDateColumn()
+  updatedAt?: Date;
 }

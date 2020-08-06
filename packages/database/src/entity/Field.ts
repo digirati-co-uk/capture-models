@@ -5,13 +5,13 @@ import {
   Column,
   Entity,
   JoinColumn,
-  ManyToMany,
+  CreateDateColumn,
+  UpdateDateColumn,
   ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
   VersionColumn,
 } from 'typeorm';
-import { Contributor } from './Contributor';
 import { Property } from './Property';
 import { Revision } from './Revision';
 import { SelectorInstance } from './SelectorInstance';
@@ -76,4 +76,12 @@ export class Field {
 
   @VersionColumn()
   version: number;
+
+  @Column({ type: 'datetime', default: 'CURRENT_TIMESTAMP', nullable: true })
+  @CreateDateColumn()
+  createdAt?: Date;
+
+  @Column({ type: 'datetime', default: 'CURRENT_TIMESTAMP', nullable: true })
+  @UpdateDateColumn()
+  updatedAt?: Date;
 }
