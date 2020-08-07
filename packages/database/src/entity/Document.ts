@@ -96,8 +96,10 @@ export class Document {
   @JoinColumn()
   captureModel?: CaptureModel;
 
-  @Column({ type: 'datetime', default: 'CURRENT_TIMESTAMP', nullable: true })
-  @CreateDateColumn()
+  @Column({ default: 0 })
+  revisionOrder: number;
+
+  @Column({ type: 'timestamptz', nullable: true })
   createdAt?: Date;
 
   @Column({ type: 'datetime', default: 'CURRENT_TIMESTAMP', nullable: true })

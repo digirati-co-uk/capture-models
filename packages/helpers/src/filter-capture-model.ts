@@ -3,7 +3,7 @@ import { CaptureModel, BaseField } from '@capture-models/types';
 
 export function filterCaptureModel(
   id: string,
-  document: CaptureModel['document'],
+  document: CaptureModel['document'] | Omit<CaptureModel['document'], 'id'>,
   flatFields: string[][],
   predicate: (field: BaseField) => boolean
 ): CaptureModel['document'] | null {

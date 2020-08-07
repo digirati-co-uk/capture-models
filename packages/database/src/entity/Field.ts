@@ -77,6 +77,9 @@ export class Field {
   @VersionColumn()
   version: number;
 
+  @Column({ default: 0 })
+  revisionOrder: number;
+
   @Column({ type: 'datetime', default: 'CURRENT_TIMESTAMP', nullable: true })
   @CreateDateColumn()
   createdAt?: Date;

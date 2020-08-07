@@ -11,10 +11,13 @@ export function documentToInserts(
   parentDocument?: { id: string; term: string },
   rootDocumentId?: string
 ) {
+  let count = 0;
   const dbInserts: (Field | Document | Property)[][] = [];
   traverseDocument<{ parentAdded?: boolean }>(document, {
     beforeVisitEntity(entity, term, parent) {
       const entityDoc = fromDocument(entity, false);
+      count++;
+      entityDoc.revisionOrder = count;
       if (parent) {
         if (!parent.id) {
           throw new Error(`No id on parent entity ${JSON.stringify(parent)}`);
@@ -38,9 +41,10 @@ export function documentToInserts(
       );
       const fieldInserts = [];
       entityDoc.properties.forEach(prop => {
-        entity.properties[prop.term].forEach(field => {
+        entity.properties[prop.term].forEach((field, order) => {
           if (field.type !== 'entity') {
             const fieldToSave = fromField(field);
+            fieldToSave.revisionOrder = order;
             fieldToSave.parentId = `${entityDoc.id}/${prop.term}`;
             fieldInserts.push(fieldToSave);
           }

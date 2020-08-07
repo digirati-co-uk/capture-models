@@ -75,8 +75,8 @@ export class CaptureModelRepository {
       .leftJoinAndSelect('fi.selector', 'fis')
       .leftJoinAndSelect('revision.authors', 'ri')
       .where('doc.captureModelId = :id', { id })
-      .addOrderBy('di.createdAt', 'ASC')
-      .addOrderBy('fi.createdAt', 'ASC');
+      .addOrderBy('di.revisionOrder', 'ASC')
+      .addOrderBy('fi.revisionOrder', 'ASC');
 
     if (context) {
       builder.andWhere('model.context ?& array[:...ctx]::TEXT[]', { ctx: context });
@@ -534,7 +534,7 @@ export class CaptureModelRepository {
       // Map the documents, adding missing fields if required.
       ...partialDocumentsToInserts(docsToHydrate, entityMap, captureModel.document.id),
       // Map the fields
-      ...fieldsToInserts(fieldsToAdd),
+      fieldsToInserts(fieldsToAdd),
     ];
 
     const revision = fromRevisionRequest(req);
@@ -554,10 +554,9 @@ export class CaptureModelRepository {
       const rev = await manager.save(revision);
 
       for (const insert of dbInserts) {
-        // Changed to individually insert for distinct creation times.
+        // @todo change this to insert() and expand list of inserts to other entities.
+        //   This will avoid updates and allow the whole list to be inserted flat.
         for (const single of insert) {
-          // @todo change this to insert() and expand list of inserts to other entities.
-          //   This will avoid updates and allow the whole list to be inserted flat.
           await manager.save(single);
         }
       }

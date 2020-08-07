@@ -22,6 +22,7 @@
   "typings": "lib/index.d.ts",
   "scripts": {
     "build": "fesk-build --umd --cjs && tsc -p ./tsconfig.types.json && build-storybook",
+    "build-only": "fesk-build --umd --cjs && tsc -p ./tsconfig.types.json",
     "start": "fesk-start --cjs --umd  --noServer",
     "test": "jest",
     "build-types": "tsc -p ./tsconfig.types.json",
