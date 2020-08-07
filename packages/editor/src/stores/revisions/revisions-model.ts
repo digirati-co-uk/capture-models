@@ -65,7 +65,7 @@ export type RevisionsModel = {
   revisionSelectedFieldProperty: string | null;
   revisionSelectedFieldInstance: string | null;
   revisionSubtreeField: Computed<RevisionsModel, CaptureModel['document'] | BaseField | undefined>;
-  revisionSubtree: Computed<RevisionsModel, CaptureModel['document'] | undefined>;
+  revisionSubtree: Computed<RevisionsModel, CaptureModel['document'] | BaseField | undefined>;
   revisionSubtreeFieldKeys: Computed<RevisionsModel, string[]>;
   revisionSubtreeFields: Computed<
     RevisionsModel,

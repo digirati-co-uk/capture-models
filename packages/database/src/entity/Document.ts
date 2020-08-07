@@ -1,4 +1,14 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { CaptureModel } from './CaptureModel';
 import { Property } from './Property';
 import { Revision } from './Revision';
@@ -85,4 +95,14 @@ export class Document {
   )
   @JoinColumn()
   captureModel?: CaptureModel;
+
+  @Column({ default: 0 })
+  revisionOrder: number;
+
+  @Column({ type: 'timestamptz', nullable: true })
+  createdAt?: Date;
+
+  @Column({ type: 'datetime', default: 'CURRENT_TIMESTAMP', nullable: true })
+  @UpdateDateColumn()
+  updatedAt?: Date;
 }

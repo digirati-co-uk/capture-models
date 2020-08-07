@@ -32,22 +32,15 @@ import { fromStructure } from './mapping/from-structure';
 import { toCaptureModel } from './mapping/to-capture-model';
 import { toRevision } from './mapping/to-revision';
 import { documentToInserts } from './utility/document-to-inserts';
-import * as deepEqual from 'fast-deep-equal';
+import deepEqual from 'fast-deep-equal';
 import { fieldsToInserts } from './utility/fields-to-inserts';
 import { partialDocumentsToInserts } from './utility/partial-documents-to-inserts';
-import { DatabasePoolType, sql } from 'slonik';
 import { RevisionAuthors } from './entity/RevisionAuthors';
 import { diffAuthors } from './utility/diff-authors';
 
 @EntityRepository()
 export class CaptureModelRepository {
-  private pool: DatabasePoolType;
-
   constructor(private manager: EntityManager) {}
-
-  setPool(pool: DatabasePoolType) {
-    this.pool = pool;
-  }
 
   async getCaptureModel(
     id: string,
@@ -81,7 +74,9 @@ export class CaptureModelRepository {
       .leftJoinAndSelect('di.selector', 'dis')
       .leftJoinAndSelect('fi.selector', 'fis')
       .leftJoinAndSelect('revision.authors', 'ri')
-      .where('doc.captureModelId = :id', { id });
+      .where('doc.captureModelId = :id', { id })
+      .addOrderBy('di.revisionOrder', 'ASC')
+      .addOrderBy('fi.revisionOrder', 'ASC');
 
     if (context) {
       builder.andWhere('model.context ?& array[:...ctx]::TEXT[]', { ctx: context });
@@ -561,7 +556,9 @@ export class CaptureModelRepository {
       for (const insert of dbInserts) {
         // @todo change this to insert() and expand list of inserts to other entities.
         //   This will avoid updates and allow the whole list to be inserted flat.
-        await manager.save(insert);
+        for (const single of insert) {
+          await manager.save(single);
+        }
       }
       return rev;
     });

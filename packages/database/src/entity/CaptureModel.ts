@@ -9,6 +9,8 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
   VersionColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { Contributor } from './Contributor';
 import { Document } from './Document';
@@ -69,4 +71,12 @@ export class CaptureModel {
 
   @Column('jsonb')
   context: string[];
+
+  @Column({ type: 'datetime', default: 'CURRENT_TIMESTAMP', nullable: true })
+  @CreateDateColumn()
+  createdAt?: Date;
+
+  @Column({ type: 'datetime', default: 'CURRENT_TIMESTAMP', nullable: true })
+  @UpdateDateColumn()
+  updatedAt?: Date;
 }

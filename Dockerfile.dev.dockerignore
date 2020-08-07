@@ -4,14 +4,11 @@ packages/editor/dist/
 packages/editor/storybook-static/
 packages/helpers/dist/
 packages/plugin-api/dist/
-packages/server-ui/node_modules/.cache
-packages/editor/node_modules/.cache
 packages/server-ui/dist/
 node_modules/
 coverage/
 .jest-cache/
 .yarn/
-.cache/
 lib/
 tsconfig.tsbuildinfo
 *.log

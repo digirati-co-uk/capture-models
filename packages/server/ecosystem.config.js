@@ -39,7 +39,7 @@ module.exports = {
         DATABASE_SCHEMA: 'public',
         DATABASE_PASSWORD: 'model_api_password',
         MOCK_JWT: true,
-      }
+      },
     },
     {
       name: 'server-ui-prod',

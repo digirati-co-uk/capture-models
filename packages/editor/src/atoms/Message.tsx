@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Message = styled.div`
-  color: rgba(0,0,0,.87);
+  color: rgba(0, 0, 0, 0.87);
   position: relative;
   min-height: 1em;
   margin: 1em 0;

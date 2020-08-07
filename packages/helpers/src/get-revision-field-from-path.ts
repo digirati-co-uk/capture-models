@@ -1,6 +1,5 @@
-
-export function getRevisionFieldFromPath<T extends any = any, State extends any = any>(
-  state: State,
+export function getRevisionFieldFromPath<T extends any = any>(
+  state: any,
   path: Array<[string, string]>,
   customRevisionId?: string | null
 ): T | null {
@@ -11,7 +10,7 @@ export function getRevisionFieldFromPath<T extends any = any, State extends any 
     return null;
   }
 
-  let current = (state.revisions[revisionId].document);
+  let current = state.revisions[revisionId].document;
 
   if (!current) {
     // Error?

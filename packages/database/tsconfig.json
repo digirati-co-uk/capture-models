@@ -4,6 +4,7 @@
     "lib": ["es5", "es6"],
     "target": "es2018",
     "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
     "module": "commonjs",
     "declaration": true,
     "moduleResolution": "node",
