@@ -1,0 +1,59 @@
+FROM node:12 as build
+
+WORKDIR /home/node/app
+
+RUN npm install -g pm2
+
+ADD ./package.json /home/node/app/package.json
+ADD ./yarn.lock /home/node/app/yarn.lock
+
+ADD ./packages/database/package.json /home/node/app/packages/database/package.json
+ADD ./packages/editor/package.json /home/node/app/packages/editor/package.json
+ADD ./packages/helpers/package.json /home/node/app/packages/helpers/package.json
+ADD ./packages/plugin-api/package.json /home/node/app/packages/plugin-api/package.json
+ADD ./packages/server/package.json /home/node/app/packages/server/package.json
+ADD ./packages/server-ui/package.json /home/node/app/packages/server-ui/package.json
+ADD ./packages/types/package.json /home/node/app/packages/types/package.json
+
+RUN yarn install --no-interactive
+
+COPY ./tsconfig.json /home/node/app/tsconfig.json
+COPY ./lerna.json /home/node/app/lerna.json
+COPY ./tools /home/node/app/tools
+COPY ./fixtures /home/node/app/fixtures
+
+COPY ./packages/types /home/node/app/packages/types
+RUN cd /home/node/app/packages/types && yarn build
+
+COPY ./packages/plugin-api /home/node/app/packages/plugin-api
+RUN cd /home/node/app/packages/plugin-api && yarn build
+
+COPY ./packages/helpers /home/node/app/packages/helpers
+RUN cd /home/node/app/packages/helpers && yarn build
+
+COPY ./packages/database /home/node/app/packages/database
+RUN cd /home/node/app/packages/database && yarn build
+
+COPY ./packages/editor /home/node/app/packages/editor
+RUN cd /home/node/app/packages/editor && yarn build-only
+
+COPY ./packages/server /home/node/app/packages/server
+RUN cd /home/node/app/packages/server && yarn build
+
+ENV SERVER_PORT=3000
+ENV DATABASE_HOST=localhost
+ENV DATABASE_NAME=capture_model_api
+ENV DATABASE_PORT=5400
+ENV DATABASE_USER=capture_model_api
+ENV DATABASE_SCHEMA=public
+ENV DATABASE_PASSWORD=capture_model_api_password
+ENV FIXTURE_PATH=/home/node/app/fixtures
+ARG PINNED_CAPTURE_MODEL_VERSION=default
+
+EXPOSE 3000
+
+USER node
+
+WORKDIR /home/node/app/packages/server
+
+CMD ["pm2-runtime", "start", "./ecosystem.config.js", "--only", "server-ui-prod"]
