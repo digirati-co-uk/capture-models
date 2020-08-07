@@ -1,6 +1,6 @@
 {
   "name": "@capture-models/editor",
-  "version": "0.5.5",
+  "version": "0.6.0",
   "license": "MIT",
   "files": [
     "dist",
@@ -34,13 +34,17 @@
     "access": "public"
   },
   "resolutions": {
-    "@fesk/babel-config": "1.4.0-pr.a95f698d"
+    "tslib": "^2.0.0",
+    "immutable": "^3.8.2",
+    "immer": "7.0.7",
+    "@babel/runtime": "7.5.5",
+    "safe-buffer": "5.2.1"
   },
   "dependencies": {
     "@atlas-viewer/atlas": "^1.0.4",
-    "@capture-models/helpers": "^0.5.5",
-    "@capture-models/plugin-api": "^0.5.5",
-    "@capture-models/types": "^0.5.5",
+    "@capture-models/helpers": "^0.6.0",
+    "@capture-models/plugin-api": "^0.6.0",
+    "@capture-models/types": "^0.6.0",
     "@hyperion-framework/react-vault": "^1.0.0-alpha.15",
     "@hyperion-framework/types": "^1.0.0-alpha.14",
     "@iiif/vocabulary": "1.0.18",
@@ -56,6 +60,7 @@
     "fast-copy": "^2.0.4",
     "formik": "^2.0.6",
     "immer": "^7.0.7",
+    "immutable": "^3.8.2",
     "manifesto.js": "4.1.0",
     "normalize.css": "^8.0.1",
     "prop-types": "^15.7.2",
@@ -68,11 +73,10 @@
     "react-rte": "^0.16.1",
     "react-textarea-autosize": "^8.2.0",
     "react-window": "^1.8.5",
+    "safe-buffer": "^5.2.1",
     "styled-components": "^5.0.1",
     "use-async-effect": "^2.2.1",
-    "use-debounce": "^3.3.0",
-    "immutable": "^3.8.2",
-    "safe-buffer": "^5.2.1"
+    "use-debounce": "^3.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.7",
@@ -111,13 +115,6 @@
     "url-loader": "^3.0.0",
     "webpack-dev-middleware": "^3.7.2",
     "webpack-stats-plugin": "^0.3.2"
-  },
-  "resolutions": {
-    "tslib": "^2.0.0",
-    "immutable": "^3.8.2",
-    "immer": "7.0.7",
-    "@babel/runtime": "7.5.5",
-    "safe-buffer": "5.2.1"
   },
   "fesk": {
     "typescript": true
