@@ -60,6 +60,9 @@
     "typescript": "^3.7.5",
     "webpack": "^4.41.5"
   },
+  "resolutions": {
+    "@babel/helper-compilation-targets": "^7.10.0"
+  },
   "fesk": {
     "typescript": true
   }
