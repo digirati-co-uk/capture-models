@@ -75,7 +75,8 @@ export class CaptureModelRepository {
       .leftJoinAndSelect('fi.selector', 'fis')
       .leftJoinAndSelect('revision.authors', 'ri')
       .where('doc.captureModelId = :id', { id })
-      .addOrderBy('di.createdAt, fi.createdAt');
+      .addOrderBy('di.createdAt', 'ASC')
+      .addOrderBy('fi.createdAt', 'ASC');
 
     if (context) {
       builder.andWhere('model.context ?& array[:...ctx]::TEXT[]', { ctx: context });
