@@ -102,7 +102,7 @@ export class CaptureModelRepository {
                   // Add the revision id.
                   .where('dir.status = :status', { status: revisionStatus.toLowerCase() })
                   .orWhere('fir.status = :status', { status: revisionStatus.toLowerCase() })
-                  .orWhere('di.revision IS NULL')
+                  .orWhere('(di.revision IS NULL AND fi.revision IS NULL)')
               : qb
                   // Add the revision id.
                   .where('dir.status = :status', { status: revisionStatus.toLowerCase() })
@@ -134,6 +134,10 @@ export class CaptureModelRepository {
 
     const captureModel = await builder.getOne();
 
+    if (revisionStatus) {
+      captureModel.revisions = captureModel.revisions.filter(r => r.status === revisionStatus.toLowerCase());
+    }
+
     if (!captureModel) {
       throw new Error(`Capture model ${id} not found`);
     }
@@ -151,11 +155,23 @@ export class CaptureModelRepository {
    * @param pageSize The number of results
    * @param context
    * @param includeDerivatives
+   * @param target
+   * @param derivedFrom
    */
   async getAllCaptureModels(
     page = 0,
     pageSize = 20,
-    { context, includeDerivatives = false }: { context?: string[]; includeDerivatives?: boolean } = {}
+    {
+      context,
+      includeDerivatives = false,
+      target,
+      derivedFrom,
+    }: {
+      context?: string[];
+      includeDerivatives?: boolean;
+      target?: { id: string; type: string };
+      derivedFrom?: string;
+    } = {}
   ) {
     const query = this.manager
       .createQueryBuilder()
@@ -167,8 +183,19 @@ export class CaptureModelRepository {
       .groupBy('capture_model.id')
       .addGroupBy('structure.id');
 
-    if (!includeDerivatives) {
+    if (derivedFrom) {
+      query.andWhere('capture_model.derivedFromId = :derivedFrom::uuid', { derivedFrom });
+    } else if (!includeDerivatives) {
       query.where('capture_model.derivedFromId IS NULL');
+    }
+
+    if (target) {
+      query.andWhere(
+        `jsonb_path_query_first(capture_model.target, '$[*] ? (@.type == $type && @.id == $id)', :target::jsonb) is not null`,
+        {
+          target: { id: target.id, type: target.type },
+        }
+      );
     }
 
     if (context) {

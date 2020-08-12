@@ -7,13 +7,18 @@ export const captureModelApi: RouteMiddleware<{ id: string }> = async (ctx, next
     return;
   }
 
+  const { published } = ctx.query;
+
   try {
     // Admins can bypass
     if (ctx.query._all && userCan('models.admin', ctx.state)) {
-      ctx.body = await ctx.db.api.getCaptureModel(ctx.params.id);
+      ctx.body = await ctx.db.api.getCaptureModel(ctx.params.id, {
+        includeCanonical: !!published,
+      });
     } else {
       ctx.body = await ctx.db.api.getCaptureModel(ctx.params.id, {
         context: ctx.state.jwt.context,
+        includeCanonical: !!published,
       });
     }
   } catch (err) {
