@@ -219,6 +219,7 @@ export class CaptureModelRepository {
       revisions,
       structure,
       target,
+      derivedFrom,
     }: CaptureModelType,
     { context, user }: { context?: string[]; user?: ContributorType } = {}
   ) {
@@ -290,6 +291,7 @@ export class CaptureModelRepository {
         captureModel.id = id;
         captureModel.integrity = integrity;
         captureModel.target = target;
+        captureModel.derivedFromId = derivedFrom;
         captureModel.document = fromDocument(document, false); // technically document[0]
         captureModel.structure = mappedStructure;
         if (revisions) {
