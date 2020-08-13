@@ -7,18 +7,24 @@ export const captureModelApi: RouteMiddleware<{ id: string }> = async (ctx, next
     return;
   }
 
-  const { published } = ctx.query;
+  const isAdmin = userCan('models.admin', ctx.state);
+
+  const { published, author } = ctx.query;
+
+  const onlyUser = isAdmin ? author : undefined;
 
   try {
     // Admins can bypass
-    if (ctx.query._all && userCan('models.admin', ctx.state)) {
+    if (ctx.query._all && isAdmin) {
       ctx.body = await ctx.db.api.getCaptureModel(ctx.params.id, {
         includeCanonical: !!published,
+        userId: onlyUser,
       });
     } else {
       ctx.body = await ctx.db.api.getCaptureModel(ctx.params.id, {
         context: ctx.state.jwt.context,
         includeCanonical: !!published,
+        userId: onlyUser,
       });
     }
   } catch (err) {

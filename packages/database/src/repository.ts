@@ -86,39 +86,45 @@ export class CaptureModelRepository {
       revisionStatus = 'accepted';
     }
 
+    if (revisionStatus || includeCanonical || userId) {
+      builder.leftJoin('fi.revision', 'fir').leftJoin('di.revision', 'dir');
+    }
+
     if (revisionStatus || includeCanonical) {
       if (['draft', 'submitted', 'accepted'].indexOf(revisionStatus.toLowerCase()) === -1) {
         throw new Error(
           `Invalid revision status ${revisionStatus}, should be one of ['draft', 'submitted', 'accepted']`
         );
       }
-      builder
-        .leftJoin('fi.revision', 'fir')
-        .leftJoin('di.revision', 'dir')
-        .andWhere(
-          new Brackets(qb =>
-            includeCanonical
-              ? qb
-                  // Add the revision id.
-                  .where('dir.status = :status', { status: revisionStatus.toLowerCase() })
-                  .orWhere('fir.status = :status', { status: revisionStatus.toLowerCase() })
-                  .orWhere('(di.revision IS NULL AND fi.revision IS NULL)')
-              : qb
-                  // Add the revision id.
-                  .where('dir.status = :status', { status: revisionStatus.toLowerCase() })
-                  .orWhere('fir.status = :status', { status: revisionStatus.toLowerCase() })
-          )
-        );
+      builder.andWhere(
+        new Brackets(qb =>
+          includeCanonical
+            ? qb
+                // Add the revision id.
+                .where('dir.status = :status', { status: revisionStatus.toLowerCase() })
+                .orWhere('fir.status = :status', { status: revisionStatus.toLowerCase() })
+                .orWhere('(di.revision IS NULL AND fi.revision IS NULL)')
+            : qb
+                // Add the revision id.
+                .where('dir.status = :status', { status: revisionStatus.toLowerCase() })
+                .orWhere('fir.status = :status', { status: revisionStatus.toLowerCase() })
+        )
+      );
     }
 
     if (userId) {
-      // @todo This will
-      //   - filter contributors.
-      //   - filter revisions based on contributions
-      //   - optionally, with revision ID filter those down further.
-      // di.revisionId IN (selector revision where revision.author = author)
-      // fi.revisionId IN (selector revision where revision.author = author)
-      throw new Error('Not yet implemented [user id]');
+      builder
+        .leftJoin('fir.authors', 'fira')
+        .leftJoin('dir.authors', 'dira')
+        .andWhere(
+          new Brackets(qb =>
+            qb
+              // Add the revision id.
+              .where('dira.contributorId = :userId', { userId })
+              .orWhere('fira.contributorId = :userId', { userId })
+              .orWhere('(di.revision IS NULL AND fi.revision IS NULL)')
+          )
+        );
     }
 
     if (revisionId) {
