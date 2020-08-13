@@ -9,7 +9,8 @@ import { fromField } from '../mapping/from-field';
 export function documentToInserts(
   document: CaptureModelType['document'],
   parentDocument?: { id: string; term: string },
-  rootDocumentId?: string
+  rootDocumentId?: string,
+  index?: number
 ) {
   let count = 0;
   const dbInserts: (Field | Document | Property)[][] = [];
@@ -17,7 +18,7 @@ export function documentToInserts(
     beforeVisitEntity(entity, term, parent) {
       const entityDoc = fromDocument(entity, false);
       count++;
-      entityDoc.revisionOrder = count;
+      entityDoc.revisionOrder = typeof index === 'undefined' ? count : index;
       if (parent) {
         if (!parent.id) {
           throw new Error(`No id on parent entity ${JSON.stringify(parent)}`);

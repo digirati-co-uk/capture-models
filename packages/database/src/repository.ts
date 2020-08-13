@@ -670,24 +670,32 @@ export class CaptureModelRepository {
       },
     });
 
-    const fieldsToAdd: Array<{ field: BaseField; term: string; parent: CaptureModelType['document'] }> = [];
+    const fieldsToAdd: Array<{
+      field: BaseField;
+      term: string;
+      parent: CaptureModelType['document'];
+      index?: number;
+    }> = [];
     const docsToHydrate: Array<{
       entity: CaptureModelType['document'];
       term?: string;
       parent?: CaptureModelType['document'];
+      index?: number;
     }> = [];
 
     // Apply new document changes.
     // @todo find entities that have been deleted (and option to allow deletions)
     traverseDocument(req.document, {
       visitField(field, term, parent) {
+        const index = parent.properties[term].indexOf(field as any);
+
         if (fieldIds.indexOf(field.id) === -1) {
-          if (!parent.immutable) {
-            // This does need to be created, but will be created when creating document.
-            return;
-          }
+          // if (!parent.immutable) {
+          //   // This does need to be created, but will be created when creating document.
+          //   return;
+          // }
           // Create.
-          fieldsToAdd.push({ field, term, parent });
+          fieldsToAdd.push({ field, term, parent, index });
           return;
         }
         fieldIds.splice(fieldIds.indexOf(field.id), 1);
@@ -697,7 +705,7 @@ export class CaptureModelRepository {
           (field.selector && !deepEqual(selectorMap[field.selector.id].state, field.selector.state))
         ) {
           // UPDATE @todo treating this the same as creation.
-          fieldsToAdd.push({ field, term, parent });
+          fieldsToAdd.push({ field, term, parent, index });
           return;
         }
       },

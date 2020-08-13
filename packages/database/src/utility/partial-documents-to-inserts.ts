@@ -3,7 +3,7 @@ import { CaptureModel as CaptureModelType } from '@capture-models/types';
 import { documentToInserts } from './document-to-inserts';
 
 export function partialDocumentsToInserts(
-  docsToHydrate,
+  docsToHydrate: any,
   entityMap: { [id: string]: CaptureModelType['document'] },
   rootId: string
 ) {
@@ -34,7 +34,7 @@ export function partialDocumentsToInserts(
     // This will add any missing fields from the revision.
     const fullDocument = hydratePartialDocument(doc.entity, docToClone);
 
-    dbInserts.push(...documentToInserts(fullDocument, { id: doc.parent.id, term: doc.term }, rootId));
+    dbInserts.push(...documentToInserts(fullDocument, { id: doc.parent.id, term: doc.term }, rootId, doc.index));
   }
   return dbInserts;
 }
