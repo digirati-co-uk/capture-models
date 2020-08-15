@@ -2,6 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { BaseField } from '@capture-models/types';
 import { FieldPreview } from '../FieldPreview/FieldPreview';
+import { Revisions } from '../../stores/revisions/index';
+import { SelectorPreview } from '../SelectorPreview/SelectorPreview';
+import ReactTooltip from 'react-tooltip';
 
 const PreviewListContainer = styled.div`
   & ~ & {
@@ -24,12 +27,28 @@ const PreviewLabel = styled.div`
 export const FieldInstanceReadOnly: React.FC<{
   fields: Array<BaseField>;
 }> = ({ fields }) => {
+  const chooseSelector = Revisions.useStoreActions(a => a.chooseSelector);
+  const currentSelectorId = Revisions.useStoreState(s => s.selector.currentSelectorId);
+  const previewData = Revisions.useStoreState(s => s.selector.selectorPreviewData);
+
   return (
     <PreviewListContainer>
       <PreviewLabel>{fields[0].label}</PreviewLabel>
       <PreviewList>
         {fields.map(field => (
-          <FieldPreview key={field.id} field={field} />
+          <span key={field.id}>
+            <span data-for={field.id} data-tip="">
+              <FieldPreview key={field.id} field={field} />
+            </span>
+            <ReactTooltip id={field.id} effect="solid" backgroundColor="rgb(231, 233, 236)" aria-haspopup="true">
+              <SelectorPreview
+                selector={field.selector}
+                chooseSelector={chooseSelector}
+                currentSelectorId={currentSelectorId}
+                selectorPreview={field.selector ? previewData[field.selector.id] : undefined}
+              />
+            </ReactTooltip>
+          </span>
         ))}
       </PreviewList>
     </PreviewListContainer>

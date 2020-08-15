@@ -69,12 +69,6 @@ export const FieldWrapper: React.FC<Props> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentSelectorId]);
 
-  // 1. user clicks on top right selector.
-  // 2. user sees current status of the selector.
-  // 3. user clicks edit/change selector.
-  // 4. user confirms choice
-  // 5. user closes top right selector (also saves)
-
   // On unmount.
   useEffect(() => componentWillUnmount, [componentWillUnmount]);
 

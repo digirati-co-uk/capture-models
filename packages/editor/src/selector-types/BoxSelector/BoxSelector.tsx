@@ -32,19 +32,6 @@ export const BoxSelector: SelectorComponent<BoxSelectorProps> = ({
 }) => {
   const isSelecting = props.currentSelectorId === props.id;
 
-  if (isSelecting) {
-    return (
-      <div>
-        Move and resize the highlighted box on the image to choose your selection.
-        <br />
-        {clearSelector && !readOnly ? (
-          <SelectorButton inline={true} size="small" onClick={clearSelector}>
-            finish
-          </SelectorButton>
-        ) : null}
-      </div>
-    );
-  }
   if (props.state) {
     return (
       <div>
@@ -60,9 +47,21 @@ export const BoxSelector: SelectorComponent<BoxSelectorProps> = ({
         )}
         <br />
         {chooseSelector && !readOnly ? (
-          <SelectorButton inline={true} size="small" onClick={() => chooseSelector(props.id)}>
-            edit
-          </SelectorButton>
+          isSelecting ? (
+            <div>
+              Move and resize the highlighted box on the image to choose your selection.
+              <br />
+              {clearSelector && !readOnly ? (
+                <SelectorButton inline={true} size="small" onClick={clearSelector}>
+                  finish
+                </SelectorButton>
+              ) : null}
+            </div>
+          ) : (
+            <SelectorButton inline={true} size="small" onClick={() => chooseSelector(props.id)}>
+              edit
+            </SelectorButton>
+          )
         ) : null}
       </div>
     );

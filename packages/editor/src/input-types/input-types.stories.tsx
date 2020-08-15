@@ -3,6 +3,7 @@ import React from 'react';
 import { FieldInstanceReadOnly } from '../components/FieldInstanceReadOnly/FieldInstanceReadOnly';
 import { FieldWrapper } from '../components/FieldWrapper/FieldWrapper';
 import { RoundedCard } from '../components/RoundedCard/RoundedCard';
+import { FieldPreview } from '../components/FieldPreview/FieldPreview';
 
 export default { title: 'Input types | All types' };
 
@@ -119,59 +120,52 @@ export const WithPreview: React.FC = () => {
     <div style={{ maxWidth: 400, margin: '0 auto' }}>
       <RoundedCard>
         <PluginProvider>
-          <FieldInstanceReadOnly
-            fields={
-              [
-                {
-                  id: '1',
-                  type: 'text-field',
-                  value: 'Value of the text field',
-                  description: 'Some other longer description',
-                  label: 'Text field',
-                },
-              ] as any
+          <FieldPreview
+            field={
+              {
+                id: '1',
+                type: 'text-field',
+                value: 'Value of the text field',
+                description: 'Some other longer description',
+                label: 'Text field',
+              } as any
             }
           />
-          <FieldInstanceReadOnly
-            fields={
-              [
-                {
-                  id: '2',
-                  type: 'dropdown-field',
-                  value: '1',
-                  clearable: true,
-                  options: [
-                    { text: 'Test 1', value: '1' },
-                    { text: 'Test 2', value: '2' },
-                    { text: 'Test 3', value: '3' },
-                  ],
-                  description: 'Some other longer description',
-                  label: 'Dropdown field',
-                },
-              ] as any
+          <FieldPreview
+            field={
+              {
+                id: '2',
+                type: 'dropdown-field',
+                value: '1',
+                clearable: true,
+                options: [
+                  { text: 'Test 1', value: '1' },
+                  { text: 'Test 2', value: '2' },
+                  { text: 'Test 3', value: '3' },
+                ],
+                description: 'Some other longer description',
+                label: 'Dropdown field',
+              } as any
             }
           />
-          <FieldInstanceReadOnly
-            fields={
-              [
-                {
-                  id: '3',
-                  type: 'checkbox-field',
-                  value: 'value 2',
-                  description: 'Some other longer description',
-                  inlineLabel: 'Confirm this thing',
-                  label: 'Checkbox field',
-                },
-              ] as any
+          <FieldPreview
+            field={
+              {
+                id: '3',
+                type: 'checkbox-field',
+                value: 'value 2',
+                description: 'Some other longer description',
+                inlineLabel: 'Confirm this thing',
+                label: 'Checkbox field',
+              } as any
             }
           />
-          <FieldInstanceReadOnly
-            fields={
-              [
-                {
-                  id: '4',
-                  type: 'tagged-text-field',
-                  value: `
+          <FieldPreview
+            field={
+              {
+                id: '4',
+                type: 'tagged-text-field',
+                value: `
                     <header>Testing a header</header>
                     <p>First paragraph</p>
                     <span data-tag="add">testing addition</span>
@@ -179,20 +173,18 @@ export const WithPreview: React.FC = () => {
                     
                     <footer>This is a <strong>footer</strong> right.</footer>
                   `,
-                  preset: 'bentham',
-                  description: 'An HTML field',
-                  label: 'Tagged text field',
-                },
-              ] as any
+                preset: 'bentham',
+                description: 'An HTML field',
+                label: 'Tagged text field',
+              } as any
             }
           />
-          <FieldInstanceReadOnly
-            fields={
-              [
-                {
-                  id: '5',
-                  type: 'html-field',
-                  value: `
+          <FieldPreview
+            field={
+              {
+                id: '5',
+                type: 'html-field',
+                value: `
                     <h1>Heading 1</h1>
                     <p>Paragraph under heading 1 which is a bit longer so that we can test multiple lines</p>
                     <h2>Heading 2</h2>
@@ -243,10 +235,9 @@ export const WithPreview: React.FC = () => {
                     <pre><code>Test code</code></pre>
                     <p>Paragraph under pre/code</p>
                   `,
-                  description: 'Some other longer description',
-                  label: 'HTML field',
-                },
-              ] as any
+                description: 'Some other longer description',
+                label: 'HTML field',
+              } as any
             }
           />
         </PluginProvider>

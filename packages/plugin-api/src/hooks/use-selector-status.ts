@@ -8,8 +8,6 @@ export function useSelectorStatus<T extends BaseSelector>(
 ) {
   const ctx = useContext(PluginContext);
 
-  console.log({ props });
-
   if (!props) {
     return null;
   }
