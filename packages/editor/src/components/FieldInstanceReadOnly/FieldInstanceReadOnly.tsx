@@ -41,7 +41,7 @@ export const FieldInstanceReadOnly: React.FC<{
               <FieldPreview key={field.id} field={field} />
             </span>
             {field.selector ? (
-              <ReactTooltip id={field.id} effect="solid" aria-haspopup="true">
+              <ReactTooltip id={field.id} effect="solid" backgroundColor="#000" aria-haspopup="true">
                 <SelectorPreview
                   selector={field.selector}
                   chooseSelector={chooseSelector}
