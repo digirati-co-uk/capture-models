@@ -40,14 +40,16 @@ export const FieldInstanceReadOnly: React.FC<{
             <span data-for={field.id} data-tip="">
               <FieldPreview key={field.id} field={field} />
             </span>
-            <ReactTooltip id={field.id} effect="solid" backgroundColor="rgb(231, 233, 236)" aria-haspopup="true">
-              <SelectorPreview
-                selector={field.selector}
-                chooseSelector={chooseSelector}
-                currentSelectorId={currentSelectorId}
-                selectorPreview={field.selector ? previewData[field.selector.id] : undefined}
-              />
-            </ReactTooltip>
+            {field.selector ? (
+              <ReactTooltip id={field.id} effect="solid" aria-haspopup="true">
+                <SelectorPreview
+                  selector={field.selector}
+                  chooseSelector={chooseSelector}
+                  currentSelectorId={currentSelectorId}
+                  selectorPreview={field.selector ? previewData[field.selector.id] : undefined}
+                />
+              </ReactTooltip>
+            ) : null}
           </span>
         ))}
       </PreviewList>
