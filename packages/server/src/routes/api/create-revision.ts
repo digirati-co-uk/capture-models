@@ -21,10 +21,10 @@ export const createRevisionApi: RouteMiddleware<{ captureModelId: string }, Revi
   }
 
   // Different types of revisions. @todo what to do in these cases.
-  if (revisionRequest.revision.approved && !userCan('models.admin', context.state)) {
+  if (revisionRequest.revision.approved && !userCan('models.create', context.state)) {
     throw new Error('Auto approved');
   }
-  if (revisionRequest.revision.source === 'canonical' && !userCan('models.admin', context.state)) {
+  if (revisionRequest.revision.source === 'canonical' && !userCan('models.create', context.state)) {
     throw new Error('Editing canonical');
   }
 

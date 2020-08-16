@@ -3,7 +3,7 @@ import { RouteMiddleware } from '../../types';
 import { userCan } from '../../utility/user-can';
 
 export const deleteRevisionApi: RouteMiddleware<{ id: string }> = async context => {
-  if (!userCan('models.admin', context.state)) {
+  if (!userCan('models.create', context.state)) {
     context.status = 404;
     return;
   }
