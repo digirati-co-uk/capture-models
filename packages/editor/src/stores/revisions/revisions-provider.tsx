@@ -16,6 +16,7 @@ export const {
 type RevisionProviderProps = {
   captureModel?: CaptureModel;
   initialRevision?: string;
+  revision?: string;
   excludeStructures?: boolean;
 };
 
@@ -23,9 +24,13 @@ const InternalRevisionProvider: React.FC<RevisionProviderProps> = ({
   children,
   captureModel,
   initialRevision,
+  revision,
   excludeStructures,
 }) => {
-  const setCaptureModel = useStoreActions(a => a.setCaptureModel);
+  const { setCaptureModel, selectRevision } = useStoreActions(a => ({
+    selectRevision: a.selectRevision,
+    setCaptureModel: a.setCaptureModel,
+  }));
 
   useEffect(() => {
     if (captureModel)
@@ -36,6 +41,12 @@ const InternalRevisionProvider: React.FC<RevisionProviderProps> = ({
       });
   }, [captureModel, excludeStructures, initialRevision, setCaptureModel]);
 
+  useEffect(() => {
+    if (revision) {
+      selectRevision({ revisionId: revision });
+    }
+  }, [revision, selectRevision]);
+
   return <>{children}</>;
 };
 
@@ -43,7 +54,7 @@ export const RevisionProvider: React.FC<RevisionProviderProps & { initialData?: 
   children,
   ...props
 }) => {
-  const { captureModel, initialRevision, excludeStructures } = props.initialData ? props.initialData : props;
+  const { captureModel, initialRevision, excludeStructures, revision } = props.initialData ? props.initialData : props;
 
   return (
     <Provider>
@@ -51,6 +62,7 @@ export const RevisionProvider: React.FC<RevisionProviderProps & { initialData?: 
         captureModel={captureModel}
         initialRevision={initialRevision}
         excludeStructures={excludeStructures}
+        revision={revision}
       >
         {children}
       </InternalRevisionProvider>
