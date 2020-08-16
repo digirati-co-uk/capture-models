@@ -12,7 +12,8 @@
     "build": "tsc --project tsconfig.json"
   },
   "files": [
-    "src"
+    "src",
+    "index.js"
   ],
   "publishConfig": {
     "access": "public"
