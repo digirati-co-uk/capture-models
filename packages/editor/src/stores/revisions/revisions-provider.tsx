@@ -36,16 +36,12 @@ const InternalRevisionProvider: React.FC<RevisionProviderProps> = ({
     if (captureModel)
       setCaptureModel({
         captureModel,
-        initialRevision,
+        initialRevision: initialRevision ? initialRevision : revision,
         excludeStructures,
       });
-  }, [captureModel, excludeStructures, initialRevision, setCaptureModel]);
 
-  useEffect(() => {
-    if (revision) {
-      selectRevision({ revisionId: revision });
-    }
-  }, [revision, selectRevision]);
+    if (revision) selectRevision({ revisionId: revision });
+  }, [captureModel, excludeStructures, initialRevision, revision, selectRevision, setCaptureModel]);
 
   return <>{children}</>;
 };
