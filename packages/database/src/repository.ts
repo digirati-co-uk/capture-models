@@ -466,6 +466,58 @@ export class CaptureModelRepository {
 
     return count !== 0;
   }
+
+  async cloneRevision(
+    captureModelId: string,
+    revisionId: string,
+    { context, user }: { context?: string[]; user?: ContributorType }
+  ) {
+    const req = await this.getRevisionTemplate(captureModelId, revisionId, {
+      context,
+      includeRevisions: true,
+      includeStructures: false,
+    });
+
+    // Add additional author.
+    if (user && req.revision.authors.indexOf(user.id) === -1) {
+      req.revision.authors.push(user.id);
+    }
+
+    // Add user as owner of clone.
+    if (user) {
+      req.author = user;
+    }
+
+    // Add new id.
+    const originalId = req.revision.id;
+    const newId = generateId();
+    req.revision.revises = originalId;
+    req.revision.id = newId;
+
+    traverseDocument(req.document, {
+      visitField(field) {
+        if (field.revision === originalId) {
+          field.id = generateId();
+          field.revision = newId;
+          if (field.selector) {
+            field.selector.id = generateId();
+          }
+        }
+      },
+      visitEntity(entity) {
+        if (entity.revision === originalId) {
+          entity.id = generateId();
+          entity.revision = newId;
+          if (entity.selector) {
+            entity.selector.id = generateId();
+          }
+        }
+      },
+    });
+
+    return req;
+  }
+
   /**
    * Create revision
    *
@@ -518,6 +570,11 @@ export class CaptureModelRepository {
       context,
     });
 
+    // Fix for when the base document is not marked as immutable.
+    if (!req.document.immutable) {
+      req.document.immutable = true;
+    }
+
     // Validation for the request.
     validateRevision(req, captureModel, {
       allowAnonymous,
@@ -562,6 +619,10 @@ export class CaptureModelRepository {
       throw new Error('Not yet implemented [allow overwrite]');
     }
 
+    if (fieldsToAdd.length === 0 && docsToHydrate.length === 0) {
+      throw new Error('Invalid revision - no valid fields or documents found');
+    }
+
     const contributor = req.author ? fromContributor(req.author) : null;
 
     // Everything we need to add into the database.
@@ -598,7 +659,7 @@ export class CaptureModelRepository {
       return rev;
     });
 
-    return this.getRevision(req.revision.id);
+    return this.getRevision(req.revision.id, context);
   }
 
   /**
@@ -838,8 +899,10 @@ export class CaptureModelRepository {
 
     if (includeRevisions) {
       const revision = await this.getRevision(revisionId);
-      if (revision.captureModelId === captureModelId) {
-        throw new Error('Revision does not exist on capture model');
+      if (revision.captureModelId !== captureModelId) {
+        throw new Error(
+          `Revision does not exist on capture model, found: ${revision.captureModelId}, expected: ${captureModelId}`
+        );
       }
       return revision;
     }

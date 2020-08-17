@@ -7,10 +7,14 @@ export const forkRevisionApi: RouteMiddleware<{ captureModelId: string; revision
     return;
   }
 
+  const cloneMode = userCan('models.create', context.state)
+    ? context.query.clone_mode || 'FORK_TEMPLATE'
+    : 'FORK_TEMPLATE';
+
   // @todo, params for cloneMode, modelMapping and other options.
   context.response.body = await context.db.api.forkRevision(context.params.captureModelId, context.params.revisionId, {
     modelRoot: [],
-    cloneMode: 'FORK_TEMPLATE',
+    cloneMode,
     includeRevisions: true,
     includeStructures: true,
     context: context.state.jwt.context,

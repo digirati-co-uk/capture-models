@@ -17,9 +17,9 @@ export function forkExistingRevision(
 ) {
   // Document
   const documentToClone = baseRevision.document;
+
   // New id
   const newRevisionId = generateId();
-  console.log(documentToClone.properties)
   // Create document
   const newDocument = createRevisionDocument(
     newRevisionId,
@@ -42,6 +42,12 @@ export function forkExistingRevision(
     baseRevision.revision,
     newDocument
   );
+  revisionRequest.revision.revises = baseRevision.revision.id;
   revisionRequest.revision.id = newRevisionId;
+
+  // New status?
+  revisionRequest.revision.approved = false;
+  revisionRequest.revision.status = 'draft';
+
   return revisionRequest;
 }

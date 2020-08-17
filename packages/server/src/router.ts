@@ -13,6 +13,7 @@ import { updateRevisionApi } from './routes/api/update-revision';
 import { TypedRouter } from './utility/typed-router';
 import { captureModelApi } from './routes/api/capture-model';
 import { revisionApi } from './routes/api/revision';
+import { cloneRevisionApi } from './routes/api/clone-revision';
 
 export const router = new TypedRouter({
   // Page routes.
@@ -35,6 +36,7 @@ export const router = new TypedRouter({
     choiceRevisionApi,
   ],
   'fork-revision': [TypedRouter.GET, '/api/crowdsourcing/model/:captureModelId/fork/:revisionId', forkRevisionApi],
+  'clone-revision': [TypedRouter.GET, '/api/crowdsourcing/model/:captureModelId/clone/:revisionId', cloneRevisionApi],
   'update-revision': [TypedRouter.PUT, '/api/crowdsourcing/revision/:id', updateRevisionApi],
   'delete-revision': [TypedRouter.DELETE, '/api/crowdsourcing/revision/:id', deleteRevisionApi],
   revision: [TypedRouter.GET, '/api/crowdsourcing/revision/:id', revisionApi],

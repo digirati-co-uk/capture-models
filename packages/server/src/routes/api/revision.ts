@@ -7,6 +7,11 @@ export const revisionApi: RouteMiddleware<{ id: string }> = async (context, next
     return;
   }
 
-  context.response.body = await context.db.api.getRevision(context.params.id, context.state.jwt.context);
-  await next();
+  try {
+    context.response.body = await context.db.api.getRevision(context.params.id, context.state.jwt.context);
+    await next();
+  } catch (err) {
+    context.status = 404;
+    return;
+  }
 };
