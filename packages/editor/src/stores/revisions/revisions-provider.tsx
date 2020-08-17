@@ -1,6 +1,6 @@
 import { CaptureModel } from '@capture-models/types';
 import { createContextStore } from 'easy-peasy';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { revisionStore } from './revisions-store';
 import { RevisionsModel } from './revisions-model';
 
@@ -27,20 +27,27 @@ const InternalRevisionProvider: React.FC<RevisionProviderProps> = ({
   revision,
   excludeStructures,
 }) => {
+  const lastModel = useRef<string>();
+  const lastRevision = useRef<string>();
   const { setCaptureModel, selectRevision } = useStoreActions(a => ({
     selectRevision: a.selectRevision,
     setCaptureModel: a.setCaptureModel,
   }));
 
   useEffect(() => {
-    if (captureModel)
+    if (captureModel && (!lastModel.current || lastModel.current !== captureModel.id)) {
+      lastModel.current = captureModel.id;
       setCaptureModel({
         captureModel,
         initialRevision: initialRevision ? initialRevision : revision,
         excludeStructures,
       });
+    }
 
-    if (revision) selectRevision({ revisionId: revision });
+    if (revision && (!lastRevision.current || lastRevision.current !== revision)) {
+      lastRevision.current = revision;
+      selectRevision({ revisionId: revision });
+    }
   }, [captureModel, excludeStructures, initialRevision, revision, selectRevision, setCaptureModel]);
 
   return <>{children}</>;
@@ -48,9 +55,10 @@ const InternalRevisionProvider: React.FC<RevisionProviderProps> = ({
 
 export const RevisionProvider: React.FC<RevisionProviderProps & { initialData?: RevisionProviderProps }> = ({
   children,
+  revision,
   ...props
 }) => {
-  const { captureModel, initialRevision, excludeStructures, revision } = props.initialData ? props.initialData : props;
+  const { captureModel, initialRevision, excludeStructures } = props.initialData ? props.initialData : props;
 
   return (
     <Provider>
