@@ -487,6 +487,12 @@ export const revisionStore: RevisionsModel = {
       state.currentRevisionReadMode = !!readMode;
       // Set up our selector store.
       state.selector = createSelectorStore(debug(state.revisions[revisionId].document) as CaptureModel['document']);
+      // Reset breaking state.
+      state.revisionSubtreePath = [];
+      state.revisionSelectedFieldInstance = null;
+      state.revisionSelectedFieldInstance = null;
+      state.isThankYou = false;
+      state.isPreviewing = false;
     }
   }),
   deselectRevision: action(state => {
