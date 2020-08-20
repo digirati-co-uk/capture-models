@@ -1,6 +1,6 @@
 {
   "name": "@capture-models/helpers",
-  "version": "0.7.9",
+  "version": "0.7.11",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "web": "dist/index.umd.js",
