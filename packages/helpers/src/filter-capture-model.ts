@@ -5,7 +5,7 @@ export function filterCaptureModel(
   id: string,
   document: CaptureModel['document'] | Omit<CaptureModel['document'], 'id'>,
   flatFields: string[][],
-  predicate: (field: BaseField) => boolean
+  predicate: (field: BaseField, rootField: BaseField[]) => boolean
 ): CaptureModel['document'] | null {
   const newDocument: CaptureModel['document'] = {
     id,
@@ -30,7 +30,7 @@ export function filterCaptureModel(
           newDocument.properties[rootFieldKey].push(filteredModel as any);
         }
       } else {
-        if (predicate(field as any)) {
+        if (predicate(field as any, rootField as any[])) {
           if (!newDocument.properties[rootFieldKey]) {
             newDocument.properties[rootFieldKey] = [];
           }

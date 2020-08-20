@@ -12,15 +12,20 @@ export function createRevisionRequestFromStructure(
   }
 
   const flatFields = expandModelFields(structure.fields);
-  const structureDocument = filterCaptureModel(structure.id, captureModel.document, flatFields, field => {
-    if (!field.revision) {
-      return true; // Canonical
+  const structureDocument = filterCaptureModel(
+    structure.id,
+    captureModel.document,
+    flatFields,
+    (field, otherFields) => {
+      if (!field.revision) {
+        return otherFields.length === 0; // Canonical
+      }
+
+      const revision = (captureModel.revisions || []).find(({ id }) => id === field.revision);
+
+      return !!(revision && revision.approved && revision.status === 'accepted');
     }
-
-    const revision = (captureModel.revisions || []).find(({ id }) => id === field.revision);
-
-    return !!(revision && revision.approved && revision.status === 'accepted');
-  });
+  );
 
   if (!structureDocument) {
     throw new Error(`Invalid structure ${structure.id} (${structure.label})`);
