@@ -5,7 +5,8 @@ export function filterCaptureModel(
   id: string,
   document: CaptureModel['document'] | Omit<CaptureModel['document'], 'id'>,
   flatFields: string[][],
-  predicate: (field: BaseField, rootField: BaseField[]) => boolean
+  predicate: (field: BaseField) => boolean,
+  postFilter?: (rootField: BaseField[]) => BaseField[]
 ): CaptureModel['document'] | null {
   const newDocument: CaptureModel['document'] = {
     id,
@@ -30,7 +31,7 @@ export function filterCaptureModel(
           newDocument.properties[rootFieldKey].push(filteredModel as any);
         }
       } else {
-        if (predicate(field as any, rootField as any[])) {
+        if (predicate(field as any)) {
           if (!newDocument.properties[rootFieldKey]) {
             newDocument.properties[rootFieldKey] = [];
           }
@@ -39,6 +40,9 @@ export function filterCaptureModel(
         }
         // check if matches condition and add it to new field list.
       }
+    }
+    if (postFilter && newDocument.properties[rootFieldKey]) {
+      newDocument.properties[rootFieldKey] = postFilter(newDocument.properties[rootFieldKey] as any[]);
     }
   }
 

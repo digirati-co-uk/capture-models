@@ -213,7 +213,7 @@ describe('Revision store', () => {
 
       selectRevision({ revisionId: 'fd847948-11bf-42ca-bfdd-cab85ea818f3' });
 
-      expect((store.getState().revisionSubtree as any).properties.transcription).toHaveLength(3);
+      expect((store.getState().revisionSubtree as any).properties.transcription).toHaveLength(2);
 
       expect(() =>
         createNewFieldInstance({
@@ -222,11 +222,11 @@ describe('Revision store', () => {
         })
       ).not.toThrow();
 
-      expect((store.getState().revisionSubtree as any).properties.transcription).toHaveLength(4);
+      expect((store.getState().revisionSubtree as any).properties.transcription).toHaveLength(3);
 
-      expect((store.getState().revisionSubtree as any).properties.transcription[3].label).toEqual('Transcription');
-      expect((store.getState().revisionSubtree as any).properties.transcription[3].type).toEqual('text-field');
-      expect((store.getState().revisionSubtree as any).properties.transcription[3].value).toEqual('');
+      expect((store.getState().revisionSubtree as any).properties.transcription[2].label).toEqual('Transcription');
+      expect((store.getState().revisionSubtree as any).properties.transcription[2].type).toEqual('text-field');
+      expect((store.getState().revisionSubtree as any).properties.transcription[2].value).toEqual('');
     });
 
     test('duplicating field with selector', () => {

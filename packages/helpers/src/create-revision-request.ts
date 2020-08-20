@@ -5,7 +5,8 @@ import { expandModelFields } from './expand-model-fields';
 
 export function createRevisionRequestFromStructure(
   captureModel: CaptureModel,
-  structure: CaptureModel['structure']
+  structure: CaptureModel['structure'],
+  filterEmpty?: boolean
 ): RevisionRequest {
   if (structure.type !== 'model') {
     throw new Error('Cannot make revision from choice');
@@ -16,14 +17,28 @@ export function createRevisionRequestFromStructure(
     structure.id,
     captureModel.document,
     flatFields,
-    (field, otherFields) => {
+    field => {
       if (!field.revision) {
-        return otherFields.length === 0; // Canonical
+        return true; // Canonical
       }
 
       const revision = (captureModel.revisions || []).find(({ id }) => id === field.revision);
 
       return !!(revision && revision.approved && revision.status === 'accepted');
+    },
+    fields => {
+      if (!filterEmpty) {
+        return fields;
+      }
+      const containsCanonical = fields.filter(f => !f.revision);
+
+      if (fields.length === containsCanonical.length) {
+        return fields;
+      }
+
+      return fields.filter(field => {
+        return !!field.revision;
+      });
     }
   );
 

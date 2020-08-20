@@ -938,10 +938,10 @@ describe('create revision', () => {
 
   describe('Revision with revised field', () => {
     const multi = require('../../../../fixtures/03-revisions/05-allow-multiple-transcriptions.json');
-    test('Canonical revision should contain both types', () => {
+    test('Canonical revision should contain both types and filter out the empty', () => {
       const [main] = captureModelToRevisionList(multi, true);
 
-      expect(main.document.properties.transcription).toHaveLength(3);
+      expect(main.document.properties.transcription).toHaveLength(2);
     });
     test('When forking a revision, only the canonical revisions should be used as a template (no revises)', () => {
       const [main] = captureModelToRevisionList(multi, true);
