@@ -61,18 +61,18 @@ export const AtlasViewer: React.FC<AtlasViewerProps> = props => {
   const currentSelector = useCurrentSelector('atlas', undefined);
   const [displayIds, displaySelectors, topLevelSelectors, adjacentSelectors] = useDisplaySelectors('atlas');
   const [actions, availableSelectors] = useSelectorActions();
-
-  useEffect(() => {
-    // @todo UI to toggle these on and off and props to control this behaviour.
-    if (actions && availableSelectors && displayIds && displayIds.length === 0) {
-      const selectorIds = ((availableSelectors as any) || []).map((s: any) => s.id);
-      if (selectorIds.length) {
-        actions.addVisibleSelectorIds({
-          selectorIds: selectorIds,
-        });
-      }
-    }
-  }, [actions, availableSelectors, currentSelector, displayIds, displaySelectors]);
+  
+  // useEffect(() => {
+  //   // @todo UI to toggle these on and off and props to control this behaviour.
+  //   // if (actions && availableSelectors && displayIds && displayIds.length === 0) {
+  //   //   const selectorIds = ((availableSelectors as any) || []).map((s: any) => s.id);
+  //   //   if (selectorIds.length) {
+  //   //     actions.addVisibleSelectorIds({
+  //   //       selectorIds: selectorIds,
+  //   //     });
+  //   //   }
+  //   // }
+  // }, [actions, availableSelectors, currentSelector, displayIds, displaySelectors]);
 
   if (!isLoaded) {
     return <>loading manifest...</>;
