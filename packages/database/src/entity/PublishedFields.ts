@@ -3,23 +3,23 @@ import { ViewColumn, ViewEntity } from 'typeorm/index';
 @ViewEntity({
   name: 'published_fields',
   expression: `
-    select jsonb_path_query_first(cm.target, '$[*] ? (@.type == $type)', '{
+    select (jsonb_path_query_first(cm.target, '$[*] ? (@.type == $type)', '{
   "type": "Canvas"
-}'::jsonb)::jsonb -> 'id'        as canvas,
-       jsonb_path_query_first(cm.target, '$[*] ? (@.type == $type)', '{
+}'::jsonb)::jsonb -> 'id' ->> 0)::text        as canvas,
+       (jsonb_path_query_first(cm.target, '$[*] ? (@.type == $type)', '{
          "type": "Manifest"
-       }'::jsonb)::jsonb -> 'id' as manifest,
-       jsonb_path_query_first(cm.target, '$[*] ? (@.type == $type)', '{
+       }'::jsonb)::jsonb -> 'id' ->> 0)::text as manifest,
+       (jsonb_path_query_first(cm.target, '$[*] ? (@.type == $type)', '{
          "type": "Collection"
-       }'::jsonb)::jsonb -> 'id' as collection,
+       }'::jsonb)::jsonb -> 'id' ->> 0)::text as collection,
        field.id,
        field.value,
-       field.type                as fieldType,
+       field.type                as field_type,
        property.term             as property,
-       property."rootDocumentId" as captureModelId,
-       document_property.term    as parentProperty,
+       property."rootDocumentId" as capture_model_id,
+       document_property.term    as parent_property,
        si.state                  as selector,
-       si.type                   as selectorType,
+       si.type                   as selector_type,
        cm.context
 from field
          left join revision r on field."revisionId" = r.id and r.approved = true
@@ -28,6 +28,7 @@ from field
          left join document on property."documentId" = document.id
          left join property document_property on document."parentId" = property.id
          left join capture_model cm on r."captureModelId" = cm.id
+ where r.approved = true
   `,
 })
 export class PublishedFields {
@@ -41,7 +42,7 @@ export class PublishedFields {
   manifest: string | null;
 
   @ViewColumn()
-  fieldType: string;
+  field_type: string;
 
   @ViewColumn()
   value: string;
@@ -50,16 +51,16 @@ export class PublishedFields {
   property?: string;
 
   @ViewColumn()
-  captureModelId: string;
+  capture_model_id: string;
 
   @ViewColumn()
-  parentProperty: string;
+  parent_property: string;
 
   @ViewColumn()
   selector?: any;
 
   @ViewColumn()
-  selectorType?: string;
+  selector_type?: string;
 
   @ViewColumn()
   context: string[];

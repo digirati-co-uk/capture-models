@@ -442,9 +442,10 @@ export class CaptureModelRepository {
       canvas?: string;
       manifest?: string;
       collection?: string;
-      fieldType?: string;
-      selectorType?: string;
-      parentProperty?: string;
+      field_type?: string;
+      selector_type?: string;
+      parent_property?: string;
+      capture_model_id?: string;
     },
     query?: string,
     context?: string[]
@@ -453,17 +454,18 @@ export class CaptureModelRepository {
       .createQueryBuilder()
       .select('p')
       .from(PublishedFields, 'p')
-      .where(where);
+      .where(where)
+      .andWhere('p.selector is not null');
 
     if (query) {
-      builder.andWhere('p.value ILIKE :search', { search: `%${query}%` });
+      builder.andWhere('p.value::text ILIKE :search', { search: `%${query}%` });
     }
 
     if (context) {
-      builder.andWhere('c.context ?& array[:...ctx]::TEXT[]', { ctx: context });
+      builder.andWhere('p.context::jsonb ?& array[:ctx]::TEXT[]', { ctx: context[0] });
     }
 
-    return await builder.getManyAndCount();
+    return await builder.getMany();
   }
 
   searchRevisions() {
