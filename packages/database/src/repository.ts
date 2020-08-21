@@ -37,6 +37,7 @@ import { fieldsToInserts } from './utility/fields-to-inserts';
 import { partialDocumentsToInserts } from './utility/partial-documents-to-inserts';
 import { RevisionAuthors } from './entity/RevisionAuthors';
 import { diffAuthors } from './utility/diff-authors';
+import { PublishedFields } from './entity/PublishedFields';
 
 @EntityRepository()
 export class CaptureModelRepository {
@@ -434,6 +435,35 @@ export class CaptureModelRepository {
       document: fullModel.document,
       revision,
     };
+  }
+
+  async searchPublishedFields(
+    where: {
+      canvas?: string;
+      manifest?: string;
+      collection?: string;
+      fieldType?: string;
+      selectorType?: string;
+      parentProperty?: string;
+    },
+    query?: string,
+    context?: string[]
+  ) {
+    const builder = this.manager
+      .createQueryBuilder()
+      .select('p')
+      .from(PublishedFields, 'p')
+      .where(where);
+
+    if (query) {
+      builder.andWhere('p.value ILIKE :search', { search: `%${query}%` });
+    }
+
+    if (context) {
+      builder.andWhere('c.context ?& array[:...ctx]::TEXT[]', { ctx: context });
+    }
+
+    return await builder.getManyAndCount();
   }
 
   searchRevisions() {

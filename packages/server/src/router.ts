@@ -14,6 +14,7 @@ import { TypedRouter } from './utility/typed-router';
 import { captureModelApi } from './routes/api/capture-model';
 import { revisionApi } from './routes/api/revision';
 import { cloneRevisionApi } from './routes/api/clone-revision';
+import { searchPublished } from './routes/api/search-published';
 
 export const router = new TypedRouter({
   // Page routes.
@@ -41,4 +42,5 @@ export const router = new TypedRouter({
   'delete-revision': [TypedRouter.DELETE, '/api/crowdsourcing/revision/:id', deleteRevisionApi],
   revision: [TypedRouter.GET, '/api/crowdsourcing/revision/:id', revisionApi],
   'revision-list': [TypedRouter.GET, '/api/crowdsourcing/revision', revisionListApi],
+  'search-published': [TypedRouter.GET, '/api/crowdsourcing/search/published', searchPublished],
 });
