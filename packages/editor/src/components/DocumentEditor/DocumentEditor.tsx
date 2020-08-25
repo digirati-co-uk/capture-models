@@ -16,6 +16,8 @@ import { Box } from '@styled-icons/entypo/Box';
 import { Edit } from '@styled-icons/entypo/Edit';
 import { Tag } from '../../atoms/Tag';
 import { StyledForm, StyledFormField, StyledFormInput, StyledFormLabel, StyledCheckbox } from '../../atoms/StyledForm';
+import { CardButton } from '../CardButton/CardButton';
+import { CardButtonGroup } from '../CardButtonGroup/CardButtonGroup';
 
 export type DocumentEditorProps = {
   setLabel: (label: string) => void;
@@ -231,31 +233,10 @@ export const DocumentEditor: React.FC<DocumentEditorProps> = ({
               </List>
             </CardContent>
             <CardContent extra>
-              <p>Add a new field</p>
-              <NewFieldForm
-                key={Object.keys(subtree.properties).length}
-                existingTerms={Object.keys(subtree.properties)}
-                onSave={newField => {
-                  // Use term to get plugin.
-                  addField({
-                    term: newField.term,
-                    field: {
-                      type: newField.fieldType,
-                      label: newField.term,
-                      value: newField.field.defaultValue,
-                      selector: newField.selector
-                        ? {
-                            type: newField.selector.type,
-                            state: copy(newField.selector.defaultState),
-                          }
-                        : undefined,
-                      ...newField.field.defaultProps,
-                    },
-                    select: true,
-                  });
-                  router.list();
-                }}
-              />
+              <CardButtonGroup>
+                <CardButton size="small" onClick={router.newField}>Add field</CardButton>
+                <CardButton size="small" onClick={router.newDocument}>Add nested entity</CardButton>
+              </CardButtonGroup>
             </CardContent>
           </>
         ) : route === 'newField' ? (
@@ -272,6 +253,7 @@ export const DocumentEditor: React.FC<DocumentEditorProps> = ({
             </CardContent>
             <CardContent extra>
               <NewFieldForm
+                key={Object.keys(subtree.properties).length}
                 existingTerms={Object.keys(subtree.properties)}
                 onSave={newField => {
                   // Use term to get plugin.
@@ -335,12 +317,6 @@ export const DocumentEditor: React.FC<DocumentEditorProps> = ({
             </CardContent>
           </>
         )}
-        <CardContent extra>
-          <p>Add an nested entity field</p>
-          <Button fluid onClick={router.newDocument}>
-            Add Entity
-          </Button>
-        </CardContent>
       </Card>
     </div>
   );
