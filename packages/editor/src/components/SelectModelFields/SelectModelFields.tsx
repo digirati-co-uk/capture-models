@@ -56,10 +56,16 @@ export const SelectModelFields: React.FC<Props> = ({ document, selected = [], on
     );
   };
 
-  const onNodeClick = (node: any) => {
+  const onNodeClick = (node: any, tree: any) => {
     if (node) {
-      // @todo change this to accept ALL fields in the model.
-      onSave(node as string[]);
+      if (tree.childNodes) {
+        for (const childNode of tree.childNodes) {
+          onNodeClick(childNode.nodeData as string[], childNode);
+        }
+      } else {
+        // @todo change this to accept ALL fields in the model.
+        onSave(node as string[]);
+      }
     }
   };
 
