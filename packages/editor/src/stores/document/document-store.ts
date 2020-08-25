@@ -71,8 +71,9 @@ export const DocumentStore = createContextStore<
 
     // Adds a new field to the current subtree, and then selects it.
     addField: action((state, payload) => {
-      resolveSubtree(state.subtreePath, state.document).properties[payload.term] = [createField(payload.field)];
-      if (payload.select) {
+      const subtreePath = payload.subtreePath ? payload.subtreePath : state.subtreePath;
+      resolveSubtree(subtreePath, state.document).properties[payload.term] = [createField(payload.field)];
+      if (payload.select && subtreePath === state.subtreePath) {
         if ((payload.field.type as string) === 'entity') {
           state.selectedFieldKey = null;
           state.subtreePath.push(payload.term);
@@ -99,23 +100,51 @@ export const DocumentStore = createContextStore<
       // Add the following by dispatching the actions
       const skipKeys = ['selector', 'authors', 'revision', 'value'];
       // Loop the keys and apply custom values.
+      const values = [];
       for (const key of keys) {
         if (skipKeys.indexOf(key) !== -1) continue;
-        actions.setCustomProperty({ term: payload.term, key, value: (payload.field as any)[key] });
+        values.push({
+          key,
+          value: (payload.field as any)[key],
+        });
       }
+      actions.setCustomProperties({ term: payload.term, values, subtreePath: payload.subtreePath });
 
-      actions.setFieldValue({ term: payload.term, value: payload.field.value });
-      actions.setFieldSelector({ term: payload.term, selector: payload.field.selector });
+      actions.setFieldValue({ term: payload.term, value: payload.field.value, subtreePath: payload.subtreePath });
+      actions.setFieldSelector({
+        term: payload.term,
+        selector: payload.field.selector,
+        subtreePath: payload.subtreePath,
+      });
 
       // Creat new action for setting custom property on field
       // This will allow all of the field setters to be generic and look for all fields that need to be updated, at the
       // same level but in different trees.
     }),
 
+    setCustomProperties: action((state, payload) => {
+      // Add the following by dispatching the actions
+      const skipKeys = ['selector', 'authors', 'revision', 'value'];
+      // Get property changing.
+      const prop = (payload.term ? payload.term : state.selectedFieldKey) as string;
+      const subtreePath = payload.subtreePath ? payload.subtreePath : state.subtreePath;
+      const subtree = resolveSubtree(subtreePath, state.document);
+      // Loop the keys and apply custom values.
+      for (const { value, key } of payload.values) {
+        if (skipKeys.indexOf(key) !== -1) continue;
+        const property = subtree.properties[prop];
+        if (!property) continue;
+        for (const term of property) {
+          (term as any)[key] = value;
+        }
+      }
+    }),
+
     // Sets a custom property on the selected field.
     setCustomProperty: action((state, payload) => {
+      const subtreePath = payload.subtreePath ? payload.subtreePath : state.subtreePath;
       const prop = (payload.term ? payload.term : state.selectedFieldKey) as string;
-      for (const term of resolveSubtree(state.subtreePath, state.document).properties[prop]) {
+      for (const term of resolveSubtree(subtreePath, state.document).properties[prop]) {
         (term as any)[payload.key] = payload.value;
       }
     }),
@@ -179,15 +208,17 @@ export const DocumentStore = createContextStore<
     //         collectionB:
     //           - label: resource B3
     setFieldLabel: action((state, payload) => {
+      const subtreePath = payload.subtreePath ? payload.subtreePath : state.subtreePath;
       const prop = (payload.term ? payload.term : state.selectedFieldKey) as string;
-      for (const term of resolveSubtree(state.subtreePath, state.document).properties[prop]) {
+      for (const term of resolveSubtree(subtreePath, state.document).properties[prop]) {
         term.label = payload.label;
       }
     }),
 
     setFieldType: action((state, payload) => {
       const prop = (payload.term ? payload.term : state.selectedFieldKey) as string;
-      for (const term of resolveSubtree(state.subtreePath, state.document).properties[prop]) {
+      const subtreePath = payload.subtreePath ? payload.subtreePath : state.subtreePath;
+      for (const term of resolveSubtree(subtreePath, state.document).properties[prop]) {
         term.type = payload.type;
         if (payload.defaults) {
           for (const defaultKey of Object.keys(payload.defaults)) {
@@ -200,62 +231,43 @@ export const DocumentStore = createContextStore<
     }),
 
     setFieldDescription: action((state, payload) => {
+      const subtreePath = payload.subtreePath ? payload.subtreePath : state.subtreePath;
       const prop = (payload.term ? payload.term : state.selectedFieldKey) as string;
-      for (const term of resolveSubtree(state.subtreePath, state.document).properties[prop]) {
+      for (const term of resolveSubtree(subtreePath, state.document).properties[prop]) {
         term.description = payload.description;
       }
     }),
     setFieldSelector: action((state, payload) => {
+      const subtreePath = payload.subtreePath ? payload.subtreePath : state.subtreePath;
       const prop = (payload.term ? payload.term : state.selectedFieldKey) as string;
-      for (const term of resolveSubtree(state.subtreePath, state.document).properties[prop]) {
+      for (const term of resolveSubtree(subtreePath, state.document).properties[prop]) {
         term.selector = payload.selector;
       }
     }),
     setFieldSelectorState: action((state, payload) => {
+      const subtreePath = payload.subtreePath ? payload.subtreePath : state.subtreePath;
       const prop = (payload.term ? payload.term : state.selectedFieldKey) as string;
-      for (const term of resolveSubtree(state.subtreePath, state.document).properties[prop]) {
+      for (const term of resolveSubtree(subtreePath, state.document).properties[prop]) {
         if (term.selector) {
           term.selector.state = payload as any;
         }
       }
     }),
     setFieldValue: action((state, payload) => {
+      const subtreePath = payload.subtreePath ? payload.subtreePath : state.subtreePath;
       const prop = (payload.term ? payload.term : state.selectedFieldKey) as string;
-      for (const term of resolveSubtree(state.subtreePath, state.document).properties[prop]) {
+      for (const term of resolveSubtree(subtreePath, state.document).properties[prop]) {
         if (!isEntity(term)) {
           term.value = payload.value;
         }
       }
     }),
     setFieldTerm: action((state, payload) => {
-      // @todo validation for overriding?
-      const field = state.subtree.properties[payload.oldTerm];
-      delete state.subtree.properties[payload.oldTerm];
-      state.subtree.properties[payload.newTerm] = field;
+      const subtreePath = payload.subtreePath ? payload.subtreePath : state.subtreePath;
+      const subtree = resolveSubtree(subtreePath, state.document);
+      const field = subtree.properties[payload.oldTerm];
+      delete subtree.properties[payload.oldTerm];
+      subtree.properties[payload.newTerm] = field;
     }),
-
-    onDocumentChange: thunkOn(
-      actions => [
-        actions.addField,
-        actions.removeField,
-        actions.reorderField,
-        actions.setLabel,
-        actions.setDescription,
-        actions.setField,
-        actions.setCustomProperty,
-        actions.setFieldLabel,
-        actions.setFieldDescription,
-        actions.setSelector,
-        actions.setSelectorState,
-        actions.setFieldValue,
-        actions.setFieldTerm,
-      ],
-      async (_, payload, store) => {
-        if (initial && initial.onDocumentChange) {
-          const state = store.getStoreState() as DocumentModel;
-          initial.onDocumentChange(state.document);
-        }
-      }
-    ),
   };
 });
