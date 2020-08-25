@@ -1,6 +1,6 @@
 {
   "name": "@capture-models/helpers",
-  "version": "0.7.11",
+  "version": "0.8.0",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "web": "dist/index.umd.js",
@@ -21,8 +21,8 @@
     "access": "public"
   },
   "dependencies": {
-    "@capture-models/plugin-api": "^0.7.8",
-    "@capture-models/types": "^0.7.8",
+    "@capture-models/plugin-api": "^0.8.0",
+    "@capture-models/types": "^0.8.0",
     "fast-copy": "^2.0.4",
     "immer": "^7.0.7",
     "react": "^16.13.1",
