@@ -28,7 +28,7 @@ const DropdownFieldEditor: React.FC<Props> = props => {
             as={StyledFormInputElement}
             type="text"
             name="placeholder"
-            value={props.placeholder}
+            defaultValue={props.placeholder}
             required={false}
           />
         </StyledFormLabel>
@@ -40,14 +40,14 @@ const DropdownFieldEditor: React.FC<Props> = props => {
             as={StyledFormInput}
             name="optionsAsText"
             multiline={true}
-            value={props.optionsAsText}
+            defaultValue={props.optionsAsText}
             required={true}
           />
         </StyledFormLabel>
       </StyledFormField>
       <StyledFormField>
         <StyledFormLabel>
-          <Field as={StyledCheckbox} type="checkbox" name="clearable" value={props.clearable} required={false} />
+          <Field as={StyledCheckbox} type="checkbox" name="clearable" defaultValue={props.clearable} required={false} />
           Allow clearing of selection
         </StyledFormLabel>
       </StyledFormField>

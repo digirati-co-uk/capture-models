@@ -19,14 +19,14 @@ const TextFieldEditor: React.FC<Props> = ({ children, ...props }) => {
             as={StyledFormInputElement}
             type="text"
             name="placeholder"
-            value={props.placeholder}
+            defaultValue={props.placeholder}
             required={false}
           />
         </StyledFormLabel>
       </StyledFormField>
       <StyledFormField>
         <StyledFormLabel>
-          <Field as={StyledCheckbox} type="checkbox" name="multiline" value={props.multiline} required={false} />
+          <Field as={StyledCheckbox} type="checkbox" name="multiline" defaultValue={props.multiline} required={false} />
           Allow multiline input
         </StyledFormLabel>
       </StyledFormField>
@@ -36,7 +36,7 @@ const TextFieldEditor: React.FC<Props> = ({ children, ...props }) => {
             as={StyledCheckbox}
             type="checkbox"
             name="previewInline"
-            value={props.previewInline}
+            defaultValue={props.previewInline}
             required={false}
           />
           Preview text as inline (span)

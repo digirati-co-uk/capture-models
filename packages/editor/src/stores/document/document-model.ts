@@ -1,5 +1,5 @@
 import { CaptureModel, BaseField, BaseSelector } from '@capture-models/types';
-import { Action, Computed, Thunk, ThunkOn } from 'easy-peasy';
+import { Action, Computed, Thunk } from 'easy-peasy';
 
 export type DocumentModel = {
   document: CaptureModel['document'];
@@ -16,9 +16,9 @@ export type DocumentModel = {
   selectField: Action<DocumentModel, string>;
   deselectField: Action<DocumentModel>;
 
-  addField: Action<DocumentModel, { term: string; field: BaseField; select?: boolean }>;
+  addField: Action<DocumentModel, { subtreePath?: string[]; term: string; field: BaseField; select?: boolean }>;
   removeField: Action<DocumentModel, string>;
-  reorderField: Action<DocumentModel, { term: string; startIndex: number; endIndex: number }>;
+  reorderField: Action<DocumentModel, { subtreePath?: string[]; term: string; startIndex: number; endIndex: number }>;
 
   // @todo re-implement when JSON-LD extension
   // setContext: Action<DocumentModel, CaptureModel['document']['@context']>;
@@ -31,19 +31,27 @@ export type DocumentModel = {
   setLabelledBy: Action<DocumentModel, string>;
   setPluralLabel: Action<DocumentModel, string>;
 
-  setField: Thunk<DocumentModel, { term?: string; field: BaseField }, any, DocumentModel>;
-  setCustomProperty: Action<DocumentModel, { term?: string; key: string; value: any }>;
+  setField: Thunk<DocumentModel, { term?: string; subtreePath?: string[]; field: BaseField }, any, DocumentModel>;
+  setCustomProperty: Action<DocumentModel, { term?: string; subtreePath?: string[]; key: string; value: any }>;
+  setCustomProperties: Action<
+    DocumentModel,
+    { term?: string; subtreePath?: string[]; values: Array<{ key: string; value: any }> }
+  >;
 
-  setFieldLabel: Action<DocumentModel, { term?: string; label: string }>;
-  setFieldDescription: Action<DocumentModel, { term?: string; description: string | undefined }>;
-  setFieldSelector: Action<DocumentModel, { term?: string; selector: BaseSelector | undefined }>;
+  setFieldLabel: Action<DocumentModel, { term?: string; subtreePath?: string[]; label: string }>;
+  setFieldDescription: Action<
+    DocumentModel,
+    { term?: string; subtreePath?: string[]; description: string | undefined }
+  >;
+  setFieldSelector: Action<
+    DocumentModel,
+    { term?: string; subtreePath?: string[]; selector: BaseSelector | undefined }
+  >;
   setFieldSelectorState: Action<
     DocumentModel,
-    { term?: string; selectorType: string; selector: BaseSelector['state'] }
+    { term?: string; selectorType: string; subtreePath?: string[]; selector: BaseSelector['state'] }
   >;
-  setFieldValue: Action<DocumentModel, { term?: string; value: BaseField['value'] }>;
-  setFieldTerm: Action<DocumentModel, { oldTerm: string; newTerm: string }>;
-  setFieldType: Action<DocumentModel, { term?: string; type: string; defaults?: any }>;
-
-  onDocumentChange: ThunkOn<DocumentModel>;
+  setFieldValue: Action<DocumentModel, { term?: string; subtreePath?: string[]; value: BaseField['value'] }>;
+  setFieldTerm: Action<DocumentModel, { subtreePath?: string[]; oldTerm: string; newTerm: string }>;
+  setFieldType: Action<DocumentModel, { term?: string; subtreePath?: string[]; type: string; defaults?: any }>;
 };

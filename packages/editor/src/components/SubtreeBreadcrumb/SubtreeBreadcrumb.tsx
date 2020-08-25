@@ -15,7 +15,7 @@ export const SubtreeBreadcrumb: React.FC<Props> = ({ popSubtree, subtreePath }) 
         Document root
       </BreadcrumbSection>
       {subtreePath.map((path, n) => (
-        <>
+        <React.Fragment key={n}>
           {n !== subtreePath.length ? <BreadcrumbDivider>/</BreadcrumbDivider> : null}
           <BreadcrumbSection
             key={n}
@@ -23,7 +23,7 @@ export const SubtreeBreadcrumb: React.FC<Props> = ({ popSubtree, subtreePath }) 
           >
             {path}
           </BreadcrumbSection>
-        </>
+        </React.Fragment>
       ))}
     </Breadcrumb>
   );

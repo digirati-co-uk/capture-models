@@ -1,6 +1,6 @@
 import copy from 'fast-copy';
-import React, { useContext, useState } from 'react';
-import { Field, Form, Formik } from 'formik';
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { Field, Form, Formik, useFormikContext } from 'formik';
 import { Button } from '../../atoms/Button';
 import { Grid, GridColumn } from '../../atoms/Grid';
 import { Segment } from '../../atoms/Segment';
@@ -9,22 +9,25 @@ import { generateId } from '@capture-models/helpers';
 import { ConfirmButton } from '../../atoms/ConfirmButton';
 import { ChooseSelectorButton } from '../ChooseSelectorButton/ChooseSelectorButton';
 import { ChooseFieldButton } from '../ChooseFieldButton/ChooseFieldButton';
-import { BaseField, SelectorTypeMap, BaseSelector } from '@capture-models/types';
+import { BaseField, BaseSelector, SelectorTypeMap } from '@capture-models/types';
 import { FormPreview } from '../FormPreview/FormPreview';
 import {
-  StyledFormField,
-  StyledFormLabel,
-  StyledFormInputElement,
-  StyledFormTextarea,
   StyledCheckbox,
+  StyledFormField,
+  StyledFormInputElement,
+  StyledFormLabel,
+  StyledFormTextarea,
 } from '../../atoms/StyledForm';
+import { useUnmount } from '../../hooks/useUnmount';
+import { AutoSaveFormik } from '../AutoSaveFormik/AutoSaveFormik';
 
 export const FieldEditor: React.FC<{
   field: BaseField;
   term?: string;
-  onSubmit: (newProps: BaseField) => void;
-  onDelete?: () => void;
-  onChangeFieldType?: (type: string, defaults: any) => void;
+  onSubmit: (newProps: BaseField, term?: string) => void;
+  onDelete?: (term?: string) => void;
+  onChangeFieldType?: (type: string, defaults: any, term?: string) => void;
+  setSaveHandler?: (handler: () => void) => void;
 }> = ({ onSubmit, onDelete, onChangeFieldType, field: props, term }) => {
   const ctx = useContext(PluginContext);
   const { fields, selectors } = useContext(PluginContext);
@@ -51,19 +54,24 @@ export const FieldEditor: React.FC<{
                 type: props.type,
                 selector,
                 value: defaultValue,
-              })
+              }),
+              term
             );
           } else {
-            onSubmit({
-              ...newProps,
-              type: props.type,
-              selector,
-              value: defaultValue,
-            });
+            onSubmit(
+              {
+                ...newProps,
+                type: props.type,
+                selector,
+                value: defaultValue,
+              },
+              term
+            );
           }
         }}
       >
         <Form>
+          <AutoSaveFormik />
           <Grid>
             <GridColumn half>
               <StyledFormField>
@@ -85,7 +93,7 @@ export const FieldEditor: React.FC<{
                     <ChooseFieldButton
                       fieldType={field.type}
                       onChange={t =>
-                        t && fields[t] ? onChangeFieldType(t as any, (fields[t] as any).defaultProps) : null
+                        t && fields[t] ? onChangeFieldType(t as any, (fields[t] as any).defaultProps, term) : null
                       }
                     />
                   </StyledFormLabel>
@@ -137,6 +145,7 @@ export const FieldEditor: React.FC<{
             </GridColumn>
             <GridColumn half>
               <Segment>
+                <h3 style={{ textAlign: 'center' }}>Preview</h3>
                 <FormPreview
                   key={`${props.type}-${term}`}
                   type={props.type}
@@ -153,7 +162,7 @@ export const FieldEditor: React.FC<{
               Save changes
             </Button>
             {onDelete ? (
-              <ConfirmButton message="Are you sure you want to remove this field?" onClick={() => onDelete()}>
+              <ConfirmButton message="Are you sure you want to remove this field?" onClick={() => onDelete(term)}>
                 <Button type="button" alert>
                   Delete field
                 </Button>

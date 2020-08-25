@@ -40,25 +40,27 @@ export const FullDocumentEditor: React.FC = () => {
               key={state.selectedField}
               term={state.selectedField}
               field={state.subtree.properties[state.selectedField][0] as BaseField}
-              onChangeFieldType={(type, defaults) => {
+              onChangeFieldType={(type, defaults, term) => {
                 actions.setFieldType({
                   type,
                   defaults,
+                  term,
                 });
                 actions.deselectField();
                 if (state.selectedField) {
                   actions.selectField(state.selectedField);
                 }
               }}
-              onSubmit={field => {
-                actions.setField({ field });
-                actions.setFieldSelector({ selector: field.selector });
+              onSubmit={(field, term) => {
+                actions.setField({ field, term });
+                actions.setFieldSelector({ selector: field.selector, term });
                 actions.deselectField();
               }}
-              onDelete={() => {
-                if (state.selectedField) {
-                  actions.removeField(state.selectedField);
-                  removeStructureField({ term: state.selectedField });
+              onDelete={term => {
+                const termToRemove = term ? term : state.selectedField;
+                if (termToRemove) {
+                  actions.removeField(termToRemove);
+                  removeStructureField({ term: termToRemove });
                 }
                 actions.deselectField();
               }}

@@ -11,6 +11,7 @@ type Props = {
 };
 
 const HTMLFieldEditor: React.FC<Props> = props => {
+  console.log({ enabledLinks: props.enableLinks });
   return (
     <>
       <StyledFormField>
@@ -19,7 +20,7 @@ const HTMLFieldEditor: React.FC<Props> = props => {
             as={StyledCheckbox}
             type="checkbox"
             name="enableHistory"
-            value={props.enableHistory}
+            defaultValue={props.enableHistory}
             required={false}
           />
           Enable history (undo/redo)
@@ -31,7 +32,7 @@ const HTMLFieldEditor: React.FC<Props> = props => {
             as={StyledCheckbox}
             type="checkbox"
             name="enableExternalImages"
-            value={props.enableExternalImages}
+            defaultValue={props.enableExternalImages}
             required={false}
           />
           Allow external images
@@ -39,7 +40,13 @@ const HTMLFieldEditor: React.FC<Props> = props => {
       </StyledFormField>
       <StyledFormField>
         <StyledFormLabel>
-          <Field as={StyledCheckbox} type="checkbox" name="enableLinks" value={props.enableLinks} required={false} />
+          <Field
+            as={StyledCheckbox}
+            type="checkbox"
+            name="enableLinks"
+            defaultValue={props.enableLinks}
+            required={false}
+          />
           Enable links
         </StyledFormLabel>
       </StyledFormField>
@@ -49,7 +56,7 @@ const HTMLFieldEditor: React.FC<Props> = props => {
             as={StyledCheckbox}
             type="checkbox"
             name="enableStylesDropdown"
-            value={props.enableStylesDropdown}
+            defaultValue={props.enableStylesDropdown}
             required={false}
           />
           Enable preset styles dropdown

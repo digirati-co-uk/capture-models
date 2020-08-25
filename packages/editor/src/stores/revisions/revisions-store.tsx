@@ -2,6 +2,8 @@ import { CaptureModel, BaseField, BaseSelector } from '@capture-models/types';
 import { action, computed, createStore, debug, thunk } from 'easy-peasy';
 import { RevisionsModel } from './revisions-model';
 import { createSelectorStore, updateSelectorStore } from '../selectors/selector-store';
+import { batchedSubscribe } from 'redux-batched-subscribe';
+import { unstable_batchedUpdates } from 'react-dom';
 import {
   createRevisionDocument,
   generateId,
@@ -611,7 +613,9 @@ export const createRevisionStore = (initialData?: {
   initialRevision?: string;
   excludeStructures?: boolean;
 }) => {
-  const store = createStore(revisionStore);
+  const store = createStore(revisionStore, {
+    enhancers: [batchedSubscribe(unstable_batchedUpdates)],
+  });
 
   if (initialData && initialData.captureModel) {
     store.getActions().setCaptureModel(initialData);

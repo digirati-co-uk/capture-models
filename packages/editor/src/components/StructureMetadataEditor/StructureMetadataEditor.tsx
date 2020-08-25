@@ -9,6 +9,7 @@ import {
   StyledFormLabel,
   StyledFormTextarea,
 } from '../../atoms/StyledForm';
+import { useUnmount } from '../../hooks/useUnmount';
 
 type Props = {
   profiles?: string[];
@@ -23,6 +24,10 @@ export const StructureMetadataEditor: React.FC<Props> = ({ profiles = [], struct
       onSave(values);
     },
   });
+
+  useUnmount(() => {
+    formik.submitForm();
+  }, [formik]);
 
   return (
     <StyledForm onSubmit={formik.handleSubmit}>

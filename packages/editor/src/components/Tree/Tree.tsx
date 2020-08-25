@@ -8,11 +8,11 @@ type TreeProps = {
   disabled?: boolean;
 };
 
-export const Tree: React.FC<{ tree: TreeProps; onClick: (t: any) => void }> = ({ tree, onClick }) => {
+export const Tree: React.FC<{ tree: TreeProps; onClick: (t: any, tree: TreeProps) => void }> = ({ tree, onClick }) => {
   return (
     <div style={{ fontSize: '1.2rem' }}>
       {tree.nodeData && !tree.disabled ? (
-        <a style={{ cursor: 'pointer' }} onClick={() => onClick(tree.nodeData)}>
+        <a style={{ cursor: 'pointer' }} onClick={() => onClick(tree.nodeData, tree)}>
           {tree.label}
         </a>
       ) : (
