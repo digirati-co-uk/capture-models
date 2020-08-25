@@ -12,6 +12,9 @@ module.exports = {
     '@typescript-eslint/ban-ts-ignore': 1,
     '@typescript-eslint/no-var-requires': 0,
     '@typescript-eslint/camelcase': 0,
+    "react-hooks/exhaustive-deps": ["warn", {
+      "additionalHooks": "(useUnmount)"
+    }]
   },
   settings: {
     'import/ignore': [
