@@ -12,7 +12,7 @@ const CheckboxFieldEditor: React.FC<{ inlineLabel?: string }> = props => {
             as={StyledFormInputElement}
             type="text"
             name="inlineLabel"
-            value={props.inlineLabel}
+            defaultValue={props.inlineLabel}
             required={false}
           />
         </StyledFormLabel>
