@@ -13,7 +13,7 @@ type Props = {
 
 export const ChooseFieldButton: React.FC<Props> = ({ onChange, fieldType }) => {
   const { fields } = useContext(PluginContext);
-  const [value, setValue] = useState(fieldType);
+  const [value, setValue] = useState(fieldType || fields[0]?.type);
 
   return (
     <Dropdown

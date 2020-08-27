@@ -25,7 +25,8 @@ export const NewFieldForm: React.FC<Props> = ({ existingTerms, onSave }) => {
   const [selectorType, setSelectorType] = useState<keyof typeof selectors | ''>('');
   const [error, setError] = useState('');
 
-  const onSubmit = () => {
+  const onSubmit = (e: any) => {
+    e.preventDefault();
     if (fieldType === '') return;
     const field = fields[fieldType];
     if (!field) return;
