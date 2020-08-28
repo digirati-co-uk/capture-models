@@ -29,11 +29,9 @@ export function formPropertyValue<T extends BaseField | CaptureModel['document']
   // Check if we need a new value.
   if (!forkValue && !isEntity(field) && !isEntity(newField)) {
     const description = pluginStore.fields[field.type];
-    if (!description) {
-      throw new Error('Invalid field');
+    if (description) {
+      (newField as BaseField).value = description.defaultValue;
     }
-
-    (newField as BaseField).value = description.defaultValue;
   }
 
   // Create revision
