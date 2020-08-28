@@ -1,6 +1,6 @@
 {
   "name": "@capture-models/editor",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "license": "MIT",
   "files": [
     "dist",
@@ -45,7 +45,7 @@
   },
   "dependencies": {
     "@atlas-viewer/atlas": "^1.0.4",
-    "@capture-models/helpers": "^0.8.0",
+    "@capture-models/helpers": "^0.8.2",
     "@capture-models/plugin-api": "^0.8.0",
     "@capture-models/types": "^0.8.0",
     "@hyperion-framework/react-vault": "^1.0.0-alpha.15",
