@@ -1,5 +1,59 @@
-import { isEntityList } from './is-entity';
+import { isEntity, isEntityList } from './is-entity';
 import { CaptureModel, BaseField } from '@capture-models/types';
+
+function mergeProperties(docA: CaptureModel['document'], docB: CaptureModel['document']) {
+  const propertiesA = Object.keys(docA.properties);
+  const propertiesB = Object.keys(docB.properties);
+
+  const mergedProperties = [];
+  for (const propertyA of propertiesA) {
+    if (propertiesB.indexOf(propertyA) !== -1) {
+      // Nation. merge A into B
+      const mergedValues = [...(docA.properties[propertyA] || []), ...(docB.properties[propertyA] || [])];
+      if (isEntityList(mergedValues)) {
+        // We need to merge.
+        // - mapped entities by id for both A and B.
+        const newProperties: {
+          [key: string]: CaptureModel['document'] | BaseField;
+        } = {};
+
+        for (const instance of mergedValues) {
+          const previouslyFoundEntity = newProperties[instance.id];
+
+          if (previouslyFoundEntity) {
+            if (isEntity(previouslyFoundEntity)) {
+              mergeProperties(previouslyFoundEntity, instance);
+            } else {
+              // @todo error?
+            }
+          } else {
+            newProperties[instance.id] = instance;
+          }
+          docA.properties[propertyA] = Object.values(newProperties) as any;
+        }
+      } else {
+        const newProperties: {
+          [key: string]: CaptureModel['document'];
+        } = {};
+        for (const instance of mergedValues) {
+          // There should never be duplicates.
+          newProperties[instance.id] = instance as any;
+        }
+        docA.properties[propertyA] = Object.values(newProperties);
+      }
+      mergedProperties.push(propertyA);
+    }
+  }
+
+  if (propertiesB.length !== mergedProperties.length) {
+    // We might have missed some.
+    for (const propertyB of propertiesB) {
+      if (mergedProperties.indexOf(propertyB) === -1) {
+        docA.properties[propertyB] = docB.properties[propertyB];
+      }
+    }
+  }
+}
 
 export function filterCaptureModel(
   id: string,
@@ -57,7 +111,7 @@ export function filterCaptureModel(
       } = {};
       for (const instance of possibleEntityList) {
         if (newProperties[instance.id]) {
-          Object.assign(newProperties[instance.id].properties, instance.properties);
+          mergeProperties(newProperties[instance.id], instance);
         } else {
           newProperties[instance.id] = instance;
         }

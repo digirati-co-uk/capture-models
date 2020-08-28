@@ -29,6 +29,14 @@ Object {
               "immutable": true,
               "label": "Model B.2: Allow multiple = true",
               "properties": Object {
+                "field-e": Array [
+                  Object {
+                    "id": "7c19f5f0-75ba-4153-9f96-35055bc2a286",
+                    "label": "Second level text field",
+                    "type": "text-field",
+                    "value": "value for field",
+                  },
+                ],
                 "model-d": Array [
                   Object {
                     "allowMultiple": false,
@@ -92,6 +100,16 @@ Object {
               "immutable": true,
               "label": "Model B.2: Allow multiple = true",
               "properties": Object {
+                "field-e": Array [
+                  Object {
+                    "id": "[--------GENERATED-ID--------]",
+                    "label": "Second level text field",
+                    "revises": "7c19f5f0-75ba-4153-9f96-35055bc2a286",
+                    "revision": "REVISION-ID",
+                    "type": "text-field",
+                    "value": "",
+                  },
+                ],
                 "model-d": Array [
                   Object {
                     "allowMultiple": false,
@@ -158,6 +176,16 @@ Object {
               "immutable": true,
               "label": "Model B.2: Allow multiple = true",
               "properties": Object {
+                "field-e": Array [
+                  Object {
+                    "id": "[--------GENERATED-ID--------]",
+                    "label": "Second level text field",
+                    "revises": "7c19f5f0-75ba-4153-9f96-35055bc2a286",
+                    "revision": "REVISION-ID",
+                    "type": "text-field",
+                    "value": "value for field",
+                  },
+                ],
                 "model-d": Array [
                   Object {
                     "allowMultiple": false,
@@ -222,6 +250,14 @@ Object {
               "immutable": true,
               "label": "Model B.2: Allow multiple = true",
               "properties": Object {
+                "field-e": Array [
+                  Object {
+                    "id": "7c19f5f0-75ba-4153-9f96-35055bc2a286",
+                    "label": "Second level text field",
+                    "type": "text-field",
+                    "value": "value for field",
+                  },
+                ],
                 "model-d": Array [
                   Object {
                     "allowMultiple": false,
@@ -284,6 +320,15 @@ Object {
               "immutable": false,
               "label": "Model B.2: Allow multiple = true",
               "properties": Object {
+                "field-e": Array [
+                  Object {
+                    "id": "[--------GENERATED-ID--------]",
+                    "label": "Second level text field",
+                    "revision": "REVISION-ID",
+                    "type": "text-field",
+                    "value": "",
+                  },
+                ],
                 "model-d": Array [
                   Object {
                     "allowMultiple": false,
@@ -351,6 +396,15 @@ Object {
               "immutable": false,
               "label": "Model B.2: Allow multiple = true",
               "properties": Object {
+                "field-e": Array [
+                  Object {
+                    "id": "[--------GENERATED-ID--------]",
+                    "label": "Second level text field",
+                    "revision": "REVISION-ID",
+                    "type": "text-field",
+                    "value": "value for field",
+                  },
+                ],
                 "model-d": Array [
                   Object {
                     "allowMultiple": false,
@@ -417,6 +471,14 @@ Object {
               "immutable": true,
               "label": "Model B.2: Allow multiple = true",
               "properties": Object {
+                "field-e": Array [
+                  Object {
+                    "id": "7c19f5f0-75ba-4153-9f96-35055bc2a286",
+                    "label": "Second level text field",
+                    "type": "text-field",
+                    "value": "value for field",
+                  },
+                ],
                 "model-d": Array [
                   Object {
                     "allowMultiple": false,
@@ -480,6 +542,15 @@ Object {
               "immutable": false,
               "label": "Model B.2: Allow multiple = true",
               "properties": Object {
+                "field-e": Array [
+                  Object {
+                    "id": "[--------GENERATED-ID--------]",
+                    "label": "Second level text field",
+                    "revision": "REVISION-ID",
+                    "type": "text-field",
+                    "value": "",
+                  },
+                ],
                 "model-d": Array [
                   Object {
                     "allowMultiple": false,
@@ -546,6 +617,15 @@ Object {
               "immutable": false,
               "label": "Model B.2: Allow multiple = true",
               "properties": Object {
+                "field-e": Array [
+                  Object {
+                    "id": "[--------GENERATED-ID--------]",
+                    "label": "Second level text field",
+                    "revision": "REVISION-ID",
+                    "type": "text-field",
+                    "value": "value for field",
+                  },
+                ],
                 "model-d": Array [
                   Object {
                     "allowMultiple": false,

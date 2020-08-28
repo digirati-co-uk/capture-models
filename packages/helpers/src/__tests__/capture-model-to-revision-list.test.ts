@@ -10,6 +10,8 @@ import single03 from '../../../../fixtures/03-revisions/03-nested-revision.json'
 import single04 from '../../../../fixtures/03-revisions/04-dual-transcription.json';
 // @ts-ignore
 import single05 from '../../../../fixtures/03-revisions/05-allow-multiple-transcriptions.json';
+// @ts-ignore
+import ames02 from '../../../../fixtures/99-unrealistic/02-ames.json';
 
 describe('capture model to revision list', () => {
   test('single-field-with-revision', () => {
@@ -346,6 +348,274 @@ Array [
       "structureId": "fd847948-11bf-42ca-bfdd-cab85ea818f3",
     },
     "source": "structure",
+  },
+]
+`);
+  });
+
+  test('ames', () => {
+    expect(captureModelToRevisionList(ames02 as CaptureModel, true)).toMatchInlineSnapshot(`
+Array [
+  Object {
+    "captureModelId": "5aff4557-b331-4181-9030-1097f5220b67",
+    "document": Object {
+      "description": "Entities and fields that can be used to annotate court proceeding documents",
+      "id": "a539ffda-aaec-4885-bc6c-a01cebeed1b4",
+      "label": "Early Court Records",
+      "properties": Object {
+        "Nation": Array [
+          Object {
+            "id": "2ea4f20c-86ff-4da6-8b81-8e38abd532e3",
+            "label": "Nation",
+            "properties": Object {
+              "Early America": Array [
+                Object {
+                  "id": "172d059a-ffe9-4568-a35f-b5de60538a59",
+                  "label": "Early America",
+                  "properties": Object {
+                    "Massachusetts": Array [
+                      Object {
+                        "id": "9cf9ca8e-2e2f-4f25-9c91-4cf714067d03",
+                        "label": "Massachusetts",
+                        "properties": Object {
+                          "CourtProceeding": Array [
+                            Object {
+                              "id": "4368c4a8-ef38-4a25-95e4-3420af5ca2ee",
+                              "label": "CourtProceeding",
+                              "properties": Object {
+                                "CaseName": Array [
+                                  Object {
+                                    "description": "The name that a case would be commonly called, such as Jones v. Smith",
+                                    "id": "c19add98-ea9a-4033-8e47-d71d377ddddf",
+                                    "label": "Case Name",
+                                    "selector": Object {
+                                      "id": "951fe3ba-b39d-4c16-93b6-ea1069bd60a5",
+                                      "state": null,
+                                      "type": "box-selector",
+                                    },
+                                    "type": "text-field",
+                                    "value": "",
+                                  },
+                                ],
+                                "ColonyName": Array [
+                                  Object {
+                                    "description": "The name of the colony in which the court proceeding took place.",
+                                    "id": "a7680c67-b616-45f2-b925-b016c644e4a0",
+                                    "label": "Colony Name",
+                                    "type": "text-field",
+                                    "value": "",
+                                  },
+                                ],
+                                "CourtProceedingBeginMonth": Array [
+                                  Object {
+                                    "description": "The month of the year in which the court began its session.",
+                                    "id": "0baa18ce-231f-4122-83e5-fe5e9478e2b2",
+                                    "label": "CourtTermBeginMonth",
+                                    "type": "text-field",
+                                    "value": "",
+                                  },
+                                ],
+                                "CourtProceedingType": Array [
+                                  Object {
+                                    "clearable": true,
+                                    "description": "Indicates what kind of proceeding is reflected in the court record, what exactly the court is doing.",
+                                    "id": "d28140bf-238f-48d0-af77-02c5bc41e223",
+                                    "label": "Court Proceeding Type",
+                                    "options": Array [
+                                      Object {
+                                        "text": "Admission of Attorneys",
+                                        "value": "Admission of Attorneys",
+                                      },
+                                      Object {
+                                        "text": "Appeal [judges only]",
+                                        "value": "Appeal [judges only]",
+                                      },
+                                      Object {
+                                        "text": "Appeal by Review",
+                                        "value": "Appeal by Review",
+                                      },
+                                      Object {
+                                        "text": "Appeal in Chancery",
+                                        "value": "Appeal in Chancery",
+                                      },
+                                      Object {
+                                        "text": "Appeal with Jury",
+                                        "value": "Appeal with Jury",
+                                      },
+                                      Object {
+                                        "text": "Appeal with Referee",
+                                        "value": "Appeal with Referee",
+                                      },
+                                      Object {
+                                        "text": "Hearing - Petition",
+                                        "value": "Hearing - Petition",
+                                      },
+                                      Object {
+                                        "text": "Hearing - Petition for sale of real estate",
+                                        "value": "Hearing - Petition for sale of real estate",
+                                      },
+                                      Object {
+                                        "text": "Hearing - Petition for division of real estate",
+                                        "value": "Hearing - Petition for division of real estate",
+                                      },
+                                      Object {
+                                        "text": "Naturalization",
+                                        "value": "Naturalization",
+                                      },
+                                      Object {
+                                        "text": "Trial of First Instance",
+                                        "value": "Trial of First Instance",
+                                      },
+                                      Object {
+                                        "text": "Other",
+                                        "value": "Other",
+                                      },
+                                    ],
+                                    "type": "dropdown-field",
+                                    "value": null,
+                                  },
+                                ],
+                                "CourtTermBeginYear": Array [
+                                  Object {
+                                    "description": "The year in which the court began a session.",
+                                    "id": "6545da7e-1bad-4b9e-afbf-221d3e17320d",
+                                    "label": "Court Term Begin Year",
+                                    "type": "text-field",
+                                    "value": "",
+                                  },
+                                ],
+                                "CourtTermCity": Array [
+                                  Object {
+                                    "description": "The city in which the court held a session.",
+                                    "id": "80cbcf7c-c89c-400b-a971-8b3c897a3fb8",
+                                    "label": "Court Term City",
+                                    "type": "text-field",
+                                    "value": "",
+                                  },
+                                ],
+                                "OtherCourtProceedingType": Array [
+                                  Object {
+                                    "description": "A court proceeding type that is no a common proceeding, but has been noted in the court record.",
+                                    "id": "d4e53036-be4e-4b3c-9d1f-7ca6dc1b3962",
+                                    "label": "Other Court Proceeding Type",
+                                    "type": "text-field",
+                                    "value": "",
+                                  },
+                                ],
+                                "ProceedingID": Array [
+                                  Object {
+                                    "description": "The unique identifier of the court proceeding in the format XXYYY-zzzzzzzzz, where
+XX = colony abbreviation (i.e., MA for Massachusetts), 
+YYY = tribunal (i.e., SCJ for Superior Court of Judicature) (may be more or less that 3 characters),
+zzzzzzzzz = incremental number beginning with 000000001",
+                                    "id": "e8bc6b2a-0853-445b-b592-1eb1df038ad3",
+                                    "label": "Court Proceeding ID",
+                                    "type": "text-field",
+                                    "value": "",
+                                  },
+                                ],
+                                "TribunalName": Array [
+                                  Object {
+                                    "description": "The name of the court in which the proceeding occurred.",
+                                    "id": "a86ac9fc-031a-4424-b86d-1d7642800122",
+                                    "label": "Tribunal Name",
+                                    "type": "text-field",
+                                    "value": "",
+                                  },
+                                ],
+                                "VariantCaseName": Array [
+                                  Object {
+                                    "description": "An alternate name for the case, as found in the court record.",
+                                    "id": "5a21cf64-b799-4370-b356-fe3305b5fcb8",
+                                    "label": "Variant Case Name",
+                                    "selector": Object {
+                                      "id": "887f2af0-912f-499a-ac03-46f486ff27db",
+                                      "state": null,
+                                      "type": "box-selector",
+                                    },
+                                    "type": "text-field",
+                                    "value": "",
+                                  },
+                                ],
+                                "VolumeName": Array [
+                                  Object {
+                                    "description": "The name of the volume containing the record of the court proceeding.",
+                                    "id": "27fd80ed-971e-4220-b4a4-4d75d44c36a1",
+                                    "label": "VolumeName",
+                                    "type": "text-field",
+                                    "value": "",
+                                  },
+                                ],
+                                "VolumePage": Array [
+                                  Object {
+                                    "description": "Identifies the specific page within a volume of court proceedings, i.e., 31 recto for front side of page 31 or 31 verso for backside of page 31.",
+                                    "id": "45565ffa-211a-4dba-be4e-95995be9f87d",
+                                    "label": "Volume Page",
+                                    "type": "text-field",
+                                    "value": "",
+                                  },
+                                ],
+                              },
+                              "type": "entity",
+                            },
+                          ],
+                        },
+                        "type": "entity",
+                      },
+                    ],
+                  },
+                  "type": "entity",
+                },
+              ],
+            },
+            "type": "entity",
+          },
+        ],
+      },
+      "type": "entity",
+    },
+    "modelRoot": undefined,
+    "revision": Object {
+      "approved": true,
+      "fields": Array [
+        Array [
+          "Nation",
+          Array [
+            Array [
+              "Early America",
+              Array [
+                Array [
+                  "Massachusetts",
+                  Array [
+                    Array [
+                      "CourtProceeding",
+                      Array [
+                        "ProceedingID",
+                        "ColonyName",
+                        "TribunalName",
+                        "VolumeName",
+                        "VolumePage",
+                        "CourtProceedingBeginMonth",
+                        "CourtTermBeginYear",
+                        "CourtTermCity",
+                        "CaseName",
+                        "VariantCaseName",
+                        "CourtProceedingType",
+                        "OtherCourtProceedingType",
+                      ],
+                    ],
+                  ],
+                ],
+              ],
+            ],
+          ],
+        ],
+      ],
+      "id": "4f8d8d46-1e27-4d77-a33e-56a37992487d",
+      "label": "Court Proceeding ID",
+      "structureId": "4f8d8d46-1e27-4d77-a33e-56a37992487d",
+    },
+    "source": "canonical",
   },
 ]
 `);
