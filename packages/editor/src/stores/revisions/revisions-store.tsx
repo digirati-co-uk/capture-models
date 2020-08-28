@@ -436,6 +436,7 @@ export const revisionStore: RevisionsModel = {
     state.currentRevisionReadMode = !!readMode;
     state.selector = createSelectorStore(newDocument);
     state.unsavedRevisionIds.push(newRevisionId);
+    state.revisionSubtreePath = [];
   }),
 
   persistRevision: thunk(
