@@ -35,11 +35,7 @@ export const searchPublished: RouteMiddleware = async (ctx, next) => {
   }
 
   ctx.response.body = {
-    results: await ctx.db.api.searchPublishedFields(
-      queryBlock,
-      query,
-      ctx.state.jwt.context
-    ),
+    results: await ctx.db.api.searchPublishedFields(queryBlock, query, ctx.state.jwt.context),
   };
 
   await next();

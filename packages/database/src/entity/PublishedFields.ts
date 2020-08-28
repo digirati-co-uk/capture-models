@@ -18,17 +18,21 @@ import { ViewColumn, ViewEntity } from 'typeorm/index';
        property.term             as property,
        property."rootDocumentId" as capture_model_id,
        document_property.term    as parent_property,
+       document.label            as parent_label,
        si.state                  as selector,
        si.type                   as selector_type,
+       dsi.state                  as parent_selector,
+       dsi.type                   as parent_selector_type,
        cm.context
 from field
          left join revision r on field."revisionId" = r.id and r.approved = true
          left join selector_instance si on field."selectorId" = si.id
          left join property on field."parentId" = property.id
          left join document on property."documentId" = document.id
+         left join selector_instance dsi on document."selectorId" = dsi.id
          left join property document_property on document."parentId" = property.id
          left join capture_model cm on r."captureModelId" = cm.id
- where r.approved = true
+where r.approved = true
   `,
 })
 export class PublishedFields {
@@ -57,10 +61,19 @@ export class PublishedFields {
   parent_property: string;
 
   @ViewColumn()
+  parent_label: string;
+
+  @ViewColumn()
   selector?: any;
 
   @ViewColumn()
   selector_type?: string;
+
+  @ViewColumn()
+  parent_selector?: any;
+
+  @ViewColumn()
+  parent_selector_type?: string;
 
   @ViewColumn()
   context: string[];

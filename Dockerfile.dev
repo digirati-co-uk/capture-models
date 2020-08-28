@@ -31,11 +31,11 @@ RUN cd /home/node/app/packages/plugin-api && yarn build
 COPY ./packages/helpers /home/node/app/packages/helpers
 RUN cd /home/node/app/packages/helpers && yarn build
 
-COPY ./packages/database /home/node/app/packages/database
-RUN cd /home/node/app/packages/database && yarn build
-
 COPY ./packages/editor /home/node/app/packages/editor
 RUN cd /home/node/app/packages/editor && yarn build-only
+
+COPY ./packages/database /home/node/app/packages/database
+RUN cd /home/node/app/packages/database && yarn build
 
 COPY ./packages/server /home/node/app/packages/server
 RUN cd /home/node/app/packages/server && yarn build
