@@ -455,7 +455,7 @@ export class CaptureModelRepository {
       .select('p')
       .from(PublishedFields, 'p')
       .where(where)
-      .andWhere('p.selector is not null or p.parent_selector is not null');
+      .andWhere('(p.selector is not null or p.parent_selector is not null)');
 
     if (query) {
       builder.andWhere('p.value::text ILIKE :search', { search: `%${query}%` });
