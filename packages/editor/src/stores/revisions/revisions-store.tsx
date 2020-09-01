@@ -398,46 +398,49 @@ export const revisionStore: RevisionsModel = {
 
   // This method assumes we have the latest capture model available, which may not
   // be the case. This needs to be more generic.
-  createRevision: action<RevisionsModel>((state, { revisionId, readMode, cloneMode, modelMapping }) => {
-    const baseRevision = state.revisions[revisionId];
-    // Structure ID is the structure from the capture model, so if this exists we can set fields.
-    if (!baseRevision) {
-      // @todo error handling.
-      return;
+  createRevision: action<RevisionsModel>(
+    (state, { revisionId, readMode, cloneMode, modelMapping, modelRoot, fieldsToEdit }) => {
+      const baseRevision = state.revisions[revisionId];
+      // Structure ID is the structure from the capture model, so if this exists we can set fields.
+      if (!baseRevision) {
+        // @todo error handling.
+        return;
+      }
+      // Document
+      const documentToClone = baseRevision.document;
+      // New id
+      const newRevisionId = generateId();
+      // Create document
+      const newDocument = createRevisionDocument(
+        newRevisionId,
+        debug(documentToClone) as CaptureModel['document'],
+        cloneMode,
+        modelRoot ? modelRoot : baseRevision.modelRoot,
+        modelMapping,
+        fieldsToEdit
+      );
+      // Add new revision request
+      const newRevisionRequest = createRevisionRequest(
+        baseRevision.captureModelId as string,
+        baseRevision.revision,
+        newDocument
+      );
+      // Update Id of revision.
+      newRevisionRequest.revision = {
+        ...baseRevision.revision,
+        approved: false, // @todo this is where auto-approval config might go, will still be server checked.
+        id: newRevisionId,
+      };
+      // Save new revision request.
+      state.revisions[newRevisionId] = newRevisionRequest;
+      // Save it to state.
+      state.currentRevisionId = newRevisionId;
+      state.currentRevisionReadMode = !!readMode;
+      state.selector = createSelectorStore(newDocument);
+      state.unsavedRevisionIds.push(newRevisionId);
+      state.revisionSubtreePath = [];
     }
-    // Document
-    const documentToClone = baseRevision.document;
-    // New id
-    const newRevisionId = generateId();
-    // Create document
-    const newDocument = createRevisionDocument(
-      newRevisionId,
-      debug(documentToClone) as CaptureModel['document'],
-      cloneMode,
-      baseRevision.modelRoot,
-      modelMapping
-    );
-    // Add new revision request
-    const newRevisionRequest = createRevisionRequest(
-      baseRevision.captureModelId as string,
-      baseRevision.revision,
-      newDocument
-    );
-    // Update Id of revision.
-    newRevisionRequest.revision = {
-      ...baseRevision.revision,
-      approved: false, // @todo this is where auto-approval config might go, will still be server checked.
-      id: newRevisionId,
-    };
-    // Save new revision request.
-    state.revisions[newRevisionId] = newRevisionRequest;
-    // Save it to state.
-    state.currentRevisionId = newRevisionId;
-    state.currentRevisionReadMode = !!readMode;
-    state.selector = createSelectorStore(newDocument);
-    state.unsavedRevisionIds.push(newRevisionId);
-    state.revisionSubtreePath = [];
-  }),
+  ),
 
   persistRevision: thunk(
     async (actions, { revisionId: customRevisionId, createRevision, updateRevision, status }, helpers) => {

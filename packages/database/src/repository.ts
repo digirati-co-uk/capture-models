@@ -113,31 +113,32 @@ export class CaptureModelRepository {
       );
     }
 
-    if (userId) {
-      builder
-        .leftJoin('fir.authors', 'fira')
-        .leftJoin('dir.authors', 'dira')
-        .andWhere(
-          new Brackets(qb =>
-            qb
-              // Add the revision id.
-              .where('dira.contributorId = :userId', { userId })
-              .orWhere('fira.contributorId = :userId', { userId })
-              .orWhere('(di.revision IS NULL AND fi.revision IS NULL)')
-          )
-        );
-    }
+    // if (userId) {
+    //   builder
+    //     .leftJoin('fir.authors', 'fira')
+    //     .leftJoin('dir.authors', 'dira')
+    //     .andWhere(
+    //       new Brackets(qb =>
+    //         qb
+    //           // Add the revision id.
+    //           .where('dira.contributorId = :userId', { userId })
+    //           .orWhere('fira.contributorId = :userId', { userId })
+    //           .orWhere('(di.revision IS NULL AND fi.revision IS NULL)')
+    //       )
+    //     );
+    // }
 
-    if (revisionId) {
-      builder.andWhere(
-        new Brackets(qb =>
-          qb
-            // Add the revision id.
-            .where('di.revisionId = :rid', { rid: revisionId })
-            .orWhere('fi.revisionId = :rid', { rid: revisionId })
-        )
-      );
-    }
+    // This will not work as you cannot get nested entities for revisions.
+    // if (revisionId) {
+    //   builder.andWhere(
+    //     new Brackets(qb =>
+    //       qb
+    //         // Add the revision id.
+    //         .where('di.revisionId = :rid', { rid: revisionId })
+    //         .orWhere('fi.revisionId = :rid', { rid: revisionId })
+    //     )
+    //   );
+    // }
 
     const captureModel = await builder.getOne();
 
@@ -149,7 +150,7 @@ export class CaptureModelRepository {
       throw new Error(`Capture model ${id} not found`);
     }
 
-    return (await toCaptureModel(captureModel)) as any;
+    return (await toCaptureModel(captureModel, { revisionId, userId })) as any;
   }
 
   /**

@@ -36,6 +36,8 @@ export function forkDocument<Fields extends string>(
     preventAdditionsAdjacentToRoot = true,
     branchFromRoot = false,
     addRevises = true,
+    keepListedValues = false,
+    fieldsToEdit,
   }: {
     revisionId?: string;
     modelMapping?: Partial<{ [key in Fields]: string }>;
@@ -47,6 +49,8 @@ export function forkDocument<Fields extends string>(
     preventAdditionsAdjacentToRoot?: boolean;
     branchFromRoot?: boolean;
     addRevises?: boolean;
+    keepListedValues?: boolean;
+    fieldsToEdit?: string[];
   }
 ) {
   // New document.
@@ -189,23 +193,44 @@ export function forkDocument<Fields extends string>(
         return;
       }
 
-      // If we're not editing, then we're copying. There's only so much we're allow to copy.
-      // If the field is part of an entity that has already been copied, then it's a new field
-      // and should be marked as one, without a revises.
-      // If the field allows multiple (and not part of a new branch) then we can add a new instance
-      // to the value.
-      formPropertyValue(field, {
-        revision: !field.immutable ? revisionId : undefined,
-        revisesFork:
-          !field.immutable &&
-          !actions.parentHasBranched(parent) &&
-          (!(description.allowMultiple && field.allowMultiple) || addRevises),
-        forkValue: !(removeValues && (removeDefaultValues || field.revision)),
-        clone: false,
-      });
+      // Hard turn here if we have fieldsToEdit.
+      // - If we have fields to edit, we want to only include the fields from that list.
+      // - If we don't we only want a template of the first one if the parent has branched.
+      if (fieldsToEdit) {
+        if (fieldsToEdit.indexOf(field.id) === -1) {
+          parent.properties[key] = (parent.properties[key] as any[]).filter(f => f.id !== field.id);
+          return;
+        }
 
-      if (!field.immutable && (actions.parentHasBranched(parent) || !addRevises)) {
-        parent.properties[key] = [field];
+        formPropertyValue(field, {
+          revision: !field.immutable ? revisionId : undefined,
+          revisesFork: !field.immutable && (!(description.allowMultiple && field.allowMultiple) || addRevises),
+          forkValue: !(removeValues && (removeDefaultValues || field.revision)),
+          clone: false,
+        });
+      } else {
+        // If we're not editing, then we're copying. There's only so much we're allow to copy.
+        // If the field is part of an entity that has already been copied, then it's a new field
+        // and should be marked as one, without a revises.
+        // If the field allows multiple (and not part of a new branch) then we can add a new instance
+        // to the value.
+        formPropertyValue(field, {
+          revision: !field.immutable ? revisionId : undefined,
+          revisesFork:
+            !field.immutable &&
+            !actions.parentHasBranched(parent) &&
+            (!(description.allowMultiple && field.allowMultiple) || addRevises),
+          forkValue: !(removeValues && (removeDefaultValues || field.revision)),
+          clone: false,
+        });
+
+        if (keepListedValues) {
+          return;
+        }
+
+        if (!field.immutable && (actions.parentHasBranched(parent) || !addRevises)) {
+          parent.properties[key] = [field];
+        }
       }
     },
     visitEntity(entity, key, parent) {
@@ -241,7 +266,10 @@ export function forkDocument<Fields extends string>(
 
       const hasParentDocumentBranched = actions.parentHasBranched(parent);
       const isDocumentImmutable = !!entity.immutable; // i.e. the forking has to start later in the tree.
-      const willBranch = !!parent && (hasParentDocumentBranched || (!isDocumentImmutable && !editValues));
+      const isEditingIndividualFields = !!(fieldsToEdit && fieldsToEdit.length);
+      const isInModelMapping = modelMapping[key as Fields] === entity.id;
+      const willBranch =
+        !!parent && !isEditingIndividualFields && (hasParentDocumentBranched || (!isDocumentImmutable && !editValues));
 
       // - if parent has branched, we NEED to branch. This can only happen if other cases pass, so we can
       // safely do this.
@@ -253,7 +281,7 @@ export function forkDocument<Fields extends string>(
       if (willBranch) {
         // console.log('BRANCHING', entity);
 
-        if (entity.allowMultiple || hasParentDocumentBranched) {
+        if ((entity.allowMultiple || hasParentDocumentBranched) && !isInModelMapping) {
           entity.id = generateId();
           entity.immutable = false;
         } else {
@@ -291,19 +319,31 @@ export function forkDocument<Fields extends string>(
  * @param mode
  * @param modelRoot
  * @param modelMapping
+ * @param fieldsToEdit
  */
 export function createRevisionDocument(
   revisionId: string,
   document: CaptureModel['document'],
   mode: any,
   modelRoot: string[] = [],
-  modelMapping: Partial<{ [key: string]: string }> = {}
+  modelMapping: Partial<{ [key: string]: string }> = {},
+  fieldsToEdit?: string[]
 ) {
   switch (mode) {
     case 'EDIT_ALL_VALUES':
       return forkDocument(document, { revisionId, modelRoot, modelMapping, editValues: true });
+    case 'FORK_SOME_VALUES':
+      return forkDocument(document, { revisionId, modelRoot, modelMapping, fieldsToEdit, removeValues: false });
     case 'FORK_ALL_VALUES':
       return forkDocument(document, { revisionId, modelRoot, modelMapping, removeValues: false });
+    case 'FORK_LISTED_VALUES':
+      return forkDocument(document, {
+        revisionId,
+        modelRoot,
+        modelMapping,
+        removeValues: false,
+        keepListedValues: true,
+      });
     case 'FORK_TEMPLATE':
       return forkDocument(document, { revisionId, modelRoot, removeDefaultValues: true, removeValues: true });
     case 'FORK_INSTANCE':

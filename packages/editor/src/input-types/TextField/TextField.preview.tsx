@@ -10,7 +10,7 @@ export const TextFieldPreview: React.FC<TextFieldProps> = ({ value, previewInlin
   }
 
   if (previewInline) {
-    return <span style={{ display: 'inline-block' }}>{value} </span>;
+    return <span style={{ display: 'inline-block', marginRight: '.3em' }}>{value}</span>;
   }
 
   return <div>{value}</div>;
