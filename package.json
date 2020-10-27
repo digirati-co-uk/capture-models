@@ -9,7 +9,8 @@
     "build-types": "lerna run build-types",
     "start": "lerna run start --parallel --stream --concurrency=100",
     "test": "NODE_ENV=test jest --verbose --coverage",
-    "fix-models": "ts-node ./tools/fix-models.ts"
+    "fix-models": "ts-node ./tools/fix-models.ts",
+    "docker:local": "DOCKER_BUILDKIT=1 ./tools/pre-release-local.sh v0.9.0"
   },
   "workspaces": [
     "packages/*"

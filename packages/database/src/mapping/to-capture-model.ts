@@ -9,11 +9,12 @@ export async function toCaptureModel(
   { document, target, structure, revisions, contributors, integrity, id, derivedFromId }: CaptureModel,
   filters: { userId?: string; revisionId?: string } = {}
 ): Promise<CaptureModelType> {
-  const revisionIds: string[] = filters.revisionId
-    ? [filters.revisionId]
-    : filters.userId
+  const revisionIds: string[] = filters.userId
     ? revisions
         .filter(rev => {
+          if (filters.revisionId && filters.revisionId !== rev.id) {
+            return false;
+          }
           for (const author of rev.authors) {
             if (author.contributorId === filters.userId) {
               return true;
@@ -22,12 +23,16 @@ export async function toCaptureModel(
           return false;
         })
         .map(rev => rev.id)
+    : filters.revisionId
+    ? [filters.revisionId]
     : undefined;
+
+  const publishedRevisionIds = revisions.filter(r => r.approved).map(r => r.id);
 
   return {
     id,
     structure: await toStructure(structure),
-    document: await toDocument(document, undefined, { revisionIds }),
+    document: await toDocument(document, undefined, { revisionIds, publishedRevisionIds }),
     target,
     derivedFrom: derivedFromId ? derivedFromId : undefined,
     revisions:

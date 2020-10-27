@@ -48,12 +48,14 @@ export class CaptureModelRepository {
     {
       includeCanonical,
       revisionStatus,
+      revisionStatuses = [],
       revisionId,
       userId,
       context,
     }: {
       includeCanonical?: boolean;
       revisionStatus?: StatusTypes;
+      revisionStatuses?: StatusTypes[];
       revisionId?: string;
       userId?: string;
       context?: string[];
@@ -79,6 +81,10 @@ export class CaptureModelRepository {
       .addOrderBy('di.revisionOrder', 'ASC')
       .addOrderBy('fi.revisionOrder', 'ASC');
 
+    if (revisionStatuses.length === 0 && revisionStatus) {
+      revisionStatuses.push(revisionStatus);
+    }
+
     if (context) {
       builder.andWhere('model.context ?& array[:...ctx]::TEXT[]', { ctx: context });
     }
@@ -97,20 +103,20 @@ export class CaptureModelRepository {
           `Invalid revision status ${revisionStatus}, should be one of ['draft', 'submitted', 'accepted']`
         );
       }
-      builder.andWhere(
-        new Brackets(qb =>
-          includeCanonical
-            ? qb
-                // Add the revision id.
-                .where('dir.status = :status', { status: revisionStatus.toLowerCase() })
-                .orWhere('fir.status = :status', { status: revisionStatus.toLowerCase() })
-                .orWhere('(di.revision IS NULL AND fi.revision IS NULL)')
-            : qb
-                // Add the revision id.
-                .where('dir.status = :status', { status: revisionStatus.toLowerCase() })
-                .orWhere('fir.status = :status', { status: revisionStatus.toLowerCase() })
-        )
-      );
+      // builder.andWhere(
+      //   new Brackets(qb =>
+      //     includeCanonical
+      //       ? qb
+      //           // Add the revision id.
+      //           .where('dir.status = :status', { status: revisionStatus.toLowerCase() })
+      //           .orWhere('fir.status = :status', { status: revisionStatus.toLowerCase() })
+      //           .orWhere('(di.revision IS NULL AND fi.revision IS NULL)')
+      //       : qb
+      //           // Add the revision id.
+      //           .where('dir.status = :status', { status: revisionStatus.toLowerCase() })
+      //           .orWhere('fir.status = :status', { status: revisionStatus.toLowerCase() })
+      //   )
+      // );
     }
 
     // if (userId) {
@@ -142,9 +148,9 @@ export class CaptureModelRepository {
 
     const captureModel = await builder.getOne();
 
-    if (revisionStatus) {
-      captureModel.revisions = captureModel.revisions.filter(r => r.status === revisionStatus.toLowerCase());
-    }
+    // if (revisionStatus) {
+    //   captureModel.revisions = captureModel.revisions.filter(r => r.status === revisionStatus.toLowerCase());
+    // }
 
     if (!captureModel) {
       throw new Error(`Capture model ${id} not found`);

@@ -1,14 +1,13 @@
 import { CaptureModel } from '@capture-models/types';
 import { Document } from '../entity/Document';
 import { Property } from '../entity/Property';
-import { fromSelector } from './from-selector';
 import { toField } from './to-field';
 import { toSelector } from './to-selector';
 
 export async function toDocument(
   doc: Document,
   parentRootProperties?: Property[],
-  filters?: { revisionIds?: string[] }
+  filters?: { revisionIds?: string[]; publishedRevisionIds?: string[] }
 ): Promise<CaptureModel['document']> {
   const {
     id,
@@ -42,19 +41,41 @@ export async function toDocument(
 
   const nestedProperties = parentRootProperties ? parentRootProperties : rootNestedProperties;
   const flatProperties = (nestedProperties || []).filter(prop => prop.documentId === id);
+
   for (const prop of flatProperties || []) {
     if (prop.type !== 'entity-list') {
       // Field list.
       const fields = await prop.fieldInstances;
 
       // revises to be removed
-      const revisesFields = fields.map(field => field.revisesId).filter(e => e);
+      const revisesFields = fields
+        .filter(field => {
+          // Filter fields with revises and published.
+          return (
+            field.revisesId &&
+            (filters.publishedRevisionIds ? filters.publishedRevisionIds.indexOf(field.revisionId) !== -1 : true)
+          );
+        })
+        .map(field => {
+          return field.revisesId;
+        });
 
       const filteredFields = filters.revisionIds
-        ? fields.filter(
-            field => revisesFields.indexOf(field.id) === -1 && filters.revisionIds.indexOf(field.revisionId) !== -1
-          )
+        ? fields.filter(field => {
+            // The field has been revised.
+            if (revisesFields.indexOf(field.id) !== -1) {
+              return false;
+            }
+
+            // If it has a revision, filter it against the revisions.
+            if (field.revisionId && filters.revisionIds.indexOf(field.revisionId) === -1) {
+              return false;
+            }
+
+            return true;
+          })
         : fields;
+
       if (filteredFields.length) {
         returnDocument.properties[prop.term] = filteredFields.map(toField);
       } else {
