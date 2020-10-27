@@ -1,7 +1,6 @@
 import { RouteMiddleware } from '../../types';
 import { userCan } from '../../utility/user-can';
 import { castBool } from '../../utility/cast-bool';
-import { StatusTypes } from '../../../../types/src/capture-model';
 
 export const captureModelApi: RouteMiddleware<{ id: string }> = async (ctx, next) => {
   if (!userCan('models.view_published', ctx.state)) {
