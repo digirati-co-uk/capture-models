@@ -1,6 +1,6 @@
 {
    "name": "@capture-models/database",
-   "version": "0.9.1",
+   "version": "0.10.0",
    "description": "Capture model database with TypeORM.",
    "main": "lib/index.js",
    "module": "lib/index.js",
@@ -15,7 +15,7 @@
       "directory": "packages/database"
    },
    "devDependencies": {
-      "@capture-models/types": "^0.9.0",
+      "@capture-models/types": "^0.10.0",
       "@types/node": "^8.0.29",
       "@types/slonik": "^22.1.2",
       "@types/uuid": "^3.4.7",
@@ -23,7 +23,7 @@
       "typescript": "^3.7.5"
    },
    "dependencies": {
-      "@capture-models/helpers": "^0.9.0",
+      "@capture-models/helpers": "^0.10.0",
       "fast-copy": "^2.0.4",
       "fast-deep-equal": "^3.1.1",
       "pg": "^7.3.0",
