@@ -13,6 +13,7 @@ export function fromDocument(input: CaptureModel['document'], instances = true):
   document.pluralLabel = input.pluralLabel;
   document.labelledBy = input.labelledBy;
   document.description = input.description;
+  document.profile = input.profile;
   document.allowMultiple = !!input.allowMultiple;
   document.properties = [];
 

@@ -49,6 +49,7 @@ export type Contributor = {
 export type CaptureModel = {
   id?: string;
   derivedFrom?: string;
+  profile?: string;
   structure: {
     id: string;
     label: string;

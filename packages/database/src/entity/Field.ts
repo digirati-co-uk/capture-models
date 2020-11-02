@@ -87,4 +87,7 @@ export class Field {
   @Column({ type: 'datetime', default: 'CURRENT_TIMESTAMP', nullable: true })
   @UpdateDateColumn()
   updatedAt?: Date;
+
+  @Column({ nullable: true })
+  profile?: string;
 }

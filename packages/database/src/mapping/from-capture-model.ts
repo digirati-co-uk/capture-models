@@ -13,6 +13,7 @@ export function fromCaptureModel({
   integrity,
   target,
   derivedFrom,
+  profile,
 }: CaptureModelType): CaptureModel {
   const model = new CaptureModel();
 
@@ -28,5 +29,6 @@ export function fromCaptureModel({
     integrity,
     derivedFromId: derivedFrom ? derivedFrom : undefined,
     contributors: contributors ? Object.values(contributors) : undefined,
+    profile,
   });
 }

@@ -12,6 +12,7 @@ export function fromField({
   type,
   revises,
   value,
+  profile,
   ...additional
 }: BaseField): Field {
   const field = new Field();
@@ -22,6 +23,7 @@ export function fromField({
   field.additionalProperties = additional;
   field.description = description;
   field.label = label;
+  field.profile = profile;
   field.allowMultiple = !!allowMultiple;
 
   if (selector) {

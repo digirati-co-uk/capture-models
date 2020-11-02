@@ -13,6 +13,7 @@ export function toField({
   revisesId,
   label,
   value,
+  profile,
 }: Field): BaseField {
   return {
     id,
@@ -21,6 +22,7 @@ export function toField({
     value,
     revises: revisesId ? revisesId : undefined,
     description: description ? description : undefined,
+    profile: profile ? profile : undefined,
     allowMultiple: allowMultiple ? allowMultiple : undefined,
     selector: selector ? toSelector(selector) : undefined,
     revision: revisionId ? revisionId : undefined,

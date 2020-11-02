@@ -20,12 +20,14 @@ export async function toDocument(
     pluralLabel,
     revisionId,
     revisesId,
+    profile
   } = doc;
 
   const returnDocument: CaptureModel['document'] = {
     id,
     type: 'entity',
     label,
+    profile: profile ? profile : undefined,
     pluralLabel: pluralLabel ? pluralLabel : undefined,
     description: description ? description : undefined,
     allowMultiple: allowMultiple ? allowMultiple : undefined,

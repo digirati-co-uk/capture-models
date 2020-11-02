@@ -6,7 +6,7 @@ import { toRevision } from './to-revision';
 import { toStructure } from './to-structure';
 
 export async function toCaptureModel(
-  { document, target, structure, revisions, contributors, integrity, id, derivedFromId }: CaptureModel,
+  { document, target, structure, revisions, contributors, integrity, id, derivedFromId, profile }: CaptureModel,
   filters: { userId?: string; revisionId?: string } = {}
 ): Promise<CaptureModelType> {
   const revisionIds: string[] = filters.userId
@@ -34,6 +34,7 @@ export async function toCaptureModel(
     structure: await toStructure(structure),
     document: await toDocument(document, undefined, { revisionIds, publishedRevisionIds }),
     target,
+    profile,
     derivedFrom: derivedFromId ? derivedFromId : undefined,
     revisions:
       revisions && revisions.length
