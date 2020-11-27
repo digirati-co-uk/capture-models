@@ -69,7 +69,9 @@ export function useDisplaySelectors(contentType: string) {
   const selectorComponents = useSelectors(
     Revisions.useStoreState(s => {
       return s.visibleCurrentLevelSelectorIds
-        .filter(id => s.selector.selectorPaths[id].length !== s.revisionSubtreePath.length)
+        .filter(
+          id => s.selector.selectorPaths[id] && s.selector.selectorPaths[id].length !== s.revisionSubtreePath.length
+        )
         .map(id => s.selector.availableSelectors.find(r => r.id === id));
     }) as BaseSelector[],
     contentType,
@@ -94,7 +96,7 @@ export function useDisplaySelectors(contentType: string) {
   const topLevelSelector = useSelector(
     Revisions.useStoreState(s => {
       const selector = s.visibleCurrentLevelSelectorIds.find(id => {
-        return s.selector.selectorPaths[id].length === s.revisionSubtreePath.length;
+        return s.selector.selectorPaths[id] && s.selector.selectorPaths[id].length === s.revisionSubtreePath.length;
       });
       return s.selector.availableSelectors.find(r => r.id === selector);
     }),
