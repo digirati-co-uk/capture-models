@@ -33,3 +33,7 @@ export * from './split-document-by-model-root';
 export * from './traverse-document';
 export * from './traverse-structure';
 export * from './validate-revision';
+export * from './capture-model-shorthand';
+export * from './hydrate-capture-model';
+export * from './hydrate-compressed-model';
+export * from './serialise-capture-model';
