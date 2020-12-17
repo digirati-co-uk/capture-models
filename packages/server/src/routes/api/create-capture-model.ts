@@ -18,7 +18,7 @@ export const createCaptureModelApi: RouteMiddleware<{}, CaptureModel> = async (c
   // Role - admin
   // Site - [...]
   if (await context.db.api.captureModelExists(body.id)) {
-    throw new RequestError('Revision already exists');
+    throw new RequestError('Capture model already exists');
   }
 
   // @todo add creator to contributors.

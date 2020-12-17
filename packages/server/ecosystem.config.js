@@ -44,7 +44,6 @@ module.exports = {
     {
       name: 'server-ui-prod',
       script: 'lib/index.js',
-
       // Options reference: https://pm2.keymetrics.io/docs/usage/application-declaration/
       instances: 1,
       autorestart: true,

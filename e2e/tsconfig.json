@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "baseUrl": ".",
+    "skipLibCheck": true,
+    "lib": ["es2015"],
+    "strict": true,
+    "types": [
+      // load Cypress global type
+      "cypress",
+      "cypress/support/index.d.ts"
+    ]
+  },
+  "include": [
+    // process only spec files
+    "cypress/**/*.ts"
+  ]
+}

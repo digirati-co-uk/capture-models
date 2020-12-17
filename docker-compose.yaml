@@ -1,0 +1,30 @@
+version: "3"
+services:
+  model-api:
+    build:
+      context: .
+    environment:
+      - SERVER_PORT=3000
+      - DATABASE_HOST=shared-postgres
+      - DATABASE_NAME=postgres
+      - DATABASE_USER=postgres
+      - DATABASE_SCHEMA=public
+      - DATABASE_PORT=5432
+      - DATABASE_PASSWORD=postgres_password
+      - NODE_ENV=development
+#      - MOCK_JWT=true
+    links:
+      - shared-postgres
+    volumes:
+      - ./packages/server/lib:/home/node/app/lib:delegated
+    ports:
+      - 3000:3000
+
+  shared-postgres:
+    image: library/postgres:12
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres_password
+    volumes:
+      - ./var/shared-database:/var/lib/postgresql/data
