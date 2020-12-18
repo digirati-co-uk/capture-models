@@ -760,18 +760,22 @@ export class CaptureModelRepository {
     // Extract old document values.
     traverseDocument(storedRevision.document, {
       visitField(field) {
-        fieldIds.push(field.id);
-        fieldMap[field.id] = field;
-        if (field.selector) {
-          selectorIds.push(field.selector.id);
-          selectorMap[field.selector.id] = field.selector;
+        if (field.revision && field.revision === req.revision.id) {
+          fieldIds.push(field.id);
+          fieldMap[field.id] = field;
+          if (field.selector) {
+            selectorIds.push(field.selector.id);
+            selectorMap[field.selector.id] = field.selector;
+          }
         }
       },
       visitEntity(entity) {
-        entityIds.push(entity.id);
-        if (entity.selector) {
-          selectorIds.push(entity.selector.id);
-          selectorMap[entity.selector.id] = entity.selector.state;
+        if (entity.revision && entity.revision === req.revision.id) {
+          entityIds.push(entity.id);
+          if (entity.selector) {
+            selectorIds.push(entity.selector.id);
+            selectorMap[entity.selector.id] = entity.selector.state;
+          }
         }
       },
     });

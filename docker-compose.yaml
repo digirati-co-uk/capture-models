@@ -17,6 +17,7 @@ services:
       - shared-postgres
     volumes:
       - ./packages/server/lib:/home/node/app/lib:delegated
+      - ./packages/database/lib:/home/node/app/node_modules/@capture-models/database/lib:delegated
     ports:
       - 3000:3000
 
