@@ -1,4 +1,3 @@
-import { RequestError } from '../../errors/RequestError';
 import { RouteMiddleware } from '../../types';
 import { userCan } from '../../utility/user-can';
 
@@ -9,7 +8,8 @@ export const deleteCaptureModelApi: RouteMiddleware<{ id: string }> = async cont
   }
 
   if (!(await context.db.api.captureModelExists(context.params.id, context.state.jwt.context))) {
-    throw new RequestError('Capture model does not exist');
+    context.status = 204;
+    return;
   }
 
   await context.db.api.removeCaptureModel(context.params.id);
