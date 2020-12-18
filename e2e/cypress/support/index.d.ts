@@ -8,7 +8,7 @@ declare namespace Cypress {
   // eslint-disable-next-line @typescript-eslint/class-name-casing
   interface cy {
     loadFixture(fixtureName: string): { then: (res: (model: { body: CaptureModel }) => void) => any };
-    apiRequest<Return>(request: RequestBody): { then: (res: (model: { body: Return }) => void) => any };
+    apiRequest<Return>(request: RequestBody | string): { then: (res: (model: { body: Return }) => void) => any };
   }
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
   interface Chainable {

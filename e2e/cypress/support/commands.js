@@ -41,8 +41,10 @@ Cypress.Commands.add('apiRequest', (request, scope, cb) => {
       expiresIn: 24 * 60 * 60 * 365,
     })
     .then(token => {
+      const requestData = typeof request === 'string' ? { url: request, method: 'get' } : request;
+
       return cy.request({
-        ...request,
+        ...requestData,
         auth: {
           bearer: token,
         },
