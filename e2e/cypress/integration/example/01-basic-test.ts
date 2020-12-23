@@ -104,7 +104,9 @@ it('Creating a revision', () => {
       // Revision should equal.
       expect(res.body.revision.id).to.equal(revisionId);
       // Change we made to document.
-      expect((res.body.document.properties.label[0] as BaseField).value).to.equal('A second value');
+      const labels: any[] = res.body.document.properties.label;
+      const label = labels.find(l => l.revision === revisionId);
+      expect((label as BaseField).value).to.equal('A second value');
     });
 
     cy.apiRequest<CaptureModel>({
@@ -116,7 +118,7 @@ it('Creating a revision', () => {
       expect(model.revisions).to.have.lengthOf(1);
 
       // It should be our one.
-      expect(model.revisions![0].id).to.equal(revisionId);
+      expect(model.revisions?.[0].id).to.equal(revisionId);
 
       // So now 2 fields
       expect(model.document.properties.label).to.have.lengthOf(2);

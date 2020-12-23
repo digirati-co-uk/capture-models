@@ -1,6 +1,6 @@
 import copy from 'fast-copy';
-import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
-import { Field, Form, Formik, useFormikContext } from 'formik';
+import React, { useContext, useState } from 'react';
+import { Field, Form, Formik } from 'formik';
 import { Button } from '../../atoms/Button';
 import { Grid, GridColumn } from '../../atoms/Grid';
 import { Segment } from '../../atoms/Segment';
@@ -18,8 +18,16 @@ import {
   StyledFormLabel,
   StyledFormTextarea,
 } from '../../atoms/StyledForm';
-import { useUnmount } from '../../hooks/useUnmount';
 import { AutoSaveFormik } from '../AutoSaveFormik/AutoSaveFormik';
+import { MultiDropdown } from '../../atoms/MultiDropdown';
+
+export type FieldSource = {
+  id: string;
+  name: string;
+  description?: string;
+  defaultProps?: any;
+  fieldTypes: string[];
+};
 
 export const FieldEditor: React.FC<{
   field: BaseField;
@@ -28,7 +36,8 @@ export const FieldEditor: React.FC<{
   onDelete?: (term?: string) => void;
   onChangeFieldType?: (type: string, defaults: any, term?: string) => void;
   setSaveHandler?: (handler: () => void) => void;
-}> = ({ onSubmit, onDelete, onChangeFieldType, field: props, term }) => {
+  sourceTypes?: Array<FieldSource>;
+}> = ({ onSubmit, onDelete, onChangeFieldType, sourceTypes, field: props, term }) => {
   const ctx = useContext(PluginContext);
   const { fields, selectors } = useContext(PluginContext);
   const [selector, setSelector] = useState<BaseSelector | undefined>(props.selector);
@@ -41,6 +50,10 @@ export const FieldEditor: React.FC<{
 
   const editorProps = field.mapEditorProps ? field.mapEditorProps(props) : props;
   const editor = React.createElement(field.Editor, editorProps as any);
+  const dataSources = (sourceTypes || []).filter(sourceType => {
+    return sourceType.fieldTypes.indexOf(props.type) !== -1;
+  });
+  const [dataSource, setDataSource] = useState<string[]>(props.dataSources || []);
 
   return (
     <React.Suspense fallback="loading...">
@@ -53,6 +66,7 @@ export const FieldEditor: React.FC<{
                 ...newProps,
                 type: props.type,
                 selector,
+                dataSources: dataSource && dataSource.length ? dataSource : undefined,
                 value: defaultValue,
               }),
               term
@@ -63,6 +77,7 @@ export const FieldEditor: React.FC<{
                 ...newProps,
                 type: props.type,
                 selector,
+                dataSources: dataSource && dataSource.length ? dataSource : undefined,
                 value: defaultValue,
               },
               term
@@ -95,6 +110,29 @@ export const FieldEditor: React.FC<{
                       onChange={t =>
                         t && fields[t] ? onChangeFieldType(t as any, (fields[t] as any).defaultProps, term) : null
                       }
+                    />
+                  </StyledFormLabel>
+                </StyledFormField>
+              ) : null}
+              {dataSources ? (
+                <StyledFormField>
+                  <StyledFormLabel>
+                    Dynamic data sources
+                    <MultiDropdown
+                      placeholder="Choose data sources"
+                      fluid
+                      selection
+                      value={dataSource}
+                      onChange={val => {
+                        setDataSource(val || []);
+                      }}
+                      options={dataSources.map(source => {
+                        return {
+                          key: source.id,
+                          text: source.name || '',
+                          value: source.id,
+                        };
+                      })}
                     />
                   </StyledFormLabel>
                 </StyledFormField>
@@ -133,14 +171,6 @@ export const FieldEditor: React.FC<{
                   <Field as={StyledFormInputElement} type="text" name="pluralField" />
                 </StyledFormLabel>
               </StyledFormField>
-              {/* @todo hookup term/vocab selector when we implement JSON-LD Extension */}
-              {/*<StyledFormField>*/}
-              {/*  <StyledFormLabel>*/}
-              {/*    Term*/}
-              {/*    <Field type="text" name="term" />*/}
-              {/*  </label>*/}
-              {/*</StyledFormField>*/}
-              {/* @todo selector selector */}
               {editor}
             </GridColumn>
             <GridColumn half>

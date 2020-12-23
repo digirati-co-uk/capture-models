@@ -108,4 +108,7 @@ export class Document {
 
   @Column({ nullable: true })
   profile?: string;
+
+  @Column('jsonb', { nullable: true })
+  dataSources?: string[];
 }

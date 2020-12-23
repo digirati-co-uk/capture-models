@@ -55,3 +55,34 @@ export const TextFieldEditor: React.FC = () => {
     </PluginProvider>
   );
 };
+export const TextFieldEditorWithDataSource: React.FC = () => {
+  return (
+    <PluginProvider>
+      <div style={{ margin: 40 }}>
+        <FieldEditor
+          sourceTypes={[
+            {
+              id: 'plaintext-source',
+              name: 'Plaintext',
+              description: 'Source plain-text from seeAlso fields in IIIF resources.',
+              defaultProps: {},
+              fieldTypes: ['text-field', 'html-field', 'tagged-text-field'],
+            },
+          ]}
+          field={{
+            id: '1',
+            type: 'text-field',
+            value: 'value 2',
+            dataSources: ['plaintext-source'],
+            description: 'Some other longer description',
+            label: 'Another field',
+          }}
+          onDelete={() => {
+            console.log('deleted');
+          }}
+          onSubmit={newField => console.log(newField)}
+        />
+      </div>
+    </PluginProvider>
+  );
+};

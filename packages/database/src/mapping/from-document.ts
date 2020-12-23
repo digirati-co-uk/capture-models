@@ -14,6 +14,7 @@ export function fromDocument(input: CaptureModel['document'], instances = true):
   document.labelledBy = input.labelledBy;
   document.description = input.description;
   document.profile = input.profile;
+  document.dataSources = input.dataSources;
   document.allowMultiple = !!input.allowMultiple;
   document.properties = [];
 

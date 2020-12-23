@@ -14,6 +14,7 @@ export function toField({
   label,
   value,
   profile,
+  dataSources,
 }: Field): BaseField {
   return {
     id,
@@ -26,6 +27,7 @@ export function toField({
     allowMultiple: allowMultiple ? allowMultiple : undefined,
     selector: selector ? toSelector(selector) : undefined,
     revision: revisionId ? revisionId : undefined,
+    dataSources: dataSources ? dataSources : undefined,
     ...additionalProperties,
   };
 }
