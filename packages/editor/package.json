@@ -1,6 +1,6 @@
 {
   "name": "@capture-models/editor",
-  "version": "0.11.0",
+  "version": "0.11.1",
   "license": "MIT",
   "files": [
     "dist",
@@ -45,9 +45,9 @@
   },
   "dependencies": {
     "@atlas-viewer/atlas": "^1.1.0",
-    "@capture-models/helpers": "^0.11.0",
-    "@capture-models/plugin-api": "^0.11.0",
-    "@capture-models/types": "^0.11.0",
+    "@capture-models/helpers": "^0.11.1",
+    "@capture-models/plugin-api": "^0.11.1",
+    "@capture-models/types": "^0.11.1",
     "@hyperion-framework/react-vault": "^1.0.0-alpha.15",
     "@hyperion-framework/types": "^1.0.0-alpha.14",
     "@iiif/vocabulary": "1.0.18",
