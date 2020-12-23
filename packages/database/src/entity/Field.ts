@@ -90,4 +90,7 @@ export class Field {
 
   @Column({ nullable: true })
   profile?: string;
+
+  @Column('jsonb', { nullable: true })
+  dataSources?: string[];
 }

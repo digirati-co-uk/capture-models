@@ -20,7 +20,8 @@ export async function toDocument(
     pluralLabel,
     revisionId,
     revisesId,
-    profile
+    profile,
+    dataSources,
   } = doc;
 
   const returnDocument: CaptureModel['document'] = {
@@ -34,6 +35,7 @@ export async function toDocument(
     labelledBy: labelledBy ? labelledBy : undefined,
     revision: revisionId ? revisionId : undefined,
     revises: revisesId ? revisesId : undefined,
+    dataSources: dataSources ? dataSources : undefined,
     properties: {},
   };
 

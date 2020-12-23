@@ -13,6 +13,7 @@ export function fromField({
   revises,
   value,
   profile,
+  dataSources,
   ...additional
 }: BaseField): Field {
   const field = new Field();
@@ -36,6 +37,10 @@ export function fromField({
 
   if (revises) {
     field.revisesId = revises;
+  }
+
+  if (dataSources) {
+    field.dataSources = dataSources;
   }
 
   // @todo valueString value from plugin.
