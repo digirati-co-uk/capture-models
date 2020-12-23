@@ -4,5 +4,9 @@
   "reporterOptions": {
     "mochaFile": "cypress/results/output.xml"
   },
+  "ignoreTestFiles": [
+    "**/__snapshots__/*",
+    "**/__image_snapshots__/*"
+  ],
   "fixturesFolder": "../fixtures"
 }

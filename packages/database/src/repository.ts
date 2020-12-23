@@ -361,8 +361,9 @@ export class CaptureModelRepository {
    *
    * @param id
    * @param version
+   * @param deleteDerivatives
    */
-  async removeCaptureModel(id: string, version?: number) {
+  async removeCaptureModel(id: string, version?: number, deleteDerivatives = true) {
     const toRemove = await this.manager.findOne(CaptureModel, { id });
 
     if (!toRemove) {
@@ -375,6 +376,24 @@ export class CaptureModelRepository {
 
     const structureId = toRemove.structureId;
     return await this.manager.transaction(async manager => {
+      if (deleteDerivatives) {
+        // We need to look for derived.
+        const query = this.manager
+          .createQueryBuilder()
+          .select(['capture_model.id as id'])
+          .from(CaptureModel, 'capture_model')
+          .where({
+            derivedFromId: id,
+          });
+        // Remove models derived from this model.
+        const derivatives = await query.getRawMany();
+        if (derivatives.length) {
+          for (const result of derivatives) {
+            await this.removeCaptureModel(result.id);
+          }
+        }
+      }
+
       // Remove the capture model.
       await manager.remove(CaptureModel, toRemove);
 

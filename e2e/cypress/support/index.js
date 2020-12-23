@@ -13,6 +13,7 @@
 // https://on.cypress.io/configuration
 // ***********************************************************
 import './commands';
+import 'cypress-plugin-snapshots/commands';
 
 Cypress.on('uncaught:exception', err => {
   if (err.message.includes('ResizeObserver')) {
