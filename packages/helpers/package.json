@@ -31,7 +31,9 @@
   "devDependencies": {
     "@types/jest": "^25.1.2",
     "@types/react": "16.9.19",
-    "@types/uuid": "^3.4.7"
+    "@types/uuid": "^3.4.7",
+    "rollup": "^2.35.1",
+    "typescript": "3"
   },
   "gitHead": "34cc778d1865ae1c0f717b80a39a59143c030f23"
 }
