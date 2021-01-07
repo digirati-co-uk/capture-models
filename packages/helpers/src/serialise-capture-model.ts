@@ -1,16 +1,18 @@
 import { CaptureModel } from '../../types/src/capture-model';
 import { isEntityList } from './is-entity';
+import { BaseSelector } from '@capture-models/types';
 
 export function serialiseCaptureModel<T = any>(
   model: CaptureModel['document'],
-  options: { addMetadata?: boolean } = {},
+  options: { addMetadata?: boolean; addSelectors?: boolean; rdfValue?: boolean; normalisedValueLists?: boolean } = {},
   metadataAggregate?: { aggregate: any; key: string }
 ): undefined | T {
-  const { addMetadata } = options;
+  const { addMetadata, addSelectors, rdfValue, normalisedValueLists } = options;
   const properties = Object.keys(model.properties);
 
   const newDoc = {} as any;
   const metadataAgg = metadataAggregate ? metadataAggregate.aggregate : {};
+  const isSelectorValid = (selector?: BaseSelector) => selector && selector.state && selector.type === 'box-selector';
 
   if (properties.length === 0) {
     return undefined; // Always return undefined if there are no properties.
@@ -26,7 +28,7 @@ export function serialiseCaptureModel<T = any>(
 
     if (isEntityList(modelTemplate)) {
       // We have an entity list.
-      if (modelTemplate.length === 1) {
+      if (modelTemplate.length === 1 && !modelTemplate[0].allowMultiple) {
         const serialised = serialiseCaptureModel(
           modelTemplate[0],
           options,
@@ -38,13 +40,27 @@ export function serialiseCaptureModel<T = any>(
             : undefined
         );
         if (typeof serialised !== 'undefined') {
-          newDoc[prop] = serialised;
+          if (addSelectors && isSelectorValid(modelTemplate[0].selector)) {
+            newDoc[prop] = {
+              selector: modelTemplate[0].selector?.state,
+              properties: serialised,
+            };
+          } else {
+            newDoc[prop] = serialised;
+          }
         }
         continue;
       }
+
+      const shouldNormalise = normalisedValueLists
+        ? !!modelTemplate.find(template => {
+            return isSelectorValid(template.selector);
+          })
+        : false;
+
       newDoc[prop] = modelTemplate
-        .map(template =>
-          serialiseCaptureModel(
+        .map(template => {
+          const serialised = serialiseCaptureModel(
             template,
             options,
             addMetadata
@@ -53,8 +69,21 @@ export function serialiseCaptureModel<T = any>(
                   key: metadataAggregate ? `${metadataAggregate.key}.${prop}` : prop,
                 }
               : undefined
-          )
-        )
+          );
+
+          if (addSelectors && isSelectorValid(modelTemplate[0].selector)) {
+            return {
+              selector: modelTemplate[0].selector?.state,
+              properties: serialised,
+            };
+          } else {
+            if (shouldNormalise) {
+              return { properties: serialised };
+            }
+
+            return serialised;
+          }
+        })
         // Filter any undefined documents.
         .filter(doc => typeof doc !== 'undefined');
     } else {
@@ -67,13 +96,48 @@ export function serialiseCaptureModel<T = any>(
         const value = modelTemplate[0].value;
         // Null indicates that no user has edited it as a default from the model.
         if (value !== null && typeof value !== 'undefined') {
-          newDoc[prop] = value;
+          // When a selector is present
+          if (
+            addSelectors &&
+            // Only supporting box selectors presently.
+            isSelectorValid(modelTemplate[0].selector)
+          ) {
+            newDoc[prop] = {
+              selector: modelTemplate[0].selector?.state,
+              [rdfValue ? '@value' : 'value']: value,
+            };
+          } else {
+            newDoc[prop] = value;
+          }
         }
         continue;
       }
+
+      const shouldNormalise = normalisedValueLists
+        ? !!modelTemplate.find(template => {
+            return isSelectorValid(template.selector);
+          })
+        : false;
+
       newDoc[prop] = modelTemplate
         .map(template => {
-          return template.value;
+          if (
+            addSelectors &&
+            // Only supporting box selectors presently.
+            template.selector &&
+            template.selector.state &&
+            template.selector.type === 'box-selector'
+          ) {
+            return {
+              selector: template.selector.state,
+              [rdfValue ? '@value' : 'value']: template.value,
+            };
+          } else {
+            if (shouldNormalise) {
+              return { [rdfValue ? '@value' : 'value']: template.value };
+            }
+            return template.value;
+          }
         })
         .filter(value => value !== null && typeof value !== 'undefined');
     }
