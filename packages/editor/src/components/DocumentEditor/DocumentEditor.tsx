@@ -18,6 +18,7 @@ import { Tag } from '../../atoms/Tag';
 import { StyledForm, StyledFormField, StyledFormInput, StyledFormLabel, StyledCheckbox } from '../../atoms/StyledForm';
 import { CardButton } from '../CardButton/CardButton';
 import { CardButtonGroup } from '../CardButtonGroup/CardButtonGroup';
+import { ConfirmButton } from '../../atoms/ConfirmButton';
 
 export type DocumentEditorProps = {
   setLabel: (label: string) => void;
@@ -35,6 +36,7 @@ export type DocumentEditorProps = {
   subtree: CaptureModel['document'];
   subtreeFields: Array<{ term: string; value: CaptureModel['document'] | BaseField }>;
   setSelector: (payload: { term?: string; selector: BaseSelector | undefined }) => void;
+  onDelete?: () => void;
 };
 
 export const DocumentEditor: React.FC<DocumentEditorProps> = ({
@@ -53,6 +55,7 @@ export const DocumentEditor: React.FC<DocumentEditorProps> = ({
   subtreeFields,
   pushSubtree,
   setSelector,
+  onDelete,
 }) => {
   const [route, router] = useMiniRouter(['list', 'newField', 'newDocument'], 'list');
   const { selectors } = useContext(PluginContext);
@@ -234,10 +237,28 @@ export const DocumentEditor: React.FC<DocumentEditorProps> = ({
             </CardContent>
             <CardContent extra>
               <CardButtonGroup>
-                <CardButton size="small" onClick={router.newField}>Add field</CardButton>
-                <CardButton size="small" onClick={router.newDocument}>Add nested entity</CardButton>
+                <CardButton size="small" onClick={router.newField}>
+                  Add field
+                </CardButton>
+                <CardButton size="small" onClick={router.newDocument}>
+                  Add nested entity
+                </CardButton>
               </CardButtonGroup>
             </CardContent>
+            {onDelete ? (
+              <CardContent extra>
+                <CardButtonGroup>
+                  <ConfirmButton
+                    message="Are you sure you want to remove this and all of the fields in this list?"
+                    onClick={() => onDelete()}
+                  >
+                    <Button type="button" alert>
+                      Delete this entity
+                    </Button>
+                  </ConfirmButton>
+                </CardButtonGroup>
+              </CardContent>
+            ) : null}
           </>
         ) : route === 'newField' ? (
           <>

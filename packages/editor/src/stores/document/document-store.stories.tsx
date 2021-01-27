@@ -38,6 +38,17 @@ const Test: React.FC = () => {
           subtreePath={state.subtreePath}
           addField={actions.addField}
           setPluralLabel={actions.setPluralLabel}
+          onDelete={
+            state.subtreePath.length !== 0
+              ? () => {
+                  const term = state.subtreePath.pop();
+                  if (term) {
+                    actions.popSubtree({ count: 1 });
+                    actions.removeField(term);
+                  }
+                }
+              : undefined
+          }
         />
       </GridColumn>
       <GridColumn fluid>
