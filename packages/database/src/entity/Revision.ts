@@ -77,6 +77,9 @@ export class Revision {
   )
   revisionFields: Field[];
 
+  @Column('jsonb', { nullable: true })
+  deletedFields?: string[];
+
   @VersionColumn()
   version?: number;
 

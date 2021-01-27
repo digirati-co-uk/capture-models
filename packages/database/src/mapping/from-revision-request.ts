@@ -3,7 +3,17 @@ import { Revision } from '../entity/Revision';
 import { RevisionAuthors } from '../entity/RevisionAuthors';
 
 export function fromRevisionRequest(revisionRequest: RevisionRequest): Revision {
-  const { label, structureId, approved, fields, id, authors, revises, status } = revisionRequest.revision;
+  const {
+    label,
+    structureId,
+    approved,
+    fields,
+    id,
+    authors,
+    revises,
+    status,
+    deletedFields,
+  } = revisionRequest.revision;
   const { captureModelId, author, source } = revisionRequest;
 
   const allAuthors = authors ? authors : [];
@@ -30,6 +40,7 @@ export function fromRevisionRequest(revisionRequest: RevisionRequest): Revision 
     : undefined;
   revision.revisesId = revises;
   revision.captureModelId = captureModelId;
+  revision.deletedFields = deletedFields;
 
   return revision;
 }

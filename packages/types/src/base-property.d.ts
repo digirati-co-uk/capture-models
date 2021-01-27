@@ -14,4 +14,5 @@ export interface BaseProperty {
   immutable?: boolean;
   profile?: string;
   dataSources?: string[];
+  sortOrder?: number;
 }

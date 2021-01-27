@@ -27,12 +27,24 @@ export async function toCaptureModel(
     ? [filters.revisionId]
     : undefined;
 
-  const publishedRevisionIds = revisions.filter(r => r.approved).map(r => r.id);
+  const publishedRevisions = revisions.filter(r => r.approved);
+  const publishedRevisionIds = publishedRevisions.map(r => r.id);
+  const idsRemovedByPublishedRevisions = [];
+  for (const publishedRevision of publishedRevisions) {
+    if (publishedRevision.deletedFields) {
+      idsRemovedByPublishedRevisions.push(...publishedRevision.deletedFields);
+    }
+  }
 
   return {
     id,
     structure: await toStructure(structure),
-    document: await toDocument(document, undefined, { revisionIds, publishedRevisionIds }),
+    document: await toDocument(document, undefined, {
+      revisionIds,
+      publishedRevisionIds,
+      idsRemovedByPublishedRevisions,
+      onlyThisRevision: !!filters.revisionId,
+    }),
     target,
     profile,
     derivedFrom: derivedFromId ? derivedFromId : undefined,

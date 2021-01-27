@@ -102,14 +102,7 @@ export type RevisionsModel = {
   >;
   currentStructureId: Computed<RevisionsModel, string | undefined>;
   currentStructure: Computed<RevisionsModel, CaptureModel['structure'] | undefined>;
-  choiceStack: Computed<
-    RevisionsModel,
-    Array<{
-      id: string;
-      structure: CaptureModel['structure'];
-      path: string[];
-    }>
-  >;
+  choiceStack: Computed<RevisionsModel, Array<{ id: string; structure: CaptureModel['structure']; path: string[]; }>>;
 
   // A slightly split out model for the selectors.
   selector: SelectorModel;

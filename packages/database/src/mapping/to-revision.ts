@@ -10,6 +10,7 @@ export function toRevision({
   fields,
   revisesId,
   status,
+  deletedFields,
 }: Revision): RevisionType {
   return {
     structureId,
@@ -20,5 +21,6 @@ export function toRevision({
     status,
     revises: revisesId,
     authors: (authors || []).map(author => author.contributorId),
+    deletedFields,
   };
 }
