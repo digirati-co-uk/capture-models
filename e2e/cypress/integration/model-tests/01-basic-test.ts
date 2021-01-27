@@ -108,7 +108,7 @@ it('Creating a revision', () => {
       const label = labels.find(l => l.revision === revisionId);
       expect((label as BaseField).value).to.equal('A second value');
 
-      expect(labels).to.have.lengthOf(1);
+      expect(labels).to.have.lengthOf(2);
     });
 
     cy.apiRequest<CaptureModel>({

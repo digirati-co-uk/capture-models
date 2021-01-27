@@ -43,7 +43,6 @@ export async function toCaptureModel(
       revisionIds,
       publishedRevisionIds,
       idsRemovedByPublishedRevisions,
-      onlyThisRevision: !!filters.revisionId,
     }),
     target,
     profile,

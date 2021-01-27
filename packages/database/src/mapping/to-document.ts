@@ -12,7 +12,6 @@ export async function toDocument(
     revisionIds?: string[];
     publishedRevisionIds?: string[];
     idsRemovedByPublishedRevisions?: string[];
-    onlyThisRevision?: boolean;
   }
 ): Promise<CaptureModel['document']> {
   const {
@@ -87,10 +86,6 @@ export async function toDocument(
 
             // If it has a revision, filter it against the revisions.
             if (field.revisionId && filters.revisionIds.indexOf(field.revisionId) === -1) {
-              return false;
-            }
-
-            if (filters.onlyThisRevision && !field.revisionId) {
               return false;
             }
 
