@@ -22,7 +22,7 @@ export interface ContentTypeMap {}
 
 export type ContentTypes = MapValues<ContentTypeMap>;
 
-export type ContentOptions = {
+export type ContentOptions<Custom = any> = {
   legacy?: boolean;
   interactive?: boolean;
   autoWidth?: boolean;
@@ -31,8 +31,14 @@ export type ContentOptions = {
   maxWidth?: number;
   height?: number;
   width?: number;
-  custom?: any;
+  custom?: Custom;
   targetOverride?: any;
+  selectorVisibility?: {
+    adjacentSelectors?: boolean;
+    topLevelSelectors?: boolean;
+    displaySelectors?: boolean;
+    currentSelector?: boolean;
+  };
 };
 
 export type ContentSpecification<T extends BaseContent = BaseContent> = {

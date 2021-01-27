@@ -2,7 +2,7 @@ import { PluginContext } from '../context';
 import { ContentOptions, Target } from '@capture-models/types';
 import React, { useContext } from 'react';
 
-export function useContentType(target?: Target[], options: ContentOptions = {}) {
+export function useContentType<Custom = any>(target?: Target[], options: ContentOptions<Custom> = {}, children = []) {
   const ctx = useContext(PluginContext);
 
   if (!target) {
@@ -13,10 +13,14 @@ export function useContentType(target?: Target[], options: ContentOptions = {}) 
   for (const key of keys) {
     const type = ctx.contentTypes[key];
     if (type && type.supports(target, options)) {
-      return React.createElement(type.DefaultComponent, {
-        state: type.targetToState(target, options),
-        options,
-      } as any);
+      return React.createElement(
+        type.DefaultComponent,
+        {
+          state: type.targetToState(target, options),
+          options,
+        } as any,
+        children
+      );
     }
   }
   return null;
