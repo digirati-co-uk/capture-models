@@ -5,6 +5,7 @@ import { Tag } from '../../atoms/Tag';
 type FieldHeaderProps = {
   labelFor?: string;
   label: string;
+  selectorLabel?: string;
   showTerm?: boolean;
   term?: string;
   description?: string;
@@ -97,6 +98,7 @@ export const FieldHeader: React.FC<FieldHeaderProps> = ({
   label,
   onSelectorClose,
   onSelectorOpen,
+  selectorLabel,
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -125,7 +127,7 @@ export const FieldHeader: React.FC<FieldHeaderProps> = ({
         </FieldHeaderLeft>
         {selectorComponent ? (
           <FieldHeaderRight onClick={toggleSelector}>
-            <FieldHeaderIcon open={open}>Edit Selector</FieldHeaderIcon>
+            <FieldHeaderIcon open={open}>{selectorLabel || 'Define region'}</FieldHeaderIcon>
           </FieldHeaderRight>
         ) : null}
       </FieldHeaderTop>

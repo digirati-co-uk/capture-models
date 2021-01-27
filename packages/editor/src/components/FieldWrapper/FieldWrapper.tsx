@@ -13,8 +13,10 @@ type Props<T extends BaseField = BaseField> = {
   fallback?: any;
   chooseSelector?: (payload: { selectorId: string }) => void;
   currentSelectorId?: string | null;
+  onUpdateSelector?: (state: any) => void;
   clearSelector?: () => void;
   selectorPreview?: any;
+  selectorLabel?: string;
 
   // @todo other things for the selector.
   // onChooseSelector()
@@ -36,6 +38,8 @@ export const FieldWrapper: React.FC<Props> = ({
   currentSelectorId,
   clearSelector,
   selectorPreview,
+  onUpdateSelector,
+  selectorLabel,
 }) => {
   const [value, setValue] = useState(field.value);
 
@@ -47,15 +51,11 @@ export const FieldWrapper: React.FC<Props> = ({
     [onUpdateValue]
   );
 
-  const updateSelectorValue = useCallback(() => {
-    // console.log('selector updated.');
-  }, []);
-
   const fieldComponent = useField(field, value, updateValue);
 
   // @todo pass a lot of (optional) things from props to this selector status for actions on selectors.
   const selectorComponent = useSelectorStatus(selector, {
-    updateSelector: updateSelectorValue,
+    updateSelector: onUpdateSelector,
     chooseSelector: chooseSelector ? (selectorId: string) => chooseSelector({ selectorId }) : undefined,
     clearSelector,
     currentSelectorId: currentSelectorId ? currentSelectorId : undefined,
@@ -77,6 +77,7 @@ export const FieldWrapper: React.FC<Props> = ({
       <div style={{ marginBottom: 30 }}>
         {hideHeader ? null : (
           <FieldHeader
+            selectorLabel={selectorLabel}
             labelFor={field.id}
             label={field.label}
             description={field.description}

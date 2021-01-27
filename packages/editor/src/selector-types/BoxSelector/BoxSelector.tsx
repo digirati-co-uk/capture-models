@@ -24,9 +24,28 @@ const SelectorButton = styled(CardButton)`
   padding: 0.3em 0.7em;
 `;
 
+export const CroppedImage = styled.div<{ $size?: 'small' | 'large' }>`
+  background: #000;
+  padding: 2px;
+  height: 120px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  img {
+    display: inline-block;
+    object-fit: contain;
+    flex-shrink: 0;
+    width: 100%;
+    height: 100%;
+  }
+`;
+
 export const BoxSelector: SelectorComponent<BoxSelectorProps> = ({
   chooseSelector,
   clearSelector,
+  updateSelector,
   readOnly,
   ...props
 }) => {
@@ -36,13 +55,15 @@ export const BoxSelector: SelectorComponent<BoxSelectorProps> = ({
     return (
       <div>
         {props.selectorPreview ? (
-          <img
-            src={props.selectorPreview}
-            alt={`You selected a region at ${props.state.x}, ${props.state.y}, ${props.state.width}, ${props.state.height}`}
-          />
+          <CroppedImage>
+            <img
+              src={props.selectorPreview}
+              alt={`You selected a region at ${props.state.x}, ${props.state.y}, ${props.state.width}, ${props.state.height}`}
+            />
+          </CroppedImage>
         ) : (
           <>
-            You selected a region at {props.state.x}, {props.state.y}, {props.state.width}, {props.state.height}{' '}
+            You selected a region at {props.state.x}, {props.state.y}, {props.state.width}, {props.state.height}
           </>
         )}
         <br />
@@ -51,15 +72,20 @@ export const BoxSelector: SelectorComponent<BoxSelectorProps> = ({
             <div>
               Move and resize the highlighted box on the image to choose your selection.
               <br />
-              {clearSelector && !readOnly ? (
-                <SelectorButton inline={true} size="small" onClick={clearSelector}>
-                  finish
+              {props.state && updateSelector ? (
+                <SelectorButton
+                  inline={true}
+                  size="small"
+                  onClick={() => updateSelector(null)}
+                  style={{ marginRight: 10 }}
+                >
+                  discard selection
                 </SelectorButton>
               ) : null}
             </div>
           ) : (
             <SelectorButton inline={true} size="small" onClick={() => chooseSelector(props.id)}>
-              edit
+              edit region
             </SelectorButton>
           )
         ) : null}
@@ -69,11 +95,11 @@ export const BoxSelector: SelectorComponent<BoxSelectorProps> = ({
 
   return (
     <div>
-      No region has been selected
+      No region has been selected. Draw a box on the image to define a region.
       <br />
       {chooseSelector && !readOnly ? (
         <SelectorButton inline={true} size="small" onClick={() => chooseSelector(props.id)}>
-          choose region
+          define region
         </SelectorButton>
       ) : null}
     </div>

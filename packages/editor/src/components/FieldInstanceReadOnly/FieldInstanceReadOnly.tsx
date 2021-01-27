@@ -26,7 +26,8 @@ const PreviewLabel = styled.div`
 
 export const FieldInstanceReadOnly: React.FC<{
   fields: Array<BaseField>;
-}> = ({ fields }) => {
+  showSelectorPreview?: boolean;
+}> = ({ fields, showSelectorPreview }) => {
   const chooseSelector = Revisions.useStoreActions(a => a.chooseSelector);
   const currentSelectorId = Revisions.useStoreState(s => s.selector.currentSelectorId);
   const previewData = Revisions.useStoreState(s => s.selector.selectorPreviewData);
@@ -40,7 +41,7 @@ export const FieldInstanceReadOnly: React.FC<{
             <span data-for={field.id} data-tip="">
               <FieldPreview key={field.id} field={field} />
             </span>
-            {field.selector && field.selector.state ? (
+            {showSelectorPreview && field.selector && field.selector.state ? (
               <ReactTooltip id={field.id} effect="solid" backgroundColor="#000" aria-haspopup="true">
                 <SelectorPreview
                   selector={field.selector}
