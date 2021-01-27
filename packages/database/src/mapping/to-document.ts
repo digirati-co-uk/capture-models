@@ -1,4 +1,5 @@
 import { CaptureModel } from '@capture-models/types';
+import { formPropertyValue } from '@capture-models/helpers';
 import { Document } from '../entity/Document';
 import { Property } from '../entity/Property';
 import { toField } from './to-field';
@@ -7,7 +8,12 @@ import { toSelector } from './to-selector';
 export async function toDocument(
   doc: Document,
   parentRootProperties?: Property[],
-  filters?: { revisionIds?: string[]; publishedRevisionIds?: string[] }
+  filters?: {
+    revisionIds?: string[];
+    publishedRevisionIds?: string[];
+    idsRemovedByPublishedRevisions?: string[];
+    onlyThisRevision?: boolean;
+  }
 ): Promise<CaptureModel['document']> {
   const {
     id,
@@ -49,7 +55,15 @@ export async function toDocument(
   for (const prop of flatProperties || []) {
     if (prop.type !== 'entity-list') {
       // Field list.
-      const fields = await prop.fieldInstances;
+      const fields = (await prop.fieldInstances).filter(field => {
+        // Normal filers.
+        if (filters.idsRemovedByPublishedRevisions) {
+          return filters.idsRemovedByPublishedRevisions.indexOf(field.id) === -1;
+        }
+
+        // Default all.
+        return true;
+      });
 
       // revises to be removed
       const revisesFields = fields
@@ -76,18 +90,34 @@ export async function toDocument(
               return false;
             }
 
+            if (filters.onlyThisRevision && !field.revisionId) {
+              return false;
+            }
+
             return true;
           })
         : fields;
 
-      if (filteredFields.length) {
+      // If we filtered everything, then we create a new blank value.
+      if (filteredFields.length === 0 && fields.length !== 0) {
+        // Add an empty field.
+        returnDocument.properties[prop.term] = [formPropertyValue(toField(fields[0]), {})];
+
+        // If there are filtered items, then we map them.
+      } else if (filteredFields.length) {
         returnDocument.properties[prop.term] = filteredFields.map(toField);
+        // Otherwise
       } else {
         delete returnDocument.properties[prop.term];
       }
     } else {
       // Entity list.
-      const entities = await prop.documentInstances;
+      const entities = (await prop.documentInstances).filter(entity => {
+        // Normal entity filters.
+        if (filters.idsRemovedByPublishedRevisions) {
+          return filters.idsRemovedByPublishedRevisions.indexOf(entity.id) === -1;
+        }
+      });
 
       const revisesEntities = entities.map(field => field.revisesId).filter(e => e);
 

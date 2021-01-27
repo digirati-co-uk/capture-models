@@ -31,6 +31,7 @@ export const createRevisionApi: RouteMiddleware<{ captureModelId: string }, Revi
   context.response.body = await context.db.api.createRevision(revisionRequest, {
     allowAnonymous: true, // @todo swap in JWT user details.
     context: context.state.jwt.context,
+    allowCanonicalChanges: userCan('models.create', context.state),
     user: context.state.jwt.user,
   });
 };

@@ -310,9 +310,11 @@ describe('Revision store', () => {
         })
       ).not.toThrow();
 
-      expect(store.getState().revisionSubtree?.properties.person).toHaveLength(3);
+      expect((store.getState().revisionSubtree as CaptureModel['document'])?.properties.person).toHaveLength(3);
 
-      expect(store.getState().revisionSubtree?.properties.person[2]).toMatchInlineSnapshot(
+      expect(
+        (store.getState().revisionSubtree as CaptureModel['document'])?.properties.person[2]
+      ).toMatchInlineSnapshot(
         {
           id: expect.any(String),
           properties: {
@@ -368,8 +370,8 @@ describe('Revision store', () => {
         })
       ).not.toThrow();
 
-      const newLine = (store.getState().revisionSubtree?.properties.paragraph[0] as CaptureModel['document']).properties
-        .lines[1];
+      const newLine = ((store.getState().revisionSubtree as CaptureModel['document'])?.properties
+        .paragraph[0] as CaptureModel['document']).properties.lines[1];
 
       expect(newLine).toMatchInlineSnapshot(
         {
@@ -441,8 +443,8 @@ describe('Revision store', () => {
         })
       ).not.toThrow();
 
-      const newLine = (store.getState().revisionSubtree?.properties.paragraph[0] as CaptureModel['document']).properties
-        .lines[1];
+      const newLine = ((store.getState().revisionSubtree as CaptureModel['document'])?.properties
+        .paragraph[0] as CaptureModel['document']).properties.lines[1];
 
       removeInstance({
         path: [
@@ -452,7 +454,8 @@ describe('Revision store', () => {
       });
 
       expect(
-        (store.getState().revisionSubtree?.properties.paragraph[0] as CaptureModel['document']).properties.lines
+        ((store.getState().revisionSubtree as CaptureModel['document'])?.properties
+          .paragraph[0] as CaptureModel['document']).properties.lines
       ).toHaveLength(1);
 
       const newTextSelector = (newLine.selector as any).id;
@@ -543,7 +546,9 @@ describe('Revision store', () => {
 
         expect(store.getState().revisionSubtreeFieldKeys).toEqual(['firstName', 'lastName']);
 
-        expect(store.getState().revisionSubtree?.id).toEqual('56405dc7-b910-45e0-8ade-898594276795');
+        expect((store.getState().revisionSubtree as CaptureModel['document'])?.id).toEqual(
+          '56405dc7-b910-45e0-8ade-898594276795'
+        );
       });
 
       it('should let choose a single field', () => {

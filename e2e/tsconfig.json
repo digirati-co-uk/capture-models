@@ -10,7 +10,10 @@
       // load Cypress global type
       "cypress",
       "cypress/support/index.d.ts"
-    ]
+    ],
+    "paths": {
+      "@capture-models/types": "../packages/types/src"
+    }
   },
   "include": [
     // process only spec files

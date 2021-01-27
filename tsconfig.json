@@ -49,5 +49,5 @@
     { "path": "packages/server-ui" },
     { "path": "packages/plugin-api" }
   ],
-  "exclude": ["node_modules", "dist", "lib", "__mocks__"]
+  "exclude": ["e2e","node_modules", "dist", "lib", "__mocks__"]
 }

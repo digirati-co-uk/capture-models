@@ -453,7 +453,10 @@ export class CaptureModelRepository {
       throw new Error(`Revision: ${id} was not found`);
     }
     const revision = toRevision(model);
-    const fullModel = await this.getCaptureModel(model.captureModelId, { revisionId: id, context });
+    const fullModel = await this.getCaptureModel(model.captureModelId, {
+      revisionId: id,
+      context,
+    });
 
     return {
       captureModelId: model.captureModelId,
@@ -660,10 +663,20 @@ export class CaptureModelRepository {
       },
     });
 
+    const requestedToDelete = req.revision.deletedFields || [];
+    const revisionToDelete = [];
     const entityMap: { [id: string]: CaptureModelType['document'] } = {};
     traverseDocument(captureModel.document, {
       visitEntity(entity) {
         entityMap[entity.id] = entity;
+        if (!entity.immutable && requestedToDelete.indexOf(entity.id) !== -1) {
+          revisionToDelete.push(entity.id);
+        }
+      },
+      visitField(field) {
+        if (!field.immutable && requestedToDelete.indexOf(field.id) !== -1) {
+          revisionToDelete.push(field.id);
+        }
       },
     });
 
@@ -677,7 +690,7 @@ export class CaptureModelRepository {
       throw new Error('Not yet implemented [allow overwrite]');
     }
 
-    if (fieldsToAdd.length === 0 && docsToHydrate.length === 0) {
+    if (fieldsToAdd.length === 0 && docsToHydrate.length === 0 && revisionToDelete.length === 0) {
       throw new Error('Invalid revision - no valid fields or documents found');
     }
 
@@ -692,6 +705,12 @@ export class CaptureModelRepository {
     ];
 
     const revision = fromRevisionRequest(req);
+
+    if (allowCanonicalChanges) {
+      revision.approved = req.revision.status === 'accepted';
+    } else if (req.revision.status === 'accepted') {
+      revision.status = 'submitted';
+    }
 
     if (contributor) {
       const author = new RevisionAuthors();
