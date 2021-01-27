@@ -33,6 +33,26 @@ export const WithFieldWrapper: React.FC = () => {
     </PluginProvider>
   );
 };
+export const WithFieldMultilineWrapper: React.FC = () => {
+  return (
+    <PluginProvider>
+      <FieldWrapper
+        field={
+          {
+            id: '1',
+            type: 'text-field',
+            value: 'value 2',
+            description: 'Some other longer description',
+            label: 'Another field',
+            minLines: 10,
+            multiline: true,
+          } as any
+        }
+        onUpdateValue={value => console.log(value)}
+      />
+    </PluginProvider>
+  );
+};
 
 export const TextFieldEditor: React.FC = () => {
   return (

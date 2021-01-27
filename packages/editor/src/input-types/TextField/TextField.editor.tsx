@@ -7,6 +7,7 @@ type Props = {
   required?: boolean;
   multiline?: boolean;
   previewInline?: boolean;
+  minLines?: number;
 };
 
 const TextFieldEditor: React.FC<Props> = ({ children, ...props }) => {
@@ -28,6 +29,18 @@ const TextFieldEditor: React.FC<Props> = ({ children, ...props }) => {
         <StyledFormLabel>
           <Field as={StyledCheckbox} type="checkbox" name="multiline" defaultValue={props.multiline} required={false} />
           Allow multiline input
+        </StyledFormLabel>
+      </StyledFormField>
+      <StyledFormField>
+        <StyledFormLabel>
+          Minimum lines
+          <Field
+            as={StyledFormInputElement}
+            type="number"
+            name="minLines"
+            defaultValue={props.minLines}
+            required={false}
+          />
         </StyledFormLabel>
       </StyledFormField>
       <StyledFormField>

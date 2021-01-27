@@ -9,10 +9,11 @@ export interface TextFieldProps extends BaseField {
   required?: boolean;
   multiline?: boolean;
   previewInline?: boolean;
+  minLines?: number;
   value: string;
 }
 
-export const TextField: FieldComponent<TextFieldProps> = ({ value, id, placeholder, multiline, updateValue }) => {
+export const TextField: FieldComponent<TextFieldProps> = ({ value, id, placeholder, minLines, multiline, updateValue }) => {
   if (multiline) {
     return (
       <StyledFormMultilineInputElement
@@ -21,6 +22,7 @@ export const TextField: FieldComponent<TextFieldProps> = ({ value, id, placehold
         placeholder={placeholder}
         value={value || ''}
         onChange={e => updateValue(e.currentTarget.value)}
+        minRows={Number(minLines)}
       />
     );
   }
