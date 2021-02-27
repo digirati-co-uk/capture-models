@@ -54,6 +54,10 @@ export type RevisionsModel = {
     [key: string]: RevisionRequest;
   };
 
+  // New mode.
+  revisionEditMode: boolean;
+  setRevisionMode: Action<RevisionsModel, { editMode: boolean }>;
+
   // The revision.
   currentRevisionId: string | null;
   currentRevision: Computed<RevisionsModel, RevisionRequest | null>;

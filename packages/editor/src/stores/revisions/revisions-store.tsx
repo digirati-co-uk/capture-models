@@ -36,6 +36,12 @@ export const revisionStore: RevisionsModel = {
   // the capture model editor, unless you edit the whole document at once.
   revisions: {},
 
+  // Edit mode.
+  revisionEditMode: false,
+  setRevisionMode: action((state, payload) => {
+    state.revisionEditMode = payload.editMode;
+  }),
+
   // The revision.
   currentRevisionId: null,
   currentRevision: computed(state =>
