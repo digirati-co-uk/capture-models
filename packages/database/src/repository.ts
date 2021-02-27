@@ -1,6 +1,7 @@
-import { Brackets, EntityManager, EntityRepository } from 'typeorm';
+import { EntityManager, EntityRepository } from 'typeorm';
 import {
   BaseField,
+  BaseSelector,
   CaptureModel as CaptureModelType,
   Contributor as ContributorType,
   RevisionRequest,
@@ -38,6 +39,8 @@ import { partialDocumentsToInserts } from './utility/partial-documents-to-insert
 import { RevisionAuthors } from './entity/RevisionAuthors';
 import { diffAuthors } from './utility/diff-authors';
 import { PublishedFields } from './entity/PublishedFields';
+import { SelectorInstance } from './entity/SelectorInstance';
+import { fromSelector } from './mapping/from-selector';
 
 @EntityRepository()
 export class CaptureModelRepository {
@@ -75,7 +78,9 @@ export class CaptureModelRepository {
       .leftJoinAndSelect('property.fieldInstances', 'fi')
       .leftJoinAndSelect('property.documentInstances', 'di')
       .leftJoinAndSelect('di.selector', 'dis')
+      .leftJoinAndSelect('dis.revisedBy', 'dirs')
       .leftJoinAndSelect('fi.selector', 'fis')
+      .leftJoinAndSelect('fis.revisedBy', 'firs')
       .leftJoinAndSelect('revision.authors', 'ri')
       .where('doc.captureModelId = :id', { id })
       .addOrderBy('di.revisionOrder', 'ASC')
