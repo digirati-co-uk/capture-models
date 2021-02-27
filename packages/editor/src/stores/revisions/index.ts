@@ -6,6 +6,7 @@ import {
   useStoreRehydrated,
   useStoreState,
 } from './revisions-provider';
+import { createRevisionStore } from './revisions-store';
 
 export * from './revisions-model';
 
@@ -16,4 +17,5 @@ export const Revisions = {
   useStoreActions,
   useStoreDispatch,
   useStoreRehydrated,
+  createRevisionStore,
 };
