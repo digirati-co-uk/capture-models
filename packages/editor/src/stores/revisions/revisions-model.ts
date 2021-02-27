@@ -182,6 +182,12 @@ export type RevisionsModel = {
   >;
   //visibleCurrentLevelBelowSelectors: Computed<RevisionsModel, BaseSelector[]>;
 
+  // Computed selectors.
+  resolvedSelectors: Computed<RevisionsModel, BaseSelector[]>;
+  visibleCurrentLevelSelectors: Computed<RevisionsModel, BaseSelector[]>;
+  topLevelSelector: Computed<RevisionsModel, BaseSelector | undefined>;
+  visibleAdjacentSelectors: Computed<RevisionsModel, BaseSelector[]>;
+
   setCaptureModel: Action<
     RevisionsModel,
     {

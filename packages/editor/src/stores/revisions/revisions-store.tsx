@@ -616,6 +616,64 @@ export const revisionStore: RevisionsModel = {
       entity.properties[fieldProp] = (fields as any[]).filter(f => f.id !== fieldId);
     }
   }),
+
+  // Computed selectors.
+  // Resolved based on revision too.
+
+  resolvedSelectors: computed(
+    [state => state.selector.availableSelectors, state => state.currentRevisionId],
+    (availableSelectors, currentRevisionId) => {
+      const selectors = [];
+
+      for (const selector of availableSelectors) {
+        if (currentRevisionId && selector.revisedBy) {
+          selectors.push(resolveSelector(selector, currentRevisionId));
+        } else {
+          selectors.push(selector);
+        }
+      }
+
+      return selectors;
+    }
+  ),
+
+  visibleCurrentLevelSelectors: computed(
+    [
+      state => state.resolvedSelectors,
+      state => state.visibleCurrentLevelSelectorIds,
+      state => state.selector.selectorPaths,
+      state => state.revisionSubtreePath,
+    ],
+    (resolved, visibleCurrentLevelSelectorIds, selectorPaths, revisionSubtreePath) => {
+      return visibleCurrentLevelSelectorIds
+        .filter(id => selectorPaths[id] && selectorPaths[id].length !== revisionSubtreePath.length)
+        .map(id => resolved.find(r => r.id === id))
+        .filter(e => e) as BaseSelector[];
+    }
+  ),
+
+  topLevelSelector: computed(
+    [
+      state => state.resolvedSelectors,
+      state => state.visibleCurrentLevelSelectorIds,
+      state => state.selector.selectorPaths,
+      state => state.revisionSubtreePath,
+    ],
+    (resolved, visibleCurrentLevelSelectorIds, selectorPaths, revisionSubtreePath) => {
+      const selector = visibleCurrentLevelSelectorIds.find(id => {
+        return selectorPaths[id] && selectorPaths[id].length === revisionSubtreePath.length;
+      });
+
+      return resolved.find(r => r.id === selector);
+    }
+  ),
+
+  visibleAdjacentSelectors: computed(
+    [state => state.resolvedSelectors, state => state.visibleAdjacentSelectorIds],
+    (resolved, visibleAdjacentSelectorIds) => {
+      return visibleAdjacentSelectorIds.map(id => resolved.find(r => r.id === id)).filter(e => e) as BaseSelector[];
+    }
+  ),
 };
 
 export const createRevisionStore = (initialData?: {
