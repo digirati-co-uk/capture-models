@@ -1,6 +1,6 @@
 import { serialiseCaptureModel } from '../serialise-capture-model';
 import uuid from 'uuid';
-import { CaptureModel } from '../../../types/src/capture-model';
+import { CaptureModel } from '@capture-models/types';
 
 describe('capture model serialisation', () => {
   test('it can serialise simple models', () => {

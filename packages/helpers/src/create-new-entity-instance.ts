@@ -1,5 +1,5 @@
 import copy from 'fast-copy';
-import { Document } from '../../types/src/capture-model';
+import { Document } from '@capture-models/types';
 import { createNewFieldInstance } from './create-new-field-instance';
 import { generateId } from './generate-id';
 import { isEntityList } from './is-entity';

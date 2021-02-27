@@ -1,4 +1,4 @@
-import { BaseField } from '../../types/src/field-types';
+import { BaseField } from '@capture-models/types';
 
 type PostFilter = (fields: BaseField[]) => BaseField[];
 

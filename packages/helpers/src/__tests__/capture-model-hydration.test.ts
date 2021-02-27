@@ -1,6 +1,6 @@
 import { hydrateCaptureModel } from '../hydrate-capture-model';
 import uuid from 'uuid';
-import { CaptureModel } from '../../../types/src/capture-model';
+import { CaptureModel } from '@capture-models/types';
 import { hydrateCompressedModel } from '../hydrate-compressed-model';
 import { captureModelShorthand } from '../capture-model-shorthand';
 

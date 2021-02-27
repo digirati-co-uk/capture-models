@@ -1,4 +1,4 @@
-import { CaptureModel } from '../../types/src/capture-model';
+import { CaptureModel } from '@capture-models/types';
 import { isEntity } from './is-entity';
 import { generateId } from './generate-id';
 

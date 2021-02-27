@@ -1,7 +1,6 @@
 import { pluginStore } from '@capture-models/plugin-api';
 import copy from 'fast-copy';
-import { Document } from '../../types/src/capture-model';
-import { BaseField } from '../../types/src/field-types';
+import { Document, BaseField } from '@capture-models/types';
 import { generateId } from './generate-id';
 
 export function createNewFieldInstance(

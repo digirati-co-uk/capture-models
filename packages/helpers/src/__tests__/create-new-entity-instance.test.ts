@@ -16,7 +16,6 @@ registerField({
   defaultValue: '',
 } as any);
 
-
 describe('create-new-entity-instance', () => {
   test('Simple nuke value', () => {
     expect(
@@ -34,7 +33,12 @@ describe('create-new-entity-instance', () => {
                 allowMultiple: true,
                 properties: {
                   label: [
-                    { type: 'JEST_CUSTOM_FIELD', label: 'Test field A', value: 'Testing a value', id: 'field-1' } as BaseField,
+                    {
+                      type: 'JEST_CUSTOM_FIELD',
+                      label: 'Test field A',
+                      value: 'Testing a value',
+                      id: 'field-1',
+                    } as BaseField,
                   ],
                 },
               } as CaptureModel['document'],
@@ -47,6 +51,7 @@ describe('create-new-entity-instance', () => {
       Object {
         "allowMultiple": true,
         "id": "[auto-generated]",
+        "immutable": false,
         "label": "Some nested entity",
         "properties": Object {
           "label": Array [
@@ -101,8 +106,18 @@ describe('create-new-entity-instance', () => {
                 type: 'entity',
                 properties: {
                   label: [
-                    { type: 'JEST_CUSTOM_FIELD', label: 'NOT THIS ONE', value: 'NOT THIS ONE', id: 'field-3' } as BaseField,
-                    { type: 'JEST_CUSTOM_FIELD', label: 'NOT THIS ONE', value: 'NOT THIS ONE', id: 'field-4' } as BaseField,
+                    {
+                      type: 'JEST_CUSTOM_FIELD',
+                      label: 'NOT THIS ONE',
+                      value: 'NOT THIS ONE',
+                      id: 'field-3',
+                    } as BaseField,
+                    {
+                      type: 'JEST_CUSTOM_FIELD',
+                      label: 'NOT THIS ONE',
+                      value: 'NOT THIS ONE',
+                      id: 'field-4',
+                    } as BaseField,
                   ],
                 },
               } as CaptureModel['document'],
@@ -112,23 +127,24 @@ describe('create-new-entity-instance', () => {
         'test'
       )
     ).toMatchInlineSnapshot(`
-Object {
-  "allowMultiple": true,
-  "id": "[auto-generated]",
-  "label": "Some nested entity",
-  "properties": Object {
-    "label": Array [
       Object {
         "allowMultiple": true,
         "id": "[auto-generated]",
-        "label": "Test field A",
-        "type": "JEST_CUSTOM_FIELD",
-        "value": "",
-      },
-    ],
-  },
-  "type": "entity",
-}
-`);
+        "immutable": false,
+        "label": "Some nested entity",
+        "properties": Object {
+          "label": Array [
+            Object {
+              "allowMultiple": true,
+              "id": "[auto-generated]",
+              "label": "Test field A",
+              "type": "JEST_CUSTOM_FIELD",
+              "value": "",
+            },
+          ],
+        },
+        "type": "entity",
+      }
+    `);
   });
 });
