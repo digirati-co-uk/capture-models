@@ -75,7 +75,12 @@
                       "selector": {
                         "id": "da7e26f8-9797-423e-a0cf-276df7b859ea",
                         "type": "box-selector",
-                        "state": null
+                        "state": {
+                          "x": 10,
+                          "y": 20,
+                          "width": 30,
+                          "height": 40
+                        }
                       },
                       "multiline": false,
                       "pluralField": "Text of lines"
@@ -85,7 +90,12 @@
                 "selector": {
                   "id": "0d0a0325-6d9a-407a-93c2-db0f55bb7209",
                   "type": "box-selector",
-                  "state": null
+                  "state": {
+                    "x": 100,
+                    "y": 200,
+                    "width": 300,
+                    "height": 400
+                  }
                 }
               }
             ]
@@ -93,7 +103,12 @@
           "selector": {
             "id": "2f32a9f6-525e-4cba-9bef-115129680fce",
             "type": "box-selector",
-            "state": null
+            "state": {
+              "x": 200,
+              "y": 400,
+              "width": 600,
+              "height": 800
+            }
           }
         }
       ],

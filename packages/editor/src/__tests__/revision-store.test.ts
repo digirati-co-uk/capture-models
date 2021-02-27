@@ -327,6 +327,7 @@ describe('Revision store', () => {
           "allowMultiple": true,
           "description": "Describe a person",
           "id": Any<String>,
+          "immutable": false,
           "label": "Person",
           "labelledBy": "firstName",
           "properties": Object {
@@ -334,6 +335,7 @@ describe('Revision store', () => {
               Object {
                 "id": Any<String>,
                 "label": "First name",
+                "revision": "0e29f176-aeeb-4bf3-a92c-d64654e29c90",
                 "type": "text-field",
                 "value": "",
               },
@@ -342,11 +344,13 @@ describe('Revision store', () => {
               Object {
                 "id": Any<String>,
                 "label": "Last name",
+                "revision": "0e29f176-aeeb-4bf3-a92c-d64654e29c90",
                 "type": "text-field",
                 "value": "",
               },
             ],
           },
+          "revision": "0e29f176-aeeb-4bf3-a92c-d64654e29c90",
           "type": "entity",
         }
       `
@@ -386,6 +390,7 @@ describe('Revision store', () => {
           "allowMultiple": true,
           "description": "All of the lines inside of a paragraph",
           "id": Any<String>,
+          "immutable": false,
           "label": "Line",
           "labelledBy": "text",
           "pluralLabel": "Lines",
@@ -398,6 +403,7 @@ describe('Revision store', () => {
                 "label": "Text of line",
                 "multiline": false,
                 "pluralField": "Text of lines",
+                "revision": "c8bb939a-7a76-4b15-9f77-81375519128c",
                 "selector": Object {
                   "id": Any<String>,
                   "state": null,
@@ -408,6 +414,7 @@ describe('Revision store', () => {
               },
             ],
           },
+          "revision": "c8bb939a-7a76-4b15-9f77-81375519128c",
           "selector": Object {
             "id": Any<String>,
             "state": null,
@@ -559,18 +566,18 @@ describe('Revision store', () => {
         expect(revisionSelectState.revisionSelectedFieldProperty).toEqual('firstName');
         expect(revisionSelectState.revisionSelectedFieldInstance).toEqual('9a55a096-4a79-46b0-8111-d9775d074a14');
         expect(revisionSelectState.revisionSubtreeField).toMatchInlineSnapshot(`
-        Object {
-          "id": "9a55a096-4a79-46b0-8111-d9775d074a14",
-          "label": "First name",
-          "selector": Object {
-            "id": "007a5ace-b1a4-49ca-8dd3-c78aee2d5409",
-            "state": null,
-            "type": "box-selector",
-          },
-          "type": "text-field",
-          "value": "second first name",
-        }
-      `);
+                  Object {
+                    "id": "9a55a096-4a79-46b0-8111-d9775d074a14",
+                    "label": "First name",
+                    "selector": Object {
+                      "id": "007a5ace-b1a4-49ca-8dd3-c78aee2d5409",
+                      "state": null,
+                      "type": "box-selector",
+                    },
+                    "type": "text-field",
+                    "value": "second first name",
+                  }
+              `);
       });
       it('should remove the selected field when navigating', () => {
         revisionPopSubtree(undefined);
@@ -618,5 +625,244 @@ describe('Revision store', () => {
       test.todo('can navigate to deeper field'); // select text directly, emulating what happens when selector is clicked.
       test.todo('setting current level selectors only configuration');
     });
+  });
+
+  describe('revision with continuous forking', () => {
+    test('revision can fork field', () => {
+      const store = createRevisionStore({
+        captureModel: models()[0],
+      });
+      const actions = store.getActions();
+
+      actions.setRevisionMode({ editMode: true });
+
+      actions.createRevision({
+        revisionId: '31b27c9b-2388-47df-b6f4-73fb4878c1fa',
+        cloneMode: 'EDIT_ALL_VALUES',
+      });
+
+      actions.updateFieldValue({
+        path: [['name', 'aca844a3-836a-45c3-bb16-dc28bcdce46f']],
+        value: 'Testing a new value',
+      });
+
+      // @ts-ignore
+      expect(store.getState().currentRevision.document.properties.name[0].revises).toBeDefined();
+    });
+
+    test('revision can fork entity', () => {
+      const store = createRevisionStore({
+        captureModel: models()[2],
+      });
+      const actions = store.getActions();
+
+      actions.setRevisionMode({ editMode: true });
+
+      actions.createRevision({
+        revisionId: 'd4000be7-1407-43a4-b5e7-75479fb96a0d',
+        cloneMode: 'EDIT_ALL_VALUES',
+      });
+
+      actions.updateFieldValue({
+        path: [
+          ['person', '5c8a5874-8bca-422c-be71-300612d67c72'],
+          ['firstName', '7b45ec25-15a6-40dd-9a1d-0fd1d673df15'],
+        ],
+        value: 'Testing a new value',
+      });
+
+      expect(
+        // @ts-ignore
+        store.getState().currentRevision.document.properties.person[0].properties.firstName[0].revises
+      ).toBeDefined();
+    });
+
+    // OCR Tests
+    test('Correct a word in OCR', () => {
+      const store = createRevisionStore({
+        captureModel: models()[8],
+      });
+      const actions = store.getActions();
+
+      actions.setRevisionMode({ editMode: true });
+
+      actions.createRevision({
+        revisionId: 'c8bb939a-7a76-4b15-9f77-81375519128c',
+        cloneMode: 'EDIT_ALL_VALUES',
+      });
+
+      actions.updateFieldValue({
+        path: [
+          ['paragraph', '159621fb-4f93-4cd7-a394-5a1141fc1091'],
+          ['lines', '64e82cb7-16f8-432e-b2b7-3828233a134c'],
+          ['text', 'eb122262-fab3-43c8-9432-ac93dad3abf8'],
+        ],
+        value: 'Testing a new value',
+      });
+
+      expect(
+        // @ts-ignore
+        store.getState().currentRevision.document.properties.paragraph[0].properties.lines[0].properties.text[0].revises
+      ).toBeDefined();
+    });
+
+    test('Add a missing line', () => {
+      const store = createRevisionStore({
+        captureModel: models()[8],
+      });
+      const actions = store.getActions();
+
+      actions.setRevisionMode({ editMode: true });
+
+      actions.createRevision({
+        revisionId: 'c8bb939a-7a76-4b15-9f77-81375519128c',
+        cloneMode: 'EDIT_ALL_VALUES',
+      });
+
+      expect(
+        // @ts-ignore
+        store.getState().currentRevision.document.properties.paragraph[0].properties.lines[1]
+      ).not.toBeDefined();
+
+      actions.createNewEntityInstance({
+        path: [['paragraph', '159621fb-4f93-4cd7-a394-5a1141fc1091']],
+        property: 'lines',
+      });
+
+      expect(
+        // @ts-ignore
+        store.getState().currentRevision.document.properties.paragraph[0].properties.lines[1]
+      ).toBeDefined();
+
+      expect(
+        // @ts-ignore
+        store.getState().currentRevision.document.properties.paragraph[0].properties.lines[1].properties.text[0]
+      ).toMatchInlineSnapshot(
+        {
+          id: expect.any(String),
+          revision: expect.any(String),
+          selector: {
+            id: expect.any(String),
+          },
+        },
+        `
+        Object {
+          "allowMultiple": true,
+          "description": "Single word, phrase or the whole line",
+          "id": Any<String>,
+          "label": "Text of line",
+          "multiline": false,
+          "pluralField": "Text of lines",
+          "revision": Any<String>,
+          "selector": Object {
+            "id": Any<String>,
+            "state": null,
+            "type": "box-selector",
+          },
+          "type": "text-field",
+          "value": "",
+        }
+      `
+      );
+    });
+    test('Change the bounding box of a word', () => {
+      const store = createRevisionStore({
+        captureModel: models()[8],
+      });
+      const actions = store.getActions();
+
+      actions.setRevisionMode({ editMode: true });
+
+      actions.createRevision({
+        revisionId: 'c8bb939a-7a76-4b15-9f77-81375519128c',
+        cloneMode: 'EDIT_ALL_VALUES',
+      });
+
+      expect(
+        // @ts-ignore
+        store.getState().currentRevision.document.properties.paragraph[0].properties.lines[1]
+      ).not.toBeDefined();
+
+      actions.updateSelector({
+        state: { x: 1, y: 2, width: 3, height: 4 },
+        selectorId: 'da7e26f8-9797-423e-a0cf-276df7b859ea',
+      });
+
+      // The original should remain unchanged.
+      expect(
+        // @ts-ignore
+        store.getState().currentRevision.document.properties.paragraph[0].properties.lines[0].properties.text[0]
+          .selector
+      ).toMatchInlineSnapshot(
+        {
+          id: expect.any(String),
+          revisedBy: expect.any(Array),
+        },
+        `
+        Object {
+          "id": Any<String>,
+          "revisedBy": Any<Array>,
+          "state": Object {
+            "height": 40,
+            "width": 30,
+            "x": 10,
+            "y": 20,
+          },
+          "type": "box-selector",
+        }
+      `
+      );
+
+      // But revised selector should be updated.
+      expect(
+        // @ts-ignore
+        store.getState().currentRevision.document.properties.paragraph[0].properties.lines[0].properties.text[0]
+          .selector.revisedBy
+      ).toHaveLength(1);
+
+      // @todo And then when we change the field, it should revert the original and just keep the fork
+      actions.updateFieldValue({
+        path: [
+          ['paragraph', '159621fb-4f93-4cd7-a394-5a1141fc1091'],
+          ['lines', '64e82cb7-16f8-432e-b2b7-3828233a134c'],
+          ['text', 'eb122262-fab3-43c8-9432-ac93dad3abf8'],
+        ],
+        value: 'Testing a new value',
+      });
+
+      expect(
+        // @ts-ignore
+        store.getState().currentRevision.document.properties.paragraph[0].properties.lines[0].properties.text[0]
+          .selector
+      ).toMatchInlineSnapshot(
+        {
+          id: expect.any(String),
+        },
+        `
+        Object {
+          "id": Any<String>,
+          "state": Object {
+            "height": 4,
+            "width": 3,
+            "x": 1,
+            "y": 2,
+          },
+          "type": "box-selector",
+        }
+      `
+      );
+
+      // Make sure the selectors are right.
+      // @ts-ignore
+      const newSelectorId = store.getState().currentRevision.document.properties.paragraph[0].properties.lines[0]
+        .properties.text[0].selector.id;
+
+      expect(store.getState().resolvedSelectors.map(r => r.id)).toContain(newSelectorId);
+    });
+
+    test.todo('Change the bounding box of word and then change the word');
+    test.todo('Change the bounding box of a line');
+    test.todo('Remove an invalid word');
+    test.todo('Remove an invalid line');
   });
 });

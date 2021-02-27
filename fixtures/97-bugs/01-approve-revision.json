@@ -3,7 +3,7 @@
   "structure": {
     "id": "16e4789c-6866-4271-bdfd-ee5220e9ffeb",
     "type": "choice",
-    "label": "First project",
+    "label": "bugs - approve revision",
     "items": [
       {
         "id": "9c2c6558-703d-4276-ac44-01c78e66ecef",
@@ -75,13 +75,13 @@
       "status": "submitted",
       "revises": null,
       "authors": [
-        "urn:madoc:user:1"
+        "ca7c97bb-78ab-44ec-82be-e559eaf6c7df"
       ]
     }
   ],
   "contributors": {
-    "urn:madoc:user:1": {
-      "id": "urn:madoc:user:1",
+    "ca7c97bb-78ab-44ec-82be-e559eaf6c7df": {
+      "id": "ca7c97bb-78ab-44ec-82be-e559eaf6c7df",
       "type": "Person",
       "name": "admin"
     }
