@@ -524,18 +524,6 @@ export const revisionStore: RevisionsModel = {
       field.value = value;
     }
   }),
-  updateFieldSelector: action((state, { state: selectorState, path, revisionId }) => {
-    const field = getRevisionFieldFromPath<BaseField>(state, path, revisionId);
-    if (field && field.selector) {
-      field.selector.state = selectorState;
-    }
-  }),
-  updateEntitySelector: action((state, { state: selectorState, path, revisionId }) => {
-    const entity = getRevisionFieldFromPath<CaptureModel['document']>(state, path, revisionId);
-    if (entity && entity.selector) {
-      entity.selector.state = selectorState;
-    }
-  }),
 
   createNewFieldInstance: action((state, { property, path, revisionId }) => {
     // Grab the parent entity where we want to add a new field.

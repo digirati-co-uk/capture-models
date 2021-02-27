@@ -145,8 +145,6 @@ export type RevisionsModel = {
 
   // Fields and selector state.
   updateFieldValue: Action<RevisionsModel, { path: Array<[string, string]>; revisionId?: string; value: any }>;
-  updateFieldSelector: Action<RevisionsModel, { path: Array<[string, string]>; revisionId?: string; state: any }>;
-  updateEntitySelector: Action<RevisionsModel, { path: Array<[string, string]>; revisionId?: string; state: any }>;
 
   // Field instances (for allowMultiple=true)
   createNewFieldInstance: Action<
