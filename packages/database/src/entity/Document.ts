@@ -6,7 +6,6 @@ import {
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
-  CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { CaptureModel } from './CaptureModel';
