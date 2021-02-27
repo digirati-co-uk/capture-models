@@ -1,4 +1,4 @@
-import { CaptureModel, ModelFields } from '../../types/src/capture-model';
+import { CaptureModel, ModelFields } from '@capture-models/types';
 import { isEntityList } from './is-entity';
 
 export function filterEmptyStructureFields(fields: ModelFields, entity: CaptureModel['document']): ModelFields {

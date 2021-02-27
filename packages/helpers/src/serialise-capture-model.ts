@@ -1,6 +1,5 @@
-import { CaptureModel } from '../../types/src/capture-model';
 import { isEntityList } from './is-entity';
-import { BaseSelector } from '@capture-models/types';
+import { CaptureModel, BaseSelector } from '@capture-models/types';
 
 export function serialiseCaptureModel<T = any>(
   model: CaptureModel['document'],

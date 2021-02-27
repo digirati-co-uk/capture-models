@@ -1,11 +1,17 @@
-import { RevisionRequest } from '@capture-models/types';
+import { BaseField, RevisionRequest } from '@capture-models/types';
 import { expandModelFields } from './expand-model-fields';
 import { CaptureModel } from '@capture-models/types';
 import { createRevisionRequest, createRevisionRequestFromStructure } from './create-revision-request';
 import { filterCaptureModel } from './filter-capture-model';
 import { flattenStructures } from './flatten-structures';
+import { recurseRevisionDependencies } from './recurse-revision-dependencies';
+import { filterEmptyFields, filterRemovedFields } from './field-post-filters';
 
-export function captureModelToRevisionList(captureModel: CaptureModel, includeStructures = false): RevisionRequest[] {
+export function captureModelToRevisionList(
+  captureModel: CaptureModel,
+  includeStructures = false,
+  filterEmpty = true
+): RevisionRequest[] {
   const models: RevisionRequest[] = [];
 
   if (!captureModel.id) {
@@ -25,11 +31,25 @@ export function captureModelToRevisionList(captureModel: CaptureModel, includeSt
 
   for (const revision of captureModel.revisions || []) {
     const flatFields = expandModelFields(revision.fields);
-    const document = filterCaptureModel(revision.id, captureModel.document, flatFields, field => {
-      return field.revision ? field.revision === revision.id : false;
-    });
+    const allRevisions = recurseRevisionDependencies(revision.id, captureModel.revisions);
+
+    const document = filterCaptureModel(
+      revision.id,
+      captureModel.document,
+      flatFields,
+      field => {
+        return field.revision ? allRevisions.indexOf(field.revision) !== -1 : false;
+      },
+      [
+        // Filter removed fields.
+        revision.deletedFields ? filterRemovedFields(revision.deletedFields) : undefined,
+        // Filter empty fields.
+        filterEmpty ? filterEmptyFields : undefined,
+      ]
+    );
+
     if (document) {
-      models.push(createRevisionRequest(captureModel, revision));
+      models.push(createRevisionRequest(captureModel, revision, document));
     }
   }
 

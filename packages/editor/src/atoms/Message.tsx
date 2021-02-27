@@ -11,7 +11,13 @@ export const Message = styled.div`
   border: 1px solid #ddd;
 `;
 
-export const ErrorMessage = styled(Message)`
+export const ErrorMessage = styled.div`
+  color: rgba(0, 0, 0, 0.87);
+  position: relative;
+  min-height: 1em;
+  margin: 1em 0;
+  padding: 1em 1.5em;
+  line-height: 1.4285em;
   background-color: #fff6f6;
   color: #9f3a38;
   border-color: #9f3a38;

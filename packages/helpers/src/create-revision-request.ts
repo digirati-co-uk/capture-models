@@ -83,8 +83,11 @@ export function createRevisionRequest(
   }
 
   const captureModelId = typeof captureModel === 'string' ? captureModel : captureModel.id;
+  const revisions = typeof captureModel === 'string' ? [] : captureModel.revisions;
 
-  const document = inputDocument ? inputDocument : filterDocumentByRevision((captureModel as any).document, revision);
+  const document = inputDocument
+    ? inputDocument
+    : filterDocumentByRevision((captureModel as any).document, revision, revisions);
 
   if (!document) {
     throw new Error(`Invalid revision ${revision.id} has no document`);

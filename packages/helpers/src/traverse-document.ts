@@ -18,7 +18,9 @@ export function traverseDocument<TempEntityFields = any>(
       selector: BaseSelector & { temp?: Partial<TempEntityFields> },
       parent:
         | (CaptureModel['document'] & { temp?: Partial<TempEntityFields> })
-        | (BaseField & { temp?: Partial<TempEntityFields> })
+        | (BaseField & { temp?: Partial<TempEntityFields> }),
+      isRevision: boolean,
+      parentSelector?: BaseSelector & { temp?: Partial<TempEntityFields> }
     ) => void;
     visitProperty?: (
       property: string,
@@ -70,7 +72,12 @@ export function traverseDocument<TempEntityFields = any>(
           first = false;
           if (transforms.visitFirstField(field, propKey, document)) {
             if (field.selector && transforms.visitSelector) {
-              transforms.visitSelector(field.selector, field);
+              transforms.visitSelector(field.selector, field, false);
+              if (field.selector.revisedBy) {
+                for (const revisedSelector of field.selector.revisedBy) {
+                  transforms.visitSelector(revisedSelector, field, true, field.selector);
+                }
+              }
             }
             break;
           }
@@ -80,7 +87,12 @@ export function traverseDocument<TempEntityFields = any>(
         }
       }
       if (field.selector && transforms.visitSelector) {
-        transforms.visitSelector(field.selector, field);
+        transforms.visitSelector(field.selector, field, false);
+        if (field.selector.revisedBy) {
+          for (const revisedSelector of field.selector.revisedBy) {
+            transforms.visitSelector(revisedSelector, field, true, field.selector);
+          }
+        }
       }
       if ((field as any).temp) {
         delete (field as any).temp;
@@ -88,7 +100,12 @@ export function traverseDocument<TempEntityFields = any>(
     }
   }
   if (document.selector && transforms.visitSelector) {
-    transforms.visitSelector(document.selector, document);
+    transforms.visitSelector(document.selector, document, false);
+    if (document.selector.revisedBy) {
+      for (const revisedSelector of document.selector.revisedBy) {
+        transforms.visitSelector(revisedSelector, document, true, document.selector);
+      }
+    }
   }
   if (transforms.visitEntity) {
     transforms.visitEntity(document, key, rootParent);

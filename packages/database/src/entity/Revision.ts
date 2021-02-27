@@ -58,9 +58,6 @@ export class Revision {
   @Column({ nullable: true })
   revisesId?: string;
 
-  @ManyToOne(() => Revision, { nullable: true, onDelete: 'SET NULL' })
-  revises?: Revision;
-
   @Column({ nullable: true })
   captureModelId?: string;
 

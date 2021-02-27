@@ -8,7 +8,7 @@ jest.mock('../generate-id', () => {
 });
 
 import { registerField } from '@capture-models/plugin-api';
-import { BaseField } from '../../../types/src/field-types';
+import { BaseField } from '@capture-models/types';
 import { createNewFieldInstance } from '../create-new-field-instance';
 
 registerField({

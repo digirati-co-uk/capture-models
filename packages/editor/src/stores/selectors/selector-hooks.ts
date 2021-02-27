@@ -41,15 +41,26 @@ export function useSelectorActions() {
 }
 
 export function useDisplaySelectors(contentType: string) {
-  const ids = Revisions.useStoreState(s => s.visibleCurrentLevelSelectorIds);
+  const allSelectors = Revisions.useStoreState(state => {
+    return {
+      visibleCurrentLevelSelectorIds: state.visibleCurrentLevelSelectorIds,
+      visibleAdjacentSelectors: state.visibleAdjacentSelectors,
+      visibleCurrentLevelSelectors: state.visibleCurrentLevelSelectors,
+      topLevelSelector: state.topLevelSelector,
+    };
+  });
 
-  const paths = Revisions.useStoreState(s => s.selector.selectorPaths);
-  const subtreePath = Revisions.useStoreState(s => s.revisionSubtreePath);
+  const { paths, subtreePath } = Revisions.useStoreState(s => ({
+    paths: s.selector.selectorPaths,
+    subtreePath: s.revisionSubtreePath,
+  }));
 
-  const pop = Revisions.useStoreActions(a => a.revisionPopTo);
-  const push = Revisions.useStoreActions(a => a.revisionPushSubtree);
-  const setPath = Revisions.useStoreActions(a => a.revisionSetSubtree);
-  const updateSelectorPreview = Revisions.useStoreActions(a => a.updateSelectorPreview);
+  const { pop, push, setPath, updateSelectorPreview } = Revisions.useStoreActions(a => ({
+    pop: a.revisionPopTo,
+    push: a.revisionPushSubtree,
+    setPath: a.revisionSetSubtree,
+    updateSelectorPreview: a.updateSelectorPreview,
+  }));
 
   const onClickDisplaySelector = useCallback(
     (s: BaseSelector) => {
@@ -66,17 +77,6 @@ export function useDisplaySelectors(contentType: string) {
     [push, paths]
   );
 
-  const selectorComponents = useSelectors(
-    Revisions.useStoreState(s => {
-      return s.visibleCurrentLevelSelectorIds
-        .filter(
-          id => s.selector.selectorPaths[id] && s.selector.selectorPaths[id].length !== s.revisionSubtreePath.length
-        )
-        .map(id => s.selector.availableSelectors.find(r => r.id === id));
-    }) as BaseSelector[],
-    contentType,
-    { readOnly: true, onClick: onClickDisplaySelector, updateSelectorPreview }
-  );
   const onClickTopLevelSelector = useCallback(
     (s: BaseSelector) => {
       // @todo make this "popTo" and get the id from the selector.
@@ -91,17 +91,6 @@ export function useDisplaySelectors(contentType: string) {
       pop({ id: fieldId });
     },
     [paths, pop]
-  );
-
-  const topLevelSelector = useSelector(
-    Revisions.useStoreState(s => {
-      const selector = s.visibleCurrentLevelSelectorIds.find(id => {
-        return s.selector.selectorPaths[id] && s.selector.selectorPaths[id].length === s.revisionSubtreePath.length;
-      });
-      return s.selector.availableSelectors.find(r => r.id === selector);
-    }),
-    contentType,
-    { readOnly: true, isTopLevel: true, onClick: onClickTopLevelSelector, updateSelectorPreview }
   );
 
   const onClickAdjacentSelector = useCallback(
@@ -124,13 +113,31 @@ export function useDisplaySelectors(contentType: string) {
     [paths, setPath, subtreePath]
   );
 
-  const adjacentSelectors = useSelectors(
-    Revisions.useStoreState(s => {
-      return s.visibleAdjacentSelectorIds.map(id => s.selector.availableSelectors.find(r => r.id === id));
-    }) as BaseSelector[],
-    contentType,
-    { readOnly: true, isAdjacent: true, onClick: onClickAdjacentSelector, updateSelectorPreview }
-  );
+  // Selector components.
+  const selectorComponents = useSelectors(allSelectors.visibleCurrentLevelSelectors, contentType, {
+    readOnly: true,
+    onClick: onClickDisplaySelector,
+    updateSelectorPreview,
+  });
 
-  return [ids, selectorComponents, topLevelSelector, adjacentSelectors] as const;
+  const topLevelSelectorComponents = useSelector(allSelectors.topLevelSelector, contentType, {
+    readOnly: true,
+    isTopLevel: true,
+    onClick: onClickTopLevelSelector,
+    updateSelectorPreview,
+  });
+
+  const adjacentSelectorComponents = useSelectors(allSelectors.visibleAdjacentSelectors, contentType, {
+    readOnly: true,
+    isAdjacent: true,
+    onClick: onClickAdjacentSelector,
+    updateSelectorPreview,
+  });
+
+  return [
+    allSelectors.visibleCurrentLevelSelectorIds,
+    selectorComponents,
+    topLevelSelectorComponents,
+    adjacentSelectorComponents,
+  ] as const;
 }

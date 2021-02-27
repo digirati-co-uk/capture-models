@@ -1,9 +1,7 @@
-import { CaptureModel } from '../../types/src/capture-model';
+import { CaptureModel } from '@capture-models/types';
 import { generateId } from './generate-id';
 
-export function captureModelShorthand(shorthand: {
-  [key: string]: string | any;
-}): CaptureModel['document'] {
+export function captureModelShorthand(shorthand: { [key: string]: string | any }): CaptureModel['document'] {
   const model: CaptureModel['document'] = {
     id: generateId(),
     type: 'entity',

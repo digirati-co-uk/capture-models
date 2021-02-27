@@ -54,6 +54,10 @@ export type RevisionsModel = {
     [key: string]: RevisionRequest;
   };
 
+  // New mode.
+  revisionEditMode: boolean;
+  setRevisionMode: Action<RevisionsModel, { editMode: boolean }>;
+
   // The revision.
   currentRevisionId: string | null;
   currentRevision: Computed<RevisionsModel, RevisionRequest | null>;
@@ -141,8 +145,6 @@ export type RevisionsModel = {
 
   // Fields and selector state.
   updateFieldValue: Action<RevisionsModel, { path: Array<[string, string]>; revisionId?: string; value: any }>;
-  updateFieldSelector: Action<RevisionsModel, { path: Array<[string, string]>; revisionId?: string; state: any }>;
-  updateEntitySelector: Action<RevisionsModel, { path: Array<[string, string]>; revisionId?: string; state: any }>;
 
   // Field instances (for allowMultiple=true)
   createNewFieldInstance: Action<
@@ -177,6 +179,12 @@ export type RevisionsModel = {
     { fields: Array<BaseField | CaptureModel['document']>; currentId: undefined | string }
   >;
   //visibleCurrentLevelBelowSelectors: Computed<RevisionsModel, BaseSelector[]>;
+
+  // Computed selectors.
+  resolvedSelectors: Computed<RevisionsModel, BaseSelector[]>;
+  visibleCurrentLevelSelectors: Computed<RevisionsModel, BaseSelector[]>;
+  topLevelSelector: Computed<RevisionsModel, BaseSelector | undefined>;
+  visibleAdjacentSelectors: Computed<RevisionsModel, BaseSelector[]>;
 
   setCaptureModel: Action<
     RevisionsModel,

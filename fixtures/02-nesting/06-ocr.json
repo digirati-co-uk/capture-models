@@ -3,7 +3,7 @@
   "structure": {
     "id": "27fb84fe-f116-4907-9860-6fbc834021e8",
     "type": "choice",
-    "label": "OCR Test",
+    "label": "nesting - ocr",
     "items": [
       {
         "id": "320a754b-4546-4271-b226-c97a90807950",
@@ -2149,8 +2149,8 @@
   ],
   "derivedFrom": "3366a8c7-644d-4457-966b-3fd5f6a529be",
   "contributors": {
-    "urn:madoc:user:1": {
-      "id": "urn:madoc:user:1",
+    "4d13f32e-97f2-493b-9069-1042490cd79b": {
+      "id": "4d13f32e-97f2-493b-9069-1042490cd79b",
       "type": "Person",
       "name": "Madoc TS"
     }

@@ -23,8 +23,8 @@ export function validateRevision(
     // We will re-apply the filter that was applied to the frontend.
     // Even if this does not match the structure, it still _needs_ to be
     // describe the fields correctly in order to be valid.
-    const filteredDocument = filterDocumentByRevision(req.document, req.revision);
-    if (!filteredDocument) {
+    const filteredDocument = filterDocumentByRevision(req.document, req.revision, captureModel.revisions);
+    if (!filteredDocument && req.revision.deletedFields?.length === 0) {
       throw new Error('Invalid revision');
     }
 

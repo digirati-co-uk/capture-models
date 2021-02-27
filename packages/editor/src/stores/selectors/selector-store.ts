@@ -35,7 +35,7 @@ export function updateSelectorStore(document?: CaptureModel['document'], prefixP
         }
         if (selectorIds.indexOf(selector.id) === -1) {
           selectors.push(selector);
-          selectorIds.push(selector.id)
+          selectorIds.push(selector.id);
         }
       },
       visitField: recordPath,

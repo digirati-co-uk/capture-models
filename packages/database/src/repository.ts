@@ -1,6 +1,7 @@
-import { Brackets, EntityManager, EntityRepository } from 'typeorm';
+import { EntityManager, EntityRepository } from 'typeorm';
 import {
   BaseField,
+  BaseSelector,
   CaptureModel as CaptureModelType,
   Contributor as ContributorType,
   RevisionRequest,
@@ -38,6 +39,8 @@ import { partialDocumentsToInserts } from './utility/partial-documents-to-insert
 import { RevisionAuthors } from './entity/RevisionAuthors';
 import { diffAuthors } from './utility/diff-authors';
 import { PublishedFields } from './entity/PublishedFields';
+import { SelectorInstance } from './entity/SelectorInstance';
+import { fromSelector } from './mapping/from-selector';
 
 @EntityRepository()
 export class CaptureModelRepository {
@@ -75,7 +78,9 @@ export class CaptureModelRepository {
       .leftJoinAndSelect('property.fieldInstances', 'fi')
       .leftJoinAndSelect('property.documentInstances', 'di')
       .leftJoinAndSelect('di.selector', 'dis')
+      .leftJoinAndSelect('dis.revisedBy', 'dirs')
       .leftJoinAndSelect('fi.selector', 'fis')
+      .leftJoinAndSelect('fis.revisedBy', 'firs')
       .leftJoinAndSelect('revision.authors', 'ri')
       .where('doc.captureModelId = :id', { id })
       .addOrderBy('di.revisionOrder', 'ASC')
@@ -103,60 +108,15 @@ export class CaptureModelRepository {
           `Invalid revision status ${revisionStatus}, should be one of ['draft', 'submitted', 'accepted']`
         );
       }
-      // builder.andWhere(
-      //   new Brackets(qb =>
-      //     includeCanonical
-      //       ? qb
-      //           // Add the revision id.
-      //           .where('dir.status = :status', { status: revisionStatus.toLowerCase() })
-      //           .orWhere('fir.status = :status', { status: revisionStatus.toLowerCase() })
-      //           .orWhere('(di.revision IS NULL AND fi.revision IS NULL)')
-      //       : qb
-      //           // Add the revision id.
-      //           .where('dir.status = :status', { status: revisionStatus.toLowerCase() })
-      //           .orWhere('fir.status = :status', { status: revisionStatus.toLowerCase() })
-      //   )
-      // );
     }
 
-    // if (userId) {
-    //   builder
-    //     .leftJoin('fir.authors', 'fira')
-    //     .leftJoin('dir.authors', 'dira')
-    //     .andWhere(
-    //       new Brackets(qb =>
-    //         qb
-    //           // Add the revision id.
-    //           .where('dira.contributorId = :userId', { userId })
-    //           .orWhere('fira.contributorId = :userId', { userId })
-    //           .orWhere('(di.revision IS NULL AND fi.revision IS NULL)')
-    //       )
-    //     );
-    // }
-
-    // This will not work as you cannot get nested entities for revisions.
-    // if (revisionId) {
-    //   builder.andWhere(
-    //     new Brackets(qb =>
-    //       qb
-    //         // Add the revision id.
-    //         .where('di.revisionId = :rid', { rid: revisionId })
-    //         .orWhere('fi.revisionId = :rid', { rid: revisionId })
-    //     )
-    //   );
-    // }
-
     const captureModel = await builder.getOne();
-
-    // if (revisionStatus) {
-    //   captureModel.revisions = captureModel.revisions.filter(r => r.status === revisionStatus.toLowerCase());
-    // }
 
     if (!captureModel) {
       throw new Error(`Capture model ${id} not found`);
     }
 
-    return (await toCaptureModel(captureModel, { revisionId, userId })) as any;
+    return (await toCaptureModel(captureModel, { revisionId, userId, revisionStatus })) as any;
   }
 
   /**
@@ -571,6 +531,17 @@ export class CaptureModelRepository {
           entity.revision = newId;
           if (entity.selector) {
             entity.selector.id = generateId();
+            if (entity.selector.revisedBy) {
+              for (const selector of entity.selector.revisedBy) {
+                if (selector.revisionId && selector.revisionId === originalId) {
+                  selector.id = generateId();
+                  selector.revisionId = newId;
+                  if (selector.revises) {
+                    selector.revises = entity.selector.id;
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -649,16 +620,28 @@ export class CaptureModelRepository {
       term?: string;
       parent?: CaptureModelType['document'];
     }> = [];
+    const selectorsToHydrate: Array<{
+      selector: BaseSelector;
+      parentSelector: BaseSelector;
+    }> = [];
 
     traverseDocument(req.document, {
       visitField(field, term, parent) {
-        if (parent.immutable) {
+        if (parent.immutable && field.revision === req.revision.id) {
           fieldsToAdd.push({ field, term, parent });
         }
       },
       visitEntity(entity, term, parent) {
         if (entity.immutable === false && parent && parent.immutable) {
           docsToHydrate.push({ entity, term, parent });
+        }
+      },
+      visitSelector(selector, parent, isRevision, parentSelector) {
+        if (isRevision && selector.revisionId && selector.revisionId === req.revision.id) {
+          selectorsToHydrate.push({
+            selector,
+            parentSelector,
+          });
         }
       },
     });
@@ -690,18 +673,27 @@ export class CaptureModelRepository {
       throw new Error('Not yet implemented [allow overwrite]');
     }
 
-    if (fieldsToAdd.length === 0 && docsToHydrate.length === 0 && revisionToDelete.length === 0) {
+    if (
+      fieldsToAdd.length === 0 &&
+      docsToHydrate.length === 0 &&
+      revisionToDelete.length === 0 &&
+      selectorsToHydrate.length === 0
+    ) {
       throw new Error('Invalid revision - no valid fields or documents found');
     }
 
     const contributor = req.author ? fromContributor(req.author) : null;
 
     // Everything we need to add into the database.
-    const dbInserts: (Field | Document | Property | Contributor | RevisionAuthors)[][] = [
+    const dbInserts: (Field | Document | Property | Contributor | RevisionAuthors | SelectorInstance)[][] = [
       // Map the documents, adding missing fields if required.
       ...partialDocumentsToInserts(docsToHydrate, entityMap, captureModel.document.id),
       // Map the fields
       fieldsToInserts(fieldsToAdd),
+      // Map the selectors (should be good as is?)
+      selectorsToHydrate.map(s => {
+        return fromSelector(s.selector, s.parentSelector);
+      }),
     ];
 
     const revision = fromRevisionRequest(req);
@@ -784,7 +776,7 @@ export class CaptureModelRepository {
     }
 
     // Filter the new document with the stored revision (to be sure.)
-    const newFilteredDocument = filterDocumentByRevision(req.document, storedRevision.revision);
+    const newFilteredDocument = filterDocumentByRevision(req.document, storedRevision.revision, captureModel.revisions);
     if (!newFilteredDocument) {
       throw new Error('Invalid revision');
     }
@@ -813,6 +805,14 @@ export class CaptureModelRepository {
           if (entity.selector) {
             selectorIds.push(entity.selector.id);
             selectorMap[entity.selector.id] = entity.selector.state;
+            if (entity.selector.revisedBy) {
+              for (const revisedSelector of entity.selector.revisedBy) {
+                if (revisedSelector.revisionId && revisedSelector.revisionId === req.revision.id) {
+                  selectorIds.push(revisedSelector.id);
+                  selectorMap[revisedSelector.id] = revisedSelector.state;
+                }
+              }
+            }
           }
         }
       },
@@ -829,6 +829,10 @@ export class CaptureModelRepository {
       term?: string;
       parent?: CaptureModelType['document'];
       index?: number;
+    }> = [];
+    const selectorsToHydrate: Array<{
+      selector: BaseSelector;
+      parentSelector: BaseSelector;
     }> = [];
 
     // Apply new document changes.
@@ -864,6 +868,20 @@ export class CaptureModelRepository {
         }
         entityIds.splice(fieldIds.indexOf(entity.id), 1);
       },
+      visitSelector(selector, parent, isRevision, parentSelector) {
+        if (
+          isRevision &&
+          selector.revisionId &&
+          selector.revisionId === req.revision.id &&
+          selector &&
+          !deepEqual(selectorMap[selector.id].state, selector.state)
+        ) {
+          selectorsToHydrate.push({
+            selector,
+            parentSelector,
+          });
+        }
+      },
     });
 
     if (allowDeletedFields === false && (fieldIds.length || entityIds.length)) {
@@ -883,6 +901,10 @@ export class CaptureModelRepository {
       ...partialDocumentsToInserts(docsToHydrate, entityMap, captureModel.document.id),
       // Map the fields
       fieldsToInserts(fieldsToAdd),
+      // And selectors
+      selectorsToHydrate.map(s => {
+        return fromSelector(s.selector, s.parentSelector);
+      }),
     ];
 
     const dbRemovals: (Field | Document)[] = [
