@@ -15,18 +15,11 @@ import {
   isEntity,
   traverseStructure,
   filterEmptyStructures,
+  resolveSubtreeWithIds,
+  forkFieldEditMode,
+  forkSelectorEditMode,
+  resolveSelector,
 } from '@capture-models/helpers';
-
-function resolveSubtreeWithIds(subtreePath: [string, string, boolean?][], document: CaptureModel['document']) {
-  return subtreePath.reduce((acc, [term, id]) => {
-    const propValue = acc.properties[term];
-    const singleModel = (propValue as CaptureModel['document'][]).find(value => value.id === id);
-    if (!propValue.length || !singleModel) {
-      throw Error(`Invalid prop: ${term} with id ${id} in list ${subtreePath.join(',')}`);
-    }
-    return singleModel as CaptureModel['document'];
-  }, document);
-}
 
 export const revisionStore: RevisionsModel = {
   // Can we safely assume the structure won't change in this store? - I think so.
@@ -286,16 +279,53 @@ export const revisionStore: RevisionsModel = {
   updateSelector: action((state, payload) => {
     const selectorToUpdate = state.selector.availableSelectors.find(selector => selector.id === payload.selectorId);
     if (selectorToUpdate) {
-      selectorToUpdate.state = payload.state;
-
       const path = state.selector.selectorPaths[selectorToUpdate.id];
       const field = getRevisionFieldFromPath<BaseField>(state, path);
+
+      if (state.revisionEditMode && state.currentRevisionId) {
+        const existingRevisedSelector = selectorToUpdate.revisedBy
+          ? selectorToUpdate.revisedBy.find(r => r.revisionId === state.currentRevisionId)
+          : undefined;
+        if (existingRevisedSelector) {
+          // We have already "forked" this selector, update it.
+          existingRevisedSelector.state = payload.state;
+          // Also need to update the field.
+        } else {
+          const newSelector = forkSelectorEditMode(selectorToUpdate, state.currentRevisionId, payload.state);
+          if (selectorToUpdate.revisedBy) {
+            selectorToUpdate.revisedBy.push(newSelector);
+          } else {
+            selectorToUpdate.revisedBy = [newSelector];
+          }
+
+          if (field && field.selector) {
+            if (!field.selector.revisedBy) {
+              field.selector.revisedBy = [newSelector];
+            } else {
+              field.selector.revisedBy.push(newSelector);
+            }
+          }
+        }
+
+        if (field && field.selector) {
+          const existingRevisedFieldSelector = field.selector.revisedBy
+            ? field.selector.revisedBy.find(r => r.revisionId === state.currentRevisionId)
+            : undefined;
+
+          // If the existing selector exists, then update it, otherwise create it.
+          if (existingRevisedFieldSelector) {
+            existingRevisedFieldSelector.state = payload.state;
+          }
+        }
+
+        return;
+      }
+
+      // Normal fallback. Simply update the selector and the field selector.
+      selectorToUpdate.state = payload.state;
       if (field && field.selector) {
         field.selector.state = payload.state;
       }
-      // if (onUpdateSelector) {
-      //   onUpdateSelector(payload.selectorId, payload.state);
-      // }
     }
   }),
   // @todo update selector on revision
@@ -435,6 +465,7 @@ export const revisionStore: RevisionsModel = {
         ...baseRevision.revision,
         approved: false, // @todo this is where auto-approval config might go, will still be server checked.
         id: newRevisionId,
+        revises: baseRevision.revision.id,
       };
       // Save new revision request.
       state.revisions[newRevisionId] = newRevisionRequest;
@@ -519,8 +550,19 @@ export const revisionStore: RevisionsModel = {
   // These will probably have to walk through the revision.
   updateFieldValue: action((state, { value, path, revisionId }) => {
     const field = getRevisionFieldFromPath<BaseField>(state, path, revisionId);
+    const parent = getRevisionFieldFromPath<CaptureModel['document']>(state, path.slice(0, -1), revisionId);
     if (field) {
       field.value = value;
+
+      if (state.revisionEditMode && state.currentRevisionId && parent && parent.immutable) {
+        const { newSelectors } = forkFieldEditMode(field, state.currentRevisionId);
+        if (newSelectors) {
+          for (const newSelector of newSelectors) {
+            state.selector.availableSelectors.push(newSelector);
+            state.selector.selectorPaths[newSelector.id] = [...path];
+          }
+        }
+      }
     }
   }),
 
@@ -533,6 +575,10 @@ export const revisionStore: RevisionsModel = {
 
     // Fork a new field from what already exists.
     const newField = createNewFieldInstance(debug(entity), property);
+
+    if (newField) {
+      newField.revision = state.currentRevisionId || undefined;
+    }
 
     // Push it onto the properties.
     (entity.properties[property] as BaseField[]).push(newField);
@@ -554,9 +600,19 @@ export const revisionStore: RevisionsModel = {
     }
 
     // Fork a new field from what already exists.
-    const newField = createNewEntityInstance(debug(entity), property);
+    const newEntity: CaptureModel['document'] = createNewEntityInstance(
+      debug(entity),
+      property,
+      false,
+      state.currentRevisionId
+    );
 
-    const { availableSelectors, selectorPaths } = updateSelectorStore(newField, [...path, [property, newField.id]]);
+    if (newEntity) {
+      // Always add the current revision.
+      newEntity.revision = state.currentRevisionId || undefined;
+    }
+
+    const { availableSelectors, selectorPaths } = updateSelectorStore(newEntity, [...path, [property, newEntity.id]]);
 
     if (availableSelectors.length) {
       state.selector.availableSelectors.push(...availableSelectors);
@@ -567,19 +623,30 @@ export const revisionStore: RevisionsModel = {
     }
 
     // Push it onto the properties.
-    (entity.properties[property] as CaptureModel['document'][]).push(newField);
+    (entity.properties[property] as CaptureModel['document'][]).push(newEntity);
   }),
   removeInstance: action((state, { path, revisionId }) => {
     const [fieldProp, fieldId] = path.slice(-1)[0];
     const pathToResource = path.slice(0, -1);
     // console.log('removing instance', pathToResource, fieldProp, fieldId);
     const entity = getRevisionFieldFromPath<CaptureModel['document']>(state, pathToResource, revisionId);
+
     const fields = entity ? entity.properties[fieldProp] : undefined;
     if (entity && fields) {
       if (fields.length === 1) {
         throw new Error('Cannot delete last item');
       }
       const fieldOrEntity = (debug(fields) as any[]).find(f => f.id === fieldId);
+
+      if (state.currentRevisionId && fieldOrEntity.revision !== state.currentRevisionId) {
+        if (!state.revisions[state.currentRevisionId].revision.deletedFields) {
+          state.revisions[state.currentRevisionId].revision.deletedFields = [fieldOrEntity.id];
+        } else {
+          // @ts-ignore
+          state.revisions[state.currentRevisionId].revision.deletedFields.push(fieldOrEntity.id);
+        }
+      }
+
       if (fieldOrEntity.type === 'entity') {
         const { availableSelectors } = updateSelectorStore(fieldOrEntity);
         if (availableSelectors.length) {
