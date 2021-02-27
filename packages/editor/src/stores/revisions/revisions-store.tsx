@@ -325,11 +325,10 @@ export const revisionStore: RevisionsModel = {
   // - Show only focused annotations
   // - Hide current entity
   // - Show all annotations below
-  visibleCurrentLevelSelectorIds: computed(state => {
+  visibleCurrentLevelSelectorIds: computed([state => state.revisionSubtree], currentSubtree => {
     // By default if you were on a paragraph, this would return the paragraph and all of the lines.
     // It would be up to some external configuration to not show the paragraph if desired. Perhaps a configuration
     // in here in the future, or configuration in the viewer.
-    const currentSubtree = state.revisionSubtree;
     if (!currentSubtree) {
       return [];
     }
