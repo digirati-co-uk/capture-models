@@ -20,7 +20,7 @@
       "@types/slonik": "^22.1.2",
       "@types/uuid": "^3.4.7",
       "ts-node": "3.3.0",
-      "typescript": "^3.7.5"
+      "typescript": "^3.9.9"
    },
    "dependencies": {
       "@capture-models/helpers": "^0.12.0",

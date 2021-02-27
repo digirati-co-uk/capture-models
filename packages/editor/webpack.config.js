@@ -6,8 +6,9 @@ config.output.globalObject = 'this';
 config.externals = config.externals
   ? config.externals
   : {
-      react: 'React',
-      'react-dom': 'ReactDOM',
+      react: 'react',
+      'react-dom': 'react-dom',
+      'styled-components': 'styled-components',
     };
 
 module.exports = config;
