@@ -4,7 +4,12 @@ import { Document } from '../../types/src/capture-model';
 import { BaseField } from '../../types/src/field-types';
 import { generateId } from './generate-id';
 
-export function createNewFieldInstance(entity: Document, property: string, multipleOverride = false): BaseField {
+export function createNewFieldInstance(
+  entity: Document,
+  property: string,
+  multipleOverride = false,
+  revisionId?: string | null
+): BaseField {
   // Grab the property itself from the entity.
   const prop = entity.properties[property];
   if (!prop || prop.length <= 0) {
@@ -30,6 +35,12 @@ export function createNewFieldInstance(entity: Document, property: string, multi
   if (newField.selector) {
     newField.selector.id = generateId();
     newField.selector.state = null;
+  }
+  if (newField.revises) {
+    newField.revises = undefined;
+  }
+  if (revisionId) {
+    newField.revision = revisionId;
   }
 
   return newField;

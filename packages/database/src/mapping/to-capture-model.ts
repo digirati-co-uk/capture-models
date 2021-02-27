@@ -5,14 +5,31 @@ import { toDocument } from './to-document';
 import { toRevision } from './to-revision';
 import { toStructure } from './to-structure';
 
+function recurseRevisionDependencies(revisionId: string, revisions: CaptureModel['revisions']): string[] {
+  const rev = revisions.find(r => r.id === revisionId);
+
+  if (!rev) {
+    return [];
+  }
+
+  if (rev.revisesId) {
+    return [revisionId, ...recurseRevisionDependencies(rev.revisesId, revisions)];
+  }
+
+  return [revisionId];
+}
+
 export async function toCaptureModel(
   { document, target, structure, revisions, contributors, integrity, id, derivedFromId, profile }: CaptureModel,
-  filters: { userId?: string; revisionId?: string } = {}
+  filters: { userId?: string; revisionId?: string; revisionStatus?: string } = {}
 ): Promise<CaptureModelType> {
-  const revisionIds: string[] = filters.userId
+  const baseRevisionIds: string[] = filters.userId
     ? revisions
         .filter(rev => {
           if (filters.revisionId && filters.revisionId !== rev.id) {
+            return false;
+          }
+          if (filters.revisionStatus && rev.status !== filters.revisionStatus) {
             return false;
           }
           for (const author of rev.authors) {
@@ -25,6 +42,13 @@ export async function toCaptureModel(
         .map(rev => rev.id)
     : filters.revisionId
     ? [filters.revisionId]
+    : undefined;
+  const revisionIds = baseRevisionIds
+    ? baseRevisionIds
+        .map(rid => recurseRevisionDependencies(rid, revisions))
+        .reduce((acc, next) => {
+          return [...acc, ...next];
+        }, [] as string[])
     : undefined;
 
   const publishedRevisions = revisions.filter(r => r.approved);

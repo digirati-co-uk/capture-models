@@ -4,7 +4,12 @@ import { createNewFieldInstance } from './create-new-field-instance';
 import { generateId } from './generate-id';
 import { isEntityList } from './is-entity';
 
-export function createNewEntityInstance(entity: Document, property: string, multipleOverride = false): Document {
+export function createNewEntityInstance(
+  entity: Document,
+  property: string,
+  multipleOverride = false,
+  revisionId?: string | null
+): Document {
   // Grab the property itself from the entity.
   const prop = entity.properties[property];
   if (!prop || prop.length <= 0) {
@@ -26,9 +31,9 @@ export function createNewEntityInstance(entity: Document, property: string, mult
 
   for (const propName of propNames) {
     if (isEntityList(template.properties[propName])) {
-      newProperties[propName] = [createNewEntityInstance(template, propName, true)];
+      newProperties[propName] = [createNewEntityInstance(template, propName, true, revisionId)];
     } else {
-      newProperties[propName] = [createNewFieldInstance(template, propName, true)];
+      newProperties[propName] = [createNewFieldInstance(template, propName, true, revisionId)];
     }
   }
 
@@ -37,6 +42,13 @@ export function createNewEntityInstance(entity: Document, property: string, mult
   if (clonedRestOfEntity.selector) {
     clonedRestOfEntity.selector.id = generateId();
     clonedRestOfEntity.selector.state = null;
+  }
+  clonedRestOfEntity.immutable = false;
+  if (clonedRestOfEntity.revises) {
+    clonedRestOfEntity.revises = undefined;
+  }
+  if (revisionId) {
+    clonedRestOfEntity.revision = revisionId;
   }
 
   return clonedRestOfEntity as Document;

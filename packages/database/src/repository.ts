@@ -108,60 +108,15 @@ export class CaptureModelRepository {
           `Invalid revision status ${revisionStatus}, should be one of ['draft', 'submitted', 'accepted']`
         );
       }
-      // builder.andWhere(
-      //   new Brackets(qb =>
-      //     includeCanonical
-      //       ? qb
-      //           // Add the revision id.
-      //           .where('dir.status = :status', { status: revisionStatus.toLowerCase() })
-      //           .orWhere('fir.status = :status', { status: revisionStatus.toLowerCase() })
-      //           .orWhere('(di.revision IS NULL AND fi.revision IS NULL)')
-      //       : qb
-      //           // Add the revision id.
-      //           .where('dir.status = :status', { status: revisionStatus.toLowerCase() })
-      //           .orWhere('fir.status = :status', { status: revisionStatus.toLowerCase() })
-      //   )
-      // );
     }
 
-    // if (userId) {
-    //   builder
-    //     .leftJoin('fir.authors', 'fira')
-    //     .leftJoin('dir.authors', 'dira')
-    //     .andWhere(
-    //       new Brackets(qb =>
-    //         qb
-    //           // Add the revision id.
-    //           .where('dira.contributorId = :userId', { userId })
-    //           .orWhere('fira.contributorId = :userId', { userId })
-    //           .orWhere('(di.revision IS NULL AND fi.revision IS NULL)')
-    //       )
-    //     );
-    // }
-
-    // This will not work as you cannot get nested entities for revisions.
-    // if (revisionId) {
-    //   builder.andWhere(
-    //     new Brackets(qb =>
-    //       qb
-    //         // Add the revision id.
-    //         .where('di.revisionId = :rid', { rid: revisionId })
-    //         .orWhere('fi.revisionId = :rid', { rid: revisionId })
-    //     )
-    //   );
-    // }
-
     const captureModel = await builder.getOne();
-
-    // if (revisionStatus) {
-    //   captureModel.revisions = captureModel.revisions.filter(r => r.status === revisionStatus.toLowerCase());
-    // }
 
     if (!captureModel) {
       throw new Error(`Capture model ${id} not found`);
     }
 
-    return (await toCaptureModel(captureModel, { revisionId, userId })) as any;
+    return (await toCaptureModel(captureModel, { revisionId, userId, revisionStatus })) as any;
   }
 
   /**
@@ -672,7 +627,7 @@ export class CaptureModelRepository {
 
     traverseDocument(req.document, {
       visitField(field, term, parent) {
-        if (parent.immutable) {
+        if (parent.immutable && field.revision === req.revision.id) {
           fieldsToAdd.push({ field, term, parent });
         }
       },
@@ -821,7 +776,7 @@ export class CaptureModelRepository {
     }
 
     // Filter the new document with the stored revision (to be sure.)
-    const newFilteredDocument = filterDocumentByRevision(req.document, storedRevision.revision);
+    const newFilteredDocument = filterDocumentByRevision(req.document, storedRevision.revision, captureModel.revisions);
     if (!newFilteredDocument) {
       throw new Error('Invalid revision');
     }
