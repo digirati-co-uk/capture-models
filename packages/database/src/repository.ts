@@ -571,6 +571,17 @@ export class CaptureModelRepository {
           entity.revision = newId;
           if (entity.selector) {
             entity.selector.id = generateId();
+            if (entity.selector.revisedBy) {
+              for (const selector of entity.selector.revisedBy) {
+                if (selector.revisionId && selector.revisionId === originalId) {
+                  selector.id = generateId();
+                  selector.revisionId = newId;
+                  if (selector.revises) {
+                    selector.revises = entity.selector.id;
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -649,6 +660,10 @@ export class CaptureModelRepository {
       term?: string;
       parent?: CaptureModelType['document'];
     }> = [];
+    const selectorsToHydrate: Array<{
+      selector: BaseSelector;
+      parentSelector: BaseSelector;
+    }> = [];
 
     traverseDocument(req.document, {
       visitField(field, term, parent) {
@@ -659,6 +674,14 @@ export class CaptureModelRepository {
       visitEntity(entity, term, parent) {
         if (entity.immutable === false && parent && parent.immutable) {
           docsToHydrate.push({ entity, term, parent });
+        }
+      },
+      visitSelector(selector, parent, isRevision, parentSelector) {
+        if (isRevision && selector.revisionId && selector.revisionId === req.revision.id) {
+          selectorsToHydrate.push({
+            selector,
+            parentSelector,
+          });
         }
       },
     });
@@ -690,18 +713,27 @@ export class CaptureModelRepository {
       throw new Error('Not yet implemented [allow overwrite]');
     }
 
-    if (fieldsToAdd.length === 0 && docsToHydrate.length === 0 && revisionToDelete.length === 0) {
+    if (
+      fieldsToAdd.length === 0 &&
+      docsToHydrate.length === 0 &&
+      revisionToDelete.length === 0 &&
+      selectorsToHydrate.length === 0
+    ) {
       throw new Error('Invalid revision - no valid fields or documents found');
     }
 
     const contributor = req.author ? fromContributor(req.author) : null;
 
     // Everything we need to add into the database.
-    const dbInserts: (Field | Document | Property | Contributor | RevisionAuthors)[][] = [
+    const dbInserts: (Field | Document | Property | Contributor | RevisionAuthors | SelectorInstance)[][] = [
       // Map the documents, adding missing fields if required.
       ...partialDocumentsToInserts(docsToHydrate, entityMap, captureModel.document.id),
       // Map the fields
       fieldsToInserts(fieldsToAdd),
+      // Map the selectors (should be good as is?)
+      selectorsToHydrate.map(s => {
+        return fromSelector(s.selector, s.parentSelector);
+      }),
     ];
 
     const revision = fromRevisionRequest(req);
@@ -813,6 +845,14 @@ export class CaptureModelRepository {
           if (entity.selector) {
             selectorIds.push(entity.selector.id);
             selectorMap[entity.selector.id] = entity.selector.state;
+            if (entity.selector.revisedBy) {
+              for (const revisedSelector of entity.selector.revisedBy) {
+                if (revisedSelector.revisionId && revisedSelector.revisionId === req.revision.id) {
+                  selectorIds.push(revisedSelector.id);
+                  selectorMap[revisedSelector.id] = revisedSelector.state;
+                }
+              }
+            }
           }
         }
       },
@@ -829,6 +869,10 @@ export class CaptureModelRepository {
       term?: string;
       parent?: CaptureModelType['document'];
       index?: number;
+    }> = [];
+    const selectorsToHydrate: Array<{
+      selector: BaseSelector;
+      parentSelector: BaseSelector;
     }> = [];
 
     // Apply new document changes.
@@ -864,6 +908,20 @@ export class CaptureModelRepository {
         }
         entityIds.splice(fieldIds.indexOf(entity.id), 1);
       },
+      visitSelector(selector, parent, isRevision, parentSelector) {
+        if (
+          isRevision &&
+          selector.revisionId &&
+          selector.revisionId === req.revision.id &&
+          selector &&
+          !deepEqual(selectorMap[selector.id].state, selector.state)
+        ) {
+          selectorsToHydrate.push({
+            selector,
+            parentSelector,
+          });
+        }
+      },
     });
 
     if (allowDeletedFields === false && (fieldIds.length || entityIds.length)) {
@@ -883,6 +941,10 @@ export class CaptureModelRepository {
       ...partialDocumentsToInserts(docsToHydrate, entityMap, captureModel.document.id),
       // Map the fields
       fieldsToInserts(fieldsToAdd),
+      // And selectors
+      selectorsToHydrate.map(s => {
+        return fromSelector(s.selector, s.parentSelector);
+      }),
     ];
 
     const dbRemovals: (Field | Document)[] = [

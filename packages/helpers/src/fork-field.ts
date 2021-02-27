@@ -59,8 +59,22 @@ export function formPropertyValue<T extends BaseField | CaptureModel['document']
     // Finally, set a new ID.
     newField.id = generateId();
 
+    // Update selector.
     if (newField.selector) {
-      newField.selector.id = generateId();
+      if (newField.selector.revisedBy) {
+        // Selector has changed, can unwrap.
+        const foundRevision = newField.selector.revisedBy.find(r => r.revisionId === revision);
+        if (foundRevision) {
+          newField.selector.id = foundRevision.id;
+          newField.selector.state = foundRevision.state;
+          delete newField.selector.revisedBy;
+        } else {
+          newField.selector.id = generateId();
+        }
+      } else {
+        // Selector has not yet changed.
+        newField.selector.id = generateId();
+      }
     }
   }
 

@@ -6,6 +6,9 @@ export type BaseSelector = {
   id: string;
   type: string;
   state: any;
+  revisionId?: string | null;
+  revises?: string | null;
+  revisedBy?: BaseSelector[];
 };
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
