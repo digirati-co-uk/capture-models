@@ -409,8 +409,8 @@ export const revisionStore: RevisionsModel = {
       const baseRevision = state.revisions[revisionId];
       // Structure ID is the structure from the capture model, so if this exists we can set fields.
       if (!baseRevision) {
-        // @todo error handling.
-        return;
+        console.warn('Invalid base revision', revisionId, debug(state.revisions));
+        throw new Error(`Invalid base revision ${revisionId}`);
       }
       // Document
       const documentToClone = baseRevision.document;
