@@ -12,11 +12,17 @@ export const captureModelApi: RouteMiddleware<{ id: string }> = async (ctx, next
 
   const canSeeFullModel = userCan('models.create', ctx.state);
 
-  const { author, revisionId } = ctx.query;
-  const published = castBool(ctx.query.published, true);
+  const query = ctx.query as {
+    author: string;
+    revisionId: string;
+    revision_id: string;
+    published: string;
+  };
+
+  const published = castBool(query.published, true);
   // Remove this option for now.
   // const showAll = castBool(ctx.query._all, false);
-  const onlyUser = canSeeFullModel ? author : userUrn;
+  const onlyUser = canSeeFullModel ? query.author : userUrn;
 
   // - Only published
   // - Published + their own revisions (models.contribute)
@@ -30,7 +36,7 @@ export const captureModelApi: RouteMiddleware<{ id: string }> = async (ctx, next
     ctx.body = await ctx.db.api.getCaptureModel(ctx.params.id, {
       context: ctx.state.jwt.context,
       includeCanonical: !!published,
-      revisionId,
+      revisionId: query.revision_id || query.revisionId,
       userId: onlyUser,
     });
   } catch (err) {

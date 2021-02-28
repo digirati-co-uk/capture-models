@@ -8,7 +8,7 @@ export function getToken<Token extends {}>(context: Context): string | null {
   }
 
   if (context.query && context.query.token) {
-    return context.query.token;
+    return context.query.token as string;
   }
 
   return null;

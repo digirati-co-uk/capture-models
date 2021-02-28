@@ -8,7 +8,7 @@ export const searchPublished: RouteMiddleware = async (ctx, next) => {
   }
 
   const { q: query, manifest, canvas, collection, field_type, parent_property, selector_type, capture_model_id } =
-    ctx.request.query || {};
+    (ctx.request.query as any) || {};
 
   const queryBlock: any = {};
 
