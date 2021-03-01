@@ -554,7 +554,7 @@ export const revisionStore: RevisionsModel = {
     if (field) {
       field.value = value;
 
-      if (state.revisionEditMode && state.currentRevisionId && parent && parent.immutable) {
+      if (state.revisionEditMode && state.currentRevisionId && parent && parent.revision !== state.currentRevisionId) {
         const { newSelectors } = forkFieldEditMode(field, state.currentRevisionId);
         if (newSelectors) {
           for (const newSelector of newSelectors) {
