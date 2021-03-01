@@ -6,6 +6,7 @@ import { filterCaptureModel } from './filter-capture-model';
 import { flattenStructures } from './flatten-structures';
 import { recurseRevisionDependencies } from './recurse-revision-dependencies';
 import { filterEmptyFields, filterRemovedFields } from './field-post-filters';
+import { traverseDocument } from './traverse-document';
 
 export function captureModelToRevisionList(
   captureModel: CaptureModel,
@@ -38,7 +39,7 @@ export function captureModelToRevisionList(
       captureModel.document,
       flatFields,
       field => {
-        return field.revision ? allRevisions.indexOf(field.revision) !== -1 : false;
+        return field.revision ? allRevisions.indexOf(field.revision) !== -1 : true;
       },
       [
         // Filter removed fields.
@@ -49,6 +50,15 @@ export function captureModelToRevisionList(
     );
 
     if (document) {
+      // Make entities immutable.
+      traverseDocument(document, {
+        visitEntity(entity) {
+          if (entity.revision && entity.revision !== revision.id) {
+            entity.immutable = true;
+          }
+        }
+      })
+
       models.push(createRevisionRequest(captureModel, revision, document));
     }
   }

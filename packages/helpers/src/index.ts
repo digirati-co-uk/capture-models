@@ -19,6 +19,7 @@ export * from './filter-document-by-revision';
 export * from './filter-document-graph';
 export * from './filter-empty-structure-fields';
 export * from './filter-empty-structures';
+export * from './filter-revises';
 export * from './find-structure';
 export * from './flatten-structures';
 export * from './fork-field';
