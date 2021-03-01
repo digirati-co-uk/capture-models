@@ -87,106 +87,100 @@ export const FieldEditor: React.FC<{
       >
         <Form>
           <AutoSaveFormik />
-          <Grid>
-            <GridColumn half>
-              <StyledFormField>
-                <StyledFormLabel>
-                  Label
-                  <Field as={StyledFormInputElement} type="text" name="label" required={true} />
-                </StyledFormLabel>
-              </StyledFormField>
-              <StyledFormField>
-                <StyledFormLabel>
-                  Description
-                  <Field as={StyledFormTextarea} name="description" />
-                </StyledFormLabel>
-              </StyledFormField>
-              {onChangeFieldType ? (
-                <StyledFormField>
-                  <StyledFormLabel>
-                    Field type
-                    <ChooseFieldButton
-                      fieldType={field.type}
-                      onChange={t =>
-                        t && fields[t] ? onChangeFieldType(t as any, (fields[t] as any).defaultProps, term) : null
-                      }
-                    />
-                  </StyledFormLabel>
-                </StyledFormField>
-              ) : null}
-              {dataSources ? (
-                <StyledFormField>
-                  <StyledFormLabel>
-                    Dynamic data sources
-                    <MultiDropdown
-                      placeholder="Choose data sources"
-                      fluid
-                      selection
-                      value={dataSource}
-                      onChange={val => {
-                        setDataSource(val || []);
-                      }}
-                      options={dataSources.map(source => {
-                        return {
-                          key: source.id,
-                          text: source.name || '',
-                          value: source.id,
-                        };
-                      })}
-                    />
-                  </StyledFormLabel>
-                </StyledFormField>
-              ) : null}
-              <StyledFormField>
-                <StyledFormLabel>
-                  Choose selector (optional)
-                  <ChooseSelectorButton
-                    value={props.selector ? props.selector.type : ''}
-                    onChange={t => {
-                      if (t) {
-                        const chosenSelector = selectors[t as keyof SelectorTypeMap];
-                        if (chosenSelector) {
-                          setSelector({
-                            id: generateId(),
-                            type: chosenSelector.type,
-                            state: copy(chosenSelector.defaultState),
-                          });
-                        }
-                      } else {
-                        setSelector(undefined);
-                      }
-                    }}
-                  />
-                </StyledFormLabel>
-              </StyledFormField>
-              <StyledFormField>
-                <StyledFormLabel>
-                  <Field as={StyledCheckbox} type="checkbox" name="allowMultiple" style={{ marginRight: 10 }} />
-                  Allow multiple instances
-                </StyledFormLabel>
-              </StyledFormField>
-              <StyledFormField>
-                <StyledFormLabel>
-                  Plural label (used when referring to lists of this document)
-                  <Field as={StyledFormInputElement} type="text" name="pluralField" />
-                </StyledFormLabel>
-              </StyledFormField>
-              {editor}
-            </GridColumn>
-            <GridColumn half>
-              <Segment>
-                <h3 style={{ textAlign: 'center' }}>Preview</h3>
-                <FormPreview
-                  key={`${props.type}-${term}`}
-                  type={props.type}
-                  term={term}
-                  defaultValue={defaultValue}
-                  setDefaultValue={setDefaultValue}
-                  mapValues={field.onEditorSubmit}
+          <Segment>
+            <h3 style={{ textAlign: 'center' }}>Preview</h3>
+            <FormPreview
+              key={`${props.type}-${term}`}
+              type={props.type}
+              term={term}
+              defaultValue={defaultValue}
+              setDefaultValue={setDefaultValue}
+              mapValues={field.onEditorSubmit}
+            />
+          </Segment>
+          <StyledFormField>
+            <StyledFormLabel>
+              Label
+              <Field as={StyledFormInputElement} type="text" name="label" required={true} />
+            </StyledFormLabel>
+          </StyledFormField>
+          <StyledFormField>
+            <StyledFormLabel>
+              Description
+              <Field as={StyledFormTextarea} name="description" />
+            </StyledFormLabel>
+          </StyledFormField>
+          {onChangeFieldType ? (
+            <StyledFormField>
+              <StyledFormLabel>
+                Field type
+                <ChooseFieldButton
+                  fieldType={field.type}
+                  onChange={t =>
+                    t && fields[t] ? onChangeFieldType(t as any, (fields[t] as any).defaultProps, term) : null
+                  }
                 />
-              </Segment>
-            </GridColumn>
-          </Grid>
+              </StyledFormLabel>
+            </StyledFormField>
+          ) : null}
+          {dataSources ? (
+            <StyledFormField>
+              <StyledFormLabel>
+                Dynamic data sources
+                <MultiDropdown
+                  placeholder="Choose data sources"
+                  fluid
+                  selection
+                  value={dataSource}
+                  onChange={val => {
+                    setDataSource(val || []);
+                  }}
+                  options={dataSources.map(source => {
+                    return {
+                      key: source.id,
+                      text: source.name || '',
+                      value: source.id,
+                    };
+                  })}
+                />
+              </StyledFormLabel>
+            </StyledFormField>
+          ) : null}
+          <StyledFormField>
+            <StyledFormLabel>
+              Choose selector (optional)
+              <ChooseSelectorButton
+                value={props.selector ? props.selector.type : ''}
+                onChange={t => {
+                  if (t) {
+                    const chosenSelector = selectors[t as keyof SelectorTypeMap];
+                    if (chosenSelector) {
+                      setSelector({
+                        id: generateId(),
+                        type: chosenSelector.type,
+                        state: copy(chosenSelector.defaultState),
+                      });
+                    }
+                  } else {
+                    setSelector(undefined);
+                  }
+                }}
+              />
+            </StyledFormLabel>
+          </StyledFormField>
+          <StyledFormField>
+            <StyledFormLabel>
+              <Field as={StyledCheckbox} type="checkbox" name="allowMultiple" style={{ marginRight: 10 }} />
+              Allow multiple instances
+            </StyledFormLabel>
+          </StyledFormField>
+          <StyledFormField>
+            <StyledFormLabel>
+              Plural label (used when referring to lists of this document)
+              <Field as={StyledFormInputElement} type="text" name="pluralField" />
+            </StyledFormLabel>
+          </StyledFormField>
+          {editor}
           <div style={{ marginTop: 20 }}>
             <Button type="submit" primary style={{ marginRight: '.5em' }}>
               Save changes
