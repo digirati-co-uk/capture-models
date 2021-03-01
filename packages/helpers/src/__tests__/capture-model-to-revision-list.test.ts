@@ -123,6 +123,15 @@ describe('capture model to revision list', () => {
             "id": "a8d5ff43-adb2-456a-a615-3d24fbfa05f7",
             "label": "Nested choices",
             "properties": Object {
+              "name": Array [
+                Object {
+                  "description": "The name of the thing",
+                  "id": "a1ed84d2-c44c-4877-ac3d-10559acd7fce",
+                  "label": "Name",
+                  "type": "text-field",
+                  "value": "",
+                },
+              ],
               "person": Array [
                 Object {
                   "description": "Describe a person",
@@ -131,11 +140,25 @@ describe('capture model to revision list', () => {
                   "properties": Object {
                     "firstName": Array [
                       Object {
+                        "id": "7b45ec25-15a6-40dd-9a1d-0fd1d673df15",
+                        "label": "First name",
+                        "type": "text-field",
+                        "value": "",
+                      },
+                      Object {
                         "id": "dda6d8bc-ca6d-48e0-8bcc-a24537586346",
                         "label": "First name",
                         "revision": "fa500021-7408-4318-ab05-ac6e4d4a3096",
                         "type": "text-field",
                         "value": "Some value",
+                      },
+                    ],
+                    "lastName": Array [
+                      Object {
+                        "id": "f5e7480c-411e-486d-a91e-0bf24f146ab5",
+                        "label": "Last name",
+                        "type": "text-field",
+                        "value": "",
                       },
                     ],
                   },
