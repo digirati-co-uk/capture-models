@@ -28,10 +28,15 @@ export const createRevisionApi: RouteMiddleware<{ captureModelId: string }, Revi
     throw new Error('Editing canonical');
   }
 
+  const author =
+    revisionRequest.author && context.state.jwt.user.id === revisionRequest.author.id
+      ? revisionRequest.author
+      : context.state.jwt.user;
+
   context.response.body = await context.db.api.createRevision(revisionRequest, {
     allowAnonymous: true, // @todo swap in JWT user details.
     context: context.state.jwt.context,
     allowCanonicalChanges: userCan('models.create', context.state),
-    user: context.state.jwt.user,
+    user: author,
   });
 };
