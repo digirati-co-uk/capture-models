@@ -6,12 +6,25 @@ import { defaultTheme } from '../../themes';
 import AtlasViewer from './Atlas';
 import './index';
 import { FieldInstanceReadOnly } from '../../components/FieldInstanceReadOnly/FieldInstanceReadOnly';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Runtime } from '@atlas-viewer/atlas';
 const model = require('../../../../../fixtures/04-selectors/05-wunder-selector.json');
 const ocrModel = require('../../../../../fixtures/02-nesting/06-ocr.json');
 
 export default { title: 'Content Types|Atlas' };
+
+export const SwitchEditMode: React.FC = () => {
+  const revisionEditMode = RevisionStore.useStoreState(s => s.revisionEditMode);
+  const setRevisionMode = RevisionStore.useStoreActions(a => a.setRevisionMode);
+
+  useEffect(() => {
+    if (!revisionEditMode) {
+      setRevisionMode({ editMode: true });
+    }
+  }, [revisionEditMode, setRevisionMode]);
+
+  return null;
+};
 
 // Emulate the selector flow from FieldWrapper.
 // 1. Add button to "select" selector
@@ -25,6 +38,7 @@ export const Simple: React.FC = () => {
       <RevisionStore.Provider
         initialData={{ captureModel: model, initialRevision: 'e801f905-5afc-4612-9e59-2b78cf407b9d' }}
       >
+        <SwitchEditMode />
         <div style={{ display: 'flex' }}>
           <div style={{ flex: '1 1 0px' }}>
             <AtlasViewer
