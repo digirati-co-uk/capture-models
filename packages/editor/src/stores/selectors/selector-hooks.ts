@@ -1,13 +1,15 @@
 import { BaseField, BaseSelector } from '@capture-models/types';
 import { useSelector, useSelectors } from '@capture-models/plugin-api';
-import { useCallback } from 'react';
+import { useCallback, useRef } from 'react';
 import { Revisions } from '../revisions';
+import { useDebouncedCallback } from 'use-debounce';
+import { unstable_batchedUpdates } from 'react-dom';
 
 export function useCurrentSelector(contentType: string, defaultState: any = null) {
   const updateSelector = Revisions.useStoreActions(a => a.updateCurrentSelector);
 
   return useSelector(
-    Revisions.useStoreState(s => s.selector.availableSelectors.find(({ id }) => id === s.selector.currentSelectorId)),
+    Revisions.useStoreState(s => s.resolvedSelectors.find(({ id }) => id === s.selector.currentSelectorId)),
     contentType,
     {
       selectorPreview: Revisions.useStoreState(s =>
@@ -22,7 +24,7 @@ export function useCurrentSelector(contentType: string, defaultState: any = null
 export function useFieldSelector(field: BaseField) {
   return Revisions.useStoreState(s =>
     field.selector
-      ? s.selector.availableSelectors.find(({ id }) => (field.selector ? id === field.selector.id : false))
+      ? s.resolvedSelectors.find(({ id }) => (field.selector ? id === field.selector.id : false))
       : undefined
   );
 }
@@ -36,11 +38,13 @@ export function useSelectorActions() {
       chooseSelector: s.chooseSelector,
       clearSelector: s.clearSelector,
     })),
-    Revisions.useStoreState(s => s.selector.availableSelectors),
+    Revisions.useStoreState(s => s.resolvedSelectors),
   ] as const;
 }
 
 export function useDisplaySelectors(contentType: string) {
+  const updateSelectorPreviewQueue = useRef<any[]>([]);
+
   const allSelectors = Revisions.useStoreState(state => {
     return {
       visibleCurrentLevelSelectorIds: state.visibleCurrentLevelSelectorIds,
@@ -55,12 +59,37 @@ export function useDisplaySelectors(contentType: string) {
     subtreePath: s.revisionSubtreePath,
   }));
 
-  const { pop, push, setPath, updateSelectorPreview } = Revisions.useStoreActions(a => ({
+  const { pop, push, setPath, realUpdateSelectorPreview } = Revisions.useStoreActions(a => ({
     pop: a.revisionPopTo,
     push: a.revisionPushSubtree,
     setPath: a.revisionSetSubtree,
-    updateSelectorPreview: a.updateSelectorPreview,
+    realUpdateSelectorPreview: a.updateSelectorPreview,
   }));
+
+  const [flushSelectors] = useDebouncedCallback(
+    () => {
+      const queue = updateSelectorPreviewQueue.current;
+      if (!queue.length) {
+        return;
+      }
+      unstable_batchedUpdates(() => {
+        for (const action of queue) {
+          realUpdateSelectorPreview(action);
+        }
+      });
+      updateSelectorPreviewQueue.current = [];
+    },
+    200,
+    { maxWait: 200, trailing: true }
+  );
+
+  const updateSelectorPreview = useCallback(
+    (action: any) => {
+      updateSelectorPreviewQueue.current.push(action);
+      flushSelectors();
+    },
+    [flushSelectors]
+  );
 
   const onClickDisplaySelector = useCallback(
     (s: BaseSelector) => {
