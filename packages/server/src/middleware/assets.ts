@@ -46,7 +46,7 @@ export const assets = (): RouteMiddleware<{ assetName: string; folder: string; s
           : `@capture-models/server-ui/dist/umd/${assetName}`
       );
       if (existsSync(fileName)) {
-        await send(context, fileName, { root: '/' });
+        await send(context as any, fileName, { root: '/' });
         // context.body = Buffer.from(readFileSync(fileName));
         // context.headers['Content-Type'] = fileName.endsWith('.js') ? 'application/javascript' : 'text/css';
         return;
