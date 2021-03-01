@@ -860,9 +860,47 @@ describe('Revision store', () => {
       expect(store.getState().resolvedSelectors.map(r => r.id)).toContain(newSelectorId);
     });
 
-    test.todo('Change the bounding box of word and then change the word');
-    test.todo('Change the bounding box of a line');
-    test.todo('Remove an invalid word');
-    test.todo('Remove an invalid line');
+    test('Change the bounding box of word and then change the word', () => {
+      const store = createRevisionStore({
+        captureModel: models()[8],
+      });
+      const actions = store.getActions();
+
+      actions.setRevisionMode({ editMode: true });
+
+      actions.createRevision({
+        revisionId: 'c8bb939a-7a76-4b15-9f77-81375519128c',
+        cloneMode: 'EDIT_ALL_VALUES',
+      });
+
+      // First we update the selector.
+      actions.updateSelector({
+        state: { x: 1, y: 2, width: 3, height: 4 },
+        selectorId: 'da7e26f8-9797-423e-a0cf-276df7b859ea',
+      });
+
+      // Then we update the field value. What we are looking for is that the selector is reset to be a canonical value.
+      actions.updateFieldValue({
+        path: [
+          ['paragraph', '159621fb-4f93-4cd7-a394-5a1141fc1091'],
+          ['lines', '64e82cb7-16f8-432e-b2b7-3828233a134c'],
+          ['text', 'eb122262-fab3-43c8-9432-ac93dad3abf8'],
+        ],
+        value: 'Testing a new value',
+      });
+
+      // @ts-ignore
+      const newText = store.getState().currentRevision.document.properties.paragraph[0].properties.lines[0].properties.text[0];
+
+      expect(newText.id).not.toEqual('eb122262-fab3-43c8-9432-ac93dad3abf8');
+      expect(newText.selector.id).not.toEqual('da7e26f8-9797-423e-a0cf-276df7b859ea');
+      expect(newText.selector.revisedBy).not.toBeDefined();
+      expect(newText.selector.state).toEqual({
+        x: 1,
+        y: 2,
+        width: 3,
+        height: 4,
+      });
+    });
   });
 });
