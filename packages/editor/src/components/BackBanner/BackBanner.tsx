@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { getTheme } from '../../themes';
 
 export const BackBanner = styled.div`

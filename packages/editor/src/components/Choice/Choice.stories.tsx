@@ -1,5 +1,5 @@
 import React from 'react';
-import { ThemeProvider } from 'styled-components';
+import { ThemeProvider } from 'styled-components/macro';
 import { Button } from '../../atoms/Button';
 import { CaptureModelProvider } from '../../core/capture-model-provider';
 import { useNavigation } from '../../hooks/useNavigation';

@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import styled, { css } from 'styled-components';
+import styled, { css } from 'styled-components/macro';
 import { Tag } from '../../atoms/Tag';
 
 type FieldHeaderProps = {

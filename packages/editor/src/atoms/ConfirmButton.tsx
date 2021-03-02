@@ -1,7 +1,7 @@
 import React, { useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Button } from './Button';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
 const Portal = styled.div`
   position: fixed;

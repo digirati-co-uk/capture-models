@@ -1,5 +1,5 @@
 import React from 'react';
-import { ThemeProvider } from 'styled-components';
+import { ThemeProvider } from 'styled-components/macro';
 import { defaultTheme } from '../../themes';
 import { RoundedCard } from './RoundedCard';
 import { CardButton } from '../CardButton/CardButton';

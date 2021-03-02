@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ThemeProvider } from 'styled-components';
+import { ThemeProvider } from 'styled-components/macro';
 import { FieldInstance } from '../../connected-components/FieldInstance';
 import { Revisions as RevisionStore } from '../../stores/revisions';
 import { defaultTheme } from '../../themes';

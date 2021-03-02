@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { RoundedCard, RoundedCardProps } from '../RoundedCard/RoundedCard';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
 type CardDropdownProps = RoundedCardProps & {
   openInitially?: boolean;

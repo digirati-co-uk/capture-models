@@ -2,7 +2,6 @@ import copy from 'fast-copy';
 import React, { useContext, useState } from 'react';
 import { Field, Form, Formik } from 'formik';
 import { Button } from '../../atoms/Button';
-import { Grid, GridColumn } from '../../atoms/Grid';
 import { Segment } from '../../atoms/Segment';
 import { PluginContext } from '@capture-models/plugin-api';
 import { generateId } from '@capture-models/helpers';

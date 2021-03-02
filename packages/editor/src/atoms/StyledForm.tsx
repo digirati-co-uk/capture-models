@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled, { css } from 'styled-components/macro';
 import React, { useState } from 'react';
 
 const Textarea = React.lazy(() => /* webpackChunkName: "browser" */ import('react-textarea-autosize'));

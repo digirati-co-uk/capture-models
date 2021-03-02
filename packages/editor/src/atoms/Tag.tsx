@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled, { css } from 'styled-components/macro';
 
 export const Tag = styled.div<{ size?: 'tiny'; blue?: boolean }>`
   font-size: .8em;

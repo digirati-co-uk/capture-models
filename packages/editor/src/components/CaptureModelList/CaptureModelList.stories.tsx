@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardContent } from '../../atoms/Card';
 import { CaptureModelList } from './CaptureModelList';
-import { ThemeProvider } from 'styled-components';
+import { ThemeProvider } from 'styled-components/macro';
 import { defaultTheme } from '../../themes';
 
 export default { title: 'Components|Capture Model List' };

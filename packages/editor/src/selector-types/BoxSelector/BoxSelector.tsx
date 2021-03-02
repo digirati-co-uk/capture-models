@@ -1,7 +1,7 @@
 import { CardButton } from '../../components/CardButton/CardButton';
 import { BaseSelector, SelectorComponent } from '@capture-models/types';
 import React from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
 export interface BoxSelectorProps extends BaseSelector {
   id: string;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { defaultTheme } from '../../themes';
 import { FieldInstanceList } from './FieldInstanceList';
-import { ThemeProvider } from 'styled-components';
+import { ThemeProvider } from 'styled-components/macro';
 
 export default { title: 'Form UI|Field instance list' };
 

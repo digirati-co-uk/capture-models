@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { BaseField, FieldComponent } from '@capture-models/types';
 import RichTextEditor, { EditorValue } from 'react-rte';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { useDebouncedCallback } from 'use-debounce';
 
 export interface HTMLFieldProps extends BaseField {

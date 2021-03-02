@@ -1,6 +1,6 @@
 import { BaseField, FieldComponent } from '@capture-models/types';
 import React from 'react';
-import styled, { css } from 'styled-components';
+import styled, { css } from 'styled-components/macro';
 import { StyledCheckbox, StyledFormLabel } from '../../atoms/StyledForm';
 
 export interface CheckboxFieldProps extends BaseField {

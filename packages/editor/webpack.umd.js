@@ -28,6 +28,25 @@ plugins.push(
   })
 );
 
+const babelRules = baseConfig.module.rules.find(r => {
+  const loaders = Array.isArray(r.use) ? r.use : [r.use];
+  for (const loader of loaders) {
+    if (loader.loader.indexOf('babel-loader') !== -1) {
+      return true;
+    }
+  }
+
+  return false;
+});
+
+babelRules.use.options.plugins = babelRules.use.options.plugins ? babelRules.use.options.plugins : [];
+babelRules.use.options.plugins.push([
+  'babel-plugin-styled-components',
+  {
+    namespace: 'model-editor',
+  },
+]);
+
 const config = Object.assign({}, baseConfig, {
   output: {
     path: path.resolve(process.cwd(), 'dist', 'umd'),

@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { getTheme } from '../../themes';
 
 export const CardButton = styled.button<{ size?: 'large' | 'medium' | 'small'; shadow?: boolean; inline?: boolean }>`

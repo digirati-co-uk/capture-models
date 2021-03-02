@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { CardDropdown } from './CardDropdown';
-import { ThemeProvider } from 'styled-components';
+import { ThemeProvider } from 'styled-components/macro';
 import { defaultTheme } from '../../themes';
 import { BackgroundSplash } from '../BackgroundSplash/BackgroundSplash';
 

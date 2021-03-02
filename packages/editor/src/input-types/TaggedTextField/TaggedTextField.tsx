@@ -14,7 +14,7 @@ import * as Immutable from 'immutable';
 import { stateFromHTML } from 'draft-js-import-html';
 import { Button } from '../../atoms/Button';
 import { stateToHTML } from './export-html-fork';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { useDebouncedCallback } from 'use-debounce';
 import { presets } from './TaggedTextField.presets';
 

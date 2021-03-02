@@ -3,7 +3,7 @@ import { Button } from '../atoms/Button';
 import { Choice } from '../components/Choice/Choice';
 import { CaptureModelProvider } from './capture-model-provider';
 import { useNavigation as legacyUseNavigation } from './navigation';
-import { ThemeProvider } from 'styled-components';
+import { ThemeProvider } from 'styled-components/macro';
 import { defaultTheme } from '../themes';
 import { BackgroundSplash } from '../components/BackgroundSplash/BackgroundSplash';
 import { RoundedCard } from '../components/RoundedCard/RoundedCard';

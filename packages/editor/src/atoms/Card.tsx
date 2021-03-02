@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled, { css } from 'styled-components/macro';
 import { Button } from './Button';
 
 export const Card = styled.div<{ fluid?: boolean }>`

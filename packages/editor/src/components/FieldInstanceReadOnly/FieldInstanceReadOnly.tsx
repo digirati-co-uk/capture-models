@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { BaseField } from '@capture-models/types';
 import { FieldPreview } from '../FieldPreview/FieldPreview';
 import { Revisions } from '../../stores/revisions/index';

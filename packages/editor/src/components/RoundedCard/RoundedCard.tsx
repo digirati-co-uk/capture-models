@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
+import styled, { css } from 'styled-components/macro';
 import { ConfirmButton } from '../../atoms/ConfirmButton';
 import { getCard, getTheme } from '../../themes';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ThemeProvider } from 'styled-components';
+import { ThemeProvider } from 'styled-components/macro';
 import { PluginProvider } from '@capture-models/plugin-api';
 import { defaultTheme } from '../../themes';
 import { RoundedCard } from '../RoundedCard/RoundedCard';

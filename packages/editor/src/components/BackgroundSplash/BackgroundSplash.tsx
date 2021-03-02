@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { getTheme } from '../../themes';
 
 const Background = styled.div`
