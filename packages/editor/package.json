@@ -27,7 +27,7 @@
     "start-types": "tsc -p ./tsconfig.types.json --watch",
     "test": "jest",
     "build-types": "tsc -p ./tsconfig.types.json",
-    "prepare": "NODE_ENV=production fesk-build --umd && tsc -p ./tsconfig.types.json",
+    "prepare": "NODE_ENV=production fesk-build --umd --cjs && tsc -p ./tsconfig.types.json",
     "storybook": "start-storybook -p 6006",
     "link-to": "yarn link",
     "unlink-to": "yarn unlink",
@@ -108,7 +108,7 @@
     "@types/react-rte": "^0.16.1",
     "@types/redux-batched-subscribe": "^0.1.4",
     "@types/styled-components": "^5.1.7",
-    "babel-plugin-styled-components": "^1.12.0",
+    "babel-plugin-styled-components": "1.12.0",
     "clean-webpack-plugin": "^3.0.0",
     "dotenv-webpack": "^1.7.0",
     "html-webpack-plugin": "^3.2.0",
@@ -130,6 +130,8 @@
   "babelMacros": {
     "styledComponents": {
       "pure": true,
+      "displayName": true,
+      "ssr": true,
       "namespace": "model-editor"
     }
   }

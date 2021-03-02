@@ -44,6 +44,8 @@ babelRules.use.options.plugins.push([
   'babel-plugin-styled-components',
   {
     namespace: 'model-editor',
+    ssr: true,
+    displayName: true,
   },
 ]);
 
@@ -76,6 +78,7 @@ config.externals = {
   'react-dom': 'react-dom',
   'react-reconciler': 'react-reconciler',
   'styled-components': 'styled-components',
+  'styled-components/macro': 'styled-components',
   '@atlas-viewer/atlas': '@atlas-viewer/atlas',
 };
 

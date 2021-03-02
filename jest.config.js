@@ -24,7 +24,7 @@ module.exports = {
       isolatedModules: true,
       babelConfig: {
         plugins: ['macros'],
-      }
-    }
-  }
+      },
+    },
+  },
 };
