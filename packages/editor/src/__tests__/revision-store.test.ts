@@ -3,7 +3,20 @@
  */
 import { createRevisionStore } from '../stores/revisions/revisions-store';
 import { CaptureModel, StructureType } from '@capture-models/types';
-import '../input-types/TextField';
+import { registerField } from '@capture-models/plugin-api';
+
+registerField({
+  label: 'Text field',
+  type: 'text-field',
+  description: 'Simple text field for plain text',
+  Component: undefined as any,
+  defaultValue: '',
+  allowMultiple: true,
+  defaultProps: {},
+  Editor: undefined as any,
+  // Editor: TextFieldEditor,
+  TextPreview: undefined as any,
+} as any);
 
 const models: () => any[] = () => [
   require('../../../../fixtures/03-revisions/01-single-field-with-revision.json'),
@@ -890,7 +903,8 @@ describe('Revision store', () => {
       });
 
       // @ts-ignore
-      const newText = store.getState().currentRevision.document.properties.paragraph[0].properties.lines[0].properties.text[0];
+      const newText = store.getState().currentRevision.document.properties.paragraph[0].properties.lines[0].properties
+        .text[0];
 
       expect(newText.id).not.toEqual('eb122262-fab3-43c8-9432-ac93dad3abf8');
       expect(newText.selector.id).not.toEqual('da7e26f8-9797-423e-a0cf-276df7b859ea');

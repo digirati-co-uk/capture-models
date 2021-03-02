@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { CaptureModel } from '@capture-models/types';
+import { CaptureModel, FieldSpecification } from '@capture-models/types';
 import {
   documentFieldOptionsToStructure,
   expandModelFields,
@@ -10,7 +10,20 @@ import {
   mergeFlatKeys,
   structureToFlatStructureDefinition,
 } from '../core/structure-editor';
-import '../input-types/TextField';
+import { registerField } from '@capture-models/plugin-api';
+
+registerField({
+  label: 'Text field',
+  type: 'text-field',
+  description: 'Simple text field for plain text',
+  Component: undefined as any,
+  defaultValue: '',
+  allowMultiple: true,
+  defaultProps: {},
+  Editor: undefined as any,
+  // Editor: TextFieldEditor,
+  TextPreview: undefined as any,
+} as any);
 
 describe('structure editor', () => {
   const DEFAULT_MODEL: CaptureModel = {
