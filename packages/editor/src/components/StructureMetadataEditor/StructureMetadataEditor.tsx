@@ -25,9 +25,14 @@ export const StructureMetadataEditor: React.FC<Props> = ({ profiles = [], struct
     },
   });
 
+  const dirty = formik.dirty;
+  const submitForm = formik.submitForm;
+
   useUnmount(() => {
-    formik.submitForm();
-  }, [formik]);
+    if (dirty) {
+      submitForm();
+    }
+  }, [dirty, submitForm]);
 
   return (
     <StyledForm onSubmit={formik.handleSubmit}>
