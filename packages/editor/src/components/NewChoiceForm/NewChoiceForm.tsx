@@ -3,12 +3,14 @@ import { Button } from '../../atoms/Button';
 import { createChoice } from '@capture-models/helpers';
 import { StructureType } from '@capture-models/types';
 import { StyledForm, StyledFormField, StyledFormInput } from '../../atoms/StyledForm';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   onSave: (choice: StructureType<'choice'>) => void;
 };
 
 export const NewChoiceForm: React.FC<Props> = ({ onSave }) => {
+  const { t } = useTranslation();
   const [label, setLabel] = useState('');
   const onSubmit = (e: any) => {
     e.preventDefault();
@@ -20,7 +22,7 @@ export const NewChoiceForm: React.FC<Props> = ({ onSave }) => {
     <StyledForm onSubmit={onSubmit} autoComplete="off">
       <StyledFormField>
         <label>
-          Label
+          {t('Label')}
           <StyledFormInput
             type="text"
             name="term"
@@ -32,7 +34,7 @@ export const NewChoiceForm: React.FC<Props> = ({ onSave }) => {
         </label>
       </StyledFormField>
       <Button disabled={label === ''} primary>
-        Save
+        {t('Save')}
       </Button>
     </StyledForm>
   );

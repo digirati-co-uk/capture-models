@@ -80,6 +80,8 @@ config.externals = {
   'styled-components': 'styled-components',
   'styled-components/macro': 'styled-components',
   '@atlas-viewer/atlas': '@atlas-viewer/atlas',
+  i18next: 'i18next',
+  'react-i18next': 'react-i18next',
 };
 
 module.exports = config;

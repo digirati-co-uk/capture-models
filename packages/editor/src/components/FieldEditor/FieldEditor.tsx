@@ -19,6 +19,7 @@ import {
 } from '../../atoms/StyledForm';
 import { AutoSaveFormik } from '../AutoSaveFormik/AutoSaveFormik';
 import { MultiDropdown } from '../../atoms/MultiDropdown';
+import { useTranslation } from 'react-i18next';
 
 export type FieldSource = {
   id: string;
@@ -37,6 +38,7 @@ export const FieldEditor: React.FC<{
   setSaveHandler?: (handler: () => void) => void;
   sourceTypes?: Array<FieldSource>;
 }> = ({ onSubmit, onDelete, onChangeFieldType, sourceTypes, field: props, term }) => {
+  const { t } = useTranslation();
   const ctx = useContext(PluginContext);
   const { fields, selectors } = useContext(PluginContext);
   const [selector, setSelector] = useState<BaseSelector | undefined>(props.selector);
@@ -87,7 +89,7 @@ export const FieldEditor: React.FC<{
         <Form>
           <AutoSaveFormik />
           <Segment>
-            <h3 style={{ textAlign: 'center' }}>Preview</h3>
+            <h3 style={{ textAlign: 'center' }}>{t('Preview')}</h3>
             <FormPreview
               key={`${props.type}-${term}`}
               type={props.type}
@@ -99,24 +101,24 @@ export const FieldEditor: React.FC<{
           </Segment>
           <StyledFormField>
             <StyledFormLabel>
-              Label
+              {t('Label')}
               <Field as={StyledFormInputElement} type="text" name="label" required={true} />
             </StyledFormLabel>
           </StyledFormField>
           <StyledFormField>
             <StyledFormLabel>
-              Description
+              {t('Description')}
               <Field as={StyledFormTextarea} name="description" />
             </StyledFormLabel>
           </StyledFormField>
           {onChangeFieldType ? (
             <StyledFormField>
               <StyledFormLabel>
-                Field type
+                {t('Field type')}
                 <ChooseFieldButton
                   fieldType={field.type}
-                  onChange={t =>
-                    t && fields[t] ? onChangeFieldType(t as any, (fields[t] as any).defaultProps, term) : null
+                  onChange={type =>
+                    type && fields[type] ? onChangeFieldType(t as any, (fields[type] as any).defaultProps, term) : null
                   }
                 />
               </StyledFormLabel>
@@ -125,9 +127,9 @@ export const FieldEditor: React.FC<{
           {dataSources ? (
             <StyledFormField>
               <StyledFormLabel>
-                Dynamic data sources
+                {t('Dynamic data sources')}
                 <MultiDropdown
-                  placeholder="Choose data sources"
+                  placeholder={t('Choose data sources')}
                   fluid
                   selection
                   value={dataSource}
@@ -147,12 +149,12 @@ export const FieldEditor: React.FC<{
           ) : null}
           <StyledFormField>
             <StyledFormLabel>
-              Choose selector (optional)
+              {t('Choose selector (optional)')}
               <ChooseSelectorButton
                 value={props.selector ? props.selector.type : ''}
-                onChange={t => {
-                  if (t) {
-                    const chosenSelector = selectors[t as keyof SelectorTypeMap];
+                onChange={v => {
+                  if (v) {
+                    const chosenSelector = selectors[v as keyof SelectorTypeMap];
                     if (chosenSelector) {
                       setSelector({
                         id: generateId(),
@@ -170,24 +172,24 @@ export const FieldEditor: React.FC<{
           <StyledFormField>
             <StyledFormLabel>
               <Field as={StyledCheckbox} type="checkbox" name="allowMultiple" style={{ marginRight: 10 }} />
-              Allow multiple instances
+              {t('Allow multiple instances')}
             </StyledFormLabel>
           </StyledFormField>
           <StyledFormField>
             <StyledFormLabel>
-              Plural label (used when referring to lists of this document)
+              {t('Plural label (used when referring to lists of this document)')}
               <Field as={StyledFormInputElement} type="text" name="pluralField" />
             </StyledFormLabel>
           </StyledFormField>
           {editor}
           <div style={{ marginTop: 20 }}>
             <Button type="submit" primary style={{ marginRight: '.5em' }}>
-              Save changes
+              {t('Save changes')}
             </Button>
             {onDelete ? (
-              <ConfirmButton message="Are you sure you want to remove this field?" onClick={() => onDelete(term)}>
+              <ConfirmButton message={t('Are you sure you want to remove this field?')} onClick={() => onDelete(term)}>
                 <Button type="button" alert>
-                  Delete field
+                  {t('Delete field')}
                 </Button>
               </ConfirmButton>
             ) : null}

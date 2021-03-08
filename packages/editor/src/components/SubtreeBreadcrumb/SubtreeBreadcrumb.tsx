@@ -1,5 +1,6 @@
 import React from 'react';
 import { Breadcrumb, BreadcrumbDivider, BreadcrumbSection } from '../../atoms/Breadcrumb';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   subtreePath: string[];
@@ -7,12 +8,13 @@ type Props = {
 };
 
 export const SubtreeBreadcrumb: React.FC<Props> = ({ popSubtree, subtreePath }) => {
+  const { t } = useTranslation();
   return (
     <Breadcrumb>
       <BreadcrumbSection
         onClick={subtreePath.length !== 0 ? () => popSubtree({ count: subtreePath.length }) : undefined}
       >
-        Document root
+        {t('Document root')}
       </BreadcrumbSection>
       {subtreePath.map((path, n) => (
         <React.Fragment key={n}>

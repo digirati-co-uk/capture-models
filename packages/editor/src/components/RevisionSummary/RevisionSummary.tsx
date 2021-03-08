@@ -6,6 +6,7 @@ import { CardButton } from '../CardButton/CardButton';
 import { CardButtonGroup } from '../CardButtonGroup/CardButtonGroup';
 import { FieldHeaderWrapper, FieldHeaderTitle } from '../FieldHeader/FieldHeader';
 import { RoundedCard } from '../RoundedCard/RoundedCard';
+import { useTranslation } from 'react-i18next';
 
 export const RevisionSummary: React.FC<{
   descriptionOfChange: string;
@@ -16,6 +17,7 @@ export const RevisionSummary: React.FC<{
   setDescriptionOfChange?: (change: string) => void;
   isSaving?: boolean;
 }> = ({ onSave, onPublish, onEdit, isSaving, error, descriptionOfChange, setDescriptionOfChange }) => {
+  const { t } = useTranslation();
   const [label, setLabel] = useState(descriptionOfChange);
 
   const [updateValue] = useDebouncedCallback(v => {
@@ -30,19 +32,19 @@ export const RevisionSummary: React.FC<{
 
   return (
     <>
-      {error ? <ErrorMessage>Something went wrong while saving your submission</ErrorMessage> : null}
+      {error ? <ErrorMessage>{t('Something went wrong while saving your submission')}</ErrorMessage> : null}
       {setDescriptionOfChange ? (
         <RoundedCard size="medium">
           <label>
             <FieldHeaderWrapper>
-              <FieldHeaderTitle htmlFor="label">Short description of your contribution.</FieldHeaderTitle>
+              <FieldHeaderTitle htmlFor="label">{t('Short description of your contribution.')}</FieldHeaderTitle>
             </FieldHeaderWrapper>
             <TextField
               id="label"
               type="text-field"
               value={label}
               multiline={true}
-              label="short description of your contribution"
+              label={t('short description of your contribution')}
               updateValue={setLabel}
             />
           </label>
@@ -52,19 +54,19 @@ export const RevisionSummary: React.FC<{
         <CardButtonGroup>
           {onEdit ? (
             <CardButton size="small" onClick={onEdit}>
-              Edit
+              {t('Edit')}
             </CardButton>
           ) : null}
           {onSave ? (
             <CardButton size="small" disabled={isSaving} onClick={onSave}>
-              {isSaving ? 'Saving...' : 'Save changes'}
+              {isSaving ? t('Saving...') : t('Save changes')}
             </CardButton>
           ) : null}
         </CardButtonGroup>
       ) : null}
       {onPublish ? (
         <CardButton disabled={isSaving} size="small" onClick={onPublish}>
-          {isSaving ? 'Saving...' : 'Submit for review'}
+          {isSaving ? t('Saving...') : t('Submit for review')}
         </CardButton>
       ) : null}
     </>

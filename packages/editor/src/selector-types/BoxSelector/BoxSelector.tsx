@@ -2,6 +2,7 @@ import { CardButton } from '../../components/CardButton/CardButton';
 import { BaseSelector, SelectorComponent } from '@capture-models/types';
 import React from 'react';
 import styled from 'styled-components/macro';
+import { useTranslation } from 'react-i18next';
 
 export interface BoxSelectorProps extends BaseSelector {
   id: string;
@@ -49,6 +50,7 @@ export const BoxSelector: SelectorComponent<BoxSelectorProps> = ({
   readOnly,
   ...props
 }) => {
+  const { t } = useTranslation();
   const isSelecting = props.currentSelectorId === props.id;
 
   if (props.state) {
@@ -58,19 +60,17 @@ export const BoxSelector: SelectorComponent<BoxSelectorProps> = ({
           <CroppedImage>
             <img
               src={props.selectorPreview}
-              alt={`You selected a region at ${props.state.x}, ${props.state.y}, ${props.state.width}, ${props.state.height}`}
+              alt={t('You selected a region at {{x}}, {{y}}, {{width}}, {{height}}', props.state)}
             />
           </CroppedImage>
         ) : (
-          <>
-            You selected a region at {props.state.x}, {props.state.y}, {props.state.width}, {props.state.height}
-          </>
+          <>{t('You selected a region at {{x}}, {{y}}, {{width}}, {{height}}', props.state)}</>
         )}
         <br />
         {chooseSelector && !readOnly ? (
           isSelecting ? (
             <div>
-              Move and resize the highlighted box on the image to choose your selection.
+              {t('Move and resize the highlighted box on the image to choose your selection.')}
               <br />
               {props.state && updateSelector ? (
                 <SelectorButton
@@ -79,13 +79,13 @@ export const BoxSelector: SelectorComponent<BoxSelectorProps> = ({
                   onClick={() => updateSelector(null)}
                   style={{ marginRight: 10 }}
                 >
-                  discard selection
+                  {t('discard selection')}
                 </SelectorButton>
               ) : null}
             </div>
           ) : (
             <SelectorButton inline={true} size="small" onClick={() => chooseSelector(props.id)}>
-              edit region
+              {t('edit region')}
             </SelectorButton>
           )
         ) : null}
@@ -95,11 +95,11 @@ export const BoxSelector: SelectorComponent<BoxSelectorProps> = ({
 
   return (
     <div>
-      No region has been selected. Draw a box on the image to define a region.
+      {t('No region has been selected. Draw a box on the image to define a region.')}
       <br />
       {chooseSelector && !readOnly ? (
         <SelectorButton inline={true} size="small" onClick={() => chooseSelector(props.id)}>
-          define region
+          {t('define region')}
         </SelectorButton>
       ) : null}
     </div>

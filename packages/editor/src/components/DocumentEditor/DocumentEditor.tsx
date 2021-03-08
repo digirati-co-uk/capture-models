@@ -19,6 +19,7 @@ import { StyledForm, StyledFormField, StyledFormInput, StyledFormLabel, StyledCh
 import { CardButton } from '../CardButton/CardButton';
 import { CardButtonGroup } from '../CardButtonGroup/CardButtonGroup';
 import { ConfirmButton } from '../../atoms/ConfirmButton';
+import { useTranslation } from 'react-i18next';
 
 export type DocumentEditorProps = {
   setLabel: (label: string) => void;
@@ -57,6 +58,7 @@ export const DocumentEditor: React.FC<DocumentEditorProps> = ({
   setSelector,
   onDelete,
 }) => {
+  const { t } = useTranslation();
   const [route, router] = useMiniRouter(['list', 'newField', 'newDocument'], 'list');
   const { selectors } = useContext(PluginContext);
   const isRoot = subtreePath.length === 0;
@@ -109,7 +111,7 @@ export const DocumentEditor: React.FC<DocumentEditorProps> = ({
                 <StyledForm>
                   <StyledFormField>
                     <StyledFormLabel>
-                      Label
+                      {t('Label')}
                       <StyledFormInput
                         type="text"
                         name="label"
@@ -121,7 +123,7 @@ export const DocumentEditor: React.FC<DocumentEditorProps> = ({
                   </StyledFormField>
                   <StyledFormField>
                     <StyledFormLabel>
-                      Description
+                      {t('Description')}
                       <StyledFormInput
                         type="textarea"
                         name="description"
@@ -141,13 +143,13 @@ export const DocumentEditor: React.FC<DocumentEditorProps> = ({
                             value={!!subtree.allowMultiple as any}
                             onChange={e => setAllowMultiple(e.currentTarget.checked)}
                           />
-                          Allow multiple instances
+                          {t('Allow multiple instances')}
                         </StyledFormLabel>
                       </StyledFormField>
                       {subtree.allowMultiple ? (
                         <StyledFormField>
                           <StyledFormLabel>
-                            Plural label (used when referring to lists of this document)
+                            {t('Plural label (used when referring to lists of this document)')}
                             <StyledFormInput
                               type="textarea"
                               name="pluralLabel"
@@ -161,7 +163,7 @@ export const DocumentEditor: React.FC<DocumentEditorProps> = ({
                   )}
                   <StyledFormField>
                     <StyledFormLabel>
-                      Entity labelled by property
+                      {t('Entity labelled by property')}
                       <Dropdown
                         placeholder="Choose property"
                         fluid
@@ -176,7 +178,7 @@ export const DocumentEditor: React.FC<DocumentEditorProps> = ({
                   </StyledFormField>
                   <StyledFormField>
                     <StyledFormLabel>
-                      Choose selector (optional)
+                      {t('Choose selector (optional)')}
                       <ChooseSelectorButton
                         value={subtree.selector ? subtree.selector.type : ''}
                         onChange={t => {
@@ -199,13 +201,13 @@ export const DocumentEditor: React.FC<DocumentEditorProps> = ({
                   </StyledFormField>
                 </StyledForm>
                 <Button size="tiny" onClick={() => setMetadataOpen(m => !m)}>
-                  Close metadata
+                  {t('Close metadata')}
                 </Button>
               </CardContent>
             ) : (
               <CardContent extra>
                 <Button size="tiny" onClick={() => setMetadataOpen(m => !m)}>
-                  Edit metadata
+                  {t('Edit metadata')}
                 </Button>
               </CardContent>
             )}
@@ -238,10 +240,10 @@ export const DocumentEditor: React.FC<DocumentEditorProps> = ({
             <CardContent extra>
               <CardButtonGroup>
                 <CardButton size="small" onClick={router.newField}>
-                  Add field
+                  {t('Add field')}
                 </CardButton>
                 <CardButton size="small" onClick={router.newDocument}>
-                  Add nested entity
+                  {t('Add nested entity')}
                 </CardButton>
               </CardButtonGroup>
             </CardContent>
@@ -249,11 +251,11 @@ export const DocumentEditor: React.FC<DocumentEditorProps> = ({
               <CardContent extra>
                 <CardButtonGroup>
                   <ConfirmButton
-                    message="Are you sure you want to remove this and all of the fields in this list?"
+                    message={t('Are you sure you want to remove this and all of the fields in this list?')}
                     onClick={() => onDelete()}
                   >
                     <Button type="button" alert>
-                      Delete this entity
+                      {t('Delete this entity')}
                     </Button>
                   </ConfirmButton>
                 </CardButtonGroup>
@@ -265,10 +267,10 @@ export const DocumentEditor: React.FC<DocumentEditorProps> = ({
             <CardContent>
               <Grid>
                 <GridColumn>
-                  <Button onClick={router.list}>back</Button>
+                  <Button onClick={router.list}>{t('back')}</Button>
                 </GridColumn>
                 <GridColumn fluid>
-                  <CardHeader>Create new field</CardHeader>
+                  <CardHeader>{t('Create new field')}</CardHeader>
                 </GridColumn>
               </Grid>
             </CardContent>
@@ -304,10 +306,10 @@ export const DocumentEditor: React.FC<DocumentEditorProps> = ({
             <CardContent>
               <Grid>
                 <GridColumn>
-                  <Button onClick={router.list}>back</Button>
+                  <Button onClick={router.list}>{t('back')}</Button>
                 </GridColumn>
                 <GridColumn fluid>
-                  <CardHeader>Create new document</CardHeader>
+                  <CardHeader>{t('Create new document')}</CardHeader>
                 </GridColumn>
               </Grid>
             </CardContent>

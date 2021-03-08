@@ -7,6 +7,7 @@ import { NewModelForm } from '../NewModelForm/NewModelForm';
 import { useMiniRouter } from '../../hooks/useMiniRouter';
 import { StructureMetadataEditor } from '../StructureMetadataEditor/StructureMetadataEditor';
 import { StructureType } from '@capture-models/types';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   choice: StructureType<'choice'>;
@@ -39,6 +40,7 @@ export const ChoiceEditor: React.FC<Props> = ({
   pushFocus,
   popFocus,
 }) => {
+  const { t } = useTranslation();
   const [route, router] = useMiniRouter(['list', 'newChoice', 'newModel'], 'list');
 
   useEffect(() => {
@@ -60,7 +62,7 @@ export const ChoiceEditor: React.FC<Props> = ({
           ) : null}
           <GridColumn fluid>
             <CardHeader>{choice.label}</CardHeader>
-            <CardMeta>Choice</CardMeta>
+            <CardMeta>{t('Choice')}</CardMeta>
             <CardHeader>{/*<SubtreeBreadcrumb popSubtree={popSubtree} subtreePath={subtreePath} />*/}</CardHeader>
             {/*{subtree.description ? <Card.Meta>{subtree.description}</Card.Meta> : null}*/}
           </GridColumn>
@@ -81,7 +83,7 @@ export const ChoiceEditor: React.FC<Props> = ({
         />
       </CardContent>
       <CardContent extra>
-        <React.Suspense fallback={'loading...'}>
+        <React.Suspense fallback={<>{t('loading...')}</>}>
           <ChoiceList choice={choice} pushFocus={pushFocus} onRemove={onRemove} onReorder={reorderChoices} />
         </React.Suspense>
       </CardContent>
@@ -91,12 +93,12 @@ export const ChoiceEditor: React.FC<Props> = ({
             <Grid>
               <GridColumn half>
                 <Button fluid onClick={router.newChoice}>
-                  Add Choice
+                  {t('Add Choice')}
                 </Button>
               </GridColumn>
               <GridColumn half>
                 <Button fluid onClick={router.newModel}>
-                  Add Model
+                  {t('Add Model')}
                 </Button>
               </GridColumn>
             </Grid>
@@ -107,10 +109,10 @@ export const ChoiceEditor: React.FC<Props> = ({
           <CardContent>
             <Grid>
               <GridColumn>
-                <Button onClick={router.list}>back</Button>
+                <Button onClick={router.list}>{t('back')}</Button>
               </GridColumn>
               <GridColumn fluid>
-                <CardHeader>Create new choice</CardHeader>
+                <CardHeader>{t('Create new choice')}</CardHeader>
               </GridColumn>
             </Grid>
             <NewChoiceForm
@@ -128,10 +130,10 @@ export const ChoiceEditor: React.FC<Props> = ({
           <CardContent>
             <Grid>
               <GridColumn>
-                <Button onClick={router.list}>back</Button>
+                <Button onClick={router.list}>{t('back')}</Button>
               </GridColumn>
               <GridColumn fluid>
-                <CardHeader>Create new model</CardHeader>
+                <CardHeader>{t('Create new model')}</CardHeader>
               </GridColumn>
             </Grid>
             <NewModelForm

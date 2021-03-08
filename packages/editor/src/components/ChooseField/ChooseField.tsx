@@ -4,10 +4,12 @@ import { Button } from '../../atoms/Button';
 import { Card, CardContent } from '../../atoms/Card';
 import { BaseField } from '@capture-models/types';
 import {Grid, GridColumn, GridRow} from '../../atoms/Grid';
+import { useTranslation } from 'react-i18next';
 
 export const ChooseField: React.FC<{
   handleChoice: (choice: BaseField) => void;
 }> = ({ handleChoice }) => {
+  const { t } = useTranslation();
   const { fields } = useContext(PluginContext);
 
   return (
@@ -24,7 +26,7 @@ export const ChooseField: React.FC<{
                     <p>{field.description}</p>
                   </CardContent>
                   <Button onClick={() => handleChoice(field as any)}>
-                    Create {field.label}
+                    {t('Create {{label}}', { label: field.label } )}
                   </Button>
                 </Card>
               </GridColumn>

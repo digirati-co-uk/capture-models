@@ -3,6 +3,7 @@ import { Dropdown, DropdownOption } from '../../atoms/Dropdown';
 import { PluginContext } from '@capture-models/plugin-api';
 // Pull in the build-in selectors.
 import '../../selector-types/BoxSelector/index';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   value?: string;
@@ -10,13 +11,14 @@ type Props = {
 };
 
 export const ChooseSelectorButton: React.FC<Props> = ({ value: initialValue, onChange }) => {
+  const { t } = useTranslation();
   const { selectors } = useContext(PluginContext);
   const [value, setValue] = useState(initialValue);
 
   return (
     <div>
       <Dropdown
-        placeholder="Choose a selector"
+        placeholder={t('Choose a selector')}
         fluid
         selection
         value={value}

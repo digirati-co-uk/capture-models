@@ -10,6 +10,7 @@ import { CaptureModel, ModelFields, StructureType } from '@capture-models/types'
 import { Box } from '@styled-icons/entypo/Box';
 import { Edit } from '@styled-icons/entypo/Edit';
 import { Tag } from '../../atoms/Tag';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   document: CaptureModel['document'];
@@ -43,6 +44,7 @@ export const ModelEditor: React.FC<Props> = ({
   initialPath = [],
   setModelFields,
 }) => {
+  const { t } = useTranslation();
   const [isSelecting, setIsSelecting] = useState(false);
   const [selected, setSelected] = useState<string[][]>(() => expandModelFields(modelFields));
 
@@ -60,12 +62,12 @@ export const ModelEditor: React.FC<Props> = ({
         <Grid>
           {initialPath.length ? (
             <GridColumn>
-              <Button onClick={() => popFocus()}>back</Button>
+              <Button onClick={() => popFocus()}>{t('back')}</Button>
             </GridColumn>
           ) : null}
           <GridColumn fluid>
             <CardHeader>{model.label}</CardHeader>
-            <CardMeta>Model</CardMeta>
+            <CardMeta>{t('Model')}</CardMeta>
           </GridColumn>
         </Grid>
       </CardContent>
@@ -100,7 +102,7 @@ export const ModelEditor: React.FC<Props> = ({
                     setSelected(selected.filter(r => r.join('--HASH--') !== item.key.join('--HASH--')));
                   }}
                 >
-                  Remove
+                  {t('Remove')}
                 </Button>
               </ListContent>
             </ListItem>
@@ -119,10 +121,10 @@ export const ModelEditor: React.FC<Props> = ({
               }}
             />
             <br />
-            <Button onClick={() => setIsSelecting(false)}>Cancel</Button>
+            <Button onClick={() => setIsSelecting(false)}>{t('Cancel')}</Button>
           </React.Fragment>
         ) : (
-          <Button onClick={() => setIsSelecting(true)}>Add new field</Button>
+          <Button onClick={() => setIsSelecting(true)}>{t('Add new field')}</Button>
         )}
       </CardContent>
       <CardContent extra>

@@ -4,6 +4,7 @@ import { ChoiceEditor } from '../ChoiceEditor/ChoiceEditor';
 import { ModelEditor } from '../ModelEditor/ModelEditor';
 import { CaptureModel, ModelFields, StructureType } from '@capture-models/types';
 import { Tree } from '../Tree/Tree';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   tree: any[];
@@ -44,6 +45,7 @@ export const StructureEditor: React.FC<Props> = ({
   onAddModel,
   setModelFields,
 }) => {
+  const { t } = useTranslation();
   return (
     <Grid padded>
       <GridColumn>
@@ -80,10 +82,10 @@ export const StructureEditor: React.FC<Props> = ({
               setModelFields={setModelFields}
             />
           ) : (
-            <div>Unknown type</div>
+            <div>{t('Unknown type')}</div>
           )
         ) : (
-          <div>empty</div>
+          <div>{t('empty')}</div>
         )}
       </GridColumn>
     </Grid>

@@ -6,6 +6,7 @@ import { List as ListIcon } from '@styled-icons/entypo/List';
 import { StructureType } from '@capture-models/types';
 import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
 import { Tag } from '../../atoms/Tag';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   choice: StructureType<'choice'>;
@@ -15,6 +16,7 @@ type Props = {
 };
 
 export const ChoiceList: React.FC<Props> = ({ onRemove, choice, onReorder, pushFocus }) => {
+  const { t } = useTranslation();
   const onDragEnd = (result: DropResult) => {
     if (!result.destination) {
       return;
@@ -56,7 +58,7 @@ export const ChoiceList: React.FC<Props> = ({ onRemove, choice, onReorder, pushF
                             onRemove(key);
                           }}
                         >
-                          Remove
+                          {t('Remove')}
                         </Button>
                         <Tag>{item.type}</Tag>
                       </ListContent>

@@ -4,15 +4,17 @@ import { Button } from '../../atoms/Button';
 import {Card, CardContent, CardHeader} from '../../atoms/Card';
 import { SelectorSpecification } from '@capture-models/types';
 import { Tag } from '../../atoms/Tag';
+import { useTranslation } from 'react-i18next';
 
 export const ChooseSelector: React.FC<{
   handleChoice: (choice: SelectorSpecification) => void;
 }> = ({ handleChoice }) => {
+  const { t } = useTranslation();
   const { selectors } = useContext(PluginContext);
 
   return (
     <div>
-      <h2>Choose selector</h2>
+      <h2>{t('Choose selector')}</h2>
       <ul>
         {Object.values(selectors).map(field =>
           field ? (
@@ -22,7 +24,7 @@ export const ChooseSelector: React.FC<{
                 <p>{field.description}</p>
               </CardContent>
               <CardContent extra>
-                Supported content types
+                {t('Supported content types')}
                 <div>
                   {field.supportedContentTypes.map(type => (
                     <Tag key={type}>{type}</Tag>
@@ -30,7 +32,7 @@ export const ChooseSelector: React.FC<{
                 </div>
               </CardContent>
               <Button onClick={() => handleChoice(field as any)}>
-                Create {field.label}
+                {t('Create {{label}}', { label: field.label })}
               </Button>
             </Card>
           ) : null

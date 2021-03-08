@@ -6,6 +6,7 @@ import { ChooseSelectorButton } from '../ChooseSelectorButton/ChooseSelectorButt
 import { FieldSpecification, SelectorSpecification } from '@capture-models/types';
 import { ErrorMessage } from '../../atoms/Message';
 import { StyledForm, StyledFormField, StyledFormInput, StyledFormLabel } from '../../atoms/StyledForm';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   existingTerms: string[];
@@ -19,6 +20,7 @@ type Props = {
 };
 
 export const NewFieldForm: React.FC<Props> = ({ existingTerms, onSave }) => {
+  const { t } = useTranslation();
   const [term, setTerm] = useState('');
   const { fields, selectors } = useContext(PluginContext);
   const [fieldType, setFieldType] = useState<string>('');
@@ -42,7 +44,7 @@ export const NewFieldForm: React.FC<Props> = ({ existingTerms, onSave }) => {
 
   useEffect(() => {
     if (existingTerms.indexOf(term) !== -1) {
-      setError(`The key "${term}" already exists in this item`);
+      setError(t('The key "{{term}}" already exists in this item', { term }));
     } else {
       setError('');
     }
@@ -52,19 +54,19 @@ export const NewFieldForm: React.FC<Props> = ({ existingTerms, onSave }) => {
     <StyledForm onSubmit={onSubmit} autoComplete="off">
       <StyledFormField>
         <StyledFormLabel>
-          Choose field type
-          <ChooseFieldButton onChange={t => setFieldType(t as any)} />
+          {t('Choose field type')}
+          <ChooseFieldButton onChange={type => setFieldType(type as any)} />
         </StyledFormLabel>
       </StyledFormField>
       <StyledFormField>
         <StyledFormLabel>
-          Choose selector (optional)
-          <ChooseSelectorButton onChange={t => setSelectorType(t as any)} />
+          {t('Choose selector (optional)')}
+          <ChooseSelectorButton onChange={type => setSelectorType(type as any)} />
         </StyledFormLabel>
       </StyledFormField>
       <StyledFormField>
         <StyledFormLabel>
-          JSON Key / Term
+          {t('JSON Key / Term')}
           <StyledFormInput
             type="text"
             name="term"
@@ -76,7 +78,7 @@ export const NewFieldForm: React.FC<Props> = ({ existingTerms, onSave }) => {
       </StyledFormField>
       {error ? <ErrorMessage>{error}</ErrorMessage> : null}
       <Button disabled={error !== '' || term === ''} primary>
-        Save
+        {t('Save')}
       </Button>
     </StyledForm>
   );

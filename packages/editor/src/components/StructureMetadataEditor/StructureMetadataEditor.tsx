@@ -10,6 +10,7 @@ import {
   StyledFormTextarea,
 } from '../../atoms/StyledForm';
 import { useUnmount } from '../../hooks/useUnmount';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   profiles?: string[];
@@ -18,6 +19,7 @@ type Props = {
 };
 
 export const StructureMetadataEditor: React.FC<Props> = ({ profiles = [], structure, onSave }) => {
+  const { t } = useTranslation();
   const formik = useFormik({
     initialValues: structure,
     onSubmit: values => {
@@ -38,7 +40,7 @@ export const StructureMetadataEditor: React.FC<Props> = ({ profiles = [], struct
     <StyledForm onSubmit={formik.handleSubmit}>
       <StyledFormField>
         <StyledFormLabel>
-          Label
+          {t('Label')}
           <StyledFormInputElement
             type="text"
             name="label"
@@ -52,7 +54,7 @@ export const StructureMetadataEditor: React.FC<Props> = ({ profiles = [], struct
 
       <StyledFormField>
         <StyledFormLabel>
-          Description
+          {t('Description')}
           <StyledFormTextarea
             name="description"
             id="description"
@@ -64,7 +66,7 @@ export const StructureMetadataEditor: React.FC<Props> = ({ profiles = [], struct
 
       {profiles.length ? (
         <div style={{ color: '#000' }}>
-          <h4>Profiles</h4>
+          <h4>{t('Profiles')}</h4>
           {profiles.map((prof, idx) => {
             return (
               <div key={idx}>
@@ -74,7 +76,7 @@ export const StructureMetadataEditor: React.FC<Props> = ({ profiles = [], struct
                     type="button"
                     onClick={() => formik.setFieldValue('profile', [...(formik.values.profile || []), prof])}
                   >
-                    enable
+                    {t('enable')}
                   </button>
                 ) : (
                   <button
@@ -86,7 +88,7 @@ export const StructureMetadataEditor: React.FC<Props> = ({ profiles = [], struct
                       )
                     }
                   >
-                    disable
+                    {t('disable')}
                   </button>
                 )}
               </div>
@@ -98,14 +100,14 @@ export const StructureMetadataEditor: React.FC<Props> = ({ profiles = [], struct
       {formik.values.type === 'model' ? (
         <StyledFormField>
           <StyledFormLabel>
-            Crowdsourcing Instructions
+            {t('Crowdsourcing Instructions')}
             <StyledFormTextarea name="instructions" value={formik.values.instructions} onChange={formik.handleChange} />
           </StyledFormLabel>
         </StyledFormField>
       ) : null}
       {formik.dirty ? (
         <Button type="submit" color="blue" size="small">
-          Save
+          {t('Save')}
         </Button>
       ) : null}
     </StyledForm>

@@ -3,6 +3,7 @@ import React from 'react';
 import { Button } from '../../atoms/Button';
 import { CaptureModel } from '@capture-models/types';
 import { StyledForm, StyledFormField, StyledFormInput } from '../../atoms/StyledForm';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   structure: CaptureModel['structure'];
@@ -10,6 +11,7 @@ type Props = {
 };
 
 export const ModelMetadataEditor: React.FC<Props> = ({ structure, onSave }) => {
+  const { t } = useTranslation();
   const formik = useFormik({
     initialValues: structure,
     onSubmit: values => {
@@ -22,7 +24,7 @@ export const ModelMetadataEditor: React.FC<Props> = ({ structure, onSave }) => {
       <StyledForm>
         <StyledFormField>
           <label>
-            Label
+            {t('Label')}
             <StyledFormInput
               type="text"
               name="label"
@@ -35,7 +37,7 @@ export const ModelMetadataEditor: React.FC<Props> = ({ structure, onSave }) => {
 
         <StyledFormField>
           <label>
-            Description
+            {t('Description')}
             <StyledFormInput
               type="text"
               name="description"
@@ -49,7 +51,7 @@ export const ModelMetadataEditor: React.FC<Props> = ({ structure, onSave }) => {
 
       {formik.dirty ? (
         <Button type="submit" primary size="small">
-          Save
+          {t('Save')}
         </Button>
       ) : null}
     </form>

@@ -2,6 +2,7 @@ import React, { useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Button } from './Button';
 import styled from 'styled-components/macro';
+import { useTranslation } from 'react-i18next';
 
 const Portal = styled.div`
   position: fixed;
@@ -38,6 +39,7 @@ export const ConfirmButton: React.FC<{ message: string; defaultButton?: boolean;
   onClick,
   children,
 }) => {
+  const { t } = useTranslation();
   const portalEl = useRef<HTMLElement>();
   const [ready, setIsReady] = useState(false);
   const containerRef = useRef<any>();
@@ -82,7 +84,7 @@ export const ConfirmButton: React.FC<{ message: string; defaultButton?: boolean;
                         setIsReady(false);
                       }}
                     >
-                      Remove
+                      {t('Remove')}
                     </Button>
                   ) : (
                     <span

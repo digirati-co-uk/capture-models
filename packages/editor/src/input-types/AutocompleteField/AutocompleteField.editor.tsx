@@ -7,6 +7,7 @@ import {
   StyledCheckbox,
   StyledFormInput,
 } from '../../atoms/StyledForm';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   dataSource: string;
@@ -15,17 +16,18 @@ type Props = {
 };
 
 const AutocompleteFieldEditor: React.FC<Props> = props => {
+  const { t } = useTranslation();
   return (
     <>
       <StyledFormField>
         <StyledFormLabel>
-          Data source
+          {t('Data source')}
           <Field as={StyledFormInput} type="text" name="dataSource" value={props.dataSource} required={true} />
         </StyledFormLabel>
       </StyledFormField>
       <StyledFormField>
         <StyledFormLabel>
-          Placeholder
+          {t('Placeholder')}
           <Field
             as={StyledFormInputElement}
             type="text"
@@ -38,7 +40,7 @@ const AutocompleteFieldEditor: React.FC<Props> = props => {
       <StyledFormField>
         <StyledFormLabel>
           <Field as={StyledCheckbox} type="checkbox" name="clearable" value={props.clearable} required={false} />
-          Allow clearing of selection
+          {t('Allow clearing of selection')}
         </StyledFormLabel>
       </StyledFormField>
     </>

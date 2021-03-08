@@ -3,6 +3,7 @@ import { BaseField, FieldComponent } from '@capture-models/types';
 import { Select } from 'react-functional-select';
 import { ErrorMessage } from '../../atoms/Message';
 import { Tag } from '../../atoms/Tag';
+import { useTranslation } from 'react-i18next';
 
 export interface AutocompleteFieldProps extends BaseField {
   type: 'autocomplete-field';
@@ -29,6 +30,7 @@ function renderOptionLabel(option: CompletionItem) {
 }
 
 export const AutocompleteField: FieldComponent<AutocompleteFieldProps> = props => {
+  const { t } = useTranslation();
   const [options, setOptions] = useState<CompletionItem[]>(props.value ? [props.value] : []);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
@@ -61,7 +63,7 @@ export const AutocompleteField: FieldComponent<AutocompleteFieldProps> = props =
           setError('');
         })
         .catch(() => {
-          setError('There was a problem fetching results');
+          setError(t('There was a problem fetching results'));
         });
     }
   };
@@ -83,11 +85,12 @@ export const AutocompleteField: FieldComponent<AutocompleteFieldProps> = props =
         isInvalid={!!error}
         inputId={props.id}
         initialValue={options[0]}
-        placeholder={props.placeholder}
+        placeholder={props.placeholder ? t(props.placeholder) : t('Select option...')}
         options={options}
         isLoading={isLoading}
         isClearable={props.clearable}
         onOptionChange={onOptionChange}
+        noOptionsMsg={t('No options')}
         filterMatchFrom="any"
         onInputChange={onInputChange}
         onSearchChange={onSearchChange}

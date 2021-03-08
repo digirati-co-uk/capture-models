@@ -5,6 +5,7 @@ import { ChooseSelectorButton } from '../ChooseSelectorButton/ChooseSelectorButt
 import { SelectorSpecification } from '@capture-models/types';
 import { ErrorMessage } from '../../atoms/Message';
 import { StyledForm, StyledFormField, StyledFormInput } from '../../atoms/StyledForm';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   existingTerms: string[];
@@ -12,6 +13,7 @@ type Props = {
 };
 
 export const NewDocumentForm: React.FC<Props> = ({ existingTerms, onSave }) => {
+  const { t } = useTranslation();
   const [term, setTerm] = useState('');
   const [error, setError] = useState('');
   const { selectors } = useContext(PluginContext);
@@ -29,17 +31,17 @@ export const NewDocumentForm: React.FC<Props> = ({ existingTerms, onSave }) => {
 
   useEffect(() => {
     if (existingTerms.indexOf(term) !== -1) {
-      setError(`The key "${term}" already exists in this item`);
+      setError(t('The key "{{term}}" already exists in this item', { term }));
     } else {
       setError('');
     }
-  }, [existingTerms, term]);
+  }, [existingTerms, t, term]);
 
   return (
     <StyledForm onSubmit={onSubmit} autoComplete="off">
       <StyledFormField>
         <label>
-          JSON Key / Term
+          {t('JSON Key / Term')}
           <StyledFormInput
             type="text"
             name="term"
@@ -51,13 +53,13 @@ export const NewDocumentForm: React.FC<Props> = ({ existingTerms, onSave }) => {
       </StyledFormField>
       <StyledFormField>
         <label>
-          Choose selector (optional)
-          <ChooseSelectorButton onChange={t => setSelectorType(t as any)} />
+          {t('Choose selector (optional)')}
+          <ChooseSelectorButton onChange={type => setSelectorType(type as any)} />
         </label>
       </StyledFormField>
       {error ? <ErrorMessage>{error}</ErrorMessage> : null}
       <Button disabled={error !== '' || term === ''} primary>
-        Save
+        {t('Save')}
       </Button>
     </StyledForm>
   );

@@ -1,6 +1,7 @@
 import { RoundedCard } from '../RoundedCard/RoundedCard';
 import React, { useMemo } from 'react';
 import { Heading } from '../Heading/Heading';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   captureModels: Array<{ id: string; label: string }>;
@@ -9,11 +10,12 @@ type Props = {
 };
 
 export const CaptureModelList: React.FC<Props> = ({ captureModels, onClick, onDelete }) => {
+  const { t } = useTranslation();
   const orderedList = useMemo(() => {
     return captureModels.sort((a, b) => {
-      return (a.label || 'Untitled').localeCompare(b.label || 'Untitled');
+      return (a.label || t('Untitled')).localeCompare(b.label || t('Untitled'));
     });
-  }, [captureModels]);
+  }, [t, captureModels]);
 
   return (
     <>

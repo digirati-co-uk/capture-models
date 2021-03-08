@@ -2,6 +2,7 @@ import produce, { Draft } from 'immer';
 import React, { useState } from 'react';
 import { CaptureModel } from '@capture-models/types';
 import { Tree } from '../Tree/Tree';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   document: CaptureModel['document'];
@@ -10,6 +11,8 @@ type Props = {
 };
 
 export const SelectModelFields: React.FC<Props> = ({ document, selected = [], onSave }) => {
+  const { t } = useTranslation();
+
   const processDoc = (doc: CaptureModel['document'], keyAcc: string[]): any[] => {
     const idx = selected.map(s => s.join('--HASH--'));
     return Object.keys(doc.properties)
@@ -25,7 +28,7 @@ export const SelectModelFields: React.FC<Props> = ({ document, selected = [], on
             icon: 'layers',
             label: prop.label,
             nodeData: [...keyAcc, key],
-            secondaryLabel: <div color="yellow">entity</div>,
+            secondaryLabel: <div color="yellow">{t('entity')}</div>,
             childNodes: processDoc(prop as CaptureModel['document'], [...keyAcc, key]),
           };
         }
@@ -82,6 +85,6 @@ export const SelectModelFields: React.FC<Props> = ({ document, selected = [], on
   };
 
   return (
-    <Tree tree={{ id: 'root', label: 'Document root', nodeData: null, childNodes: nodes }} onClick={onNodeClick} />
+    <Tree tree={{ id: 'root', label: t('Document root'), nodeData: null, childNodes: nodes }} onClick={onNodeClick} />
   );
 };

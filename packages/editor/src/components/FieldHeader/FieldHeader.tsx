@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import styled, { css } from 'styled-components/macro';
 import { Tag } from '../../atoms/Tag';
+import { useTranslation } from 'react-i18next';
 
 type FieldHeaderProps = {
   labelFor?: string;
@@ -100,6 +101,7 @@ export const FieldHeader: React.FC<FieldHeaderProps> = ({
   onSelectorOpen,
   selectorLabel,
 }) => {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
 
   const toggleSelector = useCallback(() => {
@@ -127,7 +129,7 @@ export const FieldHeader: React.FC<FieldHeaderProps> = ({
         </FieldHeaderLeft>
         {selectorComponent ? (
           <FieldHeaderRight onClick={toggleSelector}>
-            <FieldHeaderIcon open={open}>{selectorLabel || 'Define region'}</FieldHeaderIcon>
+            <FieldHeaderIcon open={open}>{selectorLabel || t('Define region')}</FieldHeaderIcon>
           </FieldHeaderRight>
         ) : null}
       </FieldHeaderTop>
