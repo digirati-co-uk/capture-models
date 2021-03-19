@@ -19415,10 +19415,10 @@ react-focus-lock@^2.1.0:
     use-callback-ref "^1.2.1"
     use-sidecar "^1.0.1"
 
-react-functional-select@^2.3.5:
-  version "2.3.5"
-  resolved "https://registry.yarnpkg.com/react-functional-select/-/react-functional-select-2.3.5.tgz#458fd23ba764c7800f64a0913aedd0fee89550f7"
-  integrity sha512-9Z3YQSvKxdmrK722MjYaueS+gqaHUED+EZXDmQJZv+HwAmITORu4sROsx5dLxSqi1epdenkXuzifCZWimpP+tw==
+react-functional-select@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/react-functional-select/-/react-functional-select-3.1.1.tgz#1da518d2af5963851d8f587914eb9e709672b09e"
+  integrity sha512-bNVG3AQlViw9ZD9FhngRbHxY2eudvQro7Ww7kXJyZ3bJ/4UI4Sth2IqmhA3FhvFA2wqLHNzXJC1H3KSrng7DZw==
 
 react-helmet-async@^1.0.2:
   version "1.0.4"

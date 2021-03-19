@@ -73,7 +73,7 @@
     "react-beautiful-dnd": "^13.0.0",
     "react-dom": "^16.13.1",
     "react-draggable": "^4.2.0",
-    "react-functional-select": "^2.3.5",
+    "react-functional-select": "^3.1.1",
     "react-i18next": "^11.8.9",
     "react-router-dom": "^5.1.2",
     "react-rte": "^0.16.1",
