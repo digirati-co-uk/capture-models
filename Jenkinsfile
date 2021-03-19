@@ -12,7 +12,7 @@ runBuild {
     }
 
     stage('test') {
-        sh('yarn run test --reporters=jest-junit')
+        sh('yarn run test')
         junit 'junit.xml'
     }
 
