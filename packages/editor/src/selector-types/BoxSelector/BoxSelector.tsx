@@ -60,11 +60,17 @@ export const BoxSelector: SelectorComponent<BoxSelectorProps> = ({
           <CroppedImage>
             <img
               src={props.selectorPreview}
-              alt={t('You selected a region at {{x}}, {{y}}, {{width}}, {{height}}', props.state)}
+              alt={
+                t('You selected a region at ') +
+                `${props.state.x}, ${props.state.y}, ${props.state.width}, ${props.state.height}`
+              }
             />
           </CroppedImage>
         ) : (
-          <>{t('You selected a region at {{x}}, {{y}}, {{width}}, {{height}}', props.state)}</>
+          <>
+            {t('You selected a region at ') +
+              `${props.state.x}, ${props.state.y}, ${props.state.width}, ${props.state.height}`}
+          </>
         )}
         <br />
         {chooseSelector && !readOnly ? (
