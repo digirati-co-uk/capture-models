@@ -46,6 +46,7 @@
     { "path": "packages/types" },
     { "path": "packages/database" },
     { "path": "packages/server" },
+    { "path": "packages/editor" },
     { "path": "packages/server-ui" },
     { "path": "packages/plugin-api" }
   ],

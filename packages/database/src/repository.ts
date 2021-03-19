@@ -854,7 +854,9 @@ export class CaptureModelRepository {
 
         if (
           !deepEqual(fieldMap[field.id].value, field.value) ||
-          (field.selector && !deepEqual(selectorMap[field.selector.id].state, field.selector.state))
+          (field.selector &&
+            selectorMap[field.selector.id] &&
+            !deepEqual(selectorMap[field.selector.id].state, field.selector.state))
         ) {
           // UPDATE @todo treating this the same as creation.
           fieldsToAdd.push({ field, term, parent, index });

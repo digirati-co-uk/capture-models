@@ -282,7 +282,11 @@ export const revisionStore: RevisionsModel = {
       const path = state.selector.selectorPaths[selectorToUpdate.id];
       const field = getRevisionFieldFromPath<BaseField>(state, path);
 
-      if (state.revisionEditMode && state.currentRevisionId) {
+      if (
+        state.revisionEditMode &&
+        state.currentRevisionId &&
+        (!field?.revision || field.revision !== state.currentRevisionId)
+      ) {
         const existingRevisedSelector = selectorToUpdate.revisedBy
           ? selectorToUpdate.revisedBy.find(r => r.revisionId === state.currentRevisionId)
           : undefined;
@@ -728,6 +732,13 @@ export const revisionStore: RevisionsModel = {
       return visibleAdjacentSelectorIds.map(id => resolved.find(r => r.id === id)).filter(e => e) as BaseSelector[];
     }
   ),
+};
+
+export const hydrateRevisionStore = (data: any) => {
+  return createStore(revisionStore, {
+    enhancers: [batchedSubscribe(unstable_batchedUpdates)],
+    initialState: data,
+  });
 };
 
 export const createRevisionStore = (initialData?: {
