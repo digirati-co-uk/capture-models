@@ -2,6 +2,9 @@
  * @jest-environment jsdom
  */
 
+// @ts-ignore
+globalThis = typeof globalThis !== 'undefined' ? this : globalThis;
+
 import { addContext, addDefaultContext, removeContext, removeDefaultContext } from '../core/context-editor';
 import { CaptureModel } from '@capture-models/types';
 

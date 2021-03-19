@@ -2,6 +2,9 @@
  * @jest-environment jsdom
  */
 
+// @ts-ignore
+globalThis = typeof globalThis !== 'undefined' ? this : globalThis;
+
 import { registerField } from '@capture-models/plugin-api';
 import { CaptureModel } from '@capture-models/types';
 import React from 'react';

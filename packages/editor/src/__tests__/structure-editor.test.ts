@@ -2,6 +2,9 @@
  * @jest-environment jsdom
  */
 
+// @ts-ignore
+globalThis = typeof globalThis !== 'undefined' ? this : globalThis;
+
 import { CaptureModel, FieldSpecification } from '@capture-models/types';
 import {
   documentFieldOptionsToStructure,
