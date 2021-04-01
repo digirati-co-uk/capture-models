@@ -1053,25 +1053,25 @@
     to-fast-properties "^2.0.0"
 
 "@capture-models/helpers@../packages/helpers":
-  version "0.12.0"
+  version "0.13.1"
   dependencies:
-    "@capture-models/plugin-api" "^0.12.0"
-    "@capture-models/types" "^0.12.0"
+    "@capture-models/plugin-api" "^0.13.0"
+    "@capture-models/types" "^0.13.0"
     fast-copy "^2.0.4"
     immer "^7.0.7"
     react "^16.13.1"
     uuid "^3.4.0"
 
-"@capture-models/plugin-api@^0.12.0":
-  version "0.12.0"
-  resolved "https://registry.yarnpkg.com/@capture-models/plugin-api/-/plugin-api-0.12.0.tgz#4210dd50f3aa434aa921bb363382d226855294f7"
-  integrity sha512-h70N8u8ohEEaKsJf+JSHutErxFG/SGQoxeqFURUb9N8M1IOkblx4/i/IpVINhOr3LicEA5njfYyEym3YmTcyUw==
+"@capture-models/plugin-api@^0.13.0":
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/@capture-models/plugin-api/-/plugin-api-0.13.0.tgz#94868bb17469e02a738b27a2695e3d8aadf7498d"
+  integrity sha512-3DfK9OJ9EMCu2xCayebpAr6ldXbTOEC1UpCjfotVauozWEDcb5AccdleU41zhnN8bQTlT049cYRe0V57zs9AqA==
   dependencies:
-    "@capture-models/types" "^0.12.0"
+    "@capture-models/types" "^0.13.0"
     react "^16.13.1"
 
-"@capture-models/types@../packages/types", "@capture-models/types@^0.12.0":
-  version "0.12.0"
+"@capture-models/types@../packages/types", "@capture-models/types@^0.13.0":
+  version "0.13.0"
 
 "@cypress/browserify-preprocessor@3.0.1":
   version "3.0.1"
@@ -8165,9 +8165,9 @@ xtend@^4.0.0, xtend@^4.0.1, xtend@^4.0.2, xtend@~4.0.1:
   integrity sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==
 
 y18n@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/y18n/-/y18n-4.0.0.tgz#95ef94f85ecc81d007c264e190a120f0a3c8566b"
-  integrity sha512-r9S/ZyXu/Xu9q1tYlpsLIsa3EeLXXk0VwlxqTcFRfg9EhMW+17kbt9G0NrgCmhGb5vT2hyhJZLfDGx+7+5Uj/w==
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/y18n/-/y18n-4.0.1.tgz#8db2b83c31c5d75099bb890b23f3094891e247d4"
+  integrity sha512-wNcy4NvjMYL8gogWWYAO7ZFWFfHcbdbE57tZO8e4cbpj8tfUcwrwqSl3ad8HxpYWCdXcJUCeKKZS62Av1affwQ==
 
 yallist@^2.1.2:
   version "2.1.2"
