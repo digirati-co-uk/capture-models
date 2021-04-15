@@ -95,7 +95,8 @@ export class CaptureModelRepository {
     }
 
     if (includeCanonical && !revisionStatus) {
-      revisionStatus = 'accepted';
+      // @todo find out if there is another case where this DOES need to be set.
+      // revisionStatus = 'accepted';
     }
 
     if (revisionStatus || includeCanonical || userId) {
@@ -103,7 +104,7 @@ export class CaptureModelRepository {
     }
 
     if (revisionStatus || includeCanonical) {
-      if (['draft', 'submitted', 'accepted'].indexOf(revisionStatus.toLowerCase()) === -1) {
+      if (revisionStatus && ['draft', 'submitted', 'accepted'].indexOf(revisionStatus.toLowerCase()) === -1) {
         throw new Error(
           `Invalid revision status ${revisionStatus}, should be one of ['draft', 'submitted', 'accepted']`
         );
