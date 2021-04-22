@@ -1,6 +1,6 @@
 {
   "name": "@capture-models/editor",
-  "version": "0.13.6",
+  "version": "0.13.7",
   "license": "MIT",
   "files": [
     "dist",
