@@ -40,7 +40,7 @@ export const Simple: React.FC = () => {
       >
         <SwitchEditMode />
         <div style={{ display: 'flex' }}>
-          <div style={{ flex: '1 1 0px' }}>
+          <div style={{ flex: '1 1 0px', minWidth: 0 }}>
             <AtlasViewer
               id="123"
               type="atlas"
@@ -57,6 +57,7 @@ export const Simple: React.FC = () => {
                   topLevelSelectors: true,
                 },
                 custom: {
+                  unstable_webglRenderer: true,
                   onCreateAtlas(ctx) {
                     setRuntime(ctx.runtime);
                   },

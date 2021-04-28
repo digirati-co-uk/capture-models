@@ -10,12 +10,14 @@ import {
   VaultProvider,
   useVaultEffect,
 } from '@hyperion-framework/react-vault';
-import { AtlasAuto, getId, GetTile, TileSet, AtlasContextType } from '@atlas-viewer/atlas';
+import { AtlasAuto, getId, GetTile, TileSet, AtlasContextType, PopmotionControllerConfig } from '@atlas-viewer/atlas';
 import { ImageServiceContext } from './Atlas.helpers';
 
 export type AtlasCustomOptions = {
+  unstable_webglRenderer?: boolean;
   customFetcher?: <T>(url: string, options: T) => unknown | Promise<unknown>;
   onCreateAtlas?: (context: AtlasContextType) => void;
+  controllerConfig?: PopmotionControllerConfig;
 };
 
 export interface AtlasViewerProps extends BaseContent {
@@ -29,12 +31,13 @@ export interface AtlasViewerProps extends BaseContent {
   options: ContentOptions<AtlasCustomOptions>;
 }
 
-const Canvas: React.FC<{ isEditing?: boolean; onDeselect?: () => void; onCreated?: (ctx: any) => void }> = ({
-  isEditing,
-  onDeselect,
-  children,
-  onCreated,
-}) => {
+const Canvas: React.FC<{
+  isEditing?: boolean;
+  onDeselect?: () => void;
+  onCreated?: (ctx: any) => void;
+  unstable_webglRenderer?: boolean;
+  controllerConfig?: PopmotionControllerConfig;
+}> = ({ isEditing, onDeselect, children, onCreated, unstable_webglRenderer, controllerConfig }) => {
   const canvas = useCanvas();
   const { data: service } = useImageService() as { data?: ImageService };
   const [thumbnail, setThumbnail] = useState<any | undefined>(undefined);
@@ -72,7 +75,12 @@ const Canvas: React.FC<{ isEditing?: boolean; onDeselect?: () => void; onCreated
   }
 
   return (
-    <AtlasAuto onCreated={onCreated} mode={isEditing ? 'sketch' : 'explore'}>
+    <AtlasAuto
+      onCreated={onCreated}
+      mode={isEditing ? 'sketch' : 'explore'}
+      unstable_webglRenderer={unstable_webglRenderer}
+      controllerConfig={controllerConfig}
+    >
       <world onClick={onDeselect}>
         <ImageServiceContext value={service}>
           {tiles ? <TileSet x={0} y={0} height={canvas.height} width={canvas.width} tiles={tiles} /> : null}
@@ -127,6 +135,8 @@ export const AtlasViewer: React.FC<AtlasViewerProps> = props => {
     <div style={styleProps}>
       <CanvasContext canvas={props.state.canvasId}>
         <Canvas
+          unstable_webglRenderer={props.options?.custom?.unstable_webglRenderer}
+          controllerConfig={props.options?.custom?.controllerConfig}
           onCreated={props.options?.custom?.onCreateAtlas}
           isEditing={!!currentSelector}
           onDeselect={() => {
