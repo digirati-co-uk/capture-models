@@ -37,7 +37,8 @@ const Canvas: React.FC<{
   onCreated?: (ctx: any) => void;
   unstable_webglRenderer?: boolean;
   controllerConfig?: PopmotionControllerConfig;
-}> = ({ isEditing, onDeselect, children, onCreated, unstable_webglRenderer, controllerConfig }) => {
+  style?: any;
+}> = ({ isEditing, onDeselect, children, onCreated, unstable_webglRenderer, controllerConfig, style }) => {
   const canvas = useCanvas();
   const { data: service } = useImageService() as { data?: ImageService };
   const [thumbnail, setThumbnail] = useState<any | undefined>(undefined);
@@ -76,6 +77,7 @@ const Canvas: React.FC<{
 
   return (
     <AtlasAuto
+      style={style}
       onCreated={onCreated}
       mode={isEditing ? 'sketch' : 'explore'}
       unstable_webglRenderer={unstable_webglRenderer}
@@ -135,6 +137,7 @@ export const AtlasViewer: React.FC<AtlasViewerProps> = props => {
     <div style={styleProps}>
       <CanvasContext canvas={props.state.canvasId}>
         <Canvas
+          style={{ height: styleProps.height }}
           unstable_webglRenderer={props.options?.custom?.unstable_webglRenderer}
           controllerConfig={props.options?.custom?.controllerConfig}
           onCreated={props.options?.custom?.onCreateAtlas}
