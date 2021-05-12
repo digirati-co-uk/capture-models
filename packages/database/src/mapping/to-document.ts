@@ -12,6 +12,7 @@ export async function toDocument(
     revisionIds?: string[];
     publishedRevisionIds?: string[];
     idsRemovedByPublishedRevisions?: string[];
+    onlyRevisionFields?: boolean;
   }
 ): Promise<CaptureModel['document']> {
   const {
@@ -89,12 +90,16 @@ export async function toDocument(
               return false;
             }
 
+            if (filters.onlyRevisionFields && !field.revisionId) {
+              return false;
+            }
+
             return true;
           })
         : fields;
 
       // If we filtered everything, then we create a new blank value.
-      if (filteredFields.length === 0 && fields.length !== 0) {
+      if (filteredFields.length === 0 && fields.length !== 0 && !filters.onlyRevisionFields) {
         // Add an empty field.
         returnDocument.properties[prop.term] = [formPropertyValue(toField(fields[0]), {})];
 

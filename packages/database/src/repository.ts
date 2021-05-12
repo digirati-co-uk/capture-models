@@ -53,12 +53,14 @@ export class CaptureModelRepository {
       revisionStatus,
       revisionStatuses = [],
       revisionId,
+      onlyRevisionFields,
       userId,
       context,
     }: {
       includeCanonical?: boolean;
       revisionStatus?: StatusTypes;
       revisionStatuses?: StatusTypes[];
+      onlyRevisionFields?: boolean;
       revisionId?: string;
       userId?: string;
       context?: string[];
@@ -117,7 +119,7 @@ export class CaptureModelRepository {
       throw new Error(`Capture model ${id} not found`);
     }
 
-    return (await toCaptureModel(captureModel, { revisionId, userId, revisionStatus })) as any;
+    return (await toCaptureModel(captureModel, { revisionId, userId, revisionStatus, onlyRevisionFields })) as any;
   }
 
   /**
@@ -416,6 +418,7 @@ export class CaptureModelRepository {
     const revision = toRevision(model);
     const fullModel = await this.getCaptureModel(model.captureModelId, {
       revisionId: id,
+      onlyRevisionFields: true,
       context,
     });
 

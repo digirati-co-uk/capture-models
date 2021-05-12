@@ -74,7 +74,7 @@ export const FieldWrapper: React.FC<Props> = ({
 
   return (
     <React.Suspense fallback={typeof fallback !== 'undefined' ? fallback : 'loading...'}>
-      <div style={{ marginBottom: 30 }}>
+      <div style={{ marginBottom: '1em' }}>
         {hideHeader ? null : (
           <FieldHeader
             selectorLabel={selectorLabel}

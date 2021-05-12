@@ -21,7 +21,7 @@ function recurseRevisionDependencies(revisionId: string, revisions: CaptureModel
 
 export async function toCaptureModel(
   { document, target, structure, revisions, contributors, integrity, id, derivedFromId, profile }: CaptureModel,
-  filters: { userId?: string; revisionId?: string; revisionStatus?: string } = {}
+  filters: { userId?: string; revisionId?: string; revisionStatus?: string; onlyRevisionFields?: boolean } = {}
 ): Promise<CaptureModelType> {
   const baseRevisionIds: string[] = filters.userId
     ? revisions
@@ -67,6 +67,7 @@ export async function toCaptureModel(
       revisionIds,
       publishedRevisionIds,
       idsRemovedByPublishedRevisions,
+      onlyRevisionFields: filters.onlyRevisionFields,
     }),
     target,
     profile,
