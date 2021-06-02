@@ -1,3 +1,5 @@
+import { debug } from 'easy-peasy';
+
 export function getRevisionFieldFromPath<T extends any = any>(
   state: any,
   path: Array<[string, string]>,
@@ -21,7 +23,7 @@ export function getRevisionFieldFromPath<T extends any = any>(
     if (current.type === 'entity') {
       const property = current.properties[prop];
 
-      current = (property as []).find((field: any) => field.id === id) as any;
+      current = (property as []).find((field: any) => field.id === id || field.revises === id) as any;
     }
   }
 
