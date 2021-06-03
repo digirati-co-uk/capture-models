@@ -42,6 +42,9 @@ export function createNewEntityInstance(
   if (clonedRestOfEntity.selector) {
     clonedRestOfEntity.selector.id = generateId();
     clonedRestOfEntity.selector.state = null;
+    if (clonedRestOfEntity.selector.revisedBy) {
+      delete clonedRestOfEntity.selector.revisedBy;
+    }
   }
   clonedRestOfEntity.immutable = false;
   if (clonedRestOfEntity.revises) {

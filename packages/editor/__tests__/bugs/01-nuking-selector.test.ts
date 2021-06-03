@@ -1,4 +1,22 @@
+/**
+ * @jest-environment node
+ */
+
 import { hydrateRevisionStore } from '../../src/stores/revisions/revisions-store';
+import { registerField } from '@capture-models/plugin-api';
+
+registerField({
+  label: 'Text field',
+  type: 'text-field',
+  description: 'Simple text field for plain text',
+  Component: undefined as any,
+  defaultValue: '',
+  allowMultiple: true,
+  defaultProps: {},
+  Editor: undefined as any,
+  // Editor: TextFieldEditor,
+  TextPreview: undefined as any,
+} as any);
 
 describe('1. Nuking selector bug', () => {
   test('it should not revise the selector', () => {
@@ -1071,5 +1089,767 @@ describe('1. Nuking selector bug', () => {
       width: 607,
       height: 285,
     });
+  });
+
+  test('it should not copy revised by when creating new entity instance', () => {
+    const state = {
+      revisions: {
+        '501dbece-137d-4180-9bbd-c3ae022ad10b': {
+          captureModelId: 'cf1063cd-22de-4c71-9cd3-410aee300e39',
+          revision: {
+            id: '501dbece-137d-4180-9bbd-c3ae022ad10b',
+            fields: [['entity-single', ['test']], ['entity-multiple', ['name']], 'field-multiple', 'field-single'],
+            approved: true,
+            structureId: '501dbece-137d-4180-9bbd-c3ae022ad10b',
+            label: 'Default',
+          },
+          source: 'canonical',
+          document: {
+            id: '31fd3e04-1fc2-4cab-b0c9-88b3e654fc06',
+            type: 'entity',
+            label: 'Project with selectors',
+            properties: {
+              'entity-single': [
+                {
+                  id: '46ffe8a3-1663-4457-bb20-c1ced15f8e68',
+                  type: 'entity',
+                  label: 'entity',
+                  labelledBy: 'test',
+                  properties: {
+                    test: [
+                      {
+                        id: 'af393ef9-6753-436d-bc18-c677e45c5b77',
+                        type: 'text-field',
+                        label: 'Test',
+                        value: '',
+                      },
+                    ],
+                  },
+                  selector: {
+                    id: '11e0389a-d697-4865-91b3-c79b9f18e108',
+                    type: 'box-selector',
+                    state: null,
+                  },
+                },
+              ],
+              'entity-multiple': [
+                {
+                  id: '4ff479d3-c6aa-4c73-97c6-49dc1a84f653',
+                  type: 'entity',
+                  label: 'Entity multiple',
+                  allowMultiple: true,
+                  properties: {
+                    name: [
+                      {
+                        id: 'b81f9016-1ac4-412b-9067-49e9160c9e65',
+                        type: 'text-field',
+                        label: 'name',
+                        value: '',
+                      },
+                    ],
+                  },
+                  selector: {
+                    id: '147c59cc-589f-46f6-84f0-e7a446fdfe9a',
+                    type: 'box-selector',
+                    state: null,
+                  },
+                },
+              ],
+              'field-multiple': [
+                {
+                  id: '7a9408ca-975c-4b0a-9d36-2b9a00907930',
+                  type: 'text-field',
+                  label: 'Field multiple',
+                  value: '',
+                  allowMultiple: true,
+                  selector: {
+                    id: 'f5f5e733-ac67-4298-9be9-a0478223eb11',
+                    type: 'box-selector',
+                    state: null,
+                  },
+                },
+              ],
+              'field-single': [
+                {
+                  id: '6222fcce-3dea-4a17-b8e0-b1ce466db3d9',
+                  type: 'text-field',
+                  label: 'Field',
+                  value: '',
+                  selector: {
+                    id: '710cd08d-9925-4732-b726-2cdae56c11df',
+                    type: 'box-selector',
+                    state: null,
+                  },
+                },
+              ],
+            },
+          },
+        },
+        '36110f66-81fd-4567-8f85-8042658be21c': {
+          captureModelId: 'cf1063cd-22de-4c71-9cd3-410aee300e39',
+          revision: {
+            id: '36110f66-81fd-4567-8f85-8042658be21c',
+            fields: [['entity-single', ['test']], ['entity-multiple', ['name']], 'field-multiple', 'field-single'],
+            approved: false,
+            structureId: '501dbece-137d-4180-9bbd-c3ae022ad10b',
+            label: 'Default',
+            revises: '501dbece-137d-4180-9bbd-c3ae022ad10b',
+          },
+          document: {
+            id: '31fd3e04-1fc2-4cab-b0c9-88b3e654fc06',
+            type: 'entity',
+            label: 'Project with selectors',
+            properties: {
+              'entity-single': [
+                {
+                  id: '46ffe8a3-1663-4457-bb20-c1ced15f8e68',
+                  type: 'entity',
+                  label: 'entity',
+                  labelledBy: 'test',
+                  properties: {
+                    test: [
+                      {
+                        id: 'af393ef9-6753-436d-bc18-c677e45c5b77',
+                        type: 'text-field',
+                        label: 'Test',
+                        value: '',
+                      },
+                    ],
+                  },
+                  selector: {
+                    id: '11e0389a-d697-4865-91b3-c79b9f18e108',
+                    type: 'box-selector',
+                    state: null,
+                  },
+                  immutable: true,
+                },
+              ],
+              'entity-multiple': [
+                {
+                  id: '4ff479d3-c6aa-4c73-97c6-49dc1a84f653',
+                  type: 'entity',
+                  label: 'Entity multiple',
+                  allowMultiple: true,
+                  properties: {
+                    name: [
+                      {
+                        id: '74fff33d-911f-4490-8f2f-911c91d76998',
+                        type: 'text-field',
+                        label: 'name',
+                        value: 'entity 1',
+                        revision: '36110f66-81fd-4567-8f85-8042658be21c',
+                        revises: 'b81f9016-1ac4-412b-9067-49e9160c9e65',
+                      },
+                    ],
+                  },
+                  selector: {
+                    id: '147c59cc-589f-46f6-84f0-e7a446fdfe9a',
+                    type: 'box-selector',
+                    state: null,
+                    revisedBy: [
+                      {
+                        id: '3ba99318-dda3-4be4-894c-153f0809cd3f',
+                        type: 'box-selector',
+                        state: {
+                          x: 680,
+                          y: 213,
+                          width: 466,
+                          height: 268,
+                        },
+                        revisionId: '36110f66-81fd-4567-8f85-8042658be21c',
+                        revises: '147c59cc-589f-46f6-84f0-e7a446fdfe9a',
+                      },
+                    ],
+                  },
+                  immutable: true,
+                },
+              ],
+              'field-multiple': [
+                {
+                  id: '7a9408ca-975c-4b0a-9d36-2b9a00907930',
+                  type: 'text-field',
+                  label: 'Field multiple',
+                  value: '',
+                  allowMultiple: true,
+                  selector: {
+                    id: 'f5f5e733-ac67-4298-9be9-a0478223eb11',
+                    type: 'box-selector',
+                    state: null,
+                  },
+                },
+              ],
+              'field-single': [
+                {
+                  id: '6222fcce-3dea-4a17-b8e0-b1ce466db3d9',
+                  type: 'text-field',
+                  label: 'Field',
+                  value: '',
+                  selector: {
+                    id: '710cd08d-9925-4732-b726-2cdae56c11df',
+                    type: 'box-selector',
+                    state: null,
+                  },
+                },
+              ],
+            },
+            immutable: true,
+          },
+          source: 'structure',
+        },
+      },
+      revisionEditMode: true,
+      currentRevisionId: '36110f66-81fd-4567-8f85-8042658be21c',
+      currentRevision: {
+        captureModelId: 'cf1063cd-22de-4c71-9cd3-410aee300e39',
+        revision: {
+          id: '36110f66-81fd-4567-8f85-8042658be21c',
+          fields: [['entity-single', ['test']], ['entity-multiple', ['name']], 'field-multiple', 'field-single'],
+          approved: false,
+          structureId: '501dbece-137d-4180-9bbd-c3ae022ad10b',
+          label: 'Default',
+          revises: '501dbece-137d-4180-9bbd-c3ae022ad10b',
+        },
+        document: {
+          id: '31fd3e04-1fc2-4cab-b0c9-88b3e654fc06',
+          type: 'entity',
+          label: 'Project with selectors',
+          properties: {
+            'entity-single': [
+              {
+                id: '46ffe8a3-1663-4457-bb20-c1ced15f8e68',
+                type: 'entity',
+                label: 'entity',
+                labelledBy: 'test',
+                properties: {
+                  test: [
+                    {
+                      id: 'af393ef9-6753-436d-bc18-c677e45c5b77',
+                      type: 'text-field',
+                      label: 'Test',
+                      value: '',
+                    },
+                  ],
+                },
+                selector: {
+                  id: '11e0389a-d697-4865-91b3-c79b9f18e108',
+                  type: 'box-selector',
+                  state: null,
+                },
+                immutable: true,
+              },
+            ],
+            'entity-multiple': [
+              {
+                id: '4ff479d3-c6aa-4c73-97c6-49dc1a84f653',
+                type: 'entity',
+                label: 'Entity multiple',
+                allowMultiple: true,
+                properties: {
+                  name: [
+                    {
+                      id: '74fff33d-911f-4490-8f2f-911c91d76998',
+                      type: 'text-field',
+                      label: 'name',
+                      value: 'entity 1',
+                      revision: '36110f66-81fd-4567-8f85-8042658be21c',
+                      revises: 'b81f9016-1ac4-412b-9067-49e9160c9e65',
+                    },
+                  ],
+                },
+                selector: {
+                  id: '147c59cc-589f-46f6-84f0-e7a446fdfe9a',
+                  type: 'box-selector',
+                  state: null,
+                  revisedBy: [
+                    {
+                      id: '3ba99318-dda3-4be4-894c-153f0809cd3f',
+                      type: 'box-selector',
+                      state: {
+                        x: 680,
+                        y: 213,
+                        width: 466,
+                        height: 268,
+                      },
+                      revisionId: '36110f66-81fd-4567-8f85-8042658be21c',
+                      revises: '147c59cc-589f-46f6-84f0-e7a446fdfe9a',
+                    },
+                  ],
+                },
+                immutable: true,
+              },
+            ],
+            'field-multiple': [
+              {
+                id: '7a9408ca-975c-4b0a-9d36-2b9a00907930',
+                type: 'text-field',
+                label: 'Field multiple',
+                value: '',
+                allowMultiple: true,
+                selector: {
+                  id: 'f5f5e733-ac67-4298-9be9-a0478223eb11',
+                  type: 'box-selector',
+                  state: null,
+                },
+              },
+            ],
+            'field-single': [
+              {
+                id: '6222fcce-3dea-4a17-b8e0-b1ce466db3d9',
+                type: 'text-field',
+                label: 'Field',
+                value: '',
+                selector: {
+                  id: '710cd08d-9925-4732-b726-2cdae56c11df',
+                  type: 'box-selector',
+                  state: null,
+                },
+              },
+            ],
+          },
+          immutable: true,
+        },
+        source: 'structure',
+      },
+      unsavedRevisionIds: ['36110f66-81fd-4567-8f85-8042658be21c'],
+      currentRevisionReadMode: false,
+      revisionSubtreePath: [],
+      revisionSelectedFieldProperty: null,
+      revisionSelectedFieldInstance: null,
+      revisionSubtree: {
+        id: '31fd3e04-1fc2-4cab-b0c9-88b3e654fc06',
+        type: 'entity',
+        label: 'Project with selectors',
+        properties: {
+          'entity-single': [
+            {
+              id: '46ffe8a3-1663-4457-bb20-c1ced15f8e68',
+              type: 'entity',
+              label: 'entity',
+              labelledBy: 'test',
+              properties: {
+                test: [
+                  {
+                    id: 'af393ef9-6753-436d-bc18-c677e45c5b77',
+                    type: 'text-field',
+                    label: 'Test',
+                    value: '',
+                  },
+                ],
+              },
+              selector: {
+                id: '11e0389a-d697-4865-91b3-c79b9f18e108',
+                type: 'box-selector',
+                state: null,
+              },
+              immutable: true,
+            },
+          ],
+          'entity-multiple': [
+            {
+              id: '4ff479d3-c6aa-4c73-97c6-49dc1a84f653',
+              type: 'entity',
+              label: 'Entity multiple',
+              allowMultiple: true,
+              properties: {
+                name: [
+                  {
+                    id: '74fff33d-911f-4490-8f2f-911c91d76998',
+                    type: 'text-field',
+                    label: 'name',
+                    value: 'entity 1',
+                    revision: '36110f66-81fd-4567-8f85-8042658be21c',
+                    revises: 'b81f9016-1ac4-412b-9067-49e9160c9e65',
+                  },
+                ],
+              },
+              selector: {
+                id: '147c59cc-589f-46f6-84f0-e7a446fdfe9a',
+                type: 'box-selector',
+                state: null,
+                revisedBy: [
+                  {
+                    id: '3ba99318-dda3-4be4-894c-153f0809cd3f',
+                    type: 'box-selector',
+                    state: {
+                      x: 680,
+                      y: 213,
+                      width: 466,
+                      height: 268,
+                    },
+                    revisionId: '36110f66-81fd-4567-8f85-8042658be21c',
+                    revises: '147c59cc-589f-46f6-84f0-e7a446fdfe9a',
+                  },
+                ],
+              },
+              immutable: true,
+            },
+          ],
+          'field-multiple': [
+            {
+              id: '7a9408ca-975c-4b0a-9d36-2b9a00907930',
+              type: 'text-field',
+              label: 'Field multiple',
+              value: '',
+              allowMultiple: true,
+              selector: {
+                id: 'f5f5e733-ac67-4298-9be9-a0478223eb11',
+                type: 'box-selector',
+                state: null,
+              },
+            },
+          ],
+          'field-single': [
+            {
+              id: '6222fcce-3dea-4a17-b8e0-b1ce466db3d9',
+              type: 'text-field',
+              label: 'Field',
+              value: '',
+              selector: {
+                id: '710cd08d-9925-4732-b726-2cdae56c11df',
+                type: 'box-selector',
+                state: null,
+              },
+            },
+          ],
+        },
+        immutable: true,
+      },
+      revisionSubtreeFieldKeys: ['entity-single', 'entity-multiple', 'field-multiple', 'field-single'],
+      revisionSubtreeFields: [
+        {
+          term: 'entity-single',
+          value: [
+            {
+              id: '46ffe8a3-1663-4457-bb20-c1ced15f8e68',
+              type: 'entity',
+              label: 'entity',
+              labelledBy: 'test',
+              properties: {
+                test: [
+                  {
+                    id: 'af393ef9-6753-436d-bc18-c677e45c5b77',
+                    type: 'text-field',
+                    label: 'Test',
+                    value: '',
+                  },
+                ],
+              },
+              selector: {
+                id: '11e0389a-d697-4865-91b3-c79b9f18e108',
+                type: 'box-selector',
+                state: null,
+              },
+              immutable: true,
+            },
+          ],
+        },
+        {
+          term: 'entity-multiple',
+          value: [
+            {
+              id: '4ff479d3-c6aa-4c73-97c6-49dc1a84f653',
+              type: 'entity',
+              label: 'Entity multiple',
+              allowMultiple: true,
+              properties: {
+                name: [
+                  {
+                    id: '74fff33d-911f-4490-8f2f-911c91d76998',
+                    type: 'text-field',
+                    label: 'name',
+                    value: 'entity 1',
+                    revision: '36110f66-81fd-4567-8f85-8042658be21c',
+                    revises: 'b81f9016-1ac4-412b-9067-49e9160c9e65',
+                  },
+                ],
+              },
+              selector: {
+                id: '147c59cc-589f-46f6-84f0-e7a446fdfe9a',
+                type: 'box-selector',
+                state: null,
+                revisedBy: [
+                  {
+                    id: '3ba99318-dda3-4be4-894c-153f0809cd3f',
+                    type: 'box-selector',
+                    state: {
+                      x: 680,
+                      y: 213,
+                      width: 466,
+                      height: 268,
+                    },
+                    revisionId: '36110f66-81fd-4567-8f85-8042658be21c',
+                    revises: '147c59cc-589f-46f6-84f0-e7a446fdfe9a',
+                  },
+                ],
+              },
+              immutable: true,
+            },
+          ],
+        },
+        {
+          term: 'field-multiple',
+          value: [
+            {
+              id: '7a9408ca-975c-4b0a-9d36-2b9a00907930',
+              type: 'text-field',
+              label: 'Field multiple',
+              value: '',
+              allowMultiple: true,
+              selector: {
+                id: 'f5f5e733-ac67-4298-9be9-a0478223eb11',
+                type: 'box-selector',
+                state: null,
+              },
+            },
+          ],
+        },
+        {
+          term: 'field-single',
+          value: [
+            {
+              id: '6222fcce-3dea-4a17-b8e0-b1ce466db3d9',
+              type: 'text-field',
+              label: 'Field',
+              value: '',
+              selector: {
+                id: '710cd08d-9925-4732-b726-2cdae56c11df',
+                type: 'box-selector',
+                state: null,
+              },
+            },
+          ],
+        },
+      ],
+      structure: {
+        id: '707daf5f-648f-4ae2-a5b4-86ed3986c703',
+        type: 'choice',
+        label: 'Project with selectors',
+        items: [
+          {
+            id: '501dbece-137d-4180-9bbd-c3ae022ad10b',
+            type: 'model',
+            label: 'Default',
+            fields: [['entity-single', ['test']], ['entity-multiple', ['name']], 'field-multiple', 'field-single'],
+          },
+        ],
+      },
+      idStack: ['501dbece-137d-4180-9bbd-c3ae022ad10b'],
+      isThankYou: false,
+      isPreviewing: false,
+      structureMap: {
+        '501dbece-137d-4180-9bbd-c3ae022ad10b': {
+          id: '501dbece-137d-4180-9bbd-c3ae022ad10b',
+          structure: {
+            id: '501dbece-137d-4180-9bbd-c3ae022ad10b',
+            type: 'model',
+            label: 'Default',
+            fields: [['entity-single', ['test']], ['entity-multiple', ['name']], 'field-multiple', 'field-single'],
+          },
+          path: [
+            '707daf5f-648f-4ae2-a5b4-86ed3986c703',
+            '707daf5f-648f-4ae2-a5b4-86ed3986c703',
+            '501dbece-137d-4180-9bbd-c3ae022ad10b',
+          ],
+        },
+        '707daf5f-648f-4ae2-a5b4-86ed3986c703': {
+          id: '707daf5f-648f-4ae2-a5b4-86ed3986c703',
+          structure: {
+            id: '707daf5f-648f-4ae2-a5b4-86ed3986c703',
+            type: 'choice',
+            label: 'Project with selectors',
+            items: [
+              {
+                id: '501dbece-137d-4180-9bbd-c3ae022ad10b',
+                type: 'model',
+                label: 'Default',
+                fields: [['entity-single', ['test']], ['entity-multiple', ['name']], 'field-multiple', 'field-single'],
+              },
+            ],
+          },
+          path: ['707daf5f-648f-4ae2-a5b4-86ed3986c703'],
+        },
+      },
+      currentStructureId: '501dbece-137d-4180-9bbd-c3ae022ad10b',
+      currentStructure: {
+        id: '501dbece-137d-4180-9bbd-c3ae022ad10b',
+        type: 'model',
+        label: 'Default',
+        fields: [['entity-single', ['test']], ['entity-multiple', ['name']], 'field-multiple', 'field-single'],
+      },
+      choiceStack: [
+        {
+          id: '501dbece-137d-4180-9bbd-c3ae022ad10b',
+          structure: {
+            id: '501dbece-137d-4180-9bbd-c3ae022ad10b',
+            type: 'model',
+            label: 'Default',
+            fields: [['entity-single', ['test']], ['entity-multiple', ['name']], 'field-multiple', 'field-single'],
+          },
+          path: [
+            '707daf5f-648f-4ae2-a5b4-86ed3986c703',
+            '707daf5f-648f-4ae2-a5b4-86ed3986c703',
+            '501dbece-137d-4180-9bbd-c3ae022ad10b',
+          ],
+        },
+      ],
+      selector: {
+        availableSelectors: [
+          {
+            id: '11e0389a-d697-4865-91b3-c79b9f18e108',
+            type: 'box-selector',
+            state: null,
+          },
+          {
+            id: '147c59cc-589f-46f6-84f0-e7a446fdfe9a',
+            type: 'box-selector',
+            state: null,
+            revisedBy: [
+              {
+                id: '3ba99318-dda3-4be4-894c-153f0809cd3f',
+                type: 'box-selector',
+                state: {
+                  x: 680,
+                  y: 213,
+                  width: 466,
+                  height: 268,
+                },
+                revisionId: '36110f66-81fd-4567-8f85-8042658be21c',
+                revises: '147c59cc-589f-46f6-84f0-e7a446fdfe9a',
+              },
+            ],
+          },
+          {
+            id: 'f5f5e733-ac67-4298-9be9-a0478223eb11',
+            type: 'box-selector',
+            state: null,
+          },
+          {
+            id: '710cd08d-9925-4732-b726-2cdae56c11df',
+            type: 'box-selector',
+            state: null,
+          },
+        ],
+        currentSelectorId: null,
+        selectorPreviewData: {
+          '147c59cc-589f-46f6-84f0-e7a446fdfe9a':
+            'https://view.nls.uk/iiif/7443/74438658.5/680,213,466,268/256,/0/default.jpg',
+        },
+        currentSelectorState: null,
+        topLevelSelector: null,
+        visibleSelectorIds: [],
+        selectorPaths: {
+          '11e0389a-d697-4865-91b3-c79b9f18e108': [['entity-single', '46ffe8a3-1663-4457-bb20-c1ced15f8e68']],
+          '147c59cc-589f-46f6-84f0-e7a446fdfe9a': [['entity-multiple', '4ff479d3-c6aa-4c73-97c6-49dc1a84f653']],
+          'f5f5e733-ac67-4298-9be9-a0478223eb11': [['field-multiple', '7a9408ca-975c-4b0a-9d36-2b9a00907930']],
+          '710cd08d-9925-4732-b726-2cdae56c11df': [['field-single', '6222fcce-3dea-4a17-b8e0-b1ce466db3d9']],
+        },
+      },
+      visibleCurrentLevelSelectorIds: [
+        '11e0389a-d697-4865-91b3-c79b9f18e108',
+        '147c59cc-589f-46f6-84f0-e7a446fdfe9a',
+        'f5f5e733-ac67-4298-9be9-a0478223eb11',
+        '710cd08d-9925-4732-b726-2cdae56c11df',
+      ],
+      revisionAdjacentSubtreeFields: {
+        fields: [],
+      },
+      visibleAdjacentSelectorIds: [],
+      resolvedSelectors: [
+        {
+          id: '11e0389a-d697-4865-91b3-c79b9f18e108',
+          type: 'box-selector',
+          state: null,
+        },
+        {
+          id: '147c59cc-589f-46f6-84f0-e7a446fdfe9a',
+          type: 'box-selector',
+          state: {
+            x: 680,
+            y: 213,
+            width: 466,
+            height: 268,
+          },
+          revisedBy: [
+            {
+              id: '3ba99318-dda3-4be4-894c-153f0809cd3f',
+              type: 'box-selector',
+              state: {
+                x: 680,
+                y: 213,
+                width: 466,
+                height: 268,
+              },
+              revisionId: '36110f66-81fd-4567-8f85-8042658be21c',
+              revises: '147c59cc-589f-46f6-84f0-e7a446fdfe9a',
+            },
+          ],
+        },
+        {
+          id: 'f5f5e733-ac67-4298-9be9-a0478223eb11',
+          type: 'box-selector',
+          state: null,
+        },
+        {
+          id: '710cd08d-9925-4732-b726-2cdae56c11df',
+          type: 'box-selector',
+          state: null,
+        },
+      ],
+      visibleCurrentLevelSelectors: [
+        {
+          id: '11e0389a-d697-4865-91b3-c79b9f18e108',
+          type: 'box-selector',
+          state: null,
+        },
+        {
+          id: '147c59cc-589f-46f6-84f0-e7a446fdfe9a',
+          type: 'box-selector',
+          state: {
+            x: 680,
+            y: 213,
+            width: 466,
+            height: 268,
+          },
+          revisedBy: [
+            {
+              id: '3ba99318-dda3-4be4-894c-153f0809cd3f',
+              type: 'box-selector',
+              state: {
+                x: 680,
+                y: 213,
+                width: 466,
+                height: 268,
+              },
+              revisionId: '36110f66-81fd-4567-8f85-8042658be21c',
+              revises: '147c59cc-589f-46f6-84f0-e7a446fdfe9a',
+            },
+          ],
+        },
+        {
+          id: 'f5f5e733-ac67-4298-9be9-a0478223eb11',
+          type: 'box-selector',
+          state: null,
+        },
+        {
+          id: '710cd08d-9925-4732-b726-2cdae56c11df',
+          type: 'box-selector',
+          state: null,
+        },
+      ],
+      visibleAdjacentSelectors: [],
+    };
+
+    const store = hydrateRevisionStore(state);
+
+    const actions = store.getActions();
+
+    actions.createNewEntityInstance({
+      property: 'entity-multiple',
+      path: [],
+    } as any);
+
+    const newState: any = store.getState();
+
+    expect(newState.currentRevision.document.properties['entity-multiple'][1].selector.revisedBy).not.toBeDefined();
   });
 });
