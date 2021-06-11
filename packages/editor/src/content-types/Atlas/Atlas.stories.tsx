@@ -8,12 +8,13 @@ import './index';
 import { FieldInstanceReadOnly } from '../../components/FieldInstanceReadOnly/FieldInstanceReadOnly';
 import { useEffect, useState } from 'react';
 import { Runtime } from '@atlas-viewer/atlas';
+import { useSelectorHelper } from '../../stores/selectors/selector-helper';
 const model = require('../../../../../fixtures/04-selectors/05-wunder-selector.json');
 const ocrModel = require('../../../../../fixtures/02-nesting/06-ocr.json');
 
 export default { title: 'Content Types|Atlas' };
 
-export const SwitchEditMode: React.FC = () => {
+const SwitchEditMode: React.FC = () => {
   const revisionEditMode = RevisionStore.useStoreState(s => s.revisionEditMode);
   const setRevisionMode = RevisionStore.useStoreActions(a => a.setRevisionMode);
 
@@ -32,12 +33,28 @@ export const SwitchEditMode: React.FC = () => {
 // 3. ??
 export const Simple: React.FC = () => {
   const [runtime, setRuntime] = useState<Runtime>();
+  const helper = useSelectorHelper();
+  const [highlighted, setHighlighted] = useState(false);
 
   return (
     <ThemeProvider theme={defaultTheme}>
       <RevisionStore.Provider
         initialData={{ captureModel: model, initialRevision: 'e801f905-5afc-4612-9e59-2b78cf407b9d' }}
       >
+        <button
+          onClick={() => {
+            if (highlighted) {
+              helper.clearHighlight('d35b5a96-e653-4b9b-8f6c-a93ea590dbd4');
+              setHighlighted(false);
+            } else {
+              helper.highlight('d35b5a96-e653-4b9b-8f6c-a93ea590dbd4');
+              setHighlighted(true);
+            }
+          }}
+        >
+          Highlight selector
+        </button>
+
         <SwitchEditMode />
         <div style={{ display: 'flex' }}>
           <div style={{ flex: '1 1 0px', minWidth: 0 }}>
@@ -45,8 +62,8 @@ export const Simple: React.FC = () => {
               id="123"
               type="atlas"
               state={{
-                canvasId: 'https://wellcomelibrary.org/iiif/b18035723/canvas/c0',
-                manifestId: 'https://wellcomelibrary.org/iiif/b18035723/manifest',
+                canvasId: 'https://iiif.wellcomecollection.org/presentation/b18035723/canvases/b18035723_0001.JP2',
+                manifestId: 'https://iiif.wellcomecollection.org/presentation/v2/b18035723',
               }}
               options={{
                 height: 600,
@@ -57,7 +74,7 @@ export const Simple: React.FC = () => {
                   topLevelSelectors: true,
                 },
                 custom: {
-                  unstable_webglRenderer: true,
+                  unstable_webglRenderer: false,
                   onCreateAtlas(ctx) {
                     setRuntime(ctx.runtime);
                   },
@@ -131,17 +148,34 @@ export const Simple: React.FC = () => {
 };
 
 export const OCRAtlas: React.FC = () => {
+  const helper = useSelectorHelper();
+  const [highlighted, setHighlighted] = useState(false);
+
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <RevisionStore.Provider
         initialData={{ captureModel: ocrModel, initialRevision: '320a754b-4546-4271-b226-c97a90807950' }}
       >
+        <button
+          onClick={() => {
+            if (highlighted) {
+              helper.clearHighlight('0117a007-70cf-4e2f-b1bb-d997d80099f6');
+              setHighlighted(false);
+            } else {
+              helper.highlight('0117a007-70cf-4e2f-b1bb-d997d80099f6');
+              setHighlighted(true);
+            }
+          }}
+        >
+          Highlight selector
+        </button>
         <AtlasViewer
           id="123"
           type="atlas"
           state={{
-            canvasId: 'https://wellcomelibrary.org/iiif/b18035723/canvas/c35',
-            manifestId: 'https://wellcomelibrary.org/iiif/b18035723/manifest',
+            canvasId: 'https://iiif.wellcomecollection.org/presentation/b18035723/canvases/b18035723_0036.JP2',
+            manifestId: 'https://iiif.wellcomecollection.org/presentation/v2/b18035723',
           }}
           options={{
             height: 600,
@@ -153,6 +187,7 @@ export const OCRAtlas: React.FC = () => {
             },
             custom: {
               onCreateAtlas(ctx) {
+                console.log('Atlas created?');
                 // setRuntime(ctx.runtime);
               },
             },
@@ -171,8 +206,8 @@ export const OCRAtlasNoRevision: React.FC = () => {
           id="123"
           type="atlas"
           state={{
-            canvasId: 'https://wellcomelibrary.org/iiif/b18035723/canvas/c35',
-            manifestId: 'https://wellcomelibrary.org/iiif/b18035723/manifest',
+            canvasId: 'https://iiif.wellcomecollection.org/presentation/b18035723/canvases/b18035723_0036.JP2',
+            manifestId: 'https://iiif.wellcomecollection.org/presentation/v2/b18035723',
           }}
           options={{
             height: 600,

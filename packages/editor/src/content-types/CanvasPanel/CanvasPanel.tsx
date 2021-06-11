@@ -9,8 +9,11 @@ import {
 } from 'canvas-panel-beta';
 import { createContext } from '@capture-models/helpers';
 import { BaseContent } from '@capture-models/types';
-import React, { Suspense, useEffect, useState } from 'react';
-import { useCurrentSelector, useDisplaySelectors, useSelectorActions } from '../../stores/selectors/selector-hooks';
+import React, { Suspense, useState } from 'react';
+import {
+  useAllSelectors,
+  useCurrentSelector,
+} from '../../stores/selectors/selector-hooks';
 
 export interface CanvasPanelProps extends BaseContent {
   id: string;
@@ -35,31 +38,12 @@ export const CanvasPanel: React.FC<CanvasPanelProps['state']> = ({ canvasId, man
     y: 500,
   });
 
-  const [displayIds, displaySelectors, topLevelSelectors] = useDisplaySelectors('canvas-panel');
-  const [actions, availableSelectors] = useSelectorActions();
-  // @todo useTopLevelSelector();
-
-  useEffect(() => {
-    // @todo UI to toggle these on and off and props to control this behaviour.
-    if (actions && availableSelectors && displayIds && displayIds.length === 0) {
-      const selectorIds = ((availableSelectors as any) || []).map((s: any) => s.id);
-      if (selectorIds.length) {
-        actions.addVisibleSelectorIds({
-          selectorIds: selectorIds,
-        });
-      }
-    }
-
-    // @todo remove this, it's not right.
-    // if (actions && !currentSelector && availableSelectors && availableSelectors[0]) {
-    //   actions.chooseSelector({ selectorId: availableSelectors[0].id });
-    // }
-
-    // @todo set top level selector
-    // @todo change viewport if top level selector is set and props to control
-    // @todo cycle through available selectors and add preview state - cropped
-    //     thumbnail, if available.
-  }, [actions, availableSelectors, currentSelector, displayIds, displaySelectors]);
+  const allSelectors = useAllSelectors('canvas-panel', {
+    topLevelSelectors: true,
+    displaySelectors: true,
+    currentSelector: true,
+    adjacentSelectors: false,
+  });
 
   return (
     <Suspense fallback={() => null}>
@@ -71,8 +55,7 @@ export const CanvasPanel: React.FC<CanvasPanelProps['state']> = ({ canvasId, man
                 <OpenSeadragonViewport viewportController={true}>
                   <OpenSeadragonViewer maxHeight={1000} />
                 </OpenSeadragonViewport>
-                <CanvasRepresentation ratio={1}>{displaySelectors}</CanvasRepresentation>
-                <CanvasRepresentation ratio={1}>{topLevelSelectors}</CanvasRepresentation>
+                <CanvasRepresentation ratio={1}>{allSelectors}</CanvasRepresentation>
                 <CanvasRepresentation ratio={1}>{currentSelector}</CanvasRepresentation>
               </Viewport>
             </SingleTileSource>

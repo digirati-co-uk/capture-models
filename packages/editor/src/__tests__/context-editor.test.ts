@@ -3,7 +3,8 @@
  */
 
 // @ts-ignore
-globalThis = typeof globalThis !== 'undefined' ? this : globalThis;
+// eslint-disable-next-line
+if (global) { global.globalThis = global; } else { try { globalThis = typeof globalThis !== 'undefined' ? this : globalThis; } catch (e) {} }
 
 import { addContext, addDefaultContext, removeContext, removeDefaultContext } from '../core/context-editor';
 import { CaptureModel } from '@capture-models/types';

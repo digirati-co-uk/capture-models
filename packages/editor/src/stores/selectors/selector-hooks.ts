@@ -1,6 +1,6 @@
 import { BaseField, BaseSelector } from '@capture-models/types';
-import { useSelector, useSelectors } from '@capture-models/plugin-api';
-import { useCallback, useRef } from 'react';
+import { PluginContext, useSelector, useSelectors } from '@capture-models/plugin-api';
+import React, { useCallback, useContext, useRef } from 'react';
 import { Revisions } from '../revisions';
 import { useDebouncedCallback } from 'use-debounce';
 import { unstable_batchedUpdates } from 'react-dom';
@@ -42,15 +42,15 @@ export function useSelectorActions() {
   ] as const;
 }
 
-export function useDisplaySelectors(contentType: string) {
+export function useSelectorHandlers() {
   const updateSelectorPreviewQueue = useRef<any[]>([]);
 
-  const allSelectors = Revisions.useStoreState(state => {
+  const visibleSelectors = Revisions.useStoreState(state => {
     return {
-      visibleCurrentLevelSelectorIds: state.visibleCurrentLevelSelectorIds,
-      visibleAdjacentSelectors: state.visibleAdjacentSelectors,
-      visibleCurrentLevelSelectors: state.visibleCurrentLevelSelectors,
-      topLevelSelector: state.topLevelSelector,
+      current: state.selector.currentSelectorId,
+      currentLevel: state.visibleCurrentLevelSelectorIds,
+      adjacent: state.visibleAdjacentSelectorIds,
+      topLevel: state.topLevelSelector?.id,
     };
   });
 
@@ -142,6 +142,36 @@ export function useDisplaySelectors(contentType: string) {
     [paths, setPath, subtreePath]
   );
 
+  return {
+    visibleSelectors,
+    onClickDisplaySelector,
+    onClickAdjacentSelector,
+    onClickTopLevelSelector,
+    updateSelectorPreview,
+  };
+}
+
+/**
+ * @deprecated
+ * @param contentType
+ */
+export function useDisplaySelectors(contentType: string) {
+  const {
+    updateSelectorPreview,
+    onClickAdjacentSelector,
+    onClickDisplaySelector,
+    onClickTopLevelSelector,
+  } = useSelectorHandlers();
+
+  const allSelectors = Revisions.useStoreState(state => {
+    return {
+      visibleCurrentLevelSelectorIds: state.visibleCurrentLevelSelectorIds,
+      visibleAdjacentSelectors: state.visibleAdjacentSelectors,
+      visibleCurrentLevelSelectors: state.visibleCurrentLevelSelectors,
+      topLevelSelector: state.topLevelSelector,
+    };
+  });
+
   // Selector components.
   const selectorComponents = useSelectors(allSelectors.visibleCurrentLevelSelectors, contentType, {
     readOnly: true,
@@ -169,4 +199,133 @@ export function useDisplaySelectors(contentType: string) {
     topLevelSelectorComponents,
     adjacentSelectorComponents,
   ] as const;
+}
+
+export function SelectorRenderer({
+  contentType,
+  selector,
+  options,
+}: {
+  contentType: string;
+  selector: BaseSelector;
+  options: {
+    updateSelector?: any;
+    selectorPreview?: any;
+    updateSelectorPreview?: (data: { selectorId: string; preview: string }) => void;
+    readOnly?: boolean;
+    isTopLevel?: boolean;
+    isAdjacent?: boolean;
+    hidden?: boolean;
+    defaultState?: any;
+    onClick?: (selector: any) => void;
+  };
+}) {
+  const ctx = useContext(PluginContext);
+  const ref = ctx.selectors[selector.type];
+  if (!ref) {
+    return null;
+  }
+  const Component = ref?.contentComponents?.atlas;
+  if (!Component) {
+    return null;
+  }
+
+  if (!selector.state && !options.readOnly) {
+    selector.state = ref.defaultState;
+  }
+
+  return React.createElement(ref.contentComponents[contentType], {
+    key: selector.id,
+    ...selector,
+    ...options,
+  } as any);
+}
+
+export function useAllSelectors(
+  contentType: string,
+  selectorVisibility: {
+    adjacentSelectors?: boolean;
+    topLevelSelectors?: boolean;
+    displaySelectors?: boolean;
+    currentSelector?: boolean;
+  } = {}
+) {
+  const selectors = Revisions.useStoreState(state => state.selector.availableSelectors);
+  const selectorHandlers = useSelectorHandlers();
+
+  const topLevel = [];
+  const currentLevel = [];
+  const adjacent = [];
+  const hidden = [];
+
+  for (const selector of selectors) {
+    if (selectorHandlers.visibleSelectors.current === selector.id) {
+      continue;
+    }
+
+    if (selectorHandlers.visibleSelectors.topLevel === selector.id) {
+      // The top level one.
+      topLevel.push(
+        React.createElement(SelectorRenderer, {
+          contentType,
+          selector,
+          options: {
+            isTopLevel: true,
+            hidden: !selectorVisibility.topLevelSelectors,
+            readOnly: true,
+            onClick: selectorHandlers.onClickTopLevelSelector,
+            updateSelectorPreview: selectorHandlers.updateSelectorPreview,
+          },
+        })
+      );
+      continue;
+    }
+
+    if (selectorHandlers.visibleSelectors.currentLevel.indexOf(selector.id) !== -1) {
+      // Render  current level.
+      currentLevel.push(
+        React.createElement(SelectorRenderer, {
+          contentType,
+          selector,
+          options: {
+            hidden: !selectorVisibility.currentSelector,
+            readOnly: true,
+            onClick: selectorHandlers.onClickDisplaySelector,
+            updateSelectorPreview: selectorHandlers.updateSelectorPreview,
+          },
+        })
+      );
+      continue;
+    }
+
+    if (selectorHandlers.visibleSelectors.adjacent.indexOf(selector.id) !== -1) {
+      // Render adjacent level.
+      adjacent.push(
+        React.createElement(SelectorRenderer, {
+          contentType,
+          selector,
+          options: {
+            isAdjacent: true,
+            // onClick: selectorHandlers.onClickAdjacentSelector,
+            hidden: !selectorVisibility.adjacentSelectors,
+          },
+        })
+      );
+      continue;
+    }
+
+    // Render hidden selectors.
+    hidden.push(
+      React.createElement(SelectorRenderer, {
+        contentType,
+        selector,
+        options: {
+          hidden: true,
+          readOnly: true,
+        },
+      })
+    );
+  }
+
+  return [...adjacent, ...topLevel, ...currentLevel, ...hidden];
 }

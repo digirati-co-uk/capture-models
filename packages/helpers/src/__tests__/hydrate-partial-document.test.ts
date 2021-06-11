@@ -3,7 +3,8 @@
  */
 
 // @ts-ignore
-globalThis = typeof globalThis !== 'undefined' ? this : globalThis;
+// eslint-disable-next-line
+if (global) { global.globalThis = global; } else { try { globalThis = typeof globalThis !== 'undefined' ? this : globalThis; } catch (e) {} }
 
 import { registerField } from '@capture-models/plugin-api';
 import { CaptureModel } from '@capture-models/types';

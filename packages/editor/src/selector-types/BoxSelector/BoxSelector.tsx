@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 export interface BoxSelectorProps extends BaseSelector {
   id: string;
   type: 'box-selector';
+  hidden?: boolean;
   state: null | {
     x: number;
     y: number;
