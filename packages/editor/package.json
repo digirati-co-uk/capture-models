@@ -1,6 +1,6 @@
 {
   "name": "@capture-models/editor",
-  "version": "0.13.13",
+  "version": "0.13.14",
   "license": "MIT",
   "files": [
     "dist",
@@ -46,8 +46,8 @@
   },
   "dependencies": {
     "@atlas-viewer/atlas": "^1.5.2",
-    "@capture-models/helpers": "^0.13.13",
-    "@capture-models/plugin-api": "^0.13.0",
+    "@capture-models/helpers": "^0.13.14",
+    "@capture-models/plugin-api": "^0.13.14",
     "@capture-models/types": "^0.13.0",
     "@hyperion-framework/react-vault": "^1.0.0",
     "@hyperion-framework/types": "^1.0.0",
@@ -64,10 +64,10 @@
     "fast-copy": "^2.0.4",
     "formik": "^2.0.6",
     "i18next": "^19.9.1",
-    "mitt": "^2.1.0",
     "immer": "^7.0.7",
     "immutable": "^3.8.2",
     "manifesto.js": "4.1.0",
+    "mitt": "^2.1.0",
     "normalize.css": "^8.0.1",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",

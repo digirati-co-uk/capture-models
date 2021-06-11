@@ -1,6 +1,6 @@
 {
   "name": "@capture-models/plugin-api",
-  "version": "0.13.0",
+  "version": "0.13.14",
   "license": "MIT",
   "main": "dist/umd/@capture-models/plugin-api.js",
   "module": "lib/index.js",
