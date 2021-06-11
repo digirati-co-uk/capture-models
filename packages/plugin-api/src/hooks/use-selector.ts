@@ -13,6 +13,7 @@ export function useSelector<T extends BaseSelector>(
     isTopLevel?: boolean;
     isAdjacent?: boolean;
     onClick?: (selector: T & InjectedSelectorProps<T['state']>) => void;
+    hidden?: boolean;
   }
 ) {
   const selectors = useSelectors(selectorProps ? [selectorProps] : [], contentType, customOptions);

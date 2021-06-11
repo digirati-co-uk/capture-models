@@ -87,6 +87,7 @@ export * from './stores/document/document-model';
 export * from './stores/selectors/selector-hooks';
 export * from './stores/selectors/selector-model';
 export * from './stores/selectors/selector-store';
+export * from './stores/selectors/selector-helper';
 export * from './stores/structure/structure-model';
 export * from './stores/structure/use-focused-structure-editor';
 export * from './stores/structure/structure-store';

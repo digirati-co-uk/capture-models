@@ -12,6 +12,7 @@ export function useSelectors<T extends BaseSelector>(
     readOnly?: boolean;
     isTopLevel?: boolean;
     isAdjacent?: boolean;
+    hidden?: boolean;
     defaultState?: any;
     onClick?: (selector: T & InjectedSelectorProps<T['state']>) => void;
   }
@@ -25,6 +26,7 @@ export function useSelectors<T extends BaseSelector>(
     isTopLevel = false,
     isAdjacent = false,
     onClick,
+    hidden,
   } = customOptions;
   const ctx = useContext(PluginContext);
   if (!selectorProps) {
@@ -55,6 +57,7 @@ export function useSelectors<T extends BaseSelector>(
         isTopLevel,
         isAdjacent,
         onClick,
+        hidden,
       } as T & InjectedSelectorProps<T>),
     ]);
     // }
