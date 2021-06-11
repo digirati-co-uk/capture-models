@@ -3,8 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { BoxSelectorProps } from './BoxSelector';
 import { EditableAnnotation } from 'canvas-panel-beta';
 import { useViewer } from '../../content-types/CanvasPanel/CanvasPanel';
+import { useBoxSelector } from './BoxSelector.helpers';
 
 const BoxSelectorCanvasPanel: SelectorComponent<BoxSelectorProps> = props => {
+  const { isHighlighted, backgroundColor, border } = useBoxSelector(props);
   const [selector, setSelector] = useState<BoxSelectorProps['state']>(props.state);
   const viewer = useViewer();
 
@@ -21,7 +23,7 @@ const BoxSelectorCanvasPanel: SelectorComponent<BoxSelectorProps> = props => {
     return () => {};
   }, [props.isTopLevel, props.state, viewer]);
 
-  if (!props.state) return null;
+  if (!props.state || (props.hidden && !isHighlighted)) return null;
 
   if (props.readOnly) {
     return (
@@ -29,7 +31,11 @@ const BoxSelectorCanvasPanel: SelectorComponent<BoxSelectorProps> = props => {
         {...props}
         {...props.state}
         ratio={1}
-        boxStyles={{ pointerEvents: 'none', background: 'rgba(100,100,100,.1)', outline: '5px solid rgba(0,0,80,.8)' }}
+        boxStyles={{
+          pointerEvents: 'none',
+          background: backgroundColor,
+          outline: border,
+        }}
       />
     );
   }
@@ -45,7 +51,7 @@ const BoxSelectorCanvasPanel: SelectorComponent<BoxSelectorProps> = props => {
           props.updateSelector({ ...selector, ...coords });
         }
       }}
-      style={{ background: 'red' }}
+      style={{ background: backgroundColor, border }}
     />
   );
 };

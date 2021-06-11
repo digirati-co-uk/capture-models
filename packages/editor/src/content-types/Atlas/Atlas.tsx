@@ -1,7 +1,7 @@
 import { ImageService } from '@hyperion-framework/types';
 import React, { Suspense, useMemo, useState } from 'react';
 import { BaseContent, ContentOptions } from '@capture-models/types';
-import { useCurrentSelector, useDisplaySelectors, useSelectorActions } from '../../stores/selectors/selector-hooks';
+import { useAllSelectors, useCurrentSelector, useSelectorActions } from '../../stores/selectors/selector-hooks';
 import {
   useExternalManifest,
   CanvasContext,
@@ -96,8 +96,6 @@ const Canvas: React.FC<{
 export const AtlasViewer: React.FC<AtlasViewerProps> = props => {
   const { isLoaded } = useExternalManifest(props.state.manifestId);
   const currentSelector = useCurrentSelector('atlas', undefined);
-  const [, displaySelectors, topLevelSelectors, adjacentSelectors] = useDisplaySelectors('atlas');
-  const [actions] = useSelectorActions();
   const selectorVisibility = {
     adjacentSelectors: true,
     topLevelSelectors: true,
@@ -105,18 +103,8 @@ export const AtlasViewer: React.FC<AtlasViewerProps> = props => {
     currentSelector: true,
     ...(props.options && props.options.selectorVisibility ? props.options.selectorVisibility : {}),
   };
-
-  // useEffect(() => {
-  //   // @todo UI to toggle these on and off and props to control this behaviour.
-  //   // if (actions && availableSelectors && displayIds && displayIds.length === 0) {
-  //   //   const selectorIds = ((availableSelectors as any) || []).map((s: any) => s.id);
-  //   //   if (selectorIds.length) {
-  //   //     actions.addVisibleSelectorIds({
-  //   //       selectorIds: selectorIds,
-  //   //     });
-  //   //   }
-  //   // }
-  // }, [actions, availableSelectors, currentSelector, displayIds, displaySelectors]);
+  const selectors = useAllSelectors('atlas', selectorVisibility);
+  const [actions] = useSelectorActions();
 
   if (!isLoaded) {
     return null;
@@ -148,10 +136,8 @@ export const AtlasViewer: React.FC<AtlasViewerProps> = props => {
             }
           }}
         >
-          {selectorVisibility.adjacentSelectors && adjacentSelectors}
-          {selectorVisibility.topLevelSelectors && topLevelSelectors}
-          {selectorVisibility.displaySelectors && displaySelectors}
-          {selectorVisibility.currentSelector && currentSelector}
+          {selectors}
+          {currentSelector}
           {props.children}
         </Canvas>
       </CanvasContext>
