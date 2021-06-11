@@ -3,7 +3,8 @@
  */
 
 // @ts-ignore
-globalThis = typeof globalThis !== 'undefined' ? this : globalThis;
+// eslint-disable-next-line
+if (global) { global.globalThis = global; } else { try { globalThis = typeof globalThis !== 'undefined' ? this : globalThis; } catch (e) {} }
 
 import { CaptureModel, FieldSpecification } from '@capture-models/types';
 import {
