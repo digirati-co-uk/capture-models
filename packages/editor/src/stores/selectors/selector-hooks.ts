@@ -306,7 +306,8 @@ export function useAllSelectors(
           selector,
           options: {
             isAdjacent: true,
-            // onClick: selectorHandlers.onClickAdjacentSelector,
+            readOnly: true,
+            onClick: selectorHandlers.onClickAdjacentSelector,
             hidden: !selectorVisibility.adjacentSelectors,
           },
         })

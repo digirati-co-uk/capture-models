@@ -6,9 +6,9 @@ import { DrawBox, RegionHighlight } from '@atlas-viewer/atlas';
 import { useBoxSelector } from './BoxSelector.helpers';
 
 const BoxSelectorAtlas: SelectorComponent<BoxSelectorProps> = props => {
-  const { state, hidden, readOnly, id, onClick } = props;
+  const { state, hidden, readOnly, id } = props;
   const generatePreview = useCroppedRegion();
-  const { onSave, isHighlighted, backgroundColor, border } = useBoxSelector(props, { generatePreview });
+  const { onSave, isHighlighted, backgroundColor, border, onClick } = useBoxSelector(props, { generatePreview });
 
   if (hidden && !isHighlighted) {
     return null;
@@ -30,7 +30,12 @@ const BoxSelectorAtlas: SelectorComponent<BoxSelectorProps> = props => {
       background={backgroundColor}
       border={border}
       onSave={onSave}
-      onClick={() => (onClick ? onClick(props) : undefined)}
+      onClick={e => {
+        if (props.onClick) {
+          props.onClick(props);
+        }
+        onClick(e);
+      }}
     />
   );
 };

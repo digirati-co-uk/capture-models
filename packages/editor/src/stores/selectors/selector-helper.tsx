@@ -59,6 +59,7 @@ import mitt, { Handler } from 'mitt';
 const SelectorHelperReactContext = createContext(mitt());
 
 export type SelectorHelperEventTypes =
+  | 'click'
   | 'selector-updated'
   | 'highlight'
   | 'clear-highlight'

@@ -79,8 +79,16 @@ export function useBoxSelector(
     [id, controller, updateSelector]
   );
 
+  const onClick = useCallback(
+    (e: { x: number; y: number; width: number; height: number }) => {
+      controller.emit('click', { selectorId: id, event: e });
+    },
+    [id, controller]
+  );
+
   return {
     onSave,
+    onClick,
     controller,
     isHighlighted,
     backgroundColor,
