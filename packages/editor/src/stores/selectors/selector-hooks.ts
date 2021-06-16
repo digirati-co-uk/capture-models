@@ -29,6 +29,10 @@ export function useFieldSelector(field: BaseField) {
   );
 }
 
+export function useSelectorWithId(targetId: string) {
+  return Revisions.useStoreState(s => targetId ? s.resolvedSelectors.find( ({ id }) => id === targetId ) : undefined);
+}
+
 export function useSelectorActions() {
   return [
     Revisions.useStoreActions(s => ({
