@@ -4,6 +4,7 @@ import React, { useCallback, useContext, useRef } from 'react';
 import { Revisions } from '../revisions';
 import { useDebouncedCallback } from 'use-debounce';
 import { unstable_batchedUpdates } from 'react-dom';
+import { isEntity, isEntityList } from '@capture-models/helpers';
 
 export function useCurrentSelector(contentType: string, defaultState: any = null) {
   const updateSelector = Revisions.useStoreActions(a => a.updateCurrentSelector);
@@ -54,7 +55,8 @@ export function useSelectorHandlers() {
     };
   });
 
-  const { paths, subtreePath } = Revisions.useStoreState(s => ({
+  const { paths, subtreePath, currentSubtree } = Revisions.useStoreState(s => ({
+    currentSubtree: s.revisionSubtree,
     paths: s.selector.selectorPaths,
     subtreePath: s.revisionSubtreePath,
   }));
@@ -99,11 +101,18 @@ export function useSelectorHandlers() {
         return;
       }
 
-      const [property, fieldId] = path[path.length - 1];
+      if (currentSubtree && isEntity(currentSubtree)) {
+        const [property, fieldId] = path[path.length - 1];
 
-      push({ term: property, id: fieldId });
+        const chosenPath = currentSubtree.properties[property];
+        if (!chosenPath || !isEntityList(chosenPath)) {
+          return;
+        }
+
+        push({ term: property, id: fieldId });
+      }
     },
-    [push, paths]
+    [currentSubtree, push, paths]
   );
 
   const onClickTopLevelSelector = useCallback(
@@ -250,7 +259,7 @@ export function useAllSelectors(
     currentSelector?: boolean;
   } = {}
 ) {
-  const selectors = Revisions.useStoreState(state => state.selector.availableSelectors);
+  const selectors = Revisions.useStoreState(state => state.resolvedSelectors);
   const selectorHandlers = useSelectorHandlers();
 
   const topLevel = [];
