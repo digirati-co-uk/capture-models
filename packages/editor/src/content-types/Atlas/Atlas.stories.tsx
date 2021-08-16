@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import { Runtime } from '@atlas-viewer/atlas';
 import { useSelectorHelper } from '../../stores/selectors/selector-helper';
 const model = require('../../../../../fixtures/04-selectors/05-wunder-selector.json');
+const model01 = require('../../../../../fixtures/04-selectors/01-simple-selector.json');
 const ocrModel = require('../../../../../fixtures/02-nesting/06-ocr.json');
 
 export default { title: 'Content Types|Atlas' };
@@ -35,12 +36,21 @@ export const Simple: React.FC = () => {
   const [runtime, setRuntime] = useState<Runtime>();
   const helper = useSelectorHelper();
   const [highlighted, setHighlighted] = useState(false);
+  const [heightChange, setHeightChange] = useState(false);
 
   return (
     <ThemeProvider theme={defaultTheme}>
       <RevisionStore.Provider
         initialData={{ captureModel: model, initialRevision: 'e801f905-5afc-4612-9e59-2b78cf407b9d' }}
       >
+        <div style={{ height: heightChange ? '100px' : 0 }} />
+        <button
+          onClick={() => {
+            setHeightChange(h => !h);
+          }}
+        >
+          Height change
+        </button>
         <button
           onClick={() => {
             if (highlighted) {
@@ -151,7 +161,6 @@ export const OCRAtlas: React.FC = () => {
   const helper = useSelectorHelper();
   const [highlighted, setHighlighted] = useState(false);
 
-
   return (
     <ThemeProvider theme={defaultTheme}>
       <RevisionStore.Provider
@@ -201,7 +210,7 @@ export const OCRAtlas: React.FC = () => {
 export const OCRAtlasNoRevision: React.FC = () => {
   return (
     <ThemeProvider theme={defaultTheme}>
-      <RevisionStore.Provider initialData={{ captureModel: ocrModel }}>
+      <RevisionStore.Provider initialData={{ captureModel: model01 }}>
         <AtlasViewer
           id="123"
           type="atlas"
@@ -224,6 +233,63 @@ export const OCRAtlasNoRevision: React.FC = () => {
             },
           }}
         />
+      </RevisionStore.Provider>
+    </ThemeProvider>
+  );
+};
+
+export const AtlasDrawBox: React.FC = () => {
+  return (
+    <ThemeProvider theme={defaultTheme}>
+      <RevisionStore.Provider
+        initialData={{ captureModel: model01, initialRevision: '34083298-1792-4790-b909-e0166ea20a5d' }}
+      >
+        <SwitchEditMode />
+        <div style={{ display: 'flex' }}>
+          <div style={{ flex: '1 1 0px', minWidth: 0 }}>
+            <AtlasViewer
+              id="123"
+              type="atlas"
+              state={{
+                canvasId: 'https://iiif.wellcomecollection.org/presentation/b18035723/canvases/b18035723_0001.JP2',
+                manifestId: 'https://iiif.wellcomecollection.org/presentation/v2/b18035723',
+              }}
+              options={{
+                height: 600,
+                selectorVisibility: {
+                  adjacentSelectors: false,
+                  currentSelector: true,
+                  displaySelectors: true,
+                  topLevelSelectors: true,
+                },
+                custom: {
+                  unstable_webglRenderer: false,
+                  onCreateAtlas(ctx) {
+                    // setRuntime(ctx.runtime);
+                  },
+                },
+              }}
+            />
+          </div>
+          <div style={{ width: 400, padding: 20, margin: '0 auto' }}>
+            <FieldInstance
+              field={{
+                id: '76e7ea6c-fcd1-4b71-aa8f-be5e100e755d',
+                type: 'text-field',
+                selector: {
+                  id: '0c15c2b8-48e9-4c83-b77e-054cd8215f93',
+                  type: 'box-selector',
+                  state: null,
+                },
+                label: 'Name',
+                description: 'The name of the thing',
+                value: '',
+              }}
+              path={[]}
+              property="any"
+            />
+          </div>
+        </div>
       </RevisionStore.Provider>
     </ThemeProvider>
   );

@@ -6,22 +6,6 @@ import { useDebouncedCallback } from 'use-debounce';
 import { unstable_batchedUpdates } from 'react-dom';
 import { isEntity, isEntityList } from '@capture-models/helpers';
 
-export function useCurrentSelector(contentType: string, defaultState: any = null) {
-  const updateSelector = Revisions.useStoreActions(a => a.updateCurrentSelector);
-
-  return useSelector(
-    Revisions.useStoreState(s => s.resolvedSelectors.find(({ id }) => id === s.selector.currentSelectorId)),
-    contentType,
-    {
-      selectorPreview: Revisions.useStoreState(s =>
-        s.selector.currentSelectorId ? s.selector.selectorPreviewData[s.selector.currentSelectorId] : null
-      ),
-      updateSelector,
-      defaultState,
-    }
-  );
-}
-
 export function useFieldSelector(field: BaseField) {
   return Revisions.useStoreState(s =>
     field.selector
@@ -160,6 +144,24 @@ export function useSelectorHandlers() {
   };
 }
 
+export function useCurrentSelector(contentType: string, defaultState: any = null) {
+  const { updateSelectorPreview } = useSelectorHandlers();
+  const updateSelector = Revisions.useStoreActions(a => a.updateCurrentSelector);
+
+  return useSelector(
+    Revisions.useStoreState(s => s.resolvedSelectors.find(({ id }) => id === s.selector.currentSelectorId)),
+    contentType,
+    {
+      selectorPreview: Revisions.useStoreState(s =>
+        s.selector.currentSelectorId ? s.selector.selectorPreviewData[s.selector.currentSelectorId] : null
+      ),
+      updateSelectorPreview,
+      updateSelector,
+      defaultState,
+    }
+  );
+}
+
 /**
  * @deprecated
  * @param contentType
@@ -276,6 +278,7 @@ export function useAllSelectors(
       // The top level one.
       topLevel.push(
         React.createElement(SelectorRenderer, {
+          key: selector.id,
           contentType,
           selector,
           options: {
@@ -294,6 +297,7 @@ export function useAllSelectors(
       // Render  current level.
       currentLevel.push(
         React.createElement(SelectorRenderer, {
+          key: selector.id,
           contentType,
           selector,
           options: {
@@ -311,6 +315,7 @@ export function useAllSelectors(
       // Render adjacent level.
       adjacent.push(
         React.createElement(SelectorRenderer, {
+          key: selector.id,
           contentType,
           selector,
           options: {
@@ -327,6 +332,7 @@ export function useAllSelectors(
     // Render hidden selectors.
     hidden.push(
       React.createElement(SelectorRenderer, {
+        key: selector.id,
         contentType,
         selector,
         options: {
