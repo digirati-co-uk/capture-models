@@ -54,6 +54,7 @@ export * from './components/Tree/Tree';
 
 // Connected components
 export * from './connected-components/FieldInstance';
+export * from './connected-components/EntityInstance';
 
 // Default content types.
 import './content-types/CanvasPanel';
