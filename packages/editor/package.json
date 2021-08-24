@@ -45,7 +45,7 @@
     "babel-plugin-styled-components": "1.12.0"
   },
   "dependencies": {
-    "@atlas-viewer/atlas": "^1.6.4",
+    "@atlas-viewer/atlas": "^1.6.8",
     "@capture-models/helpers": "^0.13.14",
     "@capture-models/plugin-api": "^0.13.14",
     "@capture-models/types": "^0.13.0",
