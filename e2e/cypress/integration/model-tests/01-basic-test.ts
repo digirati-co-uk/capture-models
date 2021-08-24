@@ -98,6 +98,11 @@ it('Creating a revision', () => {
       url: `/api/crowdsourcing/model/${fixture.body.id}/revision`,
       body: revisionRequest,
       method: 'post',
+    });
+
+    cy.apiRequest<RevisionRequest>({
+      url: `/api/crowdsourcing/revision/${revisionRequest.revision.id}?show_revised=true`,
+      method: 'get',
     }).then(res => {
       // Capture model should equal.
       expect(res.body.captureModelId).to.equal(fixture.body.id);
@@ -188,6 +193,11 @@ it('Creating a revision with revised selector', () => {
       url: `/api/crowdsourcing/model/${fixture.body.id}/revision`,
       body: revisionRequest,
       method: 'post',
+    });
+
+    cy.apiRequest<RevisionRequest>({
+      url: `/api/crowdsourcing/revision/${revisionRequest.revision.id}?show_revised=true`,
+      method: 'get',
     }).then(res => {
       // Capture model should equal.
       expect(res.body.captureModelId).to.equal(fixture.body.id);
@@ -350,6 +360,11 @@ it('Creating a revision with revised selector on entity', () => {
       url: `/api/crowdsourcing/model/${fixture.body.id}/revision`,
       body: revisionRequest,
       method: 'post',
+    });
+
+    cy.apiRequest<RevisionRequest>({
+      url: `/api/crowdsourcing/revision/${revisionRequest.revision.id}?show_revised=true`,
+      method: 'get',
     }).then(res => {
       // Capture model should equal.
       expect(res.body.captureModelId).to.equal(fixture.body.id);

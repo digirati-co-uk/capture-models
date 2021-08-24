@@ -2,7 +2,7 @@ import { Revisions } from '@capture-models/editor';
 import { RevisionRequest } from '@capture-models/types';
 
 it('Should allow new lines to be added and saved', () => {
-  cy.loadFixture('04-selectors/08-hocr-output').then(fixture => {
+  cy.loadFixture('04-selectors/08-hocr-output').then( fixture => {
     // 1. Create store.
     const store = Revisions.createRevisionStore({
       captureModel: fixture.body,
@@ -41,7 +41,7 @@ it('Should allow new lines to be added and saved', () => {
       value: 'Testing a new value, inside new entity',
     });
 
-    const revisionRequest = store.getState().currentRevision;
+    const revisionRequest = store.getState().currentRevision as RevisionRequest;
 
     cy.log('revision request', revisionRequest);
 
@@ -50,6 +50,11 @@ it('Should allow new lines to be added and saved', () => {
       url: `/api/crowdsourcing/model/${fixture.body.id}/revision`,
       body: revisionRequest,
       method: 'post',
+    });
+
+    cy.apiRequest<RevisionRequest>({
+      url: `/api/crowdsourcing/revision/${revisionRequest.revision.id}?show_revised=true`,
+      method: 'get',
     }).then(res => {
       // Quick check on the revision.
       // This makes sure its not equal to the structure.

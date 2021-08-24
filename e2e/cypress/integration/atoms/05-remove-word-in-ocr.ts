@@ -25,7 +25,7 @@ it('Should allow single word changes to be made and saved', () => {
       path: [['name', 'c9470cec-05f4-4987-80ca-04eb7d835055']],
     });
 
-    const revisionRequest = store.getState().currentRevision;
+    const revisionRequest = store.getState().currentRevision as RevisionRequest;
 
     cy.log('revision request', revisionRequest);
 
@@ -34,6 +34,11 @@ it('Should allow single word changes to be made and saved', () => {
       url: `/api/crowdsourcing/model/${fixture.body.id}/revision`,
       body: revisionRequest,
       method: 'post',
+    });
+
+    cy.apiRequest<RevisionRequest>({
+      url: `/api/crowdsourcing/revision/${revisionRequest.revision.id}?show_revised=true`,
+      method: 'get',
     }).then(res => {
       // Assertions.
 

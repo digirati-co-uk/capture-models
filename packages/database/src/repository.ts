@@ -410,7 +410,7 @@ export class CaptureModelRepository {
     return await this.saveCaptureModel(model, { user: creator, context });
   }
 
-  async getRevision(id: string, context?: string[]): Promise<RevisionRequest> {
+  async getRevision(id: string, context?: string[], showRevised = false): Promise<RevisionRequest> {
     const model = await this.manager.findOne(Revision, id);
     if (!model) {
       throw new Error(`Revision: ${id} was not found`);
@@ -418,7 +418,7 @@ export class CaptureModelRepository {
     const revision = toRevision(model);
     const fullModel = await this.getCaptureModel(model.captureModelId, {
       revisionId: id,
-      onlyRevisionFields: true,
+      onlyRevisionFields: !showRevised,
       context,
     });
 

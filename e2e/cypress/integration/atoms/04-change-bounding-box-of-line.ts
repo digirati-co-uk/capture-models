@@ -22,13 +22,20 @@ it('Should allow single line bounding boxes to be changed', () => {
       selectorId: '0d0a0325-6d9a-407a-93c2-db0f55bb7209',
     });
 
-    const revisionRequest = store.getState().currentRevision;
+    const revisionRequest = store.getState().currentRevision as RevisionRequest;
+
+    cy.log('revision request', revisionRequest);
 
     // Save revision to backend
     cy.apiRequest<RevisionRequest>({
       url: `/api/crowdsourcing/model/${fixture.body.id}/revision`,
       body: revisionRequest,
       method: 'post',
+    });
+
+    cy.apiRequest<RevisionRequest>({
+      url: `/api/crowdsourcing/revision/${revisionRequest.revision.id}?show_revised=true`,
+      method: 'get',
     }).then(res => {
       // Quick check on the revision.
       // This makes sure its not equal to the structure.

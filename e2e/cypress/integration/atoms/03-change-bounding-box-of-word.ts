@@ -22,13 +22,20 @@ it('Should allow single word bounding boxes to be changed', () => {
       selectorId: 'da7e26f8-9797-423e-a0cf-276df7b859ea',
     });
 
-    const revisionRequest = store.getState().currentRevision;
+    const revisionRequest = store.getState().currentRevision as RevisionRequest;
+
+    cy.log('revision request', revisionRequest);
 
     // Save revision to backend
     cy.apiRequest<RevisionRequest>({
       url: `/api/crowdsourcing/model/${fixture.body.id}/revision`,
       body: revisionRequest,
       method: 'post',
+    });
+
+    cy.apiRequest<RevisionRequest>({
+      url: `/api/crowdsourcing/revision/${revisionRequest.revision.id}?show_revised=true`,
+      method: 'get',
     }).then(res => {
       // Quick check on the revision.
       // This makes sure its not equal to the structure.

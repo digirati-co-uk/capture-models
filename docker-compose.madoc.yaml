@@ -1,0 +1,37 @@
+version: "3"
+services:
+  model-api:
+#    container_name: madoc-platform_model-api_1
+    build:
+      context: .
+    environment:
+      - SERVER_PORT=3000
+      - DATABASE_HOST=shared-postgres
+      - DATABASE_NAME=postgres
+      - DATABASE_USER=models_api
+      - DATABASE_SCHEMA=models_api
+      - DATABASE_PORT=5432
+      - DATABASE_PASSWORD=models_api_password
+      - NODE_ENV=development
+#      - MOCK_JWT=true
+    volumes:
+      - ./packages/server/lib:/home/node/app/lib:delegated
+      - ./packages/database/lib:/home/node/app/node_modules/@capture-models/database/lib:delegated
+      - ./packages/helpers/dist:/home/node/app/node_modules/@capture-models/helpers/dist:delegated
+    ports:
+      - 3000:3000
+
+networks:
+  default:
+    external:
+      name: madoc-platform_default
+#  shared-postgres:
+#    image: library/postgres:12
+#    environment:
+#      - POSTGRES_DB=postgres
+#      - POSTGRES_USER=postgres
+#      - POSTGRES_PASSWORD=postgres_password
+#    volumes:
+#      - ./var/shared-database:/var/lib/postgresql/data
+#    ports:
+#      - 35432:5432
