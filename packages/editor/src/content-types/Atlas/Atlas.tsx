@@ -86,7 +86,9 @@ const Canvas: React.FC<{
       <world onClick={onDeselect}>
         <ImageServiceContext value={service}>
           {tiles ? <TileSet x={0} y={0} height={canvas.height} width={canvas.width} tiles={tiles} /> : null}
-          <Suspense fallback={null}>{children}</Suspense>
+          <world-object x={0} y={0} height={canvas.height} width={canvas.width}>
+            <Suspense fallback={null}>{children}</Suspense>
+          </world-object>
         </ImageServiceContext>
       </world>
     </AtlasAuto>
