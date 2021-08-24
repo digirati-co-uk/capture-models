@@ -1,0 +1,80 @@
+{
+  "structure": {
+    "id": "f85cf800-e446-4f34-bf3d-0d5a3fb3aa54",
+    "type": "choice",
+    "label": "nesting - nested model",
+    "items": [
+      {
+        "id": "e342fd09-8fb2-4456-92d9-c990e195526a",
+        "label": "Person",
+        "type": "model",
+        "fields": [
+          [
+            "person",
+            [
+              "firstName",
+              "lastName"
+            ]
+          ]
+        ],
+        "description": "The second choice in the list"
+      }
+    ],
+    "description": "Contains 3 choices with multiple text fields nested"
+  },
+  "document": {
+    "id": "f1beec89-3b9e-4f6b-99eb-a79b24bf7585",
+    "type": "entity",
+    "properties": {
+      "person": [
+        {
+          "id": "81bf865b-de9b-491a-91c8-d189241b12dc",
+          "type": "entity",
+          "label": "Person",
+          "properties": {
+            "firstName": [
+              {
+                "id": "5accef0f-10fc-4b71-b0c2-6a83212ac9fd",
+                "type": "text-field",
+                "label": "First name"
+              }
+            ],
+            "lastName": [
+              {
+                "id": "3c5d1d05-3798-4ac0-8671-eb21be8d6b87",
+                "type": "text-field",
+                "label": "Last name"
+              }
+            ]
+          },
+          "description": "Describe a person"
+        },
+        {
+          "id": "22a1fbf0-d952-4146-8449-4aa3fa942aa2",
+          "type": "entity",
+          "label": "Person",
+          "properties": {
+            "firstName": [
+              {
+                "id": "60bc550a-ef47-4695-8d58-a6884007b26e",
+                "type": "text-field",
+                "label": "First name"
+              }
+            ],
+            "lastName": [
+              {
+                "id": "dc8e5e73-5a1e-4220-8ebe-03b74a230458",
+                "type": "text-field",
+                "label": "Last name"
+              }
+            ]
+          },
+          "description": "Describe a person"
+        }
+      ]
+    },
+    "label": "Nested choices",
+    "description": ""
+  },
+  "id": "309ba2fb-0011-46e6-9875-afc652ea6a61"
+}
