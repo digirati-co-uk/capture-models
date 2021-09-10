@@ -3,7 +3,7 @@ services:
   model-api:
     container_name: model-api
     build:
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
       context: .
     environment:
       - SERVER_PORT=3000
