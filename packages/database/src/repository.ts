@@ -315,7 +315,7 @@ export class CaptureModelRepository {
         traverseDocument(document, {
           visitProperty(property, list, parent) {
             const docId = parent.id;
-            const foundIds = list.map(d => d.id);
+            const foundIds = (list as any[]).map(d => d.id);
             promises.push(
               manager
                 .createQueryBuilder()
