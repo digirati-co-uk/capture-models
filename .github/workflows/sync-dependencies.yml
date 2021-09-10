@@ -26,4 +26,7 @@ jobs:
           git config user.email github-actions@github.com
 
       - run: git rebase origin/master dependencies
+        continue-on-error: true
+
       - run: git push origin dependencies --force-with-lease
+        continue-on-error: true

@@ -16,3 +16,4 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           pr-title: '[Auto] Update all dependencies'
           pr-reviewers: stephenwf
+        continue-on-error: true

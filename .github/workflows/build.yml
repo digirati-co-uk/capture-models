@@ -23,7 +23,7 @@ on:
     workflow_dispatch: {}
 
 jobs:
-  test-e2e:
+  node:
     runs-on: ubuntu-latest
 
     steps:
