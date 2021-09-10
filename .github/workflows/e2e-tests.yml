@@ -1,0 +1,30 @@
+name: End to end tests
+
+on: [push, workflow_dispatch]
+
+jobs:
+  test-e2e:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - run: docker-compose pull --parallel --quiet
+
+      - name: Build the stack
+        run: docker-compose up -d
+        continue-on-error: true
+
+      - name: Test connection
+        run: docker run --network container:model-api appropriate/curl -s --retry 10 --retry-connrefused http://localhost:3000
+        continue-on-error: true
+
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        with:
+          project: ./e2e
+
+      - name: Bring stack down
+        run: |
+          docker-compose stop
+          docker-compose down
