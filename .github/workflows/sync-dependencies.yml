@@ -16,7 +16,7 @@ jobs:
         with:
           ref: 'master'
 
-      # Then checkout dependencies, this is branch we are rebasing..
+      # Then checkout dependencies, this is branch we are rebasing.
       - uses: actions/checkout@v2
         with:
           ref: 'dependencies'
