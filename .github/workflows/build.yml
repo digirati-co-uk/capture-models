@@ -49,4 +49,7 @@ jobs:
 
       - run: yarn run build
 
+      - run: yarn run build-storybook
+        working-directory: packages/editor
+
       - run: yarn run test
