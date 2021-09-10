@@ -11,7 +11,15 @@ jobs:
   rebase:
     runs-on: ubuntu-latest
     steps:
-      - uses: DeeDeeG/rebase-github-action@main
+      - uses: actions/checkout@v2
         with:
-          head_branch: origin/master
-          base_ref: origin/dependencies
+          fetch-depth: 0
+          ref: 'dependencies'
+
+      - name: Define git author for rebase
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+
+      - run: git rebase origin/master dependencies
+      - run: git push origin dependencies --force-with-lease
