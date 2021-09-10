@@ -1,0 +1,59 @@
+name: End to end tests
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/e2e-tests.yaml'
+      - 'e2e/**'
+      - 'packages/database/**'
+      - 'packages/server/**'
+      - 'packages/helpers/**'
+  push:
+    branches: [master]
+    paths:
+      - '.github/workflows/e2e-tests.yaml'
+      - 'e2e/**'
+      - 'packages/database/**'
+      - 'packages/server/**'
+      - 'packages/helpers/**'
+
+    workflow_dispatch: {}
+
+jobs:
+  test-e2e:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - run: docker-compose -f docker-compose.test.yaml pull --parallel --quiet
+
+      - name: Build the stack
+        run: docker-compose -f docker-compose.test.yaml up -d
+        continue-on-error: true
+
+      - name: Test connection
+        run: docker run --network container:model-api appropriate/curl -s --retry 10 --retry-connrefused http://localhost:3000
+        continue-on-error: true
+
+      - run: yarn install --frozen-lockfile --non-interactive
+
+      - run: yarn run build
+
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        with:
+          start: npm test
+          working-directory: e2e
+          browser: chrome
+          headless: true
+
+      - name: Bring stack down
+        run: |
+          docker-compose -f docker-compose.test.yaml stop
+          docker-compose -f docker-compose.test.yaml down

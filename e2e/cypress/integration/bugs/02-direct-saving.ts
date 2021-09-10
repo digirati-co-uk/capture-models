@@ -1,30 +1,20 @@
-import { Revisions } from '@capture-models/editor';
-import { BaseField, RevisionRequest } from '@capture-models/types';
+import { RevisionRequest } from '@capture-models/types';
+
+const deleteRequest = require('../../../../fixtures/97-bugs/03-delete-entity-req');
 
 it('should delete entities', () => {
-
-  cy.loadFixture('97-bugs/03-delete-entity').then(fixture => {
-
-
-    const store = Revisions.createRevisionStore({
-      captureModel: fixture.body,
+  cy.loadFixture('97-bugs/03-delete-entity').then((original) => {
+    // 2. Load the
+    cy.apiRequest<RevisionRequest>({
+      url: `/api/crowdsourcing/model/${original.body.id}`,
+      method: 'PUT',
+      body: deleteRequest,
+    }).then((res2) => {
+      // 3. Make assertions.
+      expect(res2.body.document.properties['field-multiple-selector'].length).to.eq(3);
+      expect(res2.body.document.properties['entity-multiple-selector'].length).to.eq(2);
+      expect(res2.body.document.properties['entity-multiple'].length).to.eq(2);
+      expect(res2.body.document.properties['field-multiple'].length).to.eq(2);
     });
-    const actions = store.getActions();
-
-    // 2. Create our revision.
-    actions.setRevisionMode({ editMode: true });
-    actions.createRevision({
-      revisionId: 'e342fd09-8fb2-4456-92d9-c990e195526a',
-      cloneMode: 'EDIT_ALL_VALUES',
-    });
-
-    actions.removeInstance({
-      path: [['person', '22a1fbf0-d952-4146-8449-4aa3fa942aa2']],
-    });
-
-    console.log(store.getState());
-
-
   });
-
 });

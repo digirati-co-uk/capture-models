@@ -11,16 +11,16 @@
   "license": "MIT",
   "private": true,
   "devDependencies": {
-    "@babel/core": "^7.11.6",
-    "@babel/preset-env": "^7.11.5",
+    "@babel/core": "^7.15.5",
+    "@babel/preset-env": "^7.15.6",
     "@capture-models/types": "../packages/types",
     "@capture-models/helpers": "../packages/helpers",
-    "@cypress/code-coverage": "^3.8.8",
+    "@cypress/code-coverage": "^3.9.10",
     "@cypress/watch-preprocessor": "^1.0.1",
-    "@cypress/webpack-preprocessor": "^5.5.0",
-    "babel-loader": "^8.1.0",
+    "@cypress/webpack-preprocessor": "^5.9.1",
+    "babel-loader": "^8.2.2",
     "babel-plugin-istanbul": "^6.0.0",
-    "cypress": "6.5.0",
+    "cypress": "8.3.1",
     "cypress-intellij-reporter": "^0.0.5",
     "cypress-plugin-snapshots": "^1.4.4",
     "eslint": "^6.8.0",
@@ -33,7 +33,7 @@
     "prettier": "^2.1.2",
     "rsa-keypair": "^2.0.2",
     "typescript": "^3.9.9",
-    "webpack": "^5.11.0"
+    "webpack": "^5.52.1"
   },
   "dependencies": {
     "ts-loader": "^8.0.12"
