@@ -11,8 +11,7 @@ jobs:
   rebase:
     runs-on: ubuntu-latest
     steps:
-      - uses: peter-evans/rebase@v1
+      - uses: DeeDeeG/rebase-github-action@main
         with:
-          base: master
-          head: dependencies
-          token: ${{ secrets.GITHUB_TOKEN }}
+          head_branch: master
+          base_ref: dependencies
