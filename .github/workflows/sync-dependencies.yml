@@ -13,5 +13,5 @@ jobs:
     steps:
       - uses: DeeDeeG/rebase-github-action@main
         with:
-          head_branch: master
+          head_branch: origin/master
           base_ref: dependencies
