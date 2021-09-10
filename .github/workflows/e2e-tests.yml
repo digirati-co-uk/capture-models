@@ -9,10 +9,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - run: docker-compose pull --parallel --quiet
+      - run: docker-compose -f docker-compose.test.yaml pull --parallel --quiet
 
       - name: Build the stack
-        run: docker-compose up -d
+        run: docker-compose -f docker-compose.test.yaml up -d
         continue-on-error: true
 
       - name: Test connection
@@ -22,9 +22,12 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
-          project: ./e2e
+          start: npm test
+          working-directory: e2e
+          browser: chrome
+          headless: true
 
       - name: Bring stack down
         run: |
-          docker-compose stop
-          docker-compose down
+          docker-compose -f docker-compose.test.yaml stop
+          docker-compose -f docker-compose.test.yaml down
