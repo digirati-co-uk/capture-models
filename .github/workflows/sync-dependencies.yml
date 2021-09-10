@@ -14,4 +14,4 @@ jobs:
       - uses: DeeDeeG/rebase-github-action@main
         with:
           head_branch: origin/master
-          base_ref: dependencies
+          base_ref: origin/dependencies
