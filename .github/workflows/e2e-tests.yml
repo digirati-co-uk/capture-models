@@ -26,6 +26,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
       - run: docker-compose -f docker-compose.test.yaml pull --parallel --quiet
 
       - name: Build the stack
@@ -35,6 +40,10 @@ jobs:
       - name: Test connection
         run: docker run --network container:model-api appropriate/curl -s --retry 10 --retry-connrefused http://localhost:3000
         continue-on-error: true
+
+      - run: yarn install --frozen-lockfile --non-interactive
+
+      - run: yarn run build
 
       - name: Cypress run
         uses: cypress-io/github-action@v2
