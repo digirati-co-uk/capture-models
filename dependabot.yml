@@ -1,0 +1,15 @@
+version: 2
+updates:
+  - package-ecosystem: 'npm'
+    directory: '/e2e'
+    schedule:
+      interval: 'monthly'
+    rebase-strategy: 'disabled'
+    target-branch: 'dependencies'
+
+  - package-ecosystem: 'npm'
+    directory: '/'
+    target-branch: 'dependencies'
+    schedule:
+      interval: 'weekly'
+      day: 'sunday'

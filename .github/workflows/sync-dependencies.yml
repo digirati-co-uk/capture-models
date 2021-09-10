@@ -1,0 +1,15 @@
+name: Sync dependencies
+
+on:
+  schedule:
+    # 03:00 each Saturday
+    - cron: '0 3 * * 6'
+
+jobs:
+  rebase:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: peter-evans/rebase@v1
+        with:
+          base: master
+          head: dependencies
