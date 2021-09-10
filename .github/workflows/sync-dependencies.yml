@@ -15,3 +15,4 @@ jobs:
         with:
           base: master
           head: dependencies
+          token: ${{ secrets.GITHUB_TOKEN }}
