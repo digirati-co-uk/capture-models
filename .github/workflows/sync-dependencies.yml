@@ -24,8 +24,8 @@ jobs:
       - run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
-
-      - run: git rebase -s recursive origin/master dependencies
+          git checkout dependencies
+          git rebase -s recursive origin/master
         continue-on-error: true
 
       - run: git push origin dependencies --force-with-lease
