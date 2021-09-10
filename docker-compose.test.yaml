@@ -1,6 +1,7 @@
 version: '3'
 services:
   model-api:
+    container_name: model-api
     build:
       dockerfile: Dockerfile
       context: .
