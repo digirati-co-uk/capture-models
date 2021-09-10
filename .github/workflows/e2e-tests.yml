@@ -1,6 +1,23 @@
 name: End to end tests
 
-on: [push, workflow_dispatch]
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/e2e-tests.yaml'
+      - 'e2e/**'
+      - 'packages/database/**'
+      - 'packages/server/**'
+      - 'packages/helpers/**'
+  push:
+    branches: [master]
+    paths:
+      - '.github/workflows/e2e-tests.yaml'
+      - 'e2e/**'
+      - 'packages/database/**'
+      - 'packages/server/**'
+      - 'packages/helpers/**'
+
+    workflow_dispatch: {}
 
 jobs:
   test-e2e:
