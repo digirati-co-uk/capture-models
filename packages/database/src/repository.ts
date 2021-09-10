@@ -1,4 +1,4 @@
-import { EntityManager, EntityRepository } from 'typeorm';
+import { AdvancedConsoleLogger, EntityManager, EntityRepository } from 'typeorm';
 import {
   BaseField,
   BaseSelector,
@@ -306,6 +306,67 @@ export class CaptureModelRepository {
         }
 
         captureModel.context = context;
+
+        const promises: Promise<void>[] = [];
+        const documentIdsToRemove = [];
+        const fieldIdsToRemove = [];
+
+        // Before saving...
+        traverseDocument(document, {
+          visitProperty(property, list, parent) {
+            const docId = parent.id;
+            const foundIds = list.map(d => d.id);
+            promises.push(
+              manager
+                .createQueryBuilder()
+                .select('id')
+                .from(Document, 'd')
+                .where('d.parentId = :parentId', {
+                  parentId: docId + '/' + property,
+                })
+                .andWhere('d.id not IN (:...foundIds)', { foundIds: foundIds })
+                .execute()
+                .then(resp => {
+                  documentIdsToRemove.push(...resp.map(r => r.id));
+                })
+            );
+            promises.push(
+              manager
+                .createQueryBuilder()
+                .select('id')
+                .from(Field, 'd')
+                .where('d.parentId = :parentId', {
+                  parentId: docId + '/' + property,
+                })
+                .andWhere('d.id not IN (:...foundIds)', { foundIds: foundIds })
+                .execute()
+                .then(resp => {
+                  fieldIdsToRemove.push(...resp.map(r => r.id));
+                })
+            );
+          },
+        });
+
+        await Promise.all(promises);
+
+        if (fieldIdsToRemove.length) {
+          await manager
+            .createQueryBuilder()
+            .delete()
+            .from(Field)
+            .where('id IN (:...fieldIdsToRemove)', { fieldIdsToRemove })
+            .execute();
+        }
+
+        if (documentIdsToRemove.length) {
+          await manager
+            .createQueryBuilder()
+            .delete()
+            .from(Document)
+            .where('id IN (:...documentIdsToRemove)', { documentIdsToRemove })
+            .execute();
+        }
+
         // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
         // @ts-ignore
         return await manager.save(CaptureModel, captureModel);
