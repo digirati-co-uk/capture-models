@@ -2603,7 +2603,7 @@
     "@types/jquery" "^2.0.40"
     natives "^1.1.6"
 
-"@iiif/vocabulary@1.0.16", "@iiif/vocabulary@^1.0.11":
+"@iiif/vocabulary@1.0.16":
   version "1.0.16"
   resolved "https://registry.yarnpkg.com/@iiif/vocabulary/-/vocabulary-1.0.16.tgz#63f5898318688d46d9a444fee68b6d10ef746709"
   integrity sha512-DI9KeHu78BplPrBWnDlDDxw+5pHWHN7oAMa1bCKtHCzeU+upxk0htREYE4f7f3zK2fEpEWnrCQUmGwVueutTJw==
@@ -2612,6 +2612,11 @@
   version "1.0.18"
   resolved "https://registry.yarnpkg.com/@iiif/vocabulary/-/vocabulary-1.0.18.tgz#e0af74436d431d482986dc8041779a8f04a605dc"
   integrity sha512-OV7NNmnTvtX4Zja8LevLMGaXiwvq8hzPHGa3hUlF5LjLa6fOuZhDC+ADCReHejEf30abTx/g5cnNAf3s5S/Brg==
+
+"@iiif/vocabulary@^1.0.11", "@iiif/vocabulary@^1.0.20":
+  version "1.0.20"
+  resolved "https://registry.yarnpkg.com/@iiif/vocabulary/-/vocabulary-1.0.20.tgz#e55d690da93d0870d66529c76bcf797229201c14"
+  integrity sha512-cL30/fL+7D+3tJvgGNZE6jWWGe/03ooEmwIfZEezbSE8mNzJB1pKthOrERKbeoMPdk1Qc++ySPgbgeawtYiFzA==
 
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.0.0"
@@ -7975,17 +7980,18 @@ caniuse-lite@^1.0.30001254:
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001256.tgz#182410b5f024e0ab99c72ec648f234a9986bd548"
   integrity sha512-QirrvMLmB4txNnxiaG/xbm6FSzv9LqOZ3Jp9VtCYb3oPIfCHpr/oGn38pFq0udwlkctvXQgPthaXqJ76DaYGnA==
 
-canvas-panel-beta@2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/canvas-panel-beta/-/canvas-panel-beta-2.0.0.tgz#3b2ab981f1b5c373d99bccc51646cf2744871a60"
-  integrity sha512-CKYu5G7jHTYt4B72ewNPHhxqKkGBeeqRQUe19OikruDNdqY4xSCPsyQEyyHdjoQERakwvfGLWr9/oAkomZ+Faw==
+canvas-panel-beta@2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/canvas-panel-beta/-/canvas-panel-beta-2.0.6.tgz#096f19ad87d3c0e860f439ce4cd33c8340f8140e"
+  integrity sha512-m5I6Ef2MwxG6SgBA2e6fzrM1c9r6szX6bA72pKyeZNqTlFEJIzPJfzwJJmP2lDLqJW5FZ622XhfpAsoxiRl4Ww==
   dependencies:
     "@canvas-panel/core" "^0.2.0"
     "@fesk/bem-js" "1.0.1"
     "@iiif/vocabulary" "1.0.16"
-    manifesto.js "^4.0.0"
+    manifesto.js "^4.1.0"
     react "^16.10.2"
     react-dom "^16.10.2"
+    whatwg-fetch "3.0.0"
 
 capture-exit@^2.0.0:
   version "2.0.0"
@@ -15783,14 +15789,15 @@ manifesto.js@4.1.0:
     "@iiif/vocabulary" "^1.0.11"
     isomorphic-unfetch "^3.0.0"
 
-manifesto.js@^4.0.0:
-  version "4.0.4"
-  resolved "https://registry.yarnpkg.com/manifesto.js/-/manifesto.js-4.0.4.tgz#e229f4927cbd06ce99f79d82b89a878544c7e5c7"
-  integrity sha512-LAP1WwWMfu7T++Bk8tEr0etRrnVvmODJ2GVGB6Zw5YAwxVrIJyvnz/7O0Vf8G1kLejoBsAkpDuYdzcbcsAt+9w==
+manifesto.js@^4.1.0:
+  version "4.2.4"
+  resolved "https://registry.yarnpkg.com/manifesto.js/-/manifesto.js-4.2.4.tgz#996cb3bd638883ea8f447ad00b958f23aeb0a184"
+  integrity sha512-Kfa3RSFnWeLTmzpkRQu/WM1275cx859rzwQO0wiRVo3Kl3yjbyV7QPzZkLCqgaL76gOarfYe28t1EDytgGpL9A==
   dependencies:
     "@edsilv/http-status-codes" "^1.0.3"
-    "@iiif/vocabulary" "^1.0.11"
+    "@iiif/vocabulary" "^1.0.20"
     isomorphic-unfetch "^3.0.0"
+    lodash "^4.17.21"
 
 "manifesto.js@https://github.com/stephenwf/manifesto.git#feature/p3-alpha-3":
   version "3.0.9"
@@ -19588,17 +19595,7 @@ react-docgen@^5.0.0:
     node-dir "^0.1.10"
     strip-indent "^3.0.0"
 
-react-dom@^16.10.2, react-dom@^16.12.0, react-dom@^16.3.2, react-dom@^16.8.3, react-dom@^16.9.0:
-  version "16.12.0"
-  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.12.0.tgz#0da4b714b8d13c2038c9396b54a92baea633fe11"
-  integrity sha512-LMxFfAGrcS3kETtQaCkTKjMiifahaMySFDn71fZUNpPHZQEzmk/GiAeIT8JSOrHB23fnuCOMruL2a8NYlw+8Gw==
-  dependencies:
-    loose-envify "^1.1.0"
-    object-assign "^4.1.1"
-    prop-types "^15.6.2"
-    scheduler "^0.18.0"
-
-react-dom@^16.13.1, react-dom@^16.8.6:
+react-dom@^16.10.2, react-dom@^16.12.0, react-dom@^16.13.1, react-dom@^16.3.2, react-dom@^16.8.3, react-dom@^16.8.6, react-dom@^16.9.0:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.13.1.tgz#c1bd37331a0486c078ee54c4740720993b2e0e7f"
   integrity sha512-81PIMmVLnCNLO/fFOQxdQkvEq/+Hfpv24XNJfpyZhTRfO0QcmQIF/PgCa1zCOj2w1hrn12MFLyaJ/G0+Mxtfag==
@@ -19919,16 +19916,7 @@ react-window@^1.8.5:
     "@babel/runtime" "^7.0.0"
     memoize-one ">=3.1.1 <6"
 
-react@^16.10.2, react@^16.12.0, react@^16.3.2, react@^16.8.3, react@^16.9.0:
-  version "16.12.0"
-  resolved "https://registry.yarnpkg.com/react/-/react-16.12.0.tgz#0c0a9c6a142429e3614834d5a778e18aa78a0b83"
-  integrity sha512-fglqy3k5E+81pA8s+7K0/T3DBCF0ZDOher1elBFzF7O6arXJgzyu/FW+COxFvAWXJoJN9KIZbT2LXlukwphYTA==
-  dependencies:
-    loose-envify "^1.1.0"
-    object-assign "^4.1.1"
-    prop-types "^15.6.2"
-
-react@^16.13.1, react@^16.8.6:
+react@^16.10.2, react@^16.12.0, react@^16.13.1, react@^16.3.2, react@^16.8.3, react@^16.8.6, react@^16.9.0:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react/-/react-16.13.1.tgz#2e818822f1a9743122c063d6410d85c1e3afe48e"
   integrity sha512-YMZQQq32xHLX0bz5Mnibv1/LHb3Sqzngu7xstSM+vrkE5Kzr9xE0yMByK5kMoTK30YVJE61WfbxIFFvfeDKT1w==
@@ -23855,7 +23843,7 @@ whatwg-encoding@^1.0.1, whatwg-encoding@^1.0.3, whatwg-encoding@^1.0.5:
   dependencies:
     iconv-lite "0.4.24"
 
-whatwg-fetch@>=0.10.0, whatwg-fetch@^3.0.0:
+whatwg-fetch@3.0.0, whatwg-fetch@>=0.10.0, whatwg-fetch@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-3.0.0.tgz#fc804e458cc460009b1a2b966bc8817d2578aefb"
   integrity sha512-9GSJUgz1D4MfyKU7KRqwOjXCXTqWdFNvEr7eUBYchQiVc744mqK/MzXPNR2WsPkmkOa4ywfg8C2n8h+13Bey1Q==
