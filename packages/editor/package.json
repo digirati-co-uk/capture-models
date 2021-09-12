@@ -54,7 +54,7 @@
     "@iiif/vocabulary": "1.0.18",
     "@styled-icons/entypo": "^10.0.0",
     "@styled-icons/styled-icon": "^10.0.0",
-    "canvas-panel-beta": "2.0.0",
+    "canvas-panel-beta": "2.0.6",
     "draft-js": "^0.11.6",
     "draft-js-export-html": "^1.4.1",
     "draft-js-import-element": "^1.4.0",
