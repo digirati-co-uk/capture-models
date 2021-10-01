@@ -15,7 +15,7 @@
     "@babel/preset-env": "^7.15.6",
     "@capture-models/types": "../packages/types",
     "@capture-models/helpers": "../packages/helpers",
-    "@cypress/code-coverage": "^3.9.10",
+    "@cypress/code-coverage": "^3.9.11",
     "@cypress/watch-preprocessor": "^1.0.1",
     "@cypress/webpack-preprocessor": "^5.9.1",
     "babel-loader": "^8.2.2",
