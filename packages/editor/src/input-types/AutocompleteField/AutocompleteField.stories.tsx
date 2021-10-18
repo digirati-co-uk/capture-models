@@ -27,6 +27,25 @@ export const Simple: React.FC = () => {
   );
 };
 
+export const SimpleWithEmpty: React.FC = () => {
+  const [value, setValue] = React.useState<CompletionItem | undefined>();
+  return (
+    <form>
+      <AutocompleteField
+        id="1"
+        label="Some label"
+        type="autocomplete-field"
+        emptyQuery
+        dataSource={
+          'https://gist.githubusercontent.com/stephenwf/8085651ddef94fb55f75c31fa33b36ab/raw/768995ed1a68eeeebd05bf791539682ae1cb5513/test.json?t=%'
+        }
+        value={value}
+        updateValue={setValue}
+      />
+    </form>
+  );
+};
+
 export const WithPreview: React.FC = () => {
   return (
     <PluginProvider>

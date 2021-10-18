@@ -13,6 +13,7 @@ type Props = {
   dataSource: string;
   placeholder?: string;
   clearable: boolean;
+  emptyQuery: boolean;
 };
 
 const AutocompleteFieldEditor: React.FC<Props> = props => {
@@ -41,6 +42,12 @@ const AutocompleteFieldEditor: React.FC<Props> = props => {
         <StyledFormLabel>
           <Field as={StyledCheckbox} type="checkbox" name="clearable" value={props.clearable} required={false} />
           {t('Allow clearing of selection')}
+        </StyledFormLabel>
+      </StyledFormField>
+      <StyledFormField>
+        <StyledFormLabel>
+          <Field as={StyledCheckbox} type="checkbox" name="emptyQuery" value={props.emptyQuery} required={false} />
+          {t('Allow empty search')}
         </StyledFormLabel>
       </StyledFormField>
     </>

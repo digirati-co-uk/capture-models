@@ -10,6 +10,7 @@ export interface AutocompleteFieldProps extends BaseField {
   value: { uri: string; label: string; resource_class?: string } | undefined;
   placeholder?: string;
   clearable?: boolean;
+  emptyQuery?: boolean;
   dataSource: string;
 }
 
@@ -53,9 +54,9 @@ export const AutocompleteField: FieldComponent<AutocompleteFieldProps> = props =
   };
 
   const onSearchChange = (value: string | undefined) => {
-    if (value) {
+    if (value || props.emptyQuery) {
       // Make API Request.
-      fetch(`${props.dataSource}`.replace(/%/, value))
+      fetch(`${props.dataSource}`.replace(/%/, value || ''))
         .then(r => r.json() as Promise<{ completions: CompletionItem[] }>)
         .then(items => {
           setOptions(items.completions);
