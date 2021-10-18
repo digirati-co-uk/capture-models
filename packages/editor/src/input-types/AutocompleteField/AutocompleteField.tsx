@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BaseField, FieldComponent } from '@capture-models/types';
 import { Select } from 'react-functional-select';
 import { ErrorMessage } from '../../atoms/Message';
@@ -68,6 +68,12 @@ export const AutocompleteField: FieldComponent<AutocompleteFieldProps> = props =
         });
     }
   };
+
+  useEffect(() => {
+    if (props.emptyQuery) {
+      onSearchChange(undefined);
+    }
+  }, []);
 
   return (
     <>
