@@ -5,7 +5,7 @@ import { StyledCheckbox, StyledFormLabel } from '../../atoms/StyledForm';
 
 export interface CheckboxListFieldProps extends BaseField {
   type: 'checkbox-list-field';
-  options: Array<{ label: string; value: string }>;
+  options?: Array<{ label: string; value: string }>;
   value: { [key: string]: boolean };
   previewList?: boolean;
 }
@@ -24,7 +24,7 @@ const CheckboxContainer = styled.div<{ inline?: boolean }>`
 export const CheckboxFieldList: FieldComponent<CheckboxListFieldProps> = props => {
   return (
     <CheckboxContainer>
-      {props.options.map(option => {
+      {(props.options || []).map(option => {
         return (
           <StyledFormLabel key={option.value}>
             <StyledCheckbox

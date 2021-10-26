@@ -33,10 +33,12 @@ const specification: FieldSpecification<CheckboxListFieldProps> = {
     if (typeof optionsAsText !== 'undefined') {
       return {
         ...props,
-        options: optionsAsText.split('\n').map(str => {
-          const [value, label] = str.split(',');
-          return { value, label };
-        }),
+        options: optionsAsText
+          ? optionsAsText.split('\n').map(str => {
+              const [value, label] = str.split(',');
+              return { value, label };
+            })
+          : [],
       };
     }
     return props;
