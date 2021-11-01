@@ -36,6 +36,6 @@
     "webpack": "^5.52.1"
   },
   "dependencies": {
-    "ts-loader": "^8.0.12"
+    "ts-loader": "^9.2.6"
   }
 }
