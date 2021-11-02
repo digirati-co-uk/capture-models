@@ -9,6 +9,7 @@
     "types": [
       // load Cypress global type
       "cypress",
+      "node",
       "cypress/support/index.d.ts"
     ]
   },

@@ -11,6 +11,7 @@
   "license": "MIT",
   "private": true,
   "devDependencies": {
+    "@types/node": "^16.11.6",
     "@babel/core": "^7.15.5",
     "@babel/preset-env": "^7.15.6",
     "@capture-models/types": "../packages/types",
@@ -20,11 +21,11 @@
     "@cypress/webpack-preprocessor": "^5.9.1",
     "babel-loader": "^8.2.2",
     "babel-plugin-istanbul": "^6.0.0",
-    "cypress": "8.5.0",
-    "cypress-intellij-reporter": "^0.0.5",
+    "cypress": "8.7.0",
+    "cypress-intellij-reporter": "^0.0.7",
     "cypress-plugin-snapshots": "^1.4.4",
     "eslint": "^6.8.0",
-    "eslint-plugin-babel": "^5.3.0",
+    "eslint-plugin-babel": "^5.3.1",
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-react-hooks": "^2.1.2",
     "jose": "^1.25.0",
@@ -32,10 +33,10 @@
     "picklejs": "^0.101.0",
     "prettier": "^2.1.2",
     "rsa-keypair": "^2.0.2",
-    "typescript": "^3.9.9",
-    "webpack": "^5.52.1"
+    "typescript": "^4.4.4",
+    "webpack": "^5.61.0"
   },
   "dependencies": {
-    "ts-loader": "^8.0.12"
+    "ts-loader": "^9.2.6"
   }
 }

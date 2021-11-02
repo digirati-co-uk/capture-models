@@ -120,6 +120,20 @@ it('Creating a revision', () => {
       url: `/api/crowdsourcing/model/${fixture.body.id}`,
     }).then(res => {
       const model = res.body;
+      expect(model.revisions).to.have.lengthOf(0);
+    });
+
+    cy.apiRequest<CaptureModel>({
+      url: `/api/crowdsourcing/model/${fixture.body.id}?published=true`,
+    }).then(res => {
+      const model = res.body;
+      expect(model.revisions).to.have.lengthOf(0);
+    });
+
+    cy.apiRequest<CaptureModel>({
+      url: `/api/crowdsourcing/model/${fixture.body.id}?published=false`,
+    }).then(res => {
+      const model = res.body;
 
       // We should have our revision.
       expect(model.revisions).to.have.lengthOf(1);
@@ -212,8 +226,16 @@ it('Creating a revision with revised selector', () => {
       expect(selector.revisedBy[0].revisionId).to.equal(revisionId);
     });
 
+
     cy.apiRequest<CaptureModel>({
-      url: `/api/crowdsourcing/model/${fixture.body.id}`,
+      url: `/api/crowdsourcing/model/${fixture.body.id}?published=true`,
+    }).then(res => {
+      const model = res.body;
+      expect(model.revisions).to.have.lengthOf(0);
+    });
+
+    cy.apiRequest<CaptureModel>({
+      url: `/api/crowdsourcing/model/${fixture.body.id}?published=false`,
     }).then(res => {
       const model = res.body;
 
@@ -222,6 +244,7 @@ it('Creating a revision with revised selector', () => {
 
       // It should be our one.
       expect(model.revisions?.[0].id).to.equal(revisionId);
+      expect(model.revisions?.[0].status).to.equal('draft');
 
       // So now 2 fields
       expect(model.document.properties.name).to.have.lengthOf(1);
@@ -380,7 +403,7 @@ it('Creating a revision with revised selector on entity', () => {
     });
 
     cy.apiRequest<CaptureModel>({
-      url: `/api/crowdsourcing/model/${fixture.body.id}`,
+      url: `/api/crowdsourcing/model/${fixture.body.id}?published=false`,
     }).then(res => {
       const model = res.body;
 

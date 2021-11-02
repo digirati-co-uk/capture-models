@@ -19,25 +19,18 @@ export const captureModelApi: RouteMiddleware<{ id: string }> = async (ctx, next
     published: string;
   };
 
-  const published = castBool(query.published, true);
-  // Remove this option for now.
-  // const showAll = castBool(ctx.query._all, false);
+  const published = castBool(query.published, false);
   const onlyUser = canSeeFullModel ? query.author : userUrn;
-
-  // - Only published
-  // - Published + their own revisions (models.contribute)
-  // - All revisions (status = submitted + published)
-
-  // Tested
-  // - onlyUser is working!
 
   try {
     // Admins can bypass
     ctx.body = await ctx.db.api.getCaptureModel(ctx.params.id, {
       context: ctx.state.jwt.context,
       includeCanonical: !!published,
+      revisionStatus: published ? 'accepted' : undefined,
       revisionId: query.revision_id || query.revisionId,
       userId: onlyUser,
+      showAllRevisions: canSeeFullModel && !onlyUser && !published && !query.revision_id,
     });
   } catch (err) {
     console.log('Error while fetching model', err);

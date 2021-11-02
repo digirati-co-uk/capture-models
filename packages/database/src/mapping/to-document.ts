@@ -44,6 +44,12 @@ export async function toDocument(
     dataSources: dataSources ? dataSources : undefined,
     properties: {},
   };
+  // toDocument {
+  //   revisionIds: [ '7b0052c9-ff2c-4463-b198-c6bcc6d18606' ],
+  //   publishedRevisionIds: [ '7b0052c9-ff2c-4463-b198-c6bcc6d18606' ],
+  //   idsRemovedByPublishedRevisions: [],
+  //   onlyRevisionFields: undefined
+  // }
 
   if (filters.revisionIds && filters.revisionIds.indexOf(returnDocument.revision) === -1) {
     returnDocument.immutable = true;
@@ -66,24 +72,25 @@ export async function toDocument(
       });
 
       // revises to be removed
-      const revisesFields = fields
-        .filter(field => {
-          // Filter fields with revises and published.
-          return (
-            field.revisesId &&
-            (filters.publishedRevisionIds ? filters.publishedRevisionIds.indexOf(field.revisionId) !== -1 : true)
-          );
-        })
-        .map(field => {
-          return field.revisesId;
-        });
+      // @todo maybe this will be an option?
+      // const revisesFields = fields
+      //   .filter(field => {
+      //     // Filter fields with revises and published.
+      //     return (
+      //       field.revisesId &&
+      //       (filters.publishedRevisionIds ? filters.publishedRevisionIds.indexOf(field.revisionId) !== -1 : true)
+      //     );
+      //   })
+      //   .map(field => {
+      //     return field.revisesId;
+      //   });
 
       const filteredFields = filters.revisionIds
         ? fields.filter(field => {
             // The field has been revised.
-            if (revisesFields.indexOf(field.id) !== -1) {
-              return false;
-            }
+            // if (revisesFields.indexOf(field.id) !== -1) {
+            //   return false;
+            // }
 
             // If it has a revision, filter it against the revisions.
             if (field.revisionId && filters.revisionIds.indexOf(field.revisionId) === -1) {

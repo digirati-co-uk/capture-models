@@ -170,7 +170,7 @@ it('deleting a the last field in a deeply nested model (as a draft)', () => {
     });
 
     cy.apiRequest<CaptureModel>({
-      url: `/api/crowdsourcing/model/${fixture.body.id}`,
+      url: `/api/crowdsourcing/model/${fixture.body.id}?published=false`,
     }).then(res => {
       const model = res.body;
 

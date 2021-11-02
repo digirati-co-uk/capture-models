@@ -21,28 +21,39 @@ function recurseRevisionDependencies(revisionId: string, revisions: CaptureModel
 
 export async function toCaptureModel(
   { document, target, structure, revisions, contributors, integrity, id, derivedFromId, profile }: CaptureModel,
-  filters: { userId?: string; revisionId?: string; revisionStatus?: string; onlyRevisionFields?: boolean } = {}
+  filters: {
+    userId?: string;
+    revisionId?: string;
+    revisionStatus?: string;
+    onlyRevisionFields?: boolean;
+    showAllRevisions?: boolean;
+  } = {}
 ): Promise<CaptureModelType> {
-  const baseRevisionIds: string[] = filters.userId
-    ? revisions
-        .filter(rev => {
-          if (filters.revisionId && filters.revisionId !== rev.id) {
-            return false;
-          }
-          if (filters.revisionStatus && rev.status !== filters.revisionStatus) {
-            return false;
-          }
-          for (const author of rev.authors) {
-            if (author.contributorId === filters.userId) {
-              return true;
+  const baseRevisionIds: string[] =
+    (filters.userId || filters.revisionStatus) && !filters.showAllRevisions
+      ? revisions
+          .filter(rev => {
+            if (filters.revisionId && filters.revisionId !== rev.id) {
+              return false;
             }
-          }
-          return false;
-        })
-        .map(rev => rev.id)
-    : filters.revisionId
-    ? [filters.revisionId]
-    : undefined;
+            if (filters.revisionStatus && rev.status !== filters.revisionStatus) {
+              return false;
+            }
+            if (filters.userId) {
+              for (const author of rev.authors) {
+                if (author.contributorId === filters.userId) {
+                  return true;
+                }
+              }
+              return false;
+            }
+            return true;
+          })
+          .map(rev => rev.id)
+      : filters.revisionId
+      ? [filters.revisionId]
+      : undefined;
+
   const revisionIds = baseRevisionIds
     ? baseRevisionIds
         .map(rid => recurseRevisionDependencies(rid, revisions))

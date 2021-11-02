@@ -46,7 +46,7 @@ it('Should allow single word changes to be made and saved', () => {
 
       // Now we want to edit it again.
       cy.apiRequest({
-        url: `/api/crowdsourcing/model/${fixture.body.id}`,
+        url: `/api/crowdsourcing/model/${fixture.body.id}?published=false`,
         method: 'get',
       }).then(modelRes => {
         const newModel = modelRes.body;

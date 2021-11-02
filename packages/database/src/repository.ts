@@ -56,6 +56,7 @@ export class CaptureModelRepository {
       onlyRevisionFields,
       userId,
       context,
+      showAllRevisions,
     }: {
       includeCanonical?: boolean;
       revisionStatus?: StatusTypes;
@@ -64,8 +65,12 @@ export class CaptureModelRepository {
       revisionId?: string;
       userId?: string;
       context?: string[];
+      showAllRevisions?: boolean;
     } = {}
   ): Promise<CaptureModelType & { id: string }> {
+
+    console.log({ userId, context, revisionId, showAllRevisions });
+
     const builder = await this.manager
       .createQueryBuilder()
       .select('model')
@@ -119,7 +124,7 @@ export class CaptureModelRepository {
       throw new Error(`Capture model ${id} not found`);
     }
 
-    return (await toCaptureModel(captureModel, { revisionId, userId, revisionStatus, onlyRevisionFields })) as any;
+    return (await toCaptureModel(captureModel, { showAllRevisions, revisionId, userId, revisionStatus, onlyRevisionFields })) as any;
   }
 
   /**

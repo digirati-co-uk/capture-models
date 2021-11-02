@@ -36,6 +36,15 @@ it('Should keep properties when approving a revision', () => {
 
   cy.loadFixture('97-bugs/01-approve-revision');
 
+  // Before loading, check that we cannot access using published = true
+
+  cy.apiRequest<CaptureModel>({
+    url: `/api/crowdsourcing/model/${revisionRequest.captureModelId}?published=true`,
+    method: 'GET',
+  }).then(res => {
+    expect(res.body.document.properties.regionOfInterest).to.have.length(1);
+  });
+
   cy.apiRequest<RevisionRequest>({
     url: `/api/crowdsourcing/revision/${revisionRequest.revision.id}`,
     method: 'PUT',
@@ -58,6 +67,8 @@ it('Should keep properties when approving a revision', () => {
 
   cy.apiRequest<CaptureModel>(`/api/crowdsourcing/model/${revisionRequest.captureModelId}`).then(res => {
     const model = res.body as any;
+
+    expect(res.body.document.properties.regionOfInterest).to.have.length(2);
 
     const firstRegion = model.document.properties.regionOfInterest.find(({ value }: any) => value === '');
     const secondRegion = model.document.properties.regionOfInterest.find(
@@ -84,6 +95,14 @@ it('Should keep properties when approving a revision', () => {
       revises: '48304e90-4257-4cbd-b3ef-4c8fcfb45b96',
       selector: { id: '01a9a2fd-bb23-4cfa-b3b4-7be643c66a15', type: 'box-selector', state: null },
       revision: '7b0052c9-ff2c-4463-b198-c6bcc6d18606',
+    });
+
+
+    cy.apiRequest<CaptureModel>({
+      url: `/api/crowdsourcing/model/${revisionRequest.captureModelId}?published=true`,
+      method: 'GET',
+    }).then(res => {
+      expect(res.body.document.properties.regionOfInterest).to.have.length(2);
     });
   });
 });

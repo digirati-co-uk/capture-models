@@ -1,0 +1,7 @@
+version: "3"
+services:
+  model-api:
+    volumes:
+      - ./packages/helpers/dist:/home/node/app/packages/helpers/dist
+      - ./packages/database/lib:/home/node/app/packages/database/lib
+      - ./packages/server/lib:/home/node/app/packages/server/lib
