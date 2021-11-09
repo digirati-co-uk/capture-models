@@ -34,6 +34,7 @@ export const AutocompleteField: FieldComponent<AutocompleteFieldProps> = props =
   const { t } = useTranslation();
   const [options, setOptions] = useState<CompletionItem[]>(props.value ? [props.value] : []);
   const [isLoading, setIsLoading] = useState(false);
+  const [hasFetched, setHasFetched] = useState(false);
   const [error, setError] = useState('');
 
   const onOptionChange = (option: CompletionItem | undefined) => {
@@ -56,12 +57,17 @@ export const AutocompleteField: FieldComponent<AutocompleteFieldProps> = props =
   const onSearchChange = useCallback(
     (value: string | undefined) => {
       if (value || props.requestInitial) {
+        if (hasFetched && props.dataSource.indexOf('%') === -1) {
+          setIsLoading(false);
+          return;
+        }
         // Make API Request.
         fetch(`${props.dataSource}`.replace(/%/, value || ''))
           .then(r => r.json() as Promise<{ completions: CompletionItem[] }>)
           .then(items => {
             setOptions(items.completions);
             setIsLoading(false);
+            setHasFetched(true);
             setError('');
           })
           .catch(() => {
