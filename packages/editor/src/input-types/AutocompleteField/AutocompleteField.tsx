@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { BaseField, FieldComponent } from '@capture-models/types';
 import { Select } from 'react-functional-select';
 import { ErrorMessage } from '../../atoms/Message';
@@ -10,6 +10,7 @@ export interface AutocompleteFieldProps extends BaseField {
   value: { uri: string; label: string; resource_class?: string } | undefined;
   placeholder?: string;
   clearable?: boolean;
+  requestInitial?: boolean;
   dataSource: string;
 }
 
@@ -52,21 +53,31 @@ export const AutocompleteField: FieldComponent<AutocompleteFieldProps> = props =
     setIsLoading(true);
   };
 
-  const onSearchChange = (value: string | undefined) => {
-    if (value) {
-      // Make API Request.
-      fetch(`${props.dataSource}`.replace(/%/, value))
-        .then(r => r.json() as Promise<{ completions: CompletionItem[] }>)
-        .then(items => {
-          setOptions(items.completions);
-          setIsLoading(false);
-          setError('');
-        })
-        .catch(() => {
-          setError(t('There was a problem fetching results'));
-        });
+  const onSearchChange = useCallback(
+    (value: string | undefined) => {
+      if (value || props.requestInitial) {
+        // Make API Request.
+        fetch(`${props.dataSource}`.replace(/%/, value || ''))
+          .then(r => r.json() as Promise<{ completions: CompletionItem[] }>)
+          .then(items => {
+            setOptions(items.completions);
+            setIsLoading(false);
+            setError('');
+          })
+          .catch(() => {
+            setError(t('There was a problem fetching results'));
+          });
+      }
+    },
+    [props.requestInitial, props.dataSource, t]
+  );
+
+  useEffect(() => {
+    if (props.requestInitial) {
+      onSearchChange(props.value?.uri || '');
     }
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.requestInitial]);
 
   return (
     <>
