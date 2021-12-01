@@ -33,7 +33,7 @@
     "picklejs": "^0.101.0",
     "prettier": "^2.1.2",
     "rsa-keypair": "^2.0.2",
-    "typescript": "^4.4.4",
+    "typescript": "^4.5.2",
     "webpack": "^5.61.0"
   },
   "dependencies": {
