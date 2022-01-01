@@ -13,7 +13,7 @@
   "devDependencies": {
     "@types/node": "^16.11.6",
     "@babel/core": "^7.15.5",
-    "@babel/preset-env": "^7.15.6",
+    "@babel/preset-env": "^7.16.7",
     "@capture-models/types": "../packages/types",
     "@capture-models/helpers": "../packages/helpers",
     "@cypress/code-coverage": "^3.9.11",
