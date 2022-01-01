@@ -34,7 +34,7 @@
     "prettier": "^2.1.2",
     "rsa-keypair": "^2.0.2",
     "typescript": "^4.5.2",
-    "webpack": "^5.61.0"
+    "webpack": "^5.65.0"
   },
   "dependencies": {
     "ts-loader": "^9.2.6"
