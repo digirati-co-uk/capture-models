@@ -29,7 +29,7 @@
     "uuid": "^3.4.0"
   },
   "devDependencies": {
-    "@types/jest": "^25.1.2",
+    "@types/jest": "^27.4.0",
     "@types/react": "16.9.19",
     "@types/uuid": "^3.4.7",
     "rollup": "^2.35.1",
