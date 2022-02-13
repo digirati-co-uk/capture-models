@@ -32,6 +32,6 @@
     "nodemon": "^2.0.2",
     "ts-node": "^8.6.2",
     "typescript": "^3.9.9",
-    "webpack-cli": "^3.3.11"
+    "webpack-cli": "^4.9.2"
   }
 }
