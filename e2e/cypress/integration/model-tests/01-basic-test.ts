@@ -117,13 +117,6 @@ it('Creating a revision', () => {
     });
 
     cy.apiRequest<CaptureModel>({
-      url: `/api/crowdsourcing/model/${fixture.body.id}`,
-    }).then(res => {
-      const model = res.body;
-      expect(model.revisions).to.have.lengthOf(0);
-    });
-
-    cy.apiRequest<CaptureModel>({
       url: `/api/crowdsourcing/model/${fixture.body.id}?published=true`,
     }).then(res => {
       const model = res.body;
@@ -225,7 +218,6 @@ it('Creating a revision with revised selector', () => {
       expect(selector.revisedBy[0].id).to.equal(selectorId);
       expect(selector.revisedBy[0].revisionId).to.equal(revisionId);
     });
-
 
     cy.apiRequest<CaptureModel>({
       url: `/api/crowdsourcing/model/${fixture.body.id}?published=true`,

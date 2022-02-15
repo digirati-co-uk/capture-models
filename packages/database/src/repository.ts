@@ -69,8 +69,6 @@ export class CaptureModelRepository {
     } = {}
   ): Promise<CaptureModelType & { id: string }> {
 
-    console.log({ userId, context, revisionId, showAllRevisions });
-
     const builder = await this.manager
       .createQueryBuilder()
       .select('model')
@@ -124,7 +122,13 @@ export class CaptureModelRepository {
       throw new Error(`Capture model ${id} not found`);
     }
 
-    return (await toCaptureModel(captureModel, { showAllRevisions, revisionId, userId, revisionStatus, onlyRevisionFields })) as any;
+    return (await toCaptureModel(captureModel, {
+      showAllRevisions,
+      revisionId,
+      userId,
+      revisionStatus,
+      onlyRevisionFields,
+    })) as any;
   }
 
   /**
@@ -877,7 +881,7 @@ export class CaptureModelRepository {
             selectorMap[entity.selector.id] = entity.selector.state;
             if (entity.selector.revisedBy) {
               for (const revisedSelector of entity.selector.revisedBy) {
-                if (revisedSelector.revisionId && revisedSelector.revisionId === req.revision.id) {
+                if (revisedSelector && revisedSelector.revisionId && revisedSelector.revisionId === req.revision.id) {
                   selectorIds.push(revisedSelector.id);
                   selectorMap[revisedSelector.id] = revisedSelector.state;
                 }
@@ -946,12 +950,16 @@ export class CaptureModelRepository {
           selector.revisionId &&
           selector.revisionId === req.revision.id &&
           selector &&
+          selectorMap[selector.id] &&
           !deepEqual(selectorMap[selector.id].state, selector.state)
         ) {
-          selectorsToHydrate.push({
-            selector,
-            parentSelector,
-          });
+          const found = selectorsToHydrate.find(s => s.selector.id === selector.id);
+          if (!found) {
+            selectorsToHydrate.push({
+              selector,
+              parentSelector,
+            });
+          }
         }
       },
     });
