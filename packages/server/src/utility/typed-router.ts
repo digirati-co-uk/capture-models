@@ -27,7 +27,7 @@ export class TypedRouter<
   static PUT = 'put';
   static DELETE = 'delete';
 
-  private router = new Router();
+  private router: any = new Router();
 
   constructor(routes: MappedRoutes) {
     const routeNames = Object.keys(routes);
