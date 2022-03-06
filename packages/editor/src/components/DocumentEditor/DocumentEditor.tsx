@@ -63,6 +63,7 @@ export const DocumentEditor: React.FC<DocumentEditorProps> = ({
   const { selectors } = useContext(PluginContext);
   const isRoot = subtreePath.length === 0;
   const [metadataOpen, setMetadataOpen] = useState(false);
+  const [customLabelledBy, setCustomLabelBy] = useState(false);
 
   const subtreeFieldOptions = useMemo(
     () => [
@@ -79,6 +80,12 @@ export const DocumentEditor: React.FC<DocumentEditorProps> = ({
     ],
     [subtreeFields]
   );
+
+  useEffect(() => {
+    if (subtree.labelledBy && !subtreeFieldOptions.find(opt => opt.value === subtree.labelledBy) && !customLabelledBy) {
+      setCustomLabelBy(true);
+    }
+  }, [subtreeFieldOptions, subtree.labelledBy, customLabelledBy]);
 
   useEffect(() => {
     if (route !== 'list') {
@@ -161,19 +168,47 @@ export const DocumentEditor: React.FC<DocumentEditorProps> = ({
                       ) : null}
                     </>
                   )}
+                  {customLabelledBy ? (
+                    <StyledFormField>
+                      <StyledFormLabel>
+                        {t('Entity labelled by property')}
+                        <StyledFormInput
+                          type="textarea"
+                          name="labelledBy"
+                          value={subtree.labelledBy}
+                          onChange={e => setLabelledBy(e.currentTarget.value)}
+                        />
+                      </StyledFormLabel>
+                    </StyledFormField>
+                  ) : (
+                    <>
+                      <StyledFormField>
+                        <StyledFormLabel>
+                          {t('Entity labelled by property')}
+                          <Dropdown
+                            placeholder="Choose property"
+                            fluid
+                            selection
+                            value={subtree.labelledBy}
+                            onChange={val => {
+                              setLabelledBy(val || '');
+                            }}
+                            options={subtreeFieldOptions}
+                          />
+                        </StyledFormLabel>
+                      </StyledFormField>
+                    </>
+                  )}
                   <StyledFormField>
                     <StyledFormLabel>
-                      {t('Entity labelled by property')}
-                      <Dropdown
-                        placeholder="Choose property"
-                        fluid
-                        selection
-                        value={subtree.labelledBy}
-                        onChange={val => {
-                          setLabelledBy(val || '');
-                        }}
-                        options={subtreeFieldOptions}
+                      <StyledCheckbox
+                        type="checkbox"
+                        name="allowMultiple"
+                        checked={customLabelledBy}
+                        value={customLabelledBy as any}
+                        onChange={e => setCustomLabelBy(e.currentTarget.checked)}
                       />
+                      {t('Advanced labelled by property')}
                     </StyledFormLabel>
                   </StyledFormField>
                   <StyledFormField>
