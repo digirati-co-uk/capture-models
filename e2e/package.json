@@ -29,7 +29,7 @@
     "eslint-plugin-prettier": "^3.4.1",
     "eslint-plugin-react-hooks": "^2.1.2",
     "jose": "^1.25.0",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "^3.2.3",
     "picklejs": "^0.101.0",
     "prettier": "^2.5.1",
     "rsa-keypair": "^2.0.2",
