@@ -51,7 +51,7 @@ it('Should keep properties when approving a revision', () => {
     body: revisionRequest,
   }).then(res => {
     expect(res.body.document.properties.regionOfInterest).not.to.be.undefined;
-    expect((res.body.document.properties.regionOfInterest[0] as BaseField).value).to.equal('tests with a change');
+    expect((res.body.document.properties.regionOfInterest[1] as BaseField).value).to.equal('tests with a change');
     expect(res.body.revision).to.deep.equal({
       structureId: '9c2c6558-703d-4276-ac44-01c78e66ecef',
       approved: true,

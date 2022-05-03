@@ -1,0 +1,65 @@
+{
+  "captureModelId": "80e05e8d-8991-4b01-a729-b7f72a808784",
+  "source": "structure",
+  "document": {
+    "id": "f931b5c9-31b2-4155-913d-1542a31b5d31",
+    "type": "entity",
+    "label": "Box drawing test",
+    "properties": {
+      "boxes": [
+        {
+          "id": "816e3690-abbb-42e6-ac6c-3dfd776bea61",
+          "type": "entity",
+          "label": "Boxes",
+          "labelledBy": "description",
+          "revision": "eebb6e24-efc6-4ec1-89d2-337ae46f8f37",
+          "properties": {
+            "description": [
+              {
+                "id": "b3865704-c904-4fe0-a027-996facecc36b",
+                "type": "text-field",
+                "label": "Description",
+                "value": "Box 1",
+                "revision": "eebb6e24-efc6-4ec1-89d2-337ae46f8f37",
+                "minLines": 6,
+                "multiline": true
+              }
+            ]
+          },
+          "selector": {
+            "id": "845314e2-2bfa-4c9b-a3f7-44c78e201bdb",
+            "type": "box-selector",
+            "state": {
+              "x": 1050,
+              "y": 800,
+              "width": 3470,
+              "height": 2370
+            },
+            "required": true
+          }
+        }
+      ]
+    },
+    "immutable": true
+  },
+  "revision": {
+    "structureId": "d05dd72b-7385-4af4-b5a7-3f628346257d",
+    "approved": false,
+    "label": "Default",
+    "id": "eebb6e24-efc6-4ec1-89d2-337ae46f8f37",
+    "fields": [
+      [
+        "boxes",
+        [
+          "description"
+        ]
+      ]
+    ],
+    "status": "submitted",
+    "revises": "d05dd72b-7385-4af4-b5a7-3f628346257d",
+    "authors": [
+      "urn:madoc:user:1"
+    ],
+    "deletedFields": null
+  }
+}

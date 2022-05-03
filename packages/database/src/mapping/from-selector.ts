@@ -13,7 +13,9 @@ export function fromSelector(inputSelector: BaseSelector, parent?: BaseSelector)
   selector.revisesId = revises;
   selector.revisionId = revisionId;
   if (revisedBy) {
-    selector.revisedBy = revisedBy.map(revisedSelector => fromSelector(revisedSelector, inputSelector));
+    selector.revisedBy = Promise.resolve(
+      revisedBy.map(revisedSelector => fromSelector(revisedSelector, inputSelector))
+    );
   }
   if (parent) {
     selector.revisesId = parent.id;

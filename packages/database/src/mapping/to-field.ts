@@ -2,7 +2,7 @@ import { BaseField } from '@capture-models/types';
 import { Field } from '../entity/Field';
 import { toSelector } from './to-selector';
 
-export function toField({
+export async function toField({
   type,
   revisionId,
   allowMultiple,
@@ -15,7 +15,7 @@ export function toField({
   value,
   profile,
   dataSources,
-}: Field): BaseField {
+}: Field): Promise<BaseField> {
   return {
     id,
     type,
@@ -25,7 +25,7 @@ export function toField({
     description: description ? description : undefined,
     profile: profile ? profile : undefined,
     allowMultiple: allowMultiple ? allowMultiple : undefined,
-    selector: selector ? toSelector(selector) : undefined,
+    selector: selector ? await toSelector(selector) : undefined,
     revision: revisionId ? revisionId : undefined,
     dataSources: dataSources ? dataSources : undefined,
     ...additionalProperties,

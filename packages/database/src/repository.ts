@@ -1,4 +1,4 @@
-import { AdvancedConsoleLogger, EntityManager, EntityRepository } from 'typeorm';
+import { EntityManager, EntityRepository } from 'typeorm';
 import {
   BaseField,
   BaseSelector,
@@ -68,7 +68,6 @@ export class CaptureModelRepository {
       showAllRevisions?: boolean;
     } = {}
   ): Promise<CaptureModelType & { id: string }> {
-
     const builder = await this.manager
       .createQueryBuilder()
       .select('model')
@@ -834,7 +833,7 @@ export class CaptureModelRepository {
       context?: string[];
     } = {}
   ) {
-    const storedRevision = await this.getRevision(req.revision.id);
+    const storedRevision = await this.getRevision(req.revision.id, context, true);
     const captureModel = await this.getCaptureModel(req.captureModelId, { context });
 
     if (!allowUserMismatch) {
@@ -859,7 +858,8 @@ export class CaptureModelRepository {
     const fieldIds = [];
     const selectorIds = [];
     const fieldMap = {};
-    const selectorMap = {};
+    const selectorMap: Record<string, BaseSelector> = {};
+    const immutableSelectorMap: Record<string, BaseSelector> = {};
 
     // Extract old document values.
     traverseDocument(storedRevision.document, {
@@ -874,19 +874,30 @@ export class CaptureModelRepository {
         }
       },
       visitEntity(entity) {
-        if (entity.revision && entity.revision === req.revision.id) {
+        const entityMatchesRevision = entity.revision && entity.revision === req.revision.id;
+        if (entityMatchesRevision) {
           entityIds.push(entity.id);
-          if (entity.selector) {
-            selectorIds.push(entity.selector.id);
-            selectorMap[entity.selector.id] = entity.selector.state;
-            if (entity.selector.revisedBy) {
-              for (const revisedSelector of entity.selector.revisedBy) {
-                if (revisedSelector && revisedSelector.revisionId && revisedSelector.revisionId === req.revision.id) {
-                  selectorIds.push(revisedSelector.id);
-                  selectorMap[revisedSelector.id] = revisedSelector.state;
-                }
+        }
+
+        let didMatch = false;
+        if (entity.selector) {
+          if (entityMatchesRevision) {
+            didMatch = true;
+          }
+          if (entity.selector.revisedBy) {
+            for (const revisedSelector of entity.selector.revisedBy) {
+              if (revisedSelector && revisedSelector.revisionId && revisedSelector.revisionId === req.revision.id) {
+                didMatch = true;
+                selectorIds.push(revisedSelector.id);
+                selectorMap[revisedSelector.id] = revisedSelector;
               }
             }
+          }
+          if (didMatch) {
+            selectorIds.push(entity.selector.id);
+            selectorMap[entity.selector.id] = entity.selector;
+          } else {
+            immutableSelectorMap[entity.selector.id] = entity.selector;
           }
         }
       },
@@ -924,7 +935,11 @@ export class CaptureModelRepository {
           fieldsToAdd.push({ field, term, parent, index });
           return;
         }
-        fieldIds.splice(fieldIds.indexOf(field.id), 1);
+
+        let idx;
+        while ((idx = fieldIds.indexOf(field.id)) !== -1) {
+          fieldIds.splice(idx, 1);
+        }
 
         if (
           !deepEqual(fieldMap[field.id].value, field.value) ||
@@ -942,16 +957,24 @@ export class CaptureModelRepository {
           docsToHydrate.push({ entity, term, parent });
           return;
         }
-        entityIds.splice(fieldIds.indexOf(entity.id), 1);
+        let idx;
+        while ((idx = entityIds.indexOf(entity.id)) !== -1) {
+          entityIds.splice(idx, 1);
+        }
       },
       visitSelector(selector, parent, isRevision, parentSelector) {
+        const revisionMatches =
+          (isRevision && selector && selector.revisionId && selector.revisionId === req.revision.id) ||
+          parent.revision === req.revision.id;
+
+        const isRevises =
+          parentSelector && (!!selectorMap[parentSelector.id] || !!immutableSelectorMap[parentSelector.id]);
+
         if (
-          isRevision &&
-          selector.revisionId &&
-          selector.revisionId === req.revision.id &&
+          revisionMatches &&
           selector &&
-          selectorMap[selector.id] &&
-          !deepEqual(selectorMap[selector.id].state, selector.state)
+          // Either is a new revisedBy or the original should be in the revised by.
+          (parentSelector || (selectorMap[selector.id] && !deepEqual(selectorMap[selector.id].state, selector.state)))
         ) {
           const found = selectorsToHydrate.find(s => s.selector.id === selector.id);
           if (!found) {
@@ -1025,7 +1048,7 @@ export class CaptureModelRepository {
       }
     });
 
-    return this.getRevision(req.revision.id);
+    return this.getRevision(req.revision.id, context, true);
   }
 
   async forkRevision(

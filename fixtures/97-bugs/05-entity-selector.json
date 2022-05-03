@@ -1,0 +1,132 @@
+{
+  "id": "80e05e8d-8991-4b01-a729-b7f72a808784",
+  "structure": {
+    "id": "21b43492-3cab-4424-a20b-0d4eab6bedb8",
+    "type": "choice",
+    "label": "Box drawing test",
+    "items": [
+      {
+        "id": "d05dd72b-7385-4af4-b5a7-3f628346257d",
+        "type": "model",
+        "label": "Default",
+        "fields": [
+          [
+            "boxes",
+            [
+              "description"
+            ]
+          ]
+        ],
+        "modelRoot": [
+          "boxes"
+        ]
+      }
+    ]
+  },
+  "document": {
+    "id": "f931b5c9-31b2-4155-913d-1542a31b5d31",
+    "type": "entity",
+    "label": "Box drawing test",
+    "properties": {
+      "boxes": [
+        {
+          "id": "816e3690-abbb-42e6-ac6c-3dfd776bea61",
+          "type": "entity",
+          "label": "Boxes",
+          "labelledBy": "description",
+          "revision": "eebb6e24-efc6-4ec1-89d2-337ae46f8f37",
+          "properties": {
+            "description": [
+              {
+                "id": "b3865704-c904-4fe0-a027-996facecc36b",
+                "type": "text-field",
+                "label": "Description",
+                "value": "Box 1",
+                "revision": "eebb6e24-efc6-4ec1-89d2-337ae46f8f37",
+                "minLines": 6,
+                "multiline": true
+              }
+            ]
+          },
+          "selector": {
+            "id": "845314e2-2bfa-4c9b-a3f7-44c78e201bdb",
+            "type": "box-selector",
+            "state": {
+              "x": 750,
+              "y": 442,
+              "width": 347,
+              "height": 237
+            },
+            "required": true
+          }
+        },
+        {
+          "id": "6b4f5ede-d76c-4b5e-9b7b-1bc7a2789015",
+          "type": "entity",
+          "label": "Boxes",
+          "allowMultiple": true,
+          "labelledBy": "description",
+          "properties": {
+            "description": [
+              {
+                "id": "ef5c7ff1-41bf-4d11-a6de-da488ed58197",
+                "type": "text-field",
+                "label": "Description",
+                "value": "",
+                "minLines": 6,
+                "multiline": true
+              }
+            ]
+          },
+          "selector": {
+            "id": "026448a6-135d-4111-9cef-e539a73e7ed3",
+            "type": "box-selector",
+            "state": null,
+            "required": true
+          }
+        }
+      ]
+    }
+  },
+  "target": [
+    {
+      "id": "urn:madoc:manifest:187",
+      "type": "Manifest"
+    },
+    {
+      "id": "urn:madoc:canvas:449",
+      "type": "Canvas"
+    }
+  ],
+  "profile": null,
+  "derivedFrom": null,
+  "revisions": [
+    {
+      "structureId": "d05dd72b-7385-4af4-b5a7-3f628346257d",
+      "approved": false,
+      "label": "Default",
+      "id": "eebb6e24-efc6-4ec1-89d2-337ae46f8f37",
+      "fields": [
+        [
+          "boxes",
+          [
+            "description"
+          ]
+        ]
+      ],
+      "status": "draft",
+      "revises": "d05dd72b-7385-4af4-b5a7-3f628346257d",
+      "authors": [
+        "urn:madoc:user:1"
+      ],
+      "deletedFields": null
+    }
+  ],
+  "contributors": {
+    "urn:madoc:user:1": {
+      "id": "urn:madoc:user:1",
+      "type": "Person",
+      "name": "Madoc TS"
+    }
+  }
+}
