@@ -30,9 +30,9 @@ export class SelectorInstance {
   @OneToMany(
     () => SelectorInstance,
     rev => rev.revises,
-    { eager: true }
+    { lazy: true }
   )
-  revisedBy?: SelectorInstance[];
+  revisedBy?: Promise<SelectorInstance[]>;
 
   @Column({ nullable: true })
   revisionId?: string;

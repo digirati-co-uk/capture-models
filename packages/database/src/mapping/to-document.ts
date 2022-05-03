@@ -108,11 +108,11 @@ export async function toDocument(
       // If we filtered everything, then we create a new blank value.
       if (filteredFields.length === 0 && fields.length !== 0 && !filters.onlyRevisionFields) {
         // Add an empty field.
-        returnDocument.properties[prop.term] = [formPropertyValue(toField(fields[0]), {})];
+        returnDocument.properties[prop.term] = [formPropertyValue(await toField(fields[0]), {})];
 
         // If there are filtered items, then we map them.
       } else if (filteredFields.length) {
-        returnDocument.properties[prop.term] = filteredFields.map(toField);
+        returnDocument.properties[prop.term] = await Promise.all(filteredFields.map(toField));
         // Otherwise
       } else {
         delete returnDocument.properties[prop.term];
@@ -147,7 +147,7 @@ export async function toDocument(
   }
 
   if (selector) {
-    returnDocument.selector = toSelector(selector);
+    returnDocument.selector = await toSelector(selector);
   }
 
   return returnDocument;

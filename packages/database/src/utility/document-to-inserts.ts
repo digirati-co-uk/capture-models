@@ -5,6 +5,8 @@ import { Field } from '../entity/Field';
 import { Property } from '../entity/Property';
 import { fromDocument } from '../mapping/from-document';
 import { fromField } from '../mapping/from-field';
+import { SelectorInstance } from '../entity/SelectorInstance';
+import { fromSelector } from '../mapping/from-selector';
 
 export function documentToInserts(
   document: CaptureModelType['document'],
@@ -13,7 +15,7 @@ export function documentToInserts(
   index?: number
 ) {
   let count = 0;
-  const dbInserts: (Field | Document | Property)[][] = [];
+  const dbInserts: (Field | Document | Property | SelectorInstance)[][] = [];
   traverseDocument<{ parentAdded?: boolean }>(document, {
     beforeVisitEntity(entity, term, parent) {
       const entityDoc = fromDocument(entity, false);
@@ -27,6 +29,14 @@ export function documentToInserts(
       } else if (parentDocument) {
         entityDoc.parentId = `${parentDocument.id}/${parentDocument.term}`;
       }
+      if (entity.selector && entity.selector.revisedBy) {
+        const selectorInserts = [];
+        for (const innerSelector of entity.selector.revisedBy) {
+          selectorInserts.push(fromSelector(innerSelector));
+        }
+        dbInserts.push(selectorInserts);
+      }
+
       dbInserts.push([entityDoc]);
       dbInserts.push(
         entityDoc.properties.map(prop => {
