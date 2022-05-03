@@ -1,6 +1,6 @@
 {
    "name": "@capture-models/database",
-   "version": "0.13.24",
+   "version": "0.13.25",
    "description": "Capture model database with TypeORM.",
    "main": "lib/index.js",
    "module": "lib/index.js",
