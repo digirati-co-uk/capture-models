@@ -44,12 +44,6 @@ export async function toDocument(
     dataSources: dataSources ? dataSources : undefined,
     properties: {},
   };
-  // toDocument {
-  //   revisionIds: [ '7b0052c9-ff2c-4463-b198-c6bcc6d18606' ],
-  //   publishedRevisionIds: [ '7b0052c9-ff2c-4463-b198-c6bcc6d18606' ],
-  //   idsRemovedByPublishedRevisions: [],
-  //   onlyRevisionFields: undefined
-  // }
 
   if (filters.revisionIds && filters.revisionIds.indexOf(returnDocument.revision) === -1) {
     returnDocument.immutable = true;
@@ -124,12 +118,29 @@ export async function toDocument(
         if (filters.idsRemovedByPublishedRevisions) {
           return filters.idsRemovedByPublishedRevisions.indexOf(entity.id) === -1;
         }
+
+        return true;
       });
+
+      const filteredEntities = filters.revisionIds
+        ? entities.filter(entity => {
+            // If it has a revision, filter it against the revisions.
+            if (entity.revisionId && filters.revisionIds.indexOf(entity.revisionId) === -1) {
+              return false;
+            }
+
+            if (filters.onlyRevisionFields && !entity.revisionId) {
+              return false;
+            }
+
+            return true;
+          })
+        : entities;
 
       const revisesEntities = entities.map(field => field.revisesId).filter(e => e);
 
       returnDocument.properties[prop.term] = await Promise.all(
-        entities
+        filteredEntities
           .filter(entity => {
             return revisesEntities.indexOf(entity.id) === -1;
           })

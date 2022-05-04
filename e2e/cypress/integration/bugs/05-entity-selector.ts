@@ -19,14 +19,22 @@ it('should correctly store entity selectors', () => {
     });
 
     cy.apiRequest<CaptureModel>({
-      url: `/api/crowdsourcing/model/${missingReq.captureModelId}?published=true`,
+      url: `/api/crowdsourcing/model/${missingReq.captureModelId}`,
       method: 'GET',
     }).then(res => {
+      expect(res.body.document.properties.boxes).to.have.length(2);
       expect(res.body.document.properties.boxes[0].selector!.id).to.eq('845314e2-2bfa-4c9b-a3f7-44c78e201bdb');
       expect(res.body.document.properties.boxes[0].selector!.state.x).to.eq(1050);
       expect(res.body.document.properties.boxes[0].selector!.state.y).to.eq(800);
       expect(res.body.document.properties.boxes[0].selector!.state.width).to.eq(3470);
       expect(res.body.document.properties.boxes[0].selector!.state.height).to.eq(2370);
+    });
+
+    cy.apiRequest<CaptureModel>({
+      url: `/api/crowdsourcing/model/${missingReq.captureModelId}?published=true`,
+      method: 'GET',
+    }).then(res => {
+      expect(res.body.document.properties.boxes).to.have.length(1);
     });
   });
 });
