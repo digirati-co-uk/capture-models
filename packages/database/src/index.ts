@@ -62,13 +62,62 @@ export class CaptureModelDatabase {
   }
 
   async synchronize(dropBeforeSync?: boolean) {
-    await this.connection.query('ALTER TABLE document DISABLE TRIGGER ALL');
+    console.log('Fixing bug with hanging models');
+    try {
+      // Document
+      await this.connection.query(`
+          delete
+          from document d
+          where d."captureModelId" is not null
+            and not exists(select * from capture_model m where d."captureModelId" = m.id)
+      `);
+      // Property
+      await this.connection.query(`
+          delete
+          from property p
+          where p."documentId" is not null
+            and not exists(select * from document d where d."id" = p."documentId")
+      `);
+      // Field
+      await this.connection.query(`
+          delete
+          from field f
+          where f."parentId" is not null
+            and not exists(select * from document d where d."id"::text = f."parentId"::text)
+      `);
+      // Selector
+      await this.connection.query(`
+          delete
+          from selector_instance s
+          where s."revisionId" is not null
+            and not exists(select * from revision r where r."id"::text = s."revisionId"::text)
+      `);
+      // Revision
+      await this.connection.query(`
+          delete
+          from revision r
+          where r."captureModelId" is not null
+            and not exists(select * from capture_model m where m."id" = r."captureModelId")
+      `);
+      await this.connection.query(`
+          delete
+          from revision r
+          where r."revisesId" is not null
+            and not exists(select * from revision r2 where r2."id"::text = r."revisesId"::text)
+      `);
+      // Revision authors
+      await this.connection.query(`
+          delete
+          from revision_authors r
+          where r."revisionId" is not null
+            and not exists(select * from revision r2 where r2."id"::text = r."revisionId"::text)
+      `);
+    } catch (e) {
+      console.log('error', e);
+      // ...
+    }
 
-    const resp = await this.connection.synchronize(dropBeforeSync);
-
-    await this.connection.query('ALTER TABLE document ENABLE TRIGGER ALL');
-
-    return resp;
+    return await this.connection.synchronize(dropBeforeSync);
   }
 
   async runMigrations() {
