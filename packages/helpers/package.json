@@ -1,6 +1,6 @@
 {
   "name": "@capture-models/helpers",
-  "version": "0.13.14",
+  "version": "0.13.27",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "web": "dist/index.umd.js",
@@ -21,7 +21,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@capture-models/plugin-api": "^0.13.14",
+    "@capture-models/plugin-api": "^0.13.27",
     "@capture-models/types": "^0.13.0",
     "easy-peasy": "^5.0.4",
     "fast-copy": "^2.0.4",

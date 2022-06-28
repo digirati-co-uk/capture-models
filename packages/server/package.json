@@ -1,6 +1,6 @@
 {
   "name": "@capture-models/server",
-  "version": "0.13.26",
+  "version": "0.13.27",
   "main": "index.js",
   "license": "MIT",
   "private": true,
@@ -11,7 +11,7 @@
     "watch": "tsc -p . --watch"
   },
   "dependencies": {
-    "@capture-models/database": "^0.13.26",
+    "@capture-models/database": "^0.13.27",
     "@capture-models/types": "^0.13.0",
     "@koa/router": "^8.0.6",
     "koa": "^2.11.0",
