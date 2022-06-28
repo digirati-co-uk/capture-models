@@ -17,6 +17,5 @@
     "paths": {
       "@capture-models/editor": ["../editor/lib"]
     }
-  },
-  "references": [{ "path": "../types" }, { "path": "../plugin-api" }]
+  }
 }

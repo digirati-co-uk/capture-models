@@ -1,12 +1,37 @@
 {
-  "extends": "../../tsconfig.json",
-  "include": ["src/**/*"],
   "compilerOptions": {
-    "rootDir": "src",
-    "declarationDir": "lib",
-    "outDir": "lib"
+    "baseUrl": ".",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "allowJs": false,
+    "checkJs": false,
+    "declaration": false,
+    "downlevelIteration": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "importHelpers": true,
+    "skipLibCheck": true,
+    "noEmitHelpers": true,
+    "lib": ["dom", "esnext"],
+    "jsx": "react",
+    "target": "es2015",
+    "module": "es2015",
+    "moduleResolution": "node",
+    "noEmitOnError": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": false,
+    "traceResolution": false,
+    "strict": true,
+    "strictNullChecks": true,
+    "pretty": false,
+    "removeComments": true,
+    "sourceMap": true,
+    "resolveJsonModule": true
   },
-  "references": [
-    { "path": "../types" }
-  ]
+  "include": ["./src/**/*", "./src/*"],
+  "exclude": ["node_modules", "dist", "lib"]
 }

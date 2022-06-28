@@ -62,7 +62,13 @@ export class CaptureModelDatabase {
   }
 
   async synchronize(dropBeforeSync?: boolean) {
-    return await this.connection.synchronize(dropBeforeSync);
+    await this.connection.query('ALTER TABLE document DISABLE TRIGGER ALL');
+
+    const resp = await this.connection.synchronize(dropBeforeSync);
+
+    await this.connection.query('ALTER TABLE document ENABLE TRIGGER ALL');
+
+    return resp;
   }
 
   async runMigrations() {

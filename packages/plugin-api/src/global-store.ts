@@ -43,5 +43,5 @@ export function getFieldPlugin<Props extends BaseField, TypeMap extends FieldTyp
     throw new Error(`Field type ${type} not found`);
   }
 
-  return field as FieldSpecification<Props>;
+  return field as FieldSpecification<any>;
 }

@@ -2,9 +2,10 @@
   "name": "@capture-models/plugin-api",
   "version": "0.13.14",
   "license": "MIT",
-  "main": "dist/umd/@capture-models/plugin-api.js",
-  "module": "lib/index.js",
-  "typings": "lib/index.d.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
+  "web": "dist/index.umd.js",
+  "typings": "dist/types/index.d.ts",
   "files": [
     "dist",
     "lib"
@@ -15,10 +16,12 @@
     "directory": "packages/plugin-api"
   },
   "scripts": {
-    "build": "fesk-build --cjs --umd && tsc -p ./ --emitDeclarationOnly",
-    "start": "fesk-start --cjs --umd --noServer",
-    "build-types": "tsc -p ./ --emitDeclarationOnly",
-    "build:prod": "NODE_ENV=production fesk-build --umd --cjs && tsc -p ./ --emitDeclarationOnly"
+    "build": "rollup -c && tsc -p ./tsconfig.types.json",
+    "start": "rollup -c --watch",
+    "test": "jest",
+    "build-types": "tsc -p ./tsconfig.types.json",
+    "prepare": "NODE_ENV=production rollup -c && tsc -p ./tsconfig.types.json",
+    "build:prod": "NODE_ENV=production rollup -c rollup.config.js && tsc -p ./tsconfig.types.json"
   },
   "publishConfig": {
     "access": "public"
@@ -31,7 +34,7 @@
     "typescript": true
   },
   "devDependencies": {
-    "@fesk/scripts": "1.4.0-pr.a95f698d"
-  },
-  "gitHead": "34cc778d1865ae1c0f717b80a39a59143c030f23"
+    "rollup": "^2.75.7",
+    "typescript": "3"
+  }
 }

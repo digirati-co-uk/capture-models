@@ -5,7 +5,7 @@ import { terser } from 'rollup-plugin-terser';
 import visualizer from 'rollup-plugin-visualizer';
 import replace from '@rollup/plugin-replace';
 import json from '@rollup/plugin-json';
-import compiler from '@ampproject/rollup-plugin-closure-compiler';
+// import compiler from '@ampproject/rollup-plugin-closure-compiler';
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -33,7 +33,7 @@ export function createRollupConfig(globalName, pkg, external = []) {
         commonjs({ extensions: ['.js', '.ts'] }), // the ".ts" extension is required
         json(),
         isProduction && terser(),
-        isProduction && compiler(),
+        // isProduction && compiler(),
         isProduction && visualizer({ filename: 'stats.umd.html' }),
       ].filter(Boolean),
       external: ['node-fetch', ...external],
