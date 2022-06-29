@@ -1,0 +1,83 @@
+{
+  "id": "a91e92c8-a44e-4300-95e6-17cf9bcde685",
+  "structure": {
+    "id": "baeca890-c337-4cfc-b3fd-e0164c547e07",
+    "type": "choice",
+    "label": "Simple box drawing",
+    "items": [
+      {
+        "id": "ff35afae-0e69-4057-8f38-0c969434db30",
+        "type": "model",
+        "label": "Top level",
+        "fields": [
+          [
+            "Things",
+            [
+              "label",
+              "description"
+            ]
+          ]
+        ]
+      }
+    ]
+  },
+  "document": {
+    "id": "29f370b9-d607-41d8-b06b-ce6cc2bc4e8d",
+    "type": "entity",
+    "label": "Simple box drawing",
+    "properties": {
+      "Things": [
+        {
+          "id": "e39e4b1b-57cb-4484-ae68-9c648ddf46cb",
+          "type": "entity",
+          "label": "Thing",
+          "pluralLabel": "Things",
+          "allowMultiple": true,
+          "labelledBy": "label",
+          "properties": {
+            "description": [
+              {
+                "id": "b63e2b2e-70e3-4546-a6a6-435a48ba347d",
+                "type": "text-field",
+                "label": "Description",
+                "value": ""
+              }
+            ],
+            "label": [
+              {
+                "id": "8f51c4bb-cbff-40f0-a248-b8f8c94c28d6",
+                "type": "text-field",
+                "label": "Label",
+                "value": ""
+              }
+            ]
+          },
+          "selector": {
+            "id": "b567e559-aa65-4d69-aa64-c712d197fa24",
+            "type": "box-selector",
+            "state": null
+          }
+        }
+      ]
+    }
+  },
+  "target": [
+    {
+      "id": "urn:madoc:manifest:2",
+      "type": "Manifest"
+    },
+    {
+      "id": "urn:madoc:canvas:13",
+      "type": "Canvas"
+    }
+  ],
+  "profile": null,
+  "derivedFrom": "3d556fa4-2260-40e6-ade0-452709c9ecdf",
+  "contributors": {
+    "urn:madoc:user:1": {
+      "id": "urn:madoc:user:1",
+      "type": "Person",
+      "name": "Madoc TS"
+    }
+  }
+}

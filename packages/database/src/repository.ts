@@ -795,8 +795,15 @@ export class CaptureModelRepository {
         // @todo change this to insert() and expand list of inserts to other entities.
         //   This will avoid updates and allow the whole list to be inserted flat.
         for (const single of insert) {
-          await manager.save(single);
+          try {
+            await manager.save(single);
+          } catch (e) {
+            console.log('CAUGHT ERROR', e);
+          }
         }
+        // for (const single of insert) {
+        //   await manager.save(single);
+        // }
       }
       return rev;
     });

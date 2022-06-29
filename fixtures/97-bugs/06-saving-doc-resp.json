@@ -1,0 +1,74 @@
+{
+  "captureModelId": "a91e92c8-a44e-4300-95e6-17cf9bcde685",
+  "source": "structure",
+  "revision": {
+    "id": "39bef2e3-dd2c-4176-bd1f-c78224e9bd81",
+    "fields": [
+      [
+        "Things",
+        [
+          "label",
+          "description"
+        ]
+      ]
+    ],
+    "approved": false,
+    "structureId": "ff35afae-0e69-4057-8f38-0c969434db30",
+    "label": "Top level",
+    "revises": "ff35afae-0e69-4057-8f38-0c969434db30",
+    "status": "draft",
+    "authors": [
+      "urn:madoc:user:1"
+    ],
+    "deletedFields": null
+  },
+  "document": {
+    "id": "29f370b9-d607-41d8-b06b-ce6cc2bc4e8d",
+    "type": "entity",
+    "label": "Simple box drawing",
+    "properties": {
+      "Things": [
+        {
+          "id": "987f9b34-2714-43d9-8207-b82b543ea9bb",
+          "type": "entity",
+          "label": "Thing",
+          "pluralLabel": "Things",
+          "allowMultiple": true,
+          "labelledBy": "label",
+          "revision": "39bef2e3-dd2c-4176-bd1f-c78224e9bd81",
+          "properties": {
+            "description": [
+              {
+                "id": "60cb8a1f-6f77-4980-ba87-c9efe3b0b252",
+                "type": "text-field",
+                "label": "Description",
+                "value": "B",
+                "revision": "39bef2e3-dd2c-4176-bd1f-c78224e9bd81"
+              }
+            ],
+            "label": [
+              {
+                "id": "9ed57c6a-2606-4ff7-9590-7fbfa0e2091a",
+                "type": "text-field",
+                "label": "Label",
+                "value": "B",
+                "revision": "39bef2e3-dd2c-4176-bd1f-c78224e9bd81"
+              }
+            ]
+          },
+          "selector": {
+            "id": "ee22bb67-c10a-4879-8c21-0b120f6e7f9c",
+            "type": "box-selector",
+            "state": {
+              "x": 1283,
+              "y": 509,
+              "width": 351,
+              "height": 142
+            }
+          }
+        }
+      ]
+    },
+    "immutable": true
+  }
+}
